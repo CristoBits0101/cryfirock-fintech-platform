@@ -24,6 +24,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
      */
 
     // Estos existsBy están vinculados a anotaciones de validación personalizada
+    // Las anotaciones se aplican en la clase User sobre sus atributos
     // Se consultan en BD para comprobar que no exista el valor antes de guardarlo
     // Hibernate la ejecuta y mapea a una instancia de la clase entidad
     boolean existsByEmail(String email);
