@@ -50,12 +50,20 @@ import lombok.Setter;
 @Setter
 public class User {
 
+    /**
+     * ===============================================================================================
+     * Paso 2.2: Columnas
+     * ===============================================================================================
+     */
+
     // Clave primaria
     @Id
     // Generación automática incremental
     @GeneratedValue(strategy = GenerationType.UUID)
     // JPA hace el cast si los tipos no coinciden
     // El id solo se lee con getter y un int cabe en un long
+    // El id lo genera la base de datos
+    // Si dejas un setId() alguien podría asignar un valor y romper la integridad
     @Setter(lombok.AccessLevel.NONE)
     private Long id;
 

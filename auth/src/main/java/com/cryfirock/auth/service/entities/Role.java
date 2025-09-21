@@ -15,7 +15,7 @@ import jakarta.validation.constraints.Size;
 
 /**
  * ==========================================================================
- * Paso 2.2: Definición de la entidad Role que representa la tabla roles
+ * Paso 2.1: Definición de la entidad Role que representa la tabla roles
  * ==========================================================================
  */
 
@@ -26,6 +26,12 @@ import jakarta.validation.constraints.Size;
 // Permite añadir restricciones únicas a campos
 @Table(name = "roles")
 public class Role {
+
+    /**
+     * ======================================================================
+     * Paso 2.2: Columnas
+     * ======================================================================
+     */
 
     // Clave primaria
     @Id
@@ -53,7 +59,26 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
-    
+    /**
+     * ======================================================================
+     * Paso 2.3: Constructores
+     * ======================================================================
+     */
+
+    // Constructor vacío requerido si hay otros con parámetros
+    // Spring crea el constructor vacío si no hay otros con parámetros
+    public Role() {
+    }
+
+    public Role(String name) {
+        this.name = name;
+    }
+
+    /**
+     * ======================================================================
+     * Paso 2.4: Métodos
+     * ======================================================================
+     */
 
     // Getters
     public Long getId() {
@@ -69,5 +94,14 @@ public class Role {
     }
 
     // Setters
-    
+    // El id lo genera la base de datos
+    // Si dejas un setId() alguien podría asignar un valor y romper la integridad
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
 }
