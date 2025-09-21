@@ -2,7 +2,9 @@ package com.cryfirock.auth.service.entities;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -10,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
@@ -18,6 +23,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * ===================================================================================================
@@ -31,6 +40,14 @@ import jakarta.validation.constraints.Size;
 // Cuando clase y tabla no coinciden en nombre
 // Permite añadir restricciones únicas a campos
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+// Genera constructor vacío
+@NoArgsConstructor
+// Genera constructor con todos los campos
+@AllArgsConstructor
+// Genera getters
+@Getter
+// Genera setters
+@Setter
 public class User {
 
     // Clave primaria
@@ -39,6 +56,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     // JPA hace el cast si los tipos no coinciden
     // El id solo se lee con getter y un int cabe en un long
+    @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
     // JPA mapea atributo a columna cuando no coinciden
@@ -115,5 +133,24 @@ public class User {
     // Restricciones aplicadas al generar la tabla desde JPA
     @Column(name = "last_login_at")
     private Instant lastLoginAt;
+
+    // Cuando convierto a JSON no meto el campo users del otro lado
+    // Role mantiene una lista de users y User mantiene una lista de roles
+    // El bucle ocurre por las referencias en memoria entre instancias
+    // Es una referencia cíclica en el grafo de objetos en memoria
+    // Handler y hibernateLazyInitializer los añade Hibernate al usar lazy loading
+    // También se ignoran para no exponerlos en el JSON
+    @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
+    @JoinTable(
+            // Tabla que almacena claves externas relacionales
+            name = "users_roles",
+            // Clave externa que pertenece a la propia entidad
+            joinColumns = @JoinColumn(name = "user_id"),
+            // Clave externa perteneciente a la entidad opuesta
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            // Establishes that relationships are unique
+            uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" }))
+    @ManyToMany
+    private List<Role> roles;
 
 }

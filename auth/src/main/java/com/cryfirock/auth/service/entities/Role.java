@@ -12,10 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * ==========================================================================
@@ -29,22 +25,12 @@ import lombok.Setter;
 // Cuando clase y tabla no coinciden en nombre
 // Permite añadir restricciones únicas a campos
 @Table(name = "roles")
-// Genera getters
-@Getter
-// Genera setters
-@Setter
-// Genera constructor vacío
-@NoArgsConstructor
-// Genera constructor con todos los campos
-@AllArgsConstructor
 public class Role {
 
     // Clave primaria
     @Id
     // Generación automática incremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // Setter deshabilitado
-    @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
     // JPA mapea atributo a columna cuando no coinciden
@@ -54,7 +40,7 @@ public class Role {
     private String name;
 
     // Cuando convierto a JSON no meto el campo roles del otro lado
-    // User mantiene una lista de roles y Role mantiene una lista de usuarios
+    // User mantiene una lista de roles y Role mantiene una lista de users
     // El bucle ocurre por las referencias en memoria entre instancias
     // Es una referencia cíclica en el grafo de objetos en memoria
     @JsonIgnoreProperties({ "roles" })
@@ -67,4 +53,21 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
+    
+
+    // Getters
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    // Setters
+    
 }
