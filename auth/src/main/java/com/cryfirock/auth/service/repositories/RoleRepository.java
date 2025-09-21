@@ -7,16 +7,20 @@ import org.springframework.data.repository.CrudRepository;
 import com.cryfirock.auth.service.entities.Role;
 
 /**
- * =====================================================================
- * Paso 4.2: 
- * =======================================================================
+ * ===============================================================================
+ * Paso 4.1: La interfaz incluye consultas CRUD predefinidas
+ * ===============================================================================
  */
 
 // Interface con métodos CRUD predefinidos de JPA ejecutados por Hibernate
 public interface RoleRepository extends CrudRepository<Role, Long> {
 
-    // Métodos personalizados del repositorio
-    // Spring Data JPA crea la query por el nombre
+    /**
+     * ===========================================================================
+     * Paso 4.2: Spring Data JPA crea la consulta según el nombre del método
+     * ===========================================================================
+     */
+
     // Hibernate la ejecuta y mapea a una instancia de la clase entidad
     Optional<Role> findByName(String name);
 
