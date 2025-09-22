@@ -145,5 +145,4 @@ public class User {
     @ManyToMany
     private List<Role> roles;
 
-
 }

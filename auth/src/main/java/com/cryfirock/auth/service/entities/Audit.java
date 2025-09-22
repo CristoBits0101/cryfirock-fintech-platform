@@ -12,6 +12,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * ========================================================================================================================
+ * Paso 4.1: Definición de la clase Audit que se embebe en la entidad User
+ * ========================================================================================================================
+ */
+
 // Genera constructor con todos los campos
 @AllArgsConstructor
 // Genera constructor vacío
@@ -38,9 +44,21 @@ import lombok.NoArgsConstructor;
 })
 public class Audit {
 
+    /**
+     * ====================================================================================================================
+     * Paso 4.2: Columnas
+     * ====================================================================================================================
+     */
+
     private Instant createdAt;
     private Instant updatedAt;
     private Instant lastLoginAt;
+
+    /**
+     * ====================================================================================================================
+     * Paso 4.3: Métodos
+     * ====================================================================================================================
+     */
 
     @PrePersist
     public void prePersist() {
