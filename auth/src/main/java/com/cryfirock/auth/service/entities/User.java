@@ -1,6 +1,5 @@
 package com.cryfirock.auth.service.entities;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -127,21 +126,6 @@ public class User {
     @Column(name = "account_status", nullable = false)
     private boolean active = true;
 
-    // JPA mapea atributo a columna cuando no coinciden
-    // Restricciones aplicadas al generar la tabla desde JPA
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt = Instant.now();
-
-    // JPA mapea atributo a columna cuando no coinciden
-    // Restricciones aplicadas al generar la tabla desde JPA
-    @Column(name = "updated_at")
-    private Instant updatedAt;
-
-    // JPA mapea atributo a columna cuando no coinciden
-    // Restricciones aplicadas al generar la tabla desde JPA
-    @Column(name = "last_login_at")
-    private Instant lastLoginAt;
-
     // Cuando convierto a JSON no meto el campo users del otro lado
     // Role mantiene una lista de users y User mantiene una lista de roles
     // El bucle ocurre por las referencias en memoria entre instancias
@@ -160,5 +144,6 @@ public class User {
             uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" }))
     @ManyToMany
     private List<Role> roles;
+
 
 }

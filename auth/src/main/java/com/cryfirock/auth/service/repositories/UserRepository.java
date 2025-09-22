@@ -11,7 +11,7 @@ import com.cryfirock.auth.service.entities.User;
 
 /**
  * ===============================================================================
- * Paso 4.1: La interfaz incluye consultas CRUD predefinidas
+ * Paso 5.1: La interfaz incluye consultas CRUD predefinidas
  * ===============================================================================
  */
 
@@ -19,7 +19,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     /**
      * ===========================================================================
-     * Paso 4.2: Spring Data JPA crea la consulta según el nombre del método
+     * Paso 5.2: Spring Data JPA crea la consulta según el nombre del método
      * ===========================================================================
      */
 

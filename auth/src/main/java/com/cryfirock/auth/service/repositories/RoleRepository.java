@@ -8,7 +8,7 @@ import com.cryfirock.auth.service.entities.Role;
 
 /**
  * ===============================================================================
- * Paso 4.1: La interfaz incluye consultas CRUD predefinidas
+ * Paso 5.1: La interfaz incluye consultas CRUD predefinidas
  * ===============================================================================
  */
 
@@ -17,7 +17,7 @@ public interface RoleRepository extends CrudRepository<Role, Long> {
 
     /**
      * ===========================================================================
-     * Paso 4.2: Spring Data JPA crea la consulta según el nombre del método
+     * Paso 5.2: Spring Data JPA crea la consulta según el nombre del método
      * ===========================================================================
      */
 
