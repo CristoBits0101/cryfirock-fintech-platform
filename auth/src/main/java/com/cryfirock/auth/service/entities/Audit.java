@@ -60,12 +60,14 @@ public class Audit {
      * ====================================================================================================================
      */
 
+    // Inicializa los atributos antes de almacenarlos
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();
         this.updatedAt = this.createdAt;
     }
 
+    // Inicializa el atributo antes de actualizarlo
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = Instant.now();
