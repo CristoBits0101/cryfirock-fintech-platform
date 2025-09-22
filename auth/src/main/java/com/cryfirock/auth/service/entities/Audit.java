@@ -28,6 +28,9 @@ import lombok.NoArgsConstructor;
 @Embeddable
 // JPA mapea atributo a columna cuando no coinciden
 // Restricciones aplicadas al generar la tabla desde JPA
+// Sobrescribe la forma en que JPA mapea los atributos de la clase embebida
+// Cada @AttributeOverride redefine el nombre de la columna y sus propiedades
+// En la tabla de la entidad principal
 @AttributeOverrides({
         @AttributeOverride(name = "createdAt", column = @Column(name = "created_at", nullable = false, updatable = false)),
         @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at")),
