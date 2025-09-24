@@ -14,10 +14,20 @@ import com.cryfirock.auth.service.repositories.UserRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * ==============================================================
+ * Paso 9.1:
+ * ==============================================================
+ */
+
 public class UserServiceImpl {
+
     /**
-     * Attributes
+     * ==============================================================
+     * Paso 9.2:
+     * ==============================================================
      */
+
     @Autowired
     private UserRepository userRepository;
 
@@ -26,6 +36,12 @@ public class UserServiceImpl {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /**
+     * ==============================================================
+     * Paso 9.3:
+     * ==============================================================
+     */
 
     /**
      * Saves a new user in the database
