@@ -1,8 +1,5 @@
 package com.cryfirock.auth.service.configurations;
 
-/**
- * Dependencies
- */
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -15,25 +12,25 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-// Spring configuration classes that additionally scan packages
+// Clase de configuración de Spring que además escanea paquetes
 @Configuration
 @ComponentScan(basePackages = {
-        "com.cryfirock.msvc.users.msvc_users",
-        "com.cryfirock.msvc.users.msvc_users.validations"
+        "com.cryfirock.auth.service",
+        "com.cryfirock.auth.service.validations"
 })
 public class AppConfig implements WebMvcConfigurer {
 
     /**
-     * Attributes
+     * Atributos
      */
     @Autowired
     @Qualifier("userOperationsInterceptor")
     private HandlerInterceptor userOperationsInterceptor;
 
     /**
-     * Register the interceptor and the routes on which it runs
-     * 
-     * @param registry
+     * Registra el interceptor y las rutas en las que se ejecuta
+     *
+     * @param registry registro de interceptores
      */
     @Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
@@ -44,22 +41,22 @@ public class AppConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Configure the MessageSource bean to use properties files as message sources
-     * 
-     * @return messageSource
+     * Configura el bean MessageSource para usar archivos properties como fuente de mensajes
+     *
+     * @return instancia configurada de MessageSource
      */
     @Bean
     MessageSource messageSource() {
-        // Create a new instance of ReloadableResourceBundleMessageSource
+        // Crea una nueva instancia de ReloadableResourceBundleMessageSource
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 
-        // Set the locations of the message properties files
+        // Establece la ubicación de los archivos de propiedades de mensajes
         messageSource.setBasename("classpath:config/messages");
 
-        // Set the default encoding to UTF-8
+        // Configura la codificación predeterminada a UTF-8
         messageSource.setDefaultEncoding("UTF-8");
 
-        // Enable cache for message properties
+        // Habilita la caché para las propiedades de los mensajes
         return messageSource;
     }
 

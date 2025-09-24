@@ -1,9 +1,6 @@
 package com.cryfirock.auth.service.interceptors;
 
-/**
- * Dependencies
- */
-import com.cryfirock.msvc.users.msvc_users.security.config.TokenJwtConfig;
+import com.cryfirock.auth.service.security.config.TokenJwtConfig;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -11,25 +8,23 @@ import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
-
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Date;
 
 @Component("userOperationsInterceptor")
 public class UserOperationsInterceptor implements HandlerInterceptor {
 
     /**
-     * Attributes
+     * Atributos
      */
     private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
 
@@ -44,22 +39,22 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
             @NonNull HttpServletResponse response,
             @NonNull Object handler) throws Exception {
 
-        // Only intercept controller methods
+        // Solo intercepta métodos de controladores
         if (!(handler instanceof HandlerMethod))
             return true;
 
-        // Parse object
+        // Convierte el objeto
         HandlerMethod controller = (HandlerMethod) handler;
 
-        // Get the route and method
+        // Obtiene la ruta y el método
         String endpoint = request.getRequestURI();
         String method = request.getMethod();
 
-        // Time measurement
+        // Medición de tiempo
         long start = System.currentTimeMillis();
         request.setAttribute("start", start);
 
-        // Validate JWT token for protected routes
+        // Valida el token JWT para rutas protegidas
         if (!endpoint.equals("/api/users") || !method.equals("POST")) {
             String authHeader = request.getHeader("Authorization");
 
@@ -77,14 +72,14 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
                         .parseSignedClaims(token)
                         .getPayload();
 
-                // Check token expiration
+                // Comprueba la expiración del token
                 if (claims.getExpiration().before(new Date())) {
                     logger.warn("Token expired for user {}", claims.getSubject());
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
                     return false;
                 }
 
-                // Record user information
+                // Registra la información del usuario
                 request.setAttribute("username", claims.getSubject());
 
             } catch (Exception e) {
@@ -115,25 +110,25 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
             @NonNull Object handler,
             @Nullable ModelAndView modelAndView) throws Exception {
 
-        // Only intercept controller methods
+        // Solo intercepta métodos de controladores
         if (!(handler instanceof HandlerMethod)) {
             return;
         }
 
-        // Parse object
+        // Convierte el objeto
         HandlerMethod controller = (HandlerMethod) handler;
 
-        // Gets the current timestamp at the end of request processing
+        // Obtiene la marca de tiempo al finalizar el procesamiento de la solicitud
         long end = System.currentTimeMillis();
         long start = (long) request.getAttribute("start");
 
-        // Calculate the operation duration by subtracting start from end
+        // Calcula la duración de la operación restando inicio a fin
         long duration = end - start;
 
-        // Gets start timestamp, casts to long, may be null
+        // Obtiene el usuario autenticado (puede ser null)
         String username = (String) request.getAttribute("username");
 
-        // Logs HTTP method, execution time, user (or 'anon') and status code
+        // Registra el método HTTP, tiempo de ejecución, usuario (o 'anon') y código de estado
         String logMessage = String.format(
                 "Operation %s completed in %d ms - User: %s - Status: %d",
                 request.getMethod(),
@@ -141,7 +136,7 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
                 username != null ? username : "anon",
                 response.getStatus());
 
-        // Sort logs by level according to the HTTP method
+        // Ajusta el nivel del log según el método HTTP
         switch (request.getMethod()) {
             case "POST":
             case "PUT":
@@ -152,7 +147,7 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
                 logger.info(logMessage);
         }
 
-        // Log especially sensitive operations
+        // Registra las operaciones especialmente sensibles
         if (response.getStatus() >= 400) {
             logger.error("Error in operation {}: {} - {}",
                     controller.getMethod().getName(),

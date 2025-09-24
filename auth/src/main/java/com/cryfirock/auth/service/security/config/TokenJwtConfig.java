@@ -1,17 +1,17 @@
-package com.cryfirock.msvc.users.msvc_users.security.config;
+package com.cryfirock.auth.service.security.config;
+
+import io.jsonwebtoken.Jwts;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.context.annotation.Configuration;
 
-import io.jsonwebtoken.Jwts;
-
-// It is used to reuse properties
+// Se utiliza para reutilizar propiedades
 @Configuration
 public class TokenJwtConfig {
 
     /**
-     * Attributes
+     * Atributos
      */
     public static final String CONTENT_TYPE = "application/json";
 

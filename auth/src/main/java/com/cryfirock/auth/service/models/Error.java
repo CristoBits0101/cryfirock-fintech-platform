@@ -8,7 +8,7 @@ import lombok.Data;
 public class Error {
 
     /**
-     * Attributes
+     * Atributos
      */
     private String message;
     private String error;

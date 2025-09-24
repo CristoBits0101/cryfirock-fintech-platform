@@ -1,51 +1,41 @@
-package com.cryfirock.msvc.users.msvc_users.security.filter;
+package com.cryfirock.auth.service.security.filter;
 
-/**
- * Dependencies
- */
-import com.cryfirock.msvc.users.msvc_users.entities.User;
-import com.cryfirock.msvc.users.msvc_users.services.JpaUserDetailsService;
-
+import com.cryfirock.auth.service.entities.User;
+import com.cryfirock.auth.service.services.JpaUserDetailsService;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import static com.cryfirock.msvc.users.msvc_users.security.config.TokenJwtConfig.*;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-// This filter authenticates users and generates tokens during the login process
+import static com.cryfirock.auth.service.security.config.TokenJwtConfig.*;
+
+// Este filtro autentica usuarios y genera tokens durante el proceso de inicio de sesión
 public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
-     * Attributes
+     * Atributos
      */
     private AuthenticationManager authenticationManager;
 
     /**
-     * Constructors
-     * 
+     * Constructores
+     *
      * @param authenticationManager
      */
     public JwtAutheticationFilter(AuthenticationManager authenticationManager) {
@@ -53,81 +43,81 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
     }
 
     /**
-     * First function to run in the login process
-     * Receive username and password
+     * Primera función que se ejecuta en el proceso de inicio de sesión
+     * Recibe usuario y contraseña
      * {@link JwtAutheticationFilter#attemptAuthentication(HttpServletRequest, HttpServletResponse)}
-     * 
-     * Second function to be executed in the login process
-     * Search for the user in the database
+     *
+     * Segunda función que se ejecuta en el proceso de inicio de sesión
+     * Busca el usuario en la base de datos
      * {@link JpaUserDetailsService#loadUserByUsername(String)}
-     * 
-     * Third function to be executed in the login process
+     *
+     * Tercera función que se ejecuta en el proceso de inicio de sesión
      * Valida la contraseña y roles del usuario
      * {@link AuthenticationManager#authenticate(Authentication)}
-     * 
-     * Fourth function to be executed in the login process
-     * Generates the JWT token after successful authentication
+     *
+     * Cuarta función que se ejecuta en el proceso de inicio de sesión
+     * Genera el token JWT tras la autenticación exitosa
      * {@link JwtAutheticationFilter#successfulAuthentication(HttpServletRequest, HttpServletResponse, FilterChain, Authentication)}
-     * 
-     * Attempts to authenticate a user
-     * - Parses the request body to obtain the username and password credentials
-     * - Delegates authentication to the provided AuthenticationManager
-     * 
-     * @param request  HTTP request containing login credentials
-     * @param response HTTP response to send authentication result
-     * @return Object with user data and role information
+     *
+     * Intenta autenticar a un usuario
+     * - Analiza el cuerpo de la solicitud para obtener las credenciales
+     * - Delega la autenticación al AuthenticationManager proporcionado
+     *
+     * @param request  solicitud HTTP que contiene las credenciales
+     * @param response respuesta HTTP para enviar el resultado de la autenticación
+     * @return objeto con los datos del usuario e información de roles
      */
     @Override
     public Authentication attemptAuthentication(
             HttpServletRequest request,
             HttpServletResponse response) throws AuthenticationException {
 
-        // Declaration of a null user that does not point to any object
+        // Declaración de un usuario nulo que no apunta a ningún objeto
         User user = null;
 
-        // Create two variables for the user credentials
+        // Crea dos variables para las credenciales del usuario
         String username = null;
         String password = null;
 
         try {
-            // Attempt to parse the incoming request's body into a User object
+            // Intenta convertir el cuerpo de la solicitud entrante en un objeto User
             user = new ObjectMapper().readValue(request.getInputStream(), User.class);
 
-            // Extract the username and password from the user object
+            // Extrae el usuario y la contraseña del objeto User
             username = user.getUsername();
             password = user.getPassword();
         } catch (StreamReadException e) {
-            // Handle exception if the input stream cannot be read
+            // Maneja la excepción si no se puede leer el flujo de entrada
             e.printStackTrace();
         } catch (DatabindException e) {
-            // Handle exception if the input cannot be mapped to the User class
+            // Maneja la excepción si no se puede mapear la entrada a la clase User
             e.printStackTrace();
         } catch (IOException e) {
-            // Handle other I/O exceptions
+            // Maneja otras excepciones de entrada/salida
             e.printStackTrace();
         }
 
-        // Create an authentication token with the username and password
+        // Crea un token de autenticación con el usuario y la contraseña
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 username,
                 password);
 
-        // Authenticate the user using the provided AuthenticationManager
-        // Verify that the credentials are valid and match those stored in the database
+        // Autentica al usuario usando el AuthenticationManager
+        // Verifica que las credenciales sean válidas y coincidan con las almacenadas
         return authenticationManager.authenticate(authenticationToken);
     }
 
     /**
-     * It runs automatically after authentication and doesn't need to be called
-     * Generates a JWT token upon successful authentication of the user
-     * Adds it to the authorization header of the response
-     * It also prepares and sends a response
-     * Response containing the token, username and a welcome message
-     * 
-     * @param request
-     * @param response
-     * @param chain
-     * @param authResult
+     * Se ejecuta automáticamente después de autenticar y no necesita ser invocada
+     * Genera un token JWT tras la autenticación exitosa del usuario
+     * Lo añade al encabezado de autorización de la respuesta
+     * También prepara y envía una respuesta
+     * Respuesta que contiene el token, el usuario y un mensaje de bienvenida
+     *
+     * @param request  solicitud HTTP
+     * @param response respuesta HTTP
+     * @param chain    cadena de filtros
+     * @param authResult resultado de la autenticación
      */
     @Override
     protected void successfulAuthentication(
@@ -136,17 +126,17 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
             FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
 
-        // Retrieve the authenticated user
+        // Obtiene el usuario autenticado
         org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult
                 .getPrincipal();
 
-        // Get the username from the authenticated user
+        // Obtiene el nombre de usuario del usuario autenticado
         String username = user.getUsername();
 
-        // Retrieve the roles (authorities) of the authenticated user
+        // Obtiene los roles (autoridades) del usuario autenticado
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
-        // Create a JWT claims object to store additional information
+        // Crea un objeto claims de JWT para almacenar información adicional
         Claims claims = Jwts
                 .claims()
                 .add("authorities", new ObjectMapper().writeValueAsString(roles))
@@ -154,15 +144,15 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
                 .build();
 
         /**
-         * Generate a JWT token based on the data
-         * 
-         * 1. Start building the token
-         * 2. Define the subject
-         * 3. Add claims, additional information
-         * 4. Set the expiration date
-         * 5. Set the issue date
-         * 6. Sign the token
-         * 7. Generates the compact token
+         * Genera un token JWT basado en los datos
+         *
+         * 1. Empieza a construir el token
+         * 2. Define el sujeto
+         * 3. Agrega claims, información adicional
+         * 4. Establece la fecha de expiración
+         * 5. Establece la fecha de emisión
+         * 6. Firma el token
+         * 7. Genera el token compacto
          */
         String token = Jwts
                 .builder()
@@ -173,47 +163,47 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
                 .signWith(SECRET_KEY)
                 .compact();
 
-        // Set the token in the Authorization header of the response
+        // Coloca el token en el encabezado Authorization de la respuesta
         response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + " " + token);
 
-        // Prepare a response body with the token, username, and a message
+        // Prepara un cuerpo de respuesta con el token, el usuario y un mensaje
         Map<String, String> body = new HashMap<>();
 
         body.put("token", token);
         body.put("username", username);
         body.put("message", String.format("Welcome %s! ", username));
 
-        // Write the response body as JSON
+        // Escribe el cuerpo de la respuesta como JSON
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
 
-        // Set the response type and status
+        // Configura el tipo y estado de la respuesta
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /**
-     * This function is executed when authentication fails.
-     * It prepares and sends an error response to the client.
-     * 
-     * - Sets the HTTP status code to 401 (Unauthorized).
-     * - Writes the response body as JSON.
-     * 
-     * @param request  The HTTP request that led to the authentication failure
-     * @param response The HTTP response to send back to the client
-     * @param failed   The exception containing details about the auth failure
+     * Esta función se ejecuta cuando falla la autenticación.
+     * Prepara y envía una respuesta de error al cliente.
+     *
+     * - Establece el código de estado HTTP en 401 (No autorizado).
+     * - Escribe el cuerpo de la respuesta como JSON.
+     *
+     * @param request  la solicitud HTTP que provocó el fallo de autenticación
+     * @param response la respuesta HTTP que se devolverá al cliente
+     * @param failed   la excepción con detalles del fallo de autenticación
      */
     @Override
     protected void unsuccessfulAuthentication(
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException failed) throws IOException, ServletException {
-        // Constructs a response body containing an error message
+        // Construye un cuerpo de respuesta que contiene un mensaje de error
         Map<String, String> body = new HashMap<>();
 
         body.put("message", "Authentication failed, credentials are not correct.");
         body.put("error", failed.getMessage());
 
-        // Includes the specific authentication failure reason
+        // Incluye el motivo específico del fallo de autenticación
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
         response.setStatus(401);
         response.setContentType(CONTENT_TYPE);

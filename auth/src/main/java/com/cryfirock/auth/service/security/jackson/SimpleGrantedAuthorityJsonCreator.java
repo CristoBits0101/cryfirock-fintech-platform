@@ -1,15 +1,15 @@
-package com.cryfirock.msvc.users.msvc_users.security.jackson;
+package com.cryfirock.auth.service.security.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-// Convert authorities to Spring Security format
+// Convierte las autoridades al formato de Spring Security
 public abstract class SimpleGrantedAuthorityJsonCreator {
 
     /**
-     * Constructors
-     * 
-     * @param role
+     * Constructores
+     *
+     * @param role rol asociado a la autoridad
      */
     @JsonCreator
     public SimpleGrantedAuthorityJsonCreator(@JsonProperty("authority") String role) {

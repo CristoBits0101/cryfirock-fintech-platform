@@ -1,8 +1,5 @@
 package com.cryfirock.auth.service.controllers;
 
-/**
- * Dependencies
- */
 import com.cryfirock.auth.service.entities.User;
 import com.cryfirock.auth.service.services.IUserService;
 
@@ -30,160 +27,160 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// API controller allowing requests from all origins to /api/users
+// Controlador API que permite solicitudes desde todos los orígenes a /api/users
 @RestController
 @CrossOrigin(origins="http://localhost:8082", originPatterns = "*")
 @RequestMapping("/api/users")
 public class UserController {
 
     /**
-     * Attributes
+     * Atributos
      */
     @Autowired
     private IUserService userService;
 
     /**
-     * Allows you to create a new user
+     * Permite crear un nuevo usuario
      * 
-     * @param user the new user
-     * @param result of the validation
-     * @return ResponseEntity with validation errors or 201 and the created user
+     * @param user el nuevo usuario
+     * @param result resultado de la validación
+     * @return ResponseEntity con errores de validación o 201 con el usuario creado
      */
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
-        // Validates parameters that store the data of the sent JSON
+        // Valida los parámetros que almacenan los datos del JSON enviado
         if (result.hasErrors())
             return validation(result);
 
-        // Set admin to false by default for the created user
+        // Establece admin en falso por defecto para el usuario creado
         user.setAdmin(false);
 
-        // Saves the user to the database
+        // Guarda el usuario en la base de datos
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
     }
 
     /**
-     * Allows you to create a new admin
+     * Permite crear un nuevo administrador
      * 
-     * @param user   the new admin
-     * @param result of the validation
-     * @return ResponseEntity with validation errors or 201 and the created user
+     * @param user   el nuevo administrador
+     * @param result resultado de la validación
+     * @return ResponseEntity con errores de validación o 201 con el usuario creado
      */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/superuser")
     public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
-        // Validates parameters that store the data of the sent JSON
+        // Valida los parámetros que almacenan los datos del JSON enviado
         if (result.hasErrors())
             return validation(result);
 
-        // Sets admin to true for the created user
+        // Establece admin en verdadero para el usuario creado
         user.setAdmin(true);
 
-        // Saves the user to the database
+        // Guarda el usuario en la base de datos
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
     }
 
     /**
-     * Allows you to update a user
+     * Permite actualizar un usuario
      * 
-     * @param id   the id of the user
-     * @param user the user to update
-     * @return ResponseEntity with validation errors, 200 if updated or 404 if error
+     * @param id   el id del usuario
+     * @param user el usuario a actualizar
+     * @return ResponseEntity con errores de validación, 200 si se actualiza o 404 si hay error
      */
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user, BindingResult result) {
-        // Validates parameters that store the data of the sent JSON
+        // Valida los parámetros que almacenan los datos del JSON enviado
         if (result.hasErrors())
             return validation(result);
 
-        // Find the user to update
+        // Busca el usuario a actualizar
         Optional<User> userOptional = userService.findById(id);
 
-        // Update the user if it already
+        // Actualiza el usuario si existe
         if (userOptional.isPresent()) {
             user.setId(id);
             return ResponseEntity.ok(userService.save(user));
         }
 
-        // Returns error if the process failed
+        // Devuelve error si el proceso falló
         return ResponseEntity.notFound().build();
     }
 
     /**
-     * Retrieves all users
+     * Obtiene todos los usuarios
      * 
-     * @return List of all users
+     * @return Lista de todos los usuarios
      */
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public List<User> getUsers() {
-        // Search for users and return them in the response
+        // Busca los usuarios y los devuelve en la respuesta
         return userService.findAll();
     }
 
     /**
-     * Retrieves a user by ID
+     * Obtiene un usuario por ID
      * 
-     * @param id ID of the user
-     * @return ResponseEntity with the user 200 or 404 if not found
+     * @param id ID del usuario
+     * @return ResponseEntity con el usuario y estado 200 o 404 si no se encuentra
      */
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        // Find the user by ID
+        // Busca el usuario por ID
         Optional<User> userOptional = userService.findById(id);
 
-        // Return the user if it exists, or error if not found
+        // Devuelve el usuario si existe o error si no se encuentra
         if (userOptional.isPresent())
             return ResponseEntity.ok(userOptional.orElseThrow());
 
-        // Returns error if the process failed
+        // Devuelve error si el proceso falló
         return ResponseEntity.notFound().build();
     }
 
     /**
-     * Allows you to delete a user
+     * Permite eliminar un usuario
      * 
-     * @param id ID of the user to delete
-     * @return ResponseEntity with 200 if deleted, or 404 if not found
+     * @param id ID del usuario a eliminar
+     * @return ResponseEntity con 200 si se elimina o 404 si no se encuentra
      */
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        // Create a new user object
+        // Crea un nuevo objeto usuario
         User user = new User();
 
-        // Set the ID of the user to delete
+        // Establece el ID del usuario a eliminar
         user.setId(id);
 
-        // Find the user in the database
+        // Busca el usuario en la base de datos
         Optional<User> userOptional = userService.deleteUser(user);
 
-        // Return 200 if the user was deleted, or 404 if not found
+        // Devuelve 200 si el usuario fue eliminado o 404 si no se encontró
         if (userOptional.isPresent())
             return ResponseEntity.ok(userOptional.orElseThrow());
 
-        // Returns error if the process failed
+        // Devuelve error si el proceso falló
         return ResponseEntity.notFound().build();
     }
 
     /**
-     * Create the validation message
+     * Crea el mensaje de validación
      * 
-     * @param result contains the fields
-     * @return the validation message
+     * @param result contiene los campos
+     * @return el mensaje de validación
      */
     private ResponseEntity<?> validation(BindingResult result) {
-        // Create a map to store the validation errors and their messages
+        // Crea un mapa para almacenar los errores de validación y sus mensajes
         Map<String, String> errors = new HashMap<>();
 
-        // Loop through each field with validation errors and add them to the map
+        // Recorre cada campo con errores de validación y los agrega al mapa
         result.getFieldErrors().forEach(err -> {
             errors.put(err.getField(), err.getDefaultMessage());
         });
 
-        // Return the validation errors with 400 status code
+        // Devuelve los errores de validación con código de estado 400
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 

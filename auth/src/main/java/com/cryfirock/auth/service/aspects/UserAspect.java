@@ -1,8 +1,5 @@
 package com.cryfirock.auth.service.aspects;
 
-/**
- * Dependencies
- */
 import java.util.Arrays;
 
 import org.aspectj.lang.JoinPoint;
@@ -17,101 +14,101 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Aspect for logging user service operations
- * Executes functions before, after and around service methods
+ * Aspecto para registrar las operaciones del servicio de usuarios
+ * Ejecuta funciones antes, después y alrededor de los métodos del servicio
  */
 @Aspect
 public class UserAspect {
 
     /**
-     * Logger for tracking method executions
+     * Registro para rastrear la ejecución de métodos
      */
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
-     * Logs before execution of UserService methods
-     * 
-     * @param joinPoint provides access to method information
+     * Registra antes de la ejecución de los métodos de UserService
+     *
+     * @param joinPoint proporciona acceso a la información del método
      */
-    @Before("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
+    @Before("execution(* com.cryfirock.auth.service.services.UserServiceImpl.*(..))")
     public void loggerBefore(JoinPoint joinPoint) {
-        // Get method name and arguments
+        // Obtiene el nombre del método y los argumentos
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
-        // Log before execution of method with parameters
-        logger.info("Before executing: " + method + " with arguments " + args);
+        // Registra antes de ejecutar el método con sus parámetros
+        logger.info("Antes de ejecutar: " + method + " con argumentos " + args);
     }
 
     /**
-     * Logs after execution of UserService methods (regardless of outcome)
-     * 
-     * @param joinPoint provides access to method information
+     * Registra después de la ejecución de los métodos de UserService (sin importar el resultado)
+     *
+     * @param joinPoint proporciona acceso a la información del método
      */
-    @After("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
+    @After("execution(* com.cryfirock.auth.service.services.UserServiceImpl.*(..))")
     public void loggerAfter(JoinPoint joinPoint) {
-        // Get method name and arguments
+        // Obtiene el nombre del método y los argumentos
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
-        // Log after execution of method with parameters
-        logger.info("After executing: " + method + " with arguments " + args);
+        // Registra después de ejecutar el método con sus parámetros
+        logger.info("Después de ejecutar: " + method + " con argumentos " + args);
     }
 
     /**
-     * Logs after successful return from UserService methods
-     * 
-     * @param joinPoint provides access to method information
+     * Registra tras el retorno exitoso de los métodos de UserService
+     *
+     * @param joinPoint proporciona acceso a la información del método
      */
-    @AfterReturning("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
+    @AfterReturning("execution(* com.cryfirock.auth.service.services.UserServiceImpl.*(..))")
     public void loggerAfterReturning(JoinPoint joinPoint) {
-        // Get method name and arguments
+        // Obtiene el nombre del método y los argumentos
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
-        // Log after successful execution of method with parameters
-        logger.info("After successful execution: " + method + " with arguments " + args);
+        // Registra tras la ejecución exitosa del método con sus parámetros
+        logger.info("Después de una ejecución exitosa: " + method + " con argumentos " + args);
     }
 
     /**
-     * Logs after exceptions in UserService methods
-     * 
-     * @param joinPoint provides access to method information
+     * Registra cuando ocurre una excepción en los métodos de UserService
+     *
+     * @param joinPoint proporciona acceso a la información del método
      */
-    @AfterThrowing("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
+    @AfterThrowing("execution(* com.cryfirock.auth.service.services.UserServiceImpl.*(..))")
     public void loggerAfterThrowing(JoinPoint joinPoint) {
-        // Get method name and arguments
+        // Obtiene el nombre del método y los argumentos
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
-        // Log after exception in method with parameters
-        logger.error("After exception in: " + method + " with arguments " + args);
+        // Registra después de la excepción en el método con sus parámetros
+        logger.error("Después de una excepción en: " + method + " con argumentos " + args);
     }
 
     /**
-     * Wraps around UserService methods for comprehensive logging
-     * 
-     * @param joinPoint provides access to proceed with method execution
-     * @return the method result
-     * @throws Throwable if the method throws an exception
+     * Envuelve los métodos de UserService para un registro completo
+     *
+     * @param joinPoint proporciona acceso para continuar con la ejecución del método
+     * @return el resultado del método
+     * @throws Throwable si el método lanza una excepción
      */
-    @Around("execution(* com.cryfirock.msvc.users.msvc_users.services.UserServiceImpl.*(..))")
+    @Around("execution(* com.cryfirock.auth.service.services.UserServiceImpl.*(..))")
     public Object loggerAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        // Get method name and arguments
+        // Obtiene el nombre del método y los argumentos
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
 
-        // Log method entry with parameters
+        // Registra la entrada al método con sus parámetros
         Object result = null;
 
-        // Execute the method and log the results and exceptions occurring
+        // Ejecuta el método y registra los resultados y posibles excepciones
         try {
-            logger.info("Entering method " + method + "() with parameters " + args);
+            logger.info("Entrando al método " + method + "() con parámetros " + args);
             result = joinPoint.proceed();
-            logger.info("Method " + method + "() returned: " + result);
+            logger.info("El método " + method + "() devolvió: " + result);
             return result;
         } catch (Throwable e) {
-            logger.error("Error in method " + method + "(): " + e.getMessage());
+            logger.error("Error en el método " + method + "(): " + e.getMessage());
             throw e;
         }
     }

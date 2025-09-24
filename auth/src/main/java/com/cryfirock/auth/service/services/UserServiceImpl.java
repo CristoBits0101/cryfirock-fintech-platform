@@ -1,18 +1,16 @@
 package com.cryfirock.auth.service.services;
 
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.cryfirock.auth.service.entities.Role;
 import com.cryfirock.auth.service.entities.User;
+import com.cryfirock.auth.service.exceptions.UserNotFoundException;
 import com.cryfirock.auth.service.repositories.RoleRepository;
 import com.cryfirock.auth.service.repositories.UserRepository;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * ==============================================================
@@ -20,7 +18,7 @@ import java.util.Optional;
  * ==============================================================
  */
 
-public class UserServiceImpl {
+public class UserServiceImpl implements IUserService {
 
     /**
      * ==============================================================
@@ -44,57 +42,57 @@ public class UserServiceImpl {
      */
 
     /**
-     * Saves a new user in the database
-     * 
-     * @param user User object containing details of the new user
-     * @return The saved user
+     * Guarda un nuevo usuario en la base de datos
+     *
+     * @param user objeto User con los datos del nuevo usuario
+     * @return usuario guardado
      */
     @Override
     @Transactional
     public User save(User user) {
-        // Initialize a list to store user roles
+        // Inicializa una lista para almacenar los roles del usuario
         List<Role> roles = new ArrayList<>();
 
-        // Assign the default "ROLE_USER" role
+        // Asigna el rol predeterminado "ROLE_USER"
         Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
 
         optionalRoleUser.ifPresent(roles::add);
 
-        // If the user is an admin, add "ROLE_ADMIN"
+        // Si el usuario es administrador, agrega "ROLE_ADMIN"
         if (user.isAdmin()) {
             Optional<Role> optionalRoleAdmin = roleRepository.findByName("ROLE_ADMIN");
             optionalRoleAdmin.ifPresent(roles::add);
         }
 
-        // Set roles and encrypt the password before saving the user
+        // Establece los roles y encripta la contraseña antes de guardar
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Save and return the user
+        // Guarda y devuelve el usuario
         return userRepository.save(user);
     }
 
     /**
-     * Updates an existing user by ID
-     * 
-     * @param id   User ID
-     * @param user User object containing updated details
-     * @return Optional containing the updated user if found, otherwise empty
+     * Actualiza un usuario existente por ID
+     *
+     * @param id   ID del usuario
+     * @param user objeto User con los datos actualizados
+     * @return Optional con el usuario actualizado si existe, de lo contrario vacío
      */
     @Override
     @Transactional
     public Optional<User> update(Long id, User user) {
         Optional<User> optionalUser = userRepository.findById(id);
 
-        // Throw an exception if user does not exist
+        // Lanza una excepción si el usuario no existe
         if (optionalUser.isEmpty())
             throw new UserNotFoundException("User " + id + " does not exist!");
 
-        // Check if user exists before updating
+        // Comprueba si el usuario existe antes de actualizar
         if (optionalUser.isPresent()) {
             User userToUpdate = optionalUser.get();
 
-            // Update user fields
+            // Actualiza los campos del usuario
             userToUpdate.setFirstName(user.getFirstName());
             userToUpdate.setLastName(user.getLastName());
             userToUpdate.setEmail(user.getEmail());
@@ -105,7 +103,7 @@ public class UserServiceImpl {
             userToUpdate.setAddress(user.getAddress());
             userToUpdate.setAccountStatus(user.getAccountStatus());
 
-            // If the user is not an admin, ensure they only have the "ROLE_USER" role
+            // Si el usuario no es administrador, asegura que solo tenga el rol "ROLE_USER"
             if (!user.isAdmin()) {
                 List<Role> roles = new ArrayList<>();
                 Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
@@ -113,16 +111,16 @@ public class UserServiceImpl {
                 userToUpdate.setRoles(roles);
             }
 
-            // Save and return the updated user
+            // Guarda y devuelve el usuario actualizado
             return Optional.of(userRepository.save(userToUpdate));
         }
         return optionalUser;
     }
 
     /**
-     * Retrieves all users from the database
-     * 
-     * @return List of all users
+     * Obtiene todos los usuarios de la base de datos
+     *
+     * @return lista de todos los usuarios
      */
     @Override
     @Transactional(readOnly = true)
@@ -131,10 +129,10 @@ public class UserServiceImpl {
     }
 
     /**
-     * Finds a user by their ID
-     * 
-     * @param id User ID
-     * @return Optional containing the user if found, otherwise empty
+     * Busca un usuario por su ID
+     *
+     * @param id ID del usuario
+     * @return Optional con el usuario si se encuentra, de lo contrario vacío
      */
     @Override
     @Transactional(readOnly = true)
@@ -143,10 +141,10 @@ public class UserServiceImpl {
     }
 
     /**
-     * Checks if a user exists by email
-     * 
-     * @param email User email
-     * @return True if the email exists, false otherwise
+     * Verifica si existe un usuario por correo electrónico
+     *
+     * @param email correo electrónico del usuario
+     * @return true si el correo existe, false en caso contrario
      */
     @Override
     @Transactional(readOnly = true)
@@ -155,10 +153,10 @@ public class UserServiceImpl {
     }
 
     /**
-     * Checks if a user exists by phone number
-     * 
-     * @param phoneNumber User phone number
-     * @return True if the phone number exists, false otherwise
+     * Verifica si existe un usuario por número telefónico
+     *
+     * @param phoneNumber número telefónico del usuario
+     * @return true si el número existe, false en caso contrario
      */
     @Override
     @Transactional(readOnly = true)
@@ -167,10 +165,10 @@ public class UserServiceImpl {
     }
 
     /**
-     * Checks if a user exists by username
-     * 
-     * @param username User username
-     * @return True if the username exists, false otherwise
+     * Verifica si existe un usuario por nombre de usuario
+     *
+     * @param username nombre de usuario
+     * @return true si el usuario existe, false en caso contrario
      */
     @Override
     @Transactional(readOnly = true)
@@ -179,22 +177,22 @@ public class UserServiceImpl {
     }
 
     /**
-     * Deletes a user from the database
-     * 
-     * @param user User object to be deleted
-     * @return Optional containing the deleted user if found, otherwise empty
+     * Elimina un usuario de la base de datos
+     *
+     * @param user objeto User a eliminar
+     * @return Optional con el usuario eliminado si existe, de lo contrario vacío
      */
     @Override
     @Transactional
     public Optional<User> deleteUser(User user) {
-        // Check if user exists before deleting
-        // Throw an exception if user does not exist
+        // Verifica si el usuario existe antes de eliminar
+        // Lanza una excepción si el usuario no existe
         Optional<User> userToDelete = Optional.ofNullable(
                 userRepository
                         .findById(user.getId())
                         .orElseThrow(() -> new UserNotFoundException("User " + user.getId() + " does not exist!")));
 
-        // If the user exists, delete them
+        // Si el usuario existe, elimínalo
         userToDelete.ifPresent(userRepository::delete);
 
         return userToDelete;

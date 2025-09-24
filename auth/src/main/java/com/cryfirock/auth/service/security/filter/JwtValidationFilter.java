@@ -1,25 +1,19 @@
-package com.cryfirock.msvc.users.msvc_users.security.filter;
+package com.cryfirock.auth.service.security.filter;
 
-import com.cryfirock.msvc.users.msvc_users.security.jackson.SimpleGrantedAuthorityJsonCreator;
+import com.cryfirock.auth.service.security.jackson.SimpleGrantedAuthorityJsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.IOException;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import static com.cryfirock.msvc.users.msvc_users.security.config.TokenJwtConfig.*;
-
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,92 +22,94 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import static com.cryfirock.auth.service.security.config.TokenJwtConfig.*;
+
 /**
- * Verifies credentials and validates requests to the servers
- * JWT filter for verifying and processing authentication tokens in requests
- * Extends BasicAuthenticationFilter for Spring Security integration
+ * Verifica credenciales y valida solicitudes al servidor
+ * Filtro JWT para verificar y procesar tokens de autenticación en solicitudes
+ * Extiende BasicAuthenticationFilter para integrarse con Spring Security
  */
 public class JwtValidationFilter extends BasicAuthenticationFilter {
 
-        /**
-         * Initializes the filter with Spring's AuthenticationManager
-         * 
-         * @param authenticationManager Spring Security's authentication provider
-         */
-        public JwtValidationFilter(AuthenticationManager authenticationManager) {
-                // Delegate initialization to parent
-                super(authenticationManager);
+    /**
+     * Inicializa el filtro con el AuthenticationManager de Spring
+     *
+     * @param authenticationManager proveedor de autenticación de Spring Security
+     */
+    public JwtValidationFilter(AuthenticationManager authenticationManager) {
+        // Delegar la inicialización a la clase padre
+        super(authenticationManager);
+    }
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain) throws ServletException, IOException {
+
+        // 1. Extraer el encabezado Authorization
+        String header = request.getHeader(HEADER_AUTHORIZATION);
+
+        // 2. Validación básica del encabezado
+        if (header == null || !header.startsWith(PREFIX_TOKEN)) {
+            // Si no hay token o el prefijo es incorrecto, continúa sin autenticación
+            chain.doFilter(request, response);
+            return;
         }
 
-        @Override
-        protected void doFilterInternal(
-                        HttpServletRequest request,
-                        HttpServletResponse response,
-                        FilterChain chain) throws IOException, ServletException, IOException, java.io.IOException {
+        // 3. Limpia el token (elimina el prefijo "Bearer ")
+        String token = header.replace(PREFIX_TOKEN, "");
 
-                // 1. Extract Authorization header
-                String header = request.getHeader(HEADER_AUTHORIZATION);
+        try {
+            // 4. Análisis y verificación del JWT
+            Claims claims = Jwts
+                    .parser()
+                    // Verificación de la clave secreta
+                    .verifyWith(SECRET_KEY)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
 
-                // 2. Basic header validation
-                if (header == null || !header.startsWith(PREFIX_TOKEN)) {
-                        // If no token or wrong prefix, continue without authentication
-                        chain.doFilter(request, response);
-                        return;
-                }
+            // 5. Extrae el usuario del sujeto del token
+            String username = claims.getSubject();
 
-                // 3. Clean token (remove "Bearer " prefix)
-                String token = header.replace(PREFIX_TOKEN, "");
+            // 6. Extrae las autoridades del claim personalizado
+            Object authoritiesClaims = claims.get("authorities");
 
-                try {
-                        // 4. JWT parsing and verification
-                        Claims claims = Jwts
-                                        .parser()
-                                        // Secret key verification
-                                        .verifyWith(SECRET_KEY)
-                                        .build()
-                                        .parseSignedClaims(token)
-                                        .getPayload();
+            // 7. Convierte las autoridades al formato de Spring Security
+            Collection<? extends GrantedAuthority> authorities = Arrays.asList(
+                    new ObjectMapper()
+                            .addMixIn(
+                                    SimpleGrantedAuthority.class,
+                                    SimpleGrantedAuthorityJsonCreator.class)
+                            .readValue(authoritiesClaims
+                                    .toString()
+                                    .getBytes(),
+                                    SimpleGrantedAuthority[].class));
 
-                        // 5. Extract username from token subject
-                        String username = claims.getSubject();
+            // 8. Crea el token de autenticación
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    username,
+                    null,
+                    authorities);
 
-                        // 6. Extract authorities from custom claim
-                        Object authoritiesClaims = claims.get("authorities");
+            // 9. Establece la autenticación en el contexto de seguridad
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(authenticationToken);
 
-                        // 7. Convert authorities to Spring Security format
-                        Collection<? extends GrantedAuthority> authorities = Arrays.asList(
-                                        new ObjectMapper()
-                                                        .addMixIn(
-                                                                        SimpleGrantedAuthority.class,
-                                                                        SimpleGrantedAuthorityJsonCreator.class)
-                                                        .readValue(authoritiesClaims
-                                                                        .toString()
-                                                                        .getBytes(),
-                                                                        SimpleGrantedAuthority[].class));
+            // 10. Continúa con la cadena de filtros
+            chain.doFilter(request, response);
 
-                        // 8. Create authentication token
-                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                                        username,
-                                        null,
-                                        authorities);
+        } catch (JwtException e) {
+            // 11. Cuando la validación del JWT falla, prepara la respuesta de error
+            Map<String, String> body = new HashMap<>();
+            body.put("error", e.getMessage());
+            body.put("message", "Invalid JWT token!");
 
-                        // 9. Set authentication in security context
-                        SecurityContextHolder
-                                        .getContext()
-                                        .setAuthentication(authenticationToken);
-
-                        // 10. Continue filter chain
-                        chain.doFilter(request, response);
-
-                } catch (JwtException e) {
-                        // 11. When JWT validation fails, prepare the error response
-                        Map<String, String> body = new HashMap<>();
-                        body.put("error", e.getMessage());
-                        body.put("message", "Invalid JWT token!");
-
-                        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
-                        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                        response.setContentType(CONTENT_TYPE);
-                }
+            response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType(CONTENT_TYPE);
         }
+    }
 }

@@ -1,7 +1,7 @@
-package com.cryfirock.msvc.users.msvc_users.controllers;
+package com.cryfirock.auth.service.controllers;
 
-import com.cryfirock.msvc.users.msvc_users.exceptions.UserNotFoundException;
-import com.cryfirock.msvc.users.msvc_users.models.Error;
+import com.cryfirock.auth.service.exceptions.UserNotFoundException;
+import com.cryfirock.auth.service.models.Error;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -20,32 +20,32 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class HandlerExceptionController {
 
     /**
-     * Handles 404 errors
-     * 
+     * Gestiona los errores 404
+     *
      * @param e
-     * @return ResponseEntity
+     * @return respuesta personalizada
      * @throws NoHandlerFoundException
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
-        // New error instance
+        // Nueva instancia de Error
         Error error = new Error();
 
-        // Initialize the attributes
+        // Inicializa los atributos
         error.setDate(new Date());
-        error.setError("The REST API route does not exist.");
+        error.setError("La ruta de la API REST no existe.");
         error.setMessage(e.getMessage());
         error.setStatus(HttpStatus.NOT_FOUND.value());
 
-        // Returns a custom 404 error
+        // Devuelve un error 404 personalizado
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
     }
 
     /**
-     * Handles null errors
-     * 
+     * Gestiona los errores de tipo null
+     *
      * @param ex
-     * @return error
+     * @return mapa con la información del error
      * @throws Exception
      */
     @ExceptionHandler({
@@ -54,10 +54,10 @@ public class HandlerExceptionController {
             UserNotFoundException.class })
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> userNotFoundException(Exception ex) {
-        // We return an associative array and not the object itself
+        // Se devuelve un mapa asociativo y no el objeto en sí
         Map<String, Object> error = new HashMap<>();
 
-        // Initialize the attributes
+        // Inicializa los atributos
         error.put("date", new Date());
         error.put("error", "el usuario o role no existe!");
         error.put("message", ex.getMessage());

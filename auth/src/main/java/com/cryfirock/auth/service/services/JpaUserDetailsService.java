@@ -1,75 +1,64 @@
 package com.cryfirock.auth.service.services;
 
-/**
- * Dependencies
- */
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.security.core.GrantedAuthority;
-
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import com.cryfirock.auth.service.entities.User;
 import com.cryfirock.auth.service.models.AccountStatus;
 import com.cryfirock.auth.service.repositories.UserRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-// Implements UserDetailsService to authenticate users using JPA
-// It runs every time Spring Security needs to authenticate a user to the system
-// When a user attempts to log in through the authentication filter
-// When accessing a protected resource and Spring Security needs to verify the user's identity
+// Implementa UserDetailsService para autenticar usuarios usando JPA
+// Se ejecuta cada vez que Spring Security necesita autenticar un usuario en el sistema
+// Cuando un usuario intenta iniciar sesión mediante el filtro de autenticación
+// Cuando accede a un recurso protegido y Spring Security debe verificar la identidad del usuario
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
 
     /**
-     * Attributes
+     * Atributos
      */
     @Autowired
     private UserRepository userRepository;
 
     /**
-     * Loads a user by their username
-     * 
-     * @param username
-     * @return UserDetails
+     * Carga un usuario por su nombre de usuario
+     *
+     * @param username nombre de usuario
+     * @return instancia de UserDetails
      * @throws UsernameNotFoundException
      */
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Look for the user in the database
+        // Busca el usuario en la base de datos
         Optional<User> optionalUser = userRepository.findByUsername(username);
 
-        // If the user is not found, throw an exception
+        // Si el usuario no se encuentra, lanza una excepción
         if (optionalUser.isEmpty())
             throw new UsernameNotFoundException(String.format("User with username %s does not exist", username));
 
-        // Extract the user from Optional
+        // Extrae el usuario del Optional
         User user = optionalUser.orElseThrow();
 
-        // Map user roles to Spring Security's GrantedAuthority objects
+        // Convierte los roles del usuario en objetos GrantedAuthority de Spring Security
         List<GrantedAuthority> authorities = user
                 .getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
 
-        // Determine if the user account is enabled based on their account status
+        // Determina si la cuenta del usuario está habilitada según su estado
         boolean isEnabled = user.getAccountStatus() == AccountStatus.ACTIVE;
 
-        // Return a Spring Security UserDetails object with the user's information
+        // Devuelve un objeto UserDetails de Spring Security con la información del usuario
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),

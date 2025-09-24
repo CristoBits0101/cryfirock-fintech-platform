@@ -1,12 +1,11 @@
-package com.cryfirock.msvc.users.msvc_users.security.config;
+package com.cryfirock.auth.service.security.config;
+
+import com.cryfirock.auth.service.security.filter.JwtAutheticationFilter;
 
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-/**
- * Dependencies
- */
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -16,116 +15,109 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.cryfirock.msvc.users.msvc_users.security.filter.JwtAutheticationFilter;
-
-// Configuration class for application security
+// Clase de configuración para la seguridad de la aplicación
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
 
-        @Autowired
-        private AuthenticationConfiguration authenticationConfiguration;
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
 
-        /**
-         * Enables injection of the authentication management filter
-         * 
-         * @return authenticationConfiguration
-         * @throws Exception
-         */
-        @Bean
-        AuthenticationManager authenticationManager() throws Exception {
-                return authenticationConfiguration.getAuthenticationManager();
-        }
+    /**
+     * Permite inyectar el gestor de autenticación
+     *
+     * @return instancia de AuthenticationManager
+     * @throws Exception
+     */
+    @Bean
+    AuthenticationManager authenticationManager() throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-        /**
-         * Beans
-         * 
-         * @return BCryptPasswordEncoder
-         */
-        @Bean
-        PasswordEncoder passwordEncoder() {
-                // Use BCrypt to encrypt and compare passwords
-                return new BCryptPasswordEncoder();
-        }
+    /**
+     * Bean para el codificador de contraseñas
+     *
+     * @return instancia de BCryptPasswordEncoder
+     */
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        // Usa BCrypt para encriptar y comparar contraseñas
+        return new BCryptPasswordEncoder();
+    }
 
-        /**
-         * Configure route access and set rules
-         * 
-         * @param http
-         * @return http rules
-         * @throws Exception
-         */
-        @Bean
-        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                return http
-                                // Sets the type of access to the routes
-                                .authorizeHttpRequests(authz -> authz
-                                                .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
-                                                .permitAll()
-                                                .requestMatchers(HttpMethod.POST, "/api/users")
-                                                .permitAll()
-                                                .requestMatchers(HttpMethod.POST, "/api/users/superuser")
-                                                .hasRole("ADMIN")
-                                                .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
-                                                .permitAll()
-                                                .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
-                                                .permitAll()
-                                                .anyRequest()
-                                                .authenticated())
-                                // Disable CSRF protection
-                                .csrf(csrf -> csrf
-                                                .disable())
-                                // Config cors for frontend frameworks
-                                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                                // Registering the authentication management filter
-                                .addFilter(new JwtAutheticationFilter(
-                                                authenticationConfiguration.getAuthenticationManager()))
-                                // Disable session cookies
-                                .sessionManagement(session -> session
-                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                // Build the configuration
-                                .build();
-        }
+    /**
+     * Configura el acceso a rutas y establece las reglas
+     *
+     * @param http configuración de seguridad HTTP
+     * @return reglas definidas para el filtro de seguridad
+     * @throws Exception
+     */
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                // Define el tipo de acceso a las rutas
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/users")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/users/superuser")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                // Deshabilita la protección CSRF
+                .csrf(csrf -> csrf.disable())
+                // Configura CORS para frameworks frontend
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // Registra el filtro de gestión de autenticación
+                .addFilter(new JwtAutheticationFilter(authenticationConfiguration.getAuthenticationManager()))
+                // Deshabilita las cookies de sesión
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Construye la configuración
+                .build();
+    }
 
-        /**
-         * Request rules
-         * 
-         * @return source
-         */
-        @Bean
-        CorsConfigurationSource corsConfigurationSource() {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOriginPatterns(Arrays.asList("*"));
-                config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
-                config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-                config.setAllowCredentials(true);
+    /**
+     * Reglas para las solicitudes
+     *
+     * @return origen de configuración de CORS
+     */
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        config.setAllowCredentials(true);
 
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                source.registerCorsConfiguration("/**", config);
-                return source;
-        }
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 
-        /**
-         * Config cors filter
-         * 
-         * @return corsBean
-         */
-        @Bean
-        FilterRegistrationBean<CorsFilter> corsFilter() {
-                FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(
-                                new CorsFilter(corsConfigurationSource()));
-                corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-                return corsBean;
-        }
+    /**
+     * Configura el filtro de CORS
+     *
+     * @return bean de registro del filtro CORS
+     */
+    @Bean
+    FilterRegistrationBean<CorsFilter> corsFilter() {
+        FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(
+                new CorsFilter(corsConfigurationSource()));
+        corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return corsBean;
+    }
 
 }
