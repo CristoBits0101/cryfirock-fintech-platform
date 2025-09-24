@@ -5,17 +5,34 @@ import java.util.Optional;
 
 import com.cryfirock.auth.service.entities.User;
 
-// Limits the actions available in the application
+/**
+ * ===============================================================
+ * Paso 7.1: Interfaz de servicio para la gestión de usuarios
+ * ===============================================================
+ */
+// Define las operaciones disponibles para la gestión de usuarios
 public interface IUserService {
 
-    // Custom methods for validating
+    /**
+     * ===========================================================
+     * Paso 7.2: Métodos de validación
+     * ===========================================================
+     */
+
+    // Métodos de validación de existencia de atributos de usuario
     boolean existsByEmail(String email);
 
     boolean existsByPhoneNumber(String phoneNumber);
 
     boolean existsByUsername(String username);
 
-    // Métodos CRUD
+    /**
+     * ===========================================================
+     * Paso 7.3: Métodos CRUD
+     * ===========================================================
+     */
+
+    // Operaciones CRUD de la entidad User
     List<User> findAll();
 
     Optional<User> deleteUser(User user);
@@ -25,5 +42,4 @@ public interface IUserService {
     Optional<User> update(Long id, User user);
 
     User save(User user);
-
 }

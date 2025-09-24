@@ -3,6 +3,7 @@ package com.cryfirock.auth.service.entities;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.cryfirock.auth.service.validations.IExistsByEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -88,7 +89,7 @@ public class User {
     // Restricciones aplicadas al generar la tabla desde JPA
     @Column(nullable = false, unique = true)
     // Valida el objeto en memoria antes de guardarlo en la base de datos
-    @Email(message = "{Email.user.email}")
+    @IExistsByEmail(message = "{Email.user.email}")
     @NotBlank(message = "{NotBlank.user.email}")
     @Size(min = 1, max = 100, message = "{Size.user.email}")
     private String email;
