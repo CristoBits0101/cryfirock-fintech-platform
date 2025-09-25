@@ -161,8 +161,10 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
+    // Se ejecuta antes de almacenar un usuario
     @PrePersist
     public void prePersist() {
+        // El usuario está habilitado la primera vez que se almacena
         enabled = true;
     }
 

@@ -33,14 +33,20 @@ public interface IUserService {
      * ==========================================================
      */
 
-    // Operaciones CRUD de la entidad User
-    List<User> findAll();
+    // Create
+    User save(User user);
 
-    Optional<User> deleteUser(User user);
+    // Read
+    List<User> findAll();
 
     Optional<User> findById(Long id);
 
+    // Update
     Optional<User> update(Long id, User user);
 
-    User save(User user);
+    // Delete
+    void deleteById(Long id);
+
+    Optional<User> deleteUser(User user);
+
 }

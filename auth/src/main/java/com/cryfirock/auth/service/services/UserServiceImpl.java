@@ -3,10 +3,12 @@ package com.cryfirock.auth.service.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import com.cryfirock.auth.service.entities.Role;
 import com.cryfirock.auth.service.entities.User;
@@ -14,189 +16,185 @@ import com.cryfirock.auth.service.exceptions.UserNotFoundException;
 import com.cryfirock.auth.service.repositories.RoleRepository;
 import com.cryfirock.auth.service.repositories.UserRepository;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
- * =========================================================================================
+ * ==============================================================================================
  * Paso 9.1:
- * =========================================================================================
+ * ==============================================================================================
  */
 
+// Tipo de componente
+@Service
+@Validated
+@Transactional(readOnly = true)
 public class UserServiceImpl implements IUserService {
 
     /**
-     * =====================================================================================
-     * Paso 9.2:
-     * =====================================================================================
+     * ==========================================================================================
+     * Paso 9.2: Atributos
+     * ==========================================================================================
      */
 
-    @Autowired
-    private UserRepository userRepository;
+    private static final String ROLE_USER = "ROLE_USER";
+    private static final String ROLE_ADMIN = "ROLE_ADMIN";
 
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
-     * =====================================================================================
-     * Paso 9.3:
-     * =====================================================================================
+     * ==========================================================================================
+     * Paso 9.3: Constructores
+     * ==========================================================================================
      */
 
+    public UserServiceImpl(
+            UserRepository userRepository,
+            RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     /**
-     * Guarda un nuevo usuario en la base de datos
-     *
-     * @param user objeto User con los datos del nuevo usuario
-     * @return usuario guardado
+     * ==========================================================================================
+     * Paso 9.4: Métodos create
+     * ==========================================================================================
      */
+
+    //
     @Override
     @Transactional
-    public User save(User user) {
-        // Inicializa una lista para almacenar los roles del usuario
-        List<Role> roles = new ArrayList<>();
-
-        // Asigna el rol predeterminado "ROLE_USER"
-        Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
-
-        optionalRoleUser.ifPresent(roles::add);
-
-        // Si el usuario es administrador, agrega "ROLE_ADMIN"
-        if (user.isAdmin()) {
-            Optional<Role> optionalRoleAdmin = roleRepository.findByName("ROLE_ADMIN");
-            optionalRoleAdmin.ifPresent(roles::add);
-        }
-
-        // Establece los roles y encripta la contraseña antes de guardar
-        user.setRoles(roles);
-        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-
-        // Guarda y devuelve el usuario
+    public User save(@NotNull User user) {
+        user.setRoles(resolveRoles(user));
+        user.setPasswordHash(encodeIfRaw(user.getPasswordHash()));
         return userRepository.save(user);
     }
 
     /**
-     * Actualiza un usuario existente por ID
-     *
-     * @param id   ID del usuario
-     * @param user objeto User con los datos actualizados
-     * @return Optional con el usuario actualizado si existe, de lo contrario vacío
+     * ==========================================================================================
+     * Paso 9.5: Métodos read
+     * ==========================================================================================
      */
+
     @Override
-    @Transactional
-    public Optional<User> update(Long id, User user) {
-        Optional<User> optionalUser = userRepository.findById(id);
-
-        // Lanza una excepción si el usuario no existe
-        if (optionalUser.isEmpty())
-            throw new UserNotFoundException("User " + id + " does not exist!");
-
-        // Comprueba si el usuario existe antes de actualizar
-        if (optionalUser.isPresent()) {
-            User userToUpdate = optionalUser.get();
-
-            // Actualiza los campos del usuario
-            userToUpdate.setGivenName(user.getGivenName());
-            userToUpdate.setFamilyName(user.getFamilyName());
-            userToUpdate.setEmail(user.getEmail());
-            userToUpdate.setPhoneNumber(user.getPhoneNumber());
-            userToUpdate.setUsername(user.getUsername());
-            userToUpdate.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
-            userToUpdate.setDob(user.getDob());
-            userToUpdate.setAddress(user.getAddress());
-            userToUpdate.setEnabled(user.isEnabled());
-
-            // Si el usuario no es administrador, asegura que solo tenga el rol "ROLE_USER"
-            if (!user.isAdmin()) {
-                List<Role> roles = new ArrayList<>();
-                Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
-                optionalRoleUser.ifPresent(roles::add);
-                userToUpdate.setRoles(roles);
-            }
-
-            // Guarda y devuelve el usuario actualizado
-            return Optional.of(userRepository.save(userToUpdate));
-        }
-        return optionalUser;
-    }
-
-    /**
-     * Obtiene todos los usuarios de la base de datos
-     *
-     * @return lista de todos los usuarios
-     */
-    @Override
-    @Transactional(readOnly = true)
     public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
+        return userRepository.findAll();
     }
 
-    /**
-     * Busca un usuario por su ID
-     *
-     * @param id ID del usuario
-     * @return Optional con el usuario si se encuentra, de lo contrario vacío
-     */
     @Override
-    @Transactional(readOnly = true)
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
 
     /**
-     * Verifica si existe un usuario por correo electrónico
-     *
-     * @param email correo electrónico del usuario
-     * @return true si el correo existe, false en caso contrario
+     * ==========================================================================================
+     * Paso 9.6: Métodos update
+     * ==========================================================================================
      */
+
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
+    public Optional<User> update(@NotNull Long id, @NotNull User user) {
+        User u = userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!"));
+
+        u.setGivenName(user.getGivenName());
+        u.setFamilyName(user.getFamilyName());
+        u.setEmail(user.getEmail());
+        u.setPhoneNumber(user.getPhoneNumber());
+        u.setUsername(user.getUsername());
+        u.setDob(user.getDob());
+        u.setAddress(user.getAddress());
+        u.setEnabled(user.isEnabled());
+
+        if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank()) {
+            u.setPasswordHash(encodeIfRaw(user.getPasswordHash()));
+        }
+
+        // Una sola asignación de roles (añade ROLE_ADMIN si isAdmin() == true)
+        u.setRoles(resolveRoles(user));
+
+        return Optional.of(userRepository.save(u));
+    }
+
+    /**
+     * ==========================================================================================
+     * Paso 9.7: Métodos delete
+     * ==========================================================================================
+     */
+
+    @Override
+    @Transactional
+    public void deleteById(@NotNull Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException("User " + id + " does not exist!");
+        }
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Optional<User> deleteUser(@NotNull User user) {
+        User u = userRepository.findById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException("User " + user.getId() + " does not exist!"));
+        userRepository.delete(u);
+        return Optional.of(u);
+    }
+
+    /**
+     * ==========================================================================================
+     * Paso 9.8: Métodos de validación de existencia
+     * ==========================================================================================
+     */
+
+    @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
-    /**
-     * Verifica si existe un usuario por número telefónico
-     *
-     * @param phoneNumber número telefónico del usuario
-     * @return true si el número existe, false en caso contrario
-     */
     @Override
-    @Transactional(readOnly = true)
     public boolean existsByPhoneNumber(String phoneNumber) {
         return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
-    /**
-     * Verifica si existe un usuario por nombre de usuario
-     *
-     * @param username nombre de usuario
-     * @return true si el usuario existe, false en caso contrario
-     */
     @Override
-    @Transactional(readOnly = true)
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
 
     /**
-     * Elimina un usuario de la base de datos
-     *
-     * @param user objeto User a eliminar
-     * @return Optional con el usuario eliminado si existe, de lo contrario vacío
+     * ==========================================================================================
+     * Paso 9.9: Helpers
+     * ==========================================================================================
      */
-    @Override
-    @Transactional
-    public Optional<User> deleteUser(User user) {
-        // Verifica si el usuario existe antes de eliminar
-        // Lanza una excepción si el usuario no existe
-        Optional<User> userToDelete = Optional.ofNullable(
-                userRepository
-                        .findById(user.getId())
-                        .orElseThrow(() -> new UserNotFoundException("User " + user.getId() + " does not exist!")));
 
-        // Si el usuario existe, elimínalo
-        userToDelete.ifPresent(userRepository::delete);
+    private List<Role> resolveRoles(User user) {
+        List<Role> roles = new ArrayList<>();
+        // Falla explícito si no existe el básico
+        Role basic = roleRepository.findByName(ROLE_USER)
+                .orElseThrow(() -> new IllegalStateException("Missing role " + ROLE_USER));
+        roles.add(basic);
 
-        return userToDelete;
+        if (user.isAdmin()) {
+            roleRepository.findByName(ROLE_ADMIN).ifPresent(roles::add);
+        }
+        return roles;
     }
+
+    private static Predicate<String> startsWithAny(String... p) {
+        return s -> s != null && java.util.Arrays.stream(p).anyMatch(s::startsWith);
+    }
+
+    private static final java.util.function.Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
+
+    private String encodeIfRaw(String rawOrHash) {
+        if (rawOrHash == null) return null;
+        boolean looksHashed = IS_BCRYPT.test(rawOrHash);
+        return looksHashed ? rawOrHash : passwordEncoder.encode(rawOrHash);
+    }
+
 }
