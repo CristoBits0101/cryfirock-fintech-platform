@@ -15,9 +15,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -124,8 +125,15 @@ public class User {
 
     // JPA mapea atributo a columna cuando no coinciden
     // Restricciones aplicadas al generar la tabla desde JPA
+    @Column(nullable = false)
+    // Valida el objeto en memoria antes de guardarlo en la base de datos
+    @NotNull(message = "{NotNull.user.address}")
+    private String address;
+
+    // JPA mapea atributo a columna cuando no coinciden
+    // Restricciones aplicadas al generar la tabla desde JPA
     @Column(name = "account_status", nullable = false)
-    private boolean active = true;
+    private boolean enabled = true;
 
     // Cuando convierto a JSON no meto el campo users del otro lado
     // Role mantiene una lista de users y User mantiene una lista de roles
@@ -145,5 +153,17 @@ public class User {
             uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" }))
     @ManyToMany
     private List<Role> roles;
+
+    // No se persiste en la BD y no es una columna de la tabla
+    @Transient
+    // Se acepta en la deserialización y se omite al serializar
+    // Permite el valor en la petición y lo oculta en la respuesta del JSON
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private boolean admin;
+
+    @PrePersist
+    public void prePersist() {
+        enabled = true;
+    }
 
 }

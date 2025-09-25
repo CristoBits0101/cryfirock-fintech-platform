@@ -1,29 +1,31 @@
 package com.cryfirock.auth.service.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.cryfirock.auth.service.entities.Role;
 import com.cryfirock.auth.service.entities.User;
 import com.cryfirock.auth.service.exceptions.UserNotFoundException;
 import com.cryfirock.auth.service.repositories.RoleRepository;
 import com.cryfirock.auth.service.repositories.UserRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * ==============================================================
+ * =========================================================================================
  * Paso 9.1:
- * ==============================================================
+ * =========================================================================================
  */
 
 public class UserServiceImpl implements IUserService {
 
     /**
-     * ==============================================================
+     * =====================================================================================
      * Paso 9.2:
-     * ==============================================================
+     * =====================================================================================
      */
 
     @Autowired
@@ -36,9 +38,9 @@ public class UserServiceImpl implements IUserService {
     private PasswordEncoder passwordEncoder;
 
     /**
-     * ==============================================================
+     * =====================================================================================
      * Paso 9.3:
-     * ==============================================================
+     * =====================================================================================
      */
 
     /**
@@ -66,7 +68,7 @@ public class UserServiceImpl implements IUserService {
 
         // Establece los roles y encripta la contraseña antes de guardar
         user.setRoles(roles);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
 
         // Guarda y devuelve el usuario
         return userRepository.save(user);
@@ -93,15 +95,15 @@ public class UserServiceImpl implements IUserService {
             User userToUpdate = optionalUser.get();
 
             // Actualiza los campos del usuario
-            userToUpdate.setFirstName(user.getFirstName());
-            userToUpdate.setLastName(user.getLastName());
+            userToUpdate.setGivenName(user.getGivenName());
+            userToUpdate.setFamilyName(user.getFamilyName());
             userToUpdate.setEmail(user.getEmail());
             userToUpdate.setPhoneNumber(user.getPhoneNumber());
             userToUpdate.setUsername(user.getUsername());
-            userToUpdate.setPassword(passwordEncoder.encode(user.getPassword()));
+            userToUpdate.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
             userToUpdate.setDob(user.getDob());
             userToUpdate.setAddress(user.getAddress());
-            userToUpdate.setAccountStatus(user.getAccountStatus());
+            userToUpdate.setEnabled(user.isEnabled());
 
             // Si el usuario no es administrador, asegura que solo tenga el rol "ROLE_USER"
             if (!user.isAdmin()) {

@@ -56,12 +56,12 @@ public class JpaUserDetailsService implements UserDetailsService {
                 .collect(Collectors.toList());
 
         // Determina si la cuenta del usuario está habilitada según su estado
-        boolean isEnabled = user.getAccountStatus() == AccountStatus.ACTIVE;
+        boolean isEnabled = user.isEnabled() == AccountStatus.ACTIVE;
 
         // Devuelve un objeto UserDetails de Spring Security con la información del usuario
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
-                user.getPassword(),
+                user.getPasswordHash(),
                 isEnabled,
                 true,
                 true,
