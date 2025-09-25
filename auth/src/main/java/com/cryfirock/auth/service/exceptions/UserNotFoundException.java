@@ -1,9 +1,9 @@
 package com.cryfirock.auth.service.exceptions;
 
-// Throws a runtime exception
+// Lanza una excepción en tiempo de ejecución
 public class UserNotFoundException extends RuntimeException {
 
-    // Receives the message and passes it to the father
+    // Recibe el mensaje y lo pasa a la clase padre
     public UserNotFoundException(String message) {
         super(message);
     }

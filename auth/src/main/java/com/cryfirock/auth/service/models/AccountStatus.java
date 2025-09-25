@@ -1,6 +1,6 @@
 package com.cryfirock.auth.service.models;
 
-// Statuses allowed in user accounts
+// Estados permitidos en las cuentas de usuario
 public enum AccountStatus {
     ACTIVE,
     SUSPENDED,
