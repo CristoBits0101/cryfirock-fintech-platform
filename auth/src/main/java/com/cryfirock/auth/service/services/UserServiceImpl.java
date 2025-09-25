@@ -175,8 +175,9 @@ public class UserServiceImpl implements IUserService {
 
     private List<Role> resolveRoles(User user) {
         List<Role> roles = new ArrayList<>();
-        // Falla explícito si no existe el básico
-        Role basic = roleRepository.findByName(ROLE_USER)
+
+        Role basic = roleRepository
+                .findByName(ROLE_USER)
                 .orElseThrow(() -> new IllegalStateException("Missing role " + ROLE_USER));
         roles.add(basic);
 
