@@ -1,6 +1,7 @@
 package com.cryfirock.auth.service.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -186,10 +187,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     private static Predicate<String> startsWithAny(String... p) {
-        return s -> s != null && java.util.Arrays.stream(p).anyMatch(s::startsWith);
+        return s -> s != null && Arrays.stream(p).anyMatch(s::startsWith);
     }
 
-    private static final java.util.function.Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
+    private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
 
     private String encodeIfRaw(String rawOrHash) {
         if (rawOrHash == null) return null;
