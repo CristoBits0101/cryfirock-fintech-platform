@@ -73,12 +73,17 @@ public class UserServiceImpl implements IUserService {
     @Override
     // Rollback deshace los cambios ante cualquier Exception checked y unchecked
     @Transactional
-    // Guarda y devuelve el usuario
+    // Guarda y devuelve el usuario con referencia no nula en el parámetro
     public User save(@NotNull User user) {
         // Asigna los roles al usuario
         user.setRoles(assignRoles(user));
+        // Hashea la contraseña del usuario BCrypt si aún no lo está
         user.setPasswordHash(encodeIfRaw(user.getPasswordHash()));
-        return userRepository.save(user);
+        // Almacena y retorna el usuario
+        return Optional.ofNullable(user)
+                .map(userRepository::save)
+                // El error puede manejarse con @RestControllerAdvice o con @ResponseStatus
+                .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
     }
 
     /**
@@ -228,7 +233,8 @@ public class UserServiceImpl implements IUserService {
     private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
 
     private String encodeIfRaw(String rawOrHash) {
-        if (rawOrHash == null) return null;
+        if (rawOrHash == null)
+            return null;
         return IS_BCRYPT.test(rawOrHash) ? rawOrHash : passwordEncoder.encode(rawOrHash);
     }
 
