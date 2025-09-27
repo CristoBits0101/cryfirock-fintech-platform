@@ -1,10 +1,10 @@
 package com.cryfirock.auth.service.services;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,9 @@ import com.cryfirock.auth.service.repositories.UserRepository;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * ==============================================================================================
+ * =================================================================================================================
  * Paso 9.1:
- * ==============================================================================================
+ * =================================================================================================================
  */
 
 // Tipo de componente
@@ -32,9 +32,9 @@ import jakarta.validation.constraints.NotNull;
 public class UserServiceImpl implements IUserService {
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.2: Atributos
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     private static final String ROLE_USER = "ROLE_USER";
@@ -45,9 +45,9 @@ public class UserServiceImpl implements IUserService {
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.3: Constructores
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     public UserServiceImpl(
@@ -60,9 +60,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.4: Métodos create
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
@@ -71,15 +71,16 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     // Guarda y devuelve el usuario
     public User save(@NotNull User user) {
-        user.setRoles(resolveRoles(user));
+        // Asigna los roles al usuario
+        user.setRoles(assignRoles(user));
         user.setPasswordHash(encodeIfRaw(user.getPasswordHash()));
         return userRepository.save(user);
     }
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.5: Métodos read
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
@@ -103,9 +104,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.6: Métodos update
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
@@ -130,15 +131,15 @@ public class UserServiceImpl implements IUserService {
         }
 
         // Una sola asignación de roles (añade ROLE_ADMIN si isAdmin() == true)
-        u.setRoles(resolveRoles(user));
+        u.setRoles(assignRoles(user));
 
         return Optional.of(userRepository.save(u));
     }
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.7: Métodos delete
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
@@ -155,16 +156,20 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public Optional<User> deleteUser(@NotNull User user) {
-        User u = userRepository.findById(user.getId())
-                .orElseThrow(() -> new UserNotFoundException("User " + user.getId() + " does not exist!"));
-        userRepository.delete(u);
-        return Optional.of(u);
+        return Optional.of(
+                userRepository
+                        .findById(user.getId())
+                        .map(u -> {
+                            userRepository.delete(u);
+                            return u;
+                        })
+                        .orElseThrow(() -> new UserNotFoundException("User " + user.getId() + " does not exist!")));
     }
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.8: Métodos de validación de existencia
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
@@ -186,26 +191,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
-     * ==========================================================================================
+     * =============================================================================================================
      * Paso 9.9: Helpers
-     * ==========================================================================================
+     * =============================================================================================================
      */
 
     // Calcula qué roles debe tener el usuario antes de guardarlo
-    private List<Role> resolveRoles(User user) {
-        // Roles a asignar al usuario antes de persistirlo
-        List<Role> roles = new ArrayList<>();
-
-        // Rol base obligatorio: ROLE_USER
-        roleRepository
-            .findByName(ROLE_USER)
-            .ifPresentOrElse(
-                roles::add,
-                () -> { throw new IllegalStateException("Missing role " + ROLE_USER); });
-
-        if (user.isAdmin()) roleRepository.findByName(ROLE_ADMIN).ifPresent(roles::add);
-
-        return roles;
+    private List<Role> assignRoles(User user) {
+        return (user.isAdmin()
+                ? Stream.of(ROLE_USER, ROLE_ADMIN)
+                : Stream.of(ROLE_USER))
+                .map(name -> roleRepository
+                        .findByName(name)
+                        .orElseThrow(() -> new IllegalStateException("Missing role " + name)))
+                .toList();
     }
 
     private static Predicate<String> startsWithAny(String... p) {
