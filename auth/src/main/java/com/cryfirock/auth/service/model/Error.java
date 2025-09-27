@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.models;
+package com.cryfirock.auth.service.model;
 
 import java.util.Date;
 

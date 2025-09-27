@@ -1,8 +1,9 @@
-package com.cryfirock.auth.service.services;
+package com.cryfirock.auth.service.service;
 
 import com.cryfirock.auth.service.entities.User;
-import com.cryfirock.auth.service.models.AccountStatus;
-import com.cryfirock.auth.service.repositories.UserRepository;
+import com.cryfirock.auth.service.model.AccountStatus;
+import com.cryfirock.auth.service.repository.UserRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

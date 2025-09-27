@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.services;
+package com.cryfirock.auth.service.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import com.cryfirock.auth.service.entities.Role;
 import com.cryfirock.auth.service.entities.User;
 import com.cryfirock.auth.service.exceptions.UserNotFoundException;
-import com.cryfirock.auth.service.repositories.RoleRepository;
-import com.cryfirock.auth.service.repositories.UserRepository;
+import com.cryfirock.auth.service.repository.RoleRepository;
+import com.cryfirock.auth.service.repository.UserRepository;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -233,8 +233,7 @@ public class UserServiceImpl implements IUserService {
     private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
 
     private String encodeIfRaw(String rawOrHash) {
-        if (rawOrHash == null)
-            return null;
+        if (rawOrHash == null) return null;
         return IS_BCRYPT.test(rawOrHash) ? rawOrHash : passwordEncoder.encode(rawOrHash);
     }
 

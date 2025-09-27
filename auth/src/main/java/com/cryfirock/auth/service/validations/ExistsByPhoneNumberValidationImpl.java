@@ -1,6 +1,6 @@
 package com.cryfirock.auth.service.validations;
 
-import com.cryfirock.auth.service.services.IUserService;
+import com.cryfirock.auth.service.service.IUserService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

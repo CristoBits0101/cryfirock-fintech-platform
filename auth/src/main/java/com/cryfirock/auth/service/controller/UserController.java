@@ -1,7 +1,7 @@
-package com.cryfirock.auth.service.controllers;
+package com.cryfirock.auth.service.controller;
 
 import com.cryfirock.auth.service.entities.User;
-import com.cryfirock.auth.service.services.IUserService;
+import com.cryfirock.auth.service.service.IUserService;
 
 import jakarta.validation.Valid;
 

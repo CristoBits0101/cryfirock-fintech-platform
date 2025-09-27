@@ -1,7 +1,4 @@
-package com.cryfirock.auth.service.controllers;
-
-import com.cryfirock.auth.service.exceptions.UserNotFoundException;
-import com.cryfirock.auth.service.models.Error;
+package com.cryfirock.auth.service.controller;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,8 +10,10 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import com.cryfirock.auth.service.exceptions.UserNotFoundException;
+import com.cryfirock.auth.service.model.Error;
 
 @RestControllerAdvice
 public class HandlerExceptionController {

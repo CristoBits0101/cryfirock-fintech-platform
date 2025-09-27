@@ -1,7 +1,7 @@
 package com.cryfirock.auth.service.security.filter;
 
 import com.cryfirock.auth.service.entities.User;
-import com.cryfirock.auth.service.services.JpaUserDetailsService;
+import com.cryfirock.auth.service.service.JpaUserDetailsService;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;

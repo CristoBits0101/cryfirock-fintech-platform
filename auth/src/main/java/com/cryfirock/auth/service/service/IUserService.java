@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.services;
+package com.cryfirock.auth.service.service;
 
 import java.util.List;
 import java.util.Optional;
