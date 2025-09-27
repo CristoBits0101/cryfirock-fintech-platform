@@ -49,7 +49,7 @@ public class UserServiceImpl implements IUserService {
     private final RoleRepository roleRepository;
 
     //
-    private PasswordUtils passwordUtils;
+    private final PasswordUtils passwordUtils;
 
     /**
      * =============================================================================================================
