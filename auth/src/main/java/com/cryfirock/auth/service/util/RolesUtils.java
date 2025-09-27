@@ -31,6 +31,8 @@ public class RolesUtils {
 
     // Roles canónicos para usuarios static para mantener una única copia por clase
     // Referencia final no cambia y bean scope singleton misma instancia en petición
+    // Varios beans singleton de la misma clase comparten la misma variable estática
+    // Los miembros estáticos se usan sin instanciar importando la clase
     private static final String ROLE_USER = "ROLE_USER";
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
 

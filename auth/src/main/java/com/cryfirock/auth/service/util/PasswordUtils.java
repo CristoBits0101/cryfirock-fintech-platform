@@ -28,6 +28,8 @@ public class PasswordUtils {
     // Predicate configurado que detecta si es BCrypt por prefijo
     // Referencia final no cambia y bean scope singleton misma instancia en petición
     // Predicate static para mantener una única copia por clase
+    // Varios beans singleton de la misma clase comparten la misma variable estática
+    // Los miembros estáticos se usan sin instanciar importando la clase
     private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
 
     /**

@@ -47,9 +47,14 @@ public class UserServiceImpl implements IUserService {
      * =============================================================================================================
      */
 
+    // El contenedor ApplicationContext crea la instancia y la registra como bean
+    // Si hay un solo constructor @Autowired es opcional
     public UserServiceImpl(
+            // Persistencia de usuarios
             UserRepository userRepository,
+            // Resolución de roles
             RolesUtils rolesUtils,
+            // Codificación y verificación de contraseñas
             PasswordUtils passwordUtils) {
         this.userRepository = userRepository;
         this.rolesUtils = rolesUtils;
