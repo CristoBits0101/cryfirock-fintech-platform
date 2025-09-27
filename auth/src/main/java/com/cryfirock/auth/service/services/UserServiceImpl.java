@@ -198,12 +198,19 @@ public class UserServiceImpl implements IUserService {
 
     // Calcula qué roles debe tener el usuario antes de guardarlo
     private List<Role> assignRoles(User user) {
+        // Si es admin devuelve ROLE_USER y ROLE_ADMIN si no solo ROLE_USER
         return (user.isAdmin()
+                // Si es admin devuelve Stream de ROLE_USER y ROLE_ADMIN
                 ? Stream.of(ROLE_USER, ROLE_ADMIN)
+                // Si no devuelve solo una Stream ROLE_USER
                 : Stream.of(ROLE_USER))
-                .map(name -> roleRepository
-                        .findByName(name)
-                        .orElseThrow(() -> new IllegalStateException("Missing role " + name)))
+                // Se ejecuta una vez por cada elemento del Stream
+                .map(role -> roleRepository
+                        // Busca el rol en la BD
+                        .findByName(role)
+                        // Lanza error si no existe
+                        .orElseThrow(() -> new IllegalStateException("Missing role " + role)))
+                // Ejecuta el stream y crea la lista
                 .toList();
     }
 
