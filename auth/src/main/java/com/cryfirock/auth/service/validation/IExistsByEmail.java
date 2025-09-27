@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.validations;
+package com.cryfirock.auth.service.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

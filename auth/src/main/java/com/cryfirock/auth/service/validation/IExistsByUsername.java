@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.validations;
+package com.cryfirock.auth.service.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,7 +16,7 @@ import jakarta.validation.Payload;
 
 // Vincula esta anotación personalizada con el validador que la implementa
 // Cuando uses @IExistsByEmail se ejecutará ExistsByEmailValidationImpl
-@Constraint(validatedBy = ExistsByPhoneNumberValidationImpl.class)
+@Constraint(validatedBy = ExistsByUsernameValidationImpl.class)
 // Define sobre qué elementos del código se puede aplicar la anotación
 // En este caso solo sobre campos de una clase
 @Target(ElementType.FIELD)
@@ -24,7 +24,7 @@ import jakarta.validation.Payload;
 // En tiempo de ejecución para que el validador pueda leerla por reflexión
 @Retention(RetentionPolicy.RUNTIME)
 // Declara una anotación personalizada mediante interface especial de anotación
-public @interface IExistsByPhoneNumber {
+public @interface IExistsByUsername {
 
     /**
      * ========================================================================
@@ -33,7 +33,7 @@ public @interface IExistsByPhoneNumber {
      */
 
     // Mensaje de error que se mostrará si la validación falla
-    String message() default "Phone number already exists.";
+    String message() default "Username already exists.";
 
     // Grupos usados para organizar validaciones
     Class<?>[] groups() default {};

@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.validations;
+package com.cryfirock.auth.service.validation;
 
 import com.cryfirock.auth.service.service.IUserService;
 
