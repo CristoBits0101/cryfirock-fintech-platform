@@ -222,7 +222,7 @@ public class UserServiceImpl implements IUserService {
                         .findByName(role)
                         // Lanza error si no existe
                         .orElseThrow(() -> new IllegalStateException("Missing role " + role)))
-                // Ejecuta el stream y crea la lista
+                // Ejecuta el Stream y crea la lista
                 .toList();
     }
 
