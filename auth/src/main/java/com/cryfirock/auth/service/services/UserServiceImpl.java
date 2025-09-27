@@ -65,9 +65,11 @@ public class UserServiceImpl implements IUserService {
      * ==========================================================================================
      */
 
-    //
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Rollback deshace los cambios ante cualquier Exception checked y unchecked
     @Transactional
+    // Guarda y devuelve el usuario
     public User save(@NotNull User user) {
         user.setRoles(resolveRoles(user));
         user.setPasswordHash(encodeIfRaw(user.getPasswordHash()));
@@ -80,12 +82,22 @@ public class UserServiceImpl implements IUserService {
      * ==========================================================================================
      */
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Rollback: Deshace los cambios ante cualquier Exception checked y unchecked
+    // readOnly = true: Marca la transacción como lectura sin permisos de escritura
+    @Transactional(readOnly = true)
+    // Devuelve una lista con todos los usuarios
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Rollback: Deshace los cambios ante cualquier Exception checked y unchecked
+    // readOnly = true: Marca la transacción como lectura sin permisos de escritura
+    @Transactional(readOnly = true)
+    // Busca y devuelve un usuario por su identificador
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
     }
@@ -96,6 +108,7 @@ public class UserServiceImpl implements IUserService {
      * ==========================================================================================
      */
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
     @Transactional
     public Optional<User> update(@NotNull Long id, @NotNull User user) {
@@ -128,6 +141,7 @@ public class UserServiceImpl implements IUserService {
      * ==========================================================================================
      */
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
     @Transactional
     public void deleteById(@NotNull Long id) {
@@ -137,6 +151,7 @@ public class UserServiceImpl implements IUserService {
         userRepository.deleteById(id);
     }
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
     @Transactional
     public Optional<User> deleteUser(@NotNull User user) {
@@ -152,16 +167,19 @@ public class UserServiceImpl implements IUserService {
      * ==========================================================================================
      */
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
         return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
@@ -173,17 +191,19 @@ public class UserServiceImpl implements IUserService {
      * ==========================================================================================
      */
 
+    // Calcula qué roles debe tener el usuario antes de guardarlo
     private List<Role> resolveRoles(User user) {
+        // Roles a asignar al usuario antes de persistirlo
         List<Role> roles = new ArrayList<>();
 
-        Role basic = roleRepository
+        // Rol base obligatorio: ROLE_USER
+        roles.add(
+            roleRepository
                 .findByName(ROLE_USER)
-                .orElseThrow(() -> new IllegalStateException("Missing role " + ROLE_USER));
-        roles.add(basic);
+                .orElseThrow(() -> new IllegalStateException("Missing role " + ROLE_USER)));
 
-        if (user.isAdmin()) {
-            roleRepository.findByName(ROLE_ADMIN).ifPresent(roles::add);
-        }
+        if (user.isAdmin()) roleRepository.findByName(ROLE_ADMIN).ifPresent(roles::add);
+
         return roles;
     }
 
@@ -195,8 +215,7 @@ public class UserServiceImpl implements IUserService {
 
     private String encodeIfRaw(String rawOrHash) {
         if (rawOrHash == null) return null;
-        boolean looksHashed = IS_BCRYPT.test(rawOrHash);
-        return looksHashed ? rawOrHash : passwordEncoder.encode(rawOrHash);
+        return IS_BCRYPT.test(rawOrHash) ? rawOrHash : passwordEncoder.encode(rawOrHash);
     }
 
 }
