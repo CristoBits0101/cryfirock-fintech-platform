@@ -3,7 +3,7 @@ package com.cryfirock.auth.service.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.cryfirock.auth.service.entities.User;
+import com.cryfirock.auth.service.entity.User;
 
 /**
  * ==============================================================

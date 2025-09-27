@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.exceptions;
+package com.cryfirock.auth.service.exception;
 
 // Lanza una excepción en tiempo de ejecución
 public class UserNotFoundException extends RuntimeException {

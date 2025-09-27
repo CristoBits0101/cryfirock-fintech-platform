@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.aspects;
+package com.cryfirock.auth.service.aspect;
 
 import java.util.Arrays;
 

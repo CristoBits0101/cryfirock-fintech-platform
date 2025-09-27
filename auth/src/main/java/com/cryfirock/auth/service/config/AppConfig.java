@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.configurations;
+package com.cryfirock.auth.service.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,6 +1,6 @@
 package com.cryfirock.auth.service.service;
 
-import com.cryfirock.auth.service.entities.User;
+import com.cryfirock.auth.service.entity.User;
 import com.cryfirock.auth.service.model.AccountStatus;
 import com.cryfirock.auth.service.repository.UserRepository;
 

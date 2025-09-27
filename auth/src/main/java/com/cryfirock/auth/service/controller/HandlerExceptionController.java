@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import com.cryfirock.auth.service.exceptions.UserNotFoundException;
+import com.cryfirock.auth.service.exception.UserNotFoundException;
 import com.cryfirock.auth.service.model.Error;
 
 @RestControllerAdvice

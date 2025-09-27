@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import com.cryfirock.auth.service.entities.Role;
-import com.cryfirock.auth.service.entities.User;
-import com.cryfirock.auth.service.exceptions.UserNotFoundException;
+import com.cryfirock.auth.service.entity.Role;
+import com.cryfirock.auth.service.entity.User;
+import com.cryfirock.auth.service.exception.UserNotFoundException;
 import com.cryfirock.auth.service.repository.RoleRepository;
 import com.cryfirock.auth.service.repository.UserRepository;
+import com.cryfirock.auth.service.util.PasswordUtils;
+import com.cryfirock.auth.service.util.Passwords;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -37,16 +39,17 @@ public class UserServiceImpl implements IUserService {
      * =============================================================================================================
      */
 
-    // Roles canónicos para usuarios
+    // Roles canónicos para usuarios static para mantener una única copia por clase
     private static final String ROLE_USER = "ROLE_USER";
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
 
-    // Repositorios de acceso a datos
+    // Repositorios de acceso a datos final
+    // Referencia final no cambia y bean scope singleton misma instancia en petición
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    // Componente que hashea y comprueba contraseñas
-    private final PasswordEncoder passwordEncoder;
+    //
+    private PasswordUtils passwordUtils;
 
     /**
      * =============================================================================================================
@@ -57,10 +60,10 @@ public class UserServiceImpl implements IUserService {
     public UserServiceImpl(
             UserRepository userRepository,
             RoleRepository roleRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordUtils passwordUtils) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordUtils = passwordUtils;
     }
 
     /**
@@ -78,7 +81,7 @@ public class UserServiceImpl implements IUserService {
         // Asigna los roles al usuario
         user.setRoles(assignRoles(user));
         // Hashea la contraseña del usuario BCrypt si aún no lo está
-        user.setPasswordHash(encodeIfRaw(user.getPasswordHash()));
+        user.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
         // Almacena y retorna el usuario
         return Optional.ofNullable(user)
                 .map(userRepository::save)
@@ -136,7 +139,7 @@ public class UserServiceImpl implements IUserService {
         u.setEnabled(user.isEnabled());
 
         if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank()) {
-            u.setPasswordHash(encodeIfRaw(user.getPasswordHash()));
+            u.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
         }
 
         // Una sola asignación de roles (añade ROLE_ADMIN si isAdmin() == true)
@@ -224,17 +227,6 @@ public class UserServiceImpl implements IUserService {
                         .orElseThrow(() -> new IllegalStateException("Missing role " + role)))
                 // Ejecuta el Stream y crea la lista
                 .toList();
-    }
-
-    private static Predicate<String> startsWithAny(String... p) {
-        return s -> s != null && Arrays.stream(p).anyMatch(s::startsWith);
-    }
-
-    private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
-
-    private String encodeIfRaw(String rawOrHash) {
-        if (rawOrHash == null) return null;
-        return IS_BCRYPT.test(rawOrHash) ? rawOrHash : passwordEncoder.encode(rawOrHash);
     }
 
 }

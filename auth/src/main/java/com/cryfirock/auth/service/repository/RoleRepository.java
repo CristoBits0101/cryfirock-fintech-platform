@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.cryfirock.auth.service.entities.Role;
+import com.cryfirock.auth.service.entity.Role;
 
 /**
  * ===============================================================================

@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.entities;
+package com.cryfirock.auth.service.entity;
 
 import java.util.List;
 
