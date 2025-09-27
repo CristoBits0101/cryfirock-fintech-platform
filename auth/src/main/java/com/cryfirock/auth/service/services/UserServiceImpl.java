@@ -45,7 +45,7 @@ public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    // Codificador de contraseñas
+    // Componente que hashea y comprueba contraseñas
     private final PasswordEncoder passwordEncoder;
 
     /**
