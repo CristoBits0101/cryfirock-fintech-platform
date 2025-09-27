@@ -118,7 +118,9 @@ public class UserServiceImpl implements IUserService {
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Rollback deshace los cambios ante cualquier Exception checked y unchecked
     @Transactional
+    // Actualiza el usuario por id requiere id y usuario no nulos
     public Optional<User> update(@NotNull Long id, @NotNull User user) {
         User u = userRepository
                 .findById(id)
