@@ -37,11 +37,15 @@ public class UserServiceImpl implements IUserService {
      * =============================================================================================================
      */
 
+    // Roles canónicos para usuarios
     private static final String ROLE_USER = "ROLE_USER";
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
 
+    // Repositorios de acceso a datos
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+
+    // Codificador de contraseñas
     private final PasswordEncoder passwordEncoder;
 
     /**
