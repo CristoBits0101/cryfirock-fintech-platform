@@ -197,9 +197,11 @@ public class UserServiceImpl implements IUserService {
         List<Role> roles = new ArrayList<>();
 
         // Rol base obligatorio: ROLE_USER
-        roleRepository.findByName(ROLE_USER)
-            .map(roles::add)
-            .orElseThrow(() -> new IllegalStateException("Missing role " + ROLE_USER));
+        roleRepository
+            .findByName(ROLE_USER)
+            .ifPresentOrElse(
+                roles::add,
+                () -> { throw new IllegalStateException("Missing role " + ROLE_USER); });
 
         if (user.isAdmin()) roleRepository.findByName(ROLE_ADMIN).ifPresent(roles::add);
 
