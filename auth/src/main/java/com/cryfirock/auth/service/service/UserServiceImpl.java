@@ -122,27 +122,30 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     // Actualiza el usuario por id requiere id y usuario no nulos
     public Optional<User> update(@NotNull Long id, @NotNull User user) {
-        User u = userRepository
-                .findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!"));
-
-        u.setGivenName(user.getGivenName());
-        u.setFamilyName(user.getFamilyName());
-        u.setEmail(user.getEmail());
-        u.setPhoneNumber(user.getPhoneNumber());
-        u.setUsername(user.getUsername());
-        u.setDob(user.getDob());
-        u.setAddress(user.getAddress());
-        u.setEnabled(user.isEnabled());
-
-        if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank()) {
-            u.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
-        }
-
-        // Una sola asignación de roles (añade ROLE_ADMIN si isAdmin() == true)
-        u.setRoles(rolesUtils.assignRoles(user));
-
-        return Optional.of(userRepository.save(u));
+        // Retornamos un opcional de usuario
+        return Optional.of(
+                // Llamamos al repositorio de usuarios
+                userRepository
+                        // Buscamos por ID recibido al usuario a actualizar
+                        .findById(id)
+                        // Si existe se ejecuta el map que recibe al usuario
+                        .map(u -> {
+                            if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank()) {
+                                u.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
+                            }
+                            u.setRoles(rolesUtils.assignRoles(user));
+                            u.setGivenName(user.getGivenName());
+                            u.setFamilyName(user.getFamilyName());
+                            u.setEmail(user.getEmail());
+                            u.setPhoneNumber(user.getPhoneNumber());
+                            u.setUsername(user.getUsername());
+                            u.setDob(user.getDob());
+                            u.setAddress(user.getAddress());
+                            u.setEnabled(user.isEnabled());
+                            userRepository.save(u);
+                            return u;
+                        })
+                        .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!")));
     }
 
     /**
