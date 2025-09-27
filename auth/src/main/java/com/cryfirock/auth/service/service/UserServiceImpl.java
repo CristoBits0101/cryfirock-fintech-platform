@@ -2,31 +2,29 @@ package com.cryfirock.auth.service.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import com.cryfirock.auth.service.entity.Role;
 import com.cryfirock.auth.service.entity.User;
 import com.cryfirock.auth.service.exception.UserNotFoundException;
-import com.cryfirock.auth.service.repository.RoleRepository;
 import com.cryfirock.auth.service.repository.UserRepository;
 import com.cryfirock.auth.service.util.PasswordUtils;
+import com.cryfirock.auth.service.util.RolesUtils;
 
 import jakarta.validation.constraints.NotNull;
 
 /**
  * =================================================================================================================
- * Paso 9.1:
+ * Paso 9.1: Servicio de dominio de usuarios
  * =================================================================================================================
  */
 
-// Tipo de componente
+// Estereotipo que registra el bean en el contenedor y marca lógica de negocio
 @Service
+// Activa validación en parámetros y retornos de métodos públicos
 @Validated
-@Transactional(readOnly = true)
 public class UserServiceImpl implements IUserService {
 
     /**
@@ -35,16 +33,12 @@ public class UserServiceImpl implements IUserService {
      * =============================================================================================================
      */
 
-    // Roles canónicos para usuarios static para mantener una única copia por clase
-    private static final String ROLE_USER = "ROLE_USER";
-    private static final String ROLE_ADMIN = "ROLE_ADMIN";
-
     // Repositorios de acceso a datos final
     // Referencia final no cambia y bean scope singleton misma instancia en petición
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
-    //
+    // Referencia final no cambia y bean scope singleton misma instancia en petición
+    private final RolesUtils rolesUtils;
     private final PasswordUtils passwordUtils;
 
     /**
@@ -55,10 +49,10 @@ public class UserServiceImpl implements IUserService {
 
     public UserServiceImpl(
             UserRepository userRepository,
-            RoleRepository roleRepository,
+            RolesUtils rolesUtils,
             PasswordUtils passwordUtils) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.rolesUtils = rolesUtils;
         this.passwordUtils = passwordUtils;
     }
 
@@ -75,7 +69,7 @@ public class UserServiceImpl implements IUserService {
     // Guarda y devuelve el usuario con referencia no nula en el parámetro
     public User save(@NotNull User user) {
         // Asigna los roles al usuario
-        user.setRoles(assignRoles(user));
+        user.setRoles(rolesUtils.assignRoles(user));
         // Hashea la contraseña del usuario BCrypt si aún no lo está
         user.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
         // Almacena y retorna el usuario
@@ -139,7 +133,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         // Una sola asignación de roles (añade ROLE_ADMIN si isAdmin() == true)
-        u.setRoles(assignRoles(user));
+        u.setRoles(rolesUtils.assignRoles(user));
 
         return Optional.of(userRepository.save(u));
     }
@@ -199,30 +193,6 @@ public class UserServiceImpl implements IUserService {
     // Devuelve true si existe un usuario
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
-    }
-
-    /**
-     * =============================================================================================================
-     * Paso 9.9: Helpers
-     * =============================================================================================================
-     */
-
-    // Calcula qué roles debe tener el usuario antes de guardarlo
-    private List<Role> assignRoles(User user) {
-        // Si es admin devuelve ROLE_USER y ROLE_ADMIN si no solo ROLE_USER
-        return (user.isAdmin()
-                // Si es admin devuelve Stream de ROLE_USER y ROLE_ADMIN
-                ? Stream.of(ROLE_USER, ROLE_ADMIN)
-                // Si no devuelve solo una Stream ROLE_USER
-                : Stream.of(ROLE_USER))
-                // Se ejecuta una vez por cada elemento del Stream
-                .map(role -> roleRepository
-                        // Busca el rol en la BD
-                        .findByName(role)
-                        // Lanza error si no existe
-                        .orElseThrow(() -> new IllegalStateException("Missing role " + role)))
-                // Ejecuta el Stream y crea la lista
-                .toList();
     }
 
 }

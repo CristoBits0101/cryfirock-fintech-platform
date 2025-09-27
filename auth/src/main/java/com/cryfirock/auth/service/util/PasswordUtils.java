@@ -4,13 +4,15 @@ import java.util.Arrays;
 import java.util.function.Predicate;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 /**
  * ===============================================================================================
- * Paso 10.1:
+ * Paso 10.1: Detecta si una contraseña ya está hasheada en BCrypt y la codifica si no lo está
  * ===============================================================================================
  */
 
+@Component
 public class PasswordUtils {
 
     /**
@@ -20,9 +22,12 @@ public class PasswordUtils {
      */
 
     // Componente que hashea y comprueba contraseñas
+    // Referencia final no cambia y bean scope singleton misma instancia en petición
     private final PasswordEncoder passwordEncoder;
 
     // Predicate configurado que detecta si es BCrypt por prefijo
+    // Referencia final no cambia y bean scope singleton misma instancia en petición
+    // Predicate static para mantener una única copia por clase
     private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
 
     /**
