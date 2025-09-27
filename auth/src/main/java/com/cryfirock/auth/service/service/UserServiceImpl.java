@@ -1,12 +1,9 @@
 package com.cryfirock.auth.service.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +14,6 @@ import com.cryfirock.auth.service.exception.UserNotFoundException;
 import com.cryfirock.auth.service.repository.RoleRepository;
 import com.cryfirock.auth.service.repository.UserRepository;
 import com.cryfirock.auth.service.util.PasswordUtils;
-import com.cryfirock.auth.service.util.Passwords;
 
 import jakarta.validation.constraints.NotNull;
 
