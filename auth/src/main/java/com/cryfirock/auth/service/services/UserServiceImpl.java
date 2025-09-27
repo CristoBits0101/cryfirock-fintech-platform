@@ -174,18 +174,21 @@ public class UserServiceImpl implements IUserService {
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Devuelve true si existe un email
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Devuelve true si existe un phoneNumber
     public boolean existsByPhoneNumber(String phoneNumber) {
         return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Devuelve true si existe un usuario
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
