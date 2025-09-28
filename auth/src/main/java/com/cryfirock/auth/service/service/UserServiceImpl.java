@@ -182,9 +182,10 @@ public class UserServiceImpl implements IUserService {
                             userMapper.update(user, userDto);
 
                             // Si llega password y no está en blanco la hashea
-                            if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank()) {
-                                user.setPasswordHash(passwordUtils.encodeIfRaw(userDto.passwordHash()));
-                            }
+                            if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank())
+                                user.setPasswordHash(
+                                        passwordUtils.encodeIfRaw(
+                                                userDto.passwordHash()));
 
                             // Asignamos los roles correspondientes
                             user.setRoles(rolesUtils.assignRoles(user));
