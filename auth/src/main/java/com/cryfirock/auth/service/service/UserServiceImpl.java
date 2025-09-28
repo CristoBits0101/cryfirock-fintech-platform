@@ -177,21 +177,21 @@ public class UserServiceImpl implements IUserService {
                         // Buscamos por ID recibido al usuario a actualizar
                         .findById(id)
                         // Si existe se ejecuta el map que recibe al usuario
-                        .map(user -> {
+                        .map(u -> {
                             // Aplica solo campos no nulos del DTO
-                            userMapper.update(user, userDto);
+                            userMapper.update(u, userDto);
 
                             // Si llega password y no está en blanco la hashea
                             if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank())
-                                user.setPasswordHash(
+                                u.setPasswordHash(
                                         passwordUtils.encodeIfRaw(
                                                 userDto.passwordHash()));
 
                             // Asignamos los roles correspondientes
-                            user.setRoles(rolesUtils.assignRoles(userDto));
+                            u.setRoles(rolesUtils.assignRoles(u));
 
                             // Retornamos el usuario actualizado
-                            return userRepository.save(user);
+                            return userRepository.save(u);
                         })
                         .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!")));
     }
@@ -206,10 +206,13 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public void deleteById(@NotNull Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new UserNotFoundException("User " + id + " does not exist!");
-        }
-        userRepository.deleteById(id);
+        userRepository
+                .findById(id)
+                .ifPresentOrElse(
+                        userRepository::delete,
+                        () -> {
+                            throw new UserNotFoundException("User " + id + " does not exist!");
+                        });
     }
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio

@@ -17,7 +17,6 @@ public interface UserMapper {
     @BeanMapping(ignoreByDefault = false)
     @Mappings({
             @Mapping(target = "roles", ignore = true),
-            @Mapping(target = "admin", ignore = true),
             @Mapping(target = "passwordHash", ignore = true),
             @Mapping(target = "id", ignore = true)
     })
