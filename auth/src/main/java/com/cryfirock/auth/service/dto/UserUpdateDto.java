@@ -21,18 +21,25 @@ import jakarta.validation.constraints.Size;
 // Clase y campos final no puede sustituir a una entidad
 // Las entidades necesitan campos mutables
 public record UserUpdateDto(
-        // Identidad
-        @Size(max = 50) String givenName,
-        @Size(max = 50) String familyName,
-        LocalDate dob,
-        // Contacto
-        @Email @Size(max = 100) String email,
-        @Size(max = 20) String phoneNumber,
-        @Size(max = 255) String address,
-        // Cuenta
-        @Size(min = 1, max = 50) String username,
-        String passwordHash,
-        // Acceso
-        Boolean admin,
-        Boolean enabled) {
+
+                /**
+                 * =======================================================
+                 * Paso 11.2: Atributos
+                 * =======================================================
+                 */
+
+                // Identidad
+                @Size(max = 50) String givenName,
+                @Size(max = 50) String familyName,
+                LocalDate dob,
+                // Contacto
+                @Email @Size(max = 100) String email,
+                @Size(max = 20) String phoneNumber,
+                @Size(max = 255) String address,
+                // Cuenta
+                @Size(min = 1, max = 50) String username,
+                String passwordHash,
+                // Acceso
+                Boolean admin,
+                Boolean enabled) {
 }

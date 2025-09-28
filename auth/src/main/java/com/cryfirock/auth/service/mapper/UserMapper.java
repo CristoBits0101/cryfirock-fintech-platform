@@ -11,6 +11,12 @@ import org.mapstruct.ReportingPolicy;
 import com.cryfirock.auth.service.dto.UserUpdateDto;
 import com.cryfirock.auth.service.entity.User;
 
+/**
+ * ==========================================================================================================================================================
+ * Paso 12.1: 
+ * ==========================================================================================================================================================
+ */
+
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
