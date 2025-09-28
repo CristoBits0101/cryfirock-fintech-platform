@@ -188,7 +188,7 @@ public class UserServiceImpl implements IUserService {
                                                 userDto.passwordHash()));
 
                             // Asignamos los roles correspondientes
-                            user.setRoles(rolesUtils.assignRoles(user));
+                            user.setRoles(rolesUtils.assignRoles(userDto));
 
                             // Retornamos el usuario actualizado
                             return userRepository.save(user);
