@@ -178,14 +178,18 @@ public class UserServiceImpl implements IUserService {
                         .findById(id)
                         // Si existe se ejecuta el map que recibe al usuario
                         .map(u -> {
+                            // Aplica solo campos no nulos del DTO
                             userMapper.update(u, dto);
 
+                            // Si llega password y no está en blanco la hashea
                             if (dto.passwordHash() != null && !dto.passwordHash().isBlank()) {
                                 u.setPasswordHash(passwordUtils.encodeIfRaw(dto.passwordHash()));
                             }
 
+                            // Asignamos los roles correspondientes
                             u.setRoles(rolesUtils.assignRoles(u));
 
+                            // Retornamos el usuario actualizado
                             return userRepository.save(u);
                         })
                         .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!")));
