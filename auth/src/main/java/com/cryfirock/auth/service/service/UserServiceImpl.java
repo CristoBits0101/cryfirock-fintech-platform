@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import com.cryfirock.auth.service.dto.UserUpdateDto;
 import com.cryfirock.auth.service.entity.User;
 import com.cryfirock.auth.service.exception.UserNotFoundException;
+import com.cryfirock.auth.service.mapper.UserMapper;
 import com.cryfirock.auth.service.repository.UserRepository;
 import com.cryfirock.auth.service.util.PasswordUtils;
 import com.cryfirock.auth.service.util.RolesUtils;
@@ -41,6 +43,9 @@ public class UserServiceImpl implements IUserService {
     private final RolesUtils rolesUtils;
     private final PasswordUtils passwordUtils;
 
+    //
+    private final UserMapper userMapper;
+
     /**
      * =============================================================================================================
      * Paso 9.3: Constructores
@@ -55,10 +60,13 @@ public class UserServiceImpl implements IUserService {
             // Resolución de roles
             RolesUtils rolesUtils,
             // Codificación y verificación de contraseñas
-            PasswordUtils passwordUtils) {
+            PasswordUtils passwordUtils,
+            //
+            UserMapper userMapper) {
         this.userRepository = userRepository;
         this.rolesUtils = rolesUtils;
         this.passwordUtils = passwordUtils;
+        this.userMapper = userMapper;
     }
 
     /**
@@ -106,7 +114,7 @@ public class UserServiceImpl implements IUserService {
     // readOnly = true: Marca la transacción como lectura sin permisos de escritura
     @Transactional(readOnly = true)
     // Busca y devuelve un usuario por su identificador
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(@NotNull Long id) {
         return userRepository.findById(id);
     }
 
@@ -139,7 +147,7 @@ public class UserServiceImpl implements IUserService {
                             u.setEmail(user.getEmail());
                             u.setPhoneNumber(user.getPhoneNumber());
                             u.setAddress(user.getAddress());
-                            
+
                             // Cuenta
                             u.setUsername(user.getUsername());
 
@@ -150,6 +158,33 @@ public class UserServiceImpl implements IUserService {
                             // Acceso
                             u.setRoles(rolesUtils.assignRoles(user));
                             u.setEnabled(user.isEnabled());
+
+                            return userRepository.save(u);
+                        })
+                        .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!")));
+    }
+
+    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
+    @Override
+    // Rollback deshace los cambios ante cualquier Exception checked y unchecked
+    @Transactional
+    // Actualiza el usuario por id requiere id y usuario no nulos
+    public Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto dto) {
+        // Retornamos un opcional de usuario
+        return Optional.of(
+                // Llamamos al repositorio de usuarios
+                userRepository
+                        // Buscamos por ID recibido al usuario a actualizar
+                        .findById(id)
+                        // Si existe se ejecuta el map que recibe al usuario
+                        .map(u -> {
+                            userMapper.update(u, dto);
+
+                            if (dto.passwordHash() != null && !dto.passwordHash().isBlank()) {
+                                u.setPasswordHash(passwordUtils.encodeIfRaw(dto.passwordHash()));
+                            }
+
+                            u.setRoles(rolesUtils.assignRoles(u));
 
                             return userRepository.save(u);
                         })

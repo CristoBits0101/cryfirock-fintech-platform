@@ -3,7 +3,10 @@ package com.cryfirock.auth.service.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.cryfirock.auth.service.dto.UserUpdateDto;
 import com.cryfirock.auth.service.entity.User;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  * ==============================================================
@@ -34,19 +37,21 @@ public interface IUserService {
      */
 
     // Create
-    User save(User user);
+    User save(@NotNull User user);
 
     // Read
     List<User> findAll();
 
-    Optional<User> findById(Long id);
+    Optional<User> findById(@NotNull Long id);
 
     // Update
     Optional<User> update(Long id, User user);
 
-    // Delete
-    void deleteById(Long id);
+    Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto dto);
 
-    Optional<User> deleteUser(User user);
+    // Delete
+    void deleteById(@NotNull Long id);
+
+    Optional<User> deleteUser(@NotNull User user);
 
 }
