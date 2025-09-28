@@ -169,7 +169,7 @@ public class UserServiceImpl implements IUserService {
     // Rollback deshace los cambios ante cualquier Exception checked y unchecked
     @Transactional
     // Actualiza el usuario por id requiere id y usuario no nulos
-    public Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto dto) {
+    public Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto userDto) {
         // Retornamos un opcional de usuario
         return Optional.of(
                 // Llamamos al repositorio de usuarios
@@ -177,20 +177,20 @@ public class UserServiceImpl implements IUserService {
                         // Buscamos por ID recibido al usuario a actualizar
                         .findById(id)
                         // Si existe se ejecuta el map que recibe al usuario
-                        .map(u -> {
+                        .map(user -> {
                             // Aplica solo campos no nulos del DTO
-                            userMapper.update(u, dto);
+                            userMapper.update(user, userDto);
 
                             // Si llega password y no está en blanco la hashea
-                            if (dto.passwordHash() != null && !dto.passwordHash().isBlank()) {
-                                u.setPasswordHash(passwordUtils.encodeIfRaw(dto.passwordHash()));
+                            if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank()) {
+                                user.setPasswordHash(passwordUtils.encodeIfRaw(userDto.passwordHash()));
                             }
 
                             // Asignamos los roles correspondientes
-                            u.setRoles(rolesUtils.assignRoles(u));
+                            user.setRoles(rolesUtils.assignRoles(user));
 
                             // Retornamos el usuario actualizado
-                            return userRepository.save(u);
+                            return userRepository.save(user);
                         })
                         .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!")));
     }
