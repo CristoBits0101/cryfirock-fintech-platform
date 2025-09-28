@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -133,6 +135,8 @@ public class User {
     // JPA mapea atributo a columna cuando no coinciden
     // Restricciones aplicadas al generar la tabla desde JPA
     @Column(name = "account_status", nullable = false)
+    // Indica que el valor se mapea a un enum y se persiste como STRING
+    @Enumerated(EnumType.STRING)
     private boolean enabled = true;
 
     // Cuando convierto a JSON no meto el campo users del otro lado
