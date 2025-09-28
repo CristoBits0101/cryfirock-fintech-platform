@@ -130,20 +130,28 @@ public class UserServiceImpl implements IUserService {
                         .findById(id)
                         // Si existe se ejecuta el map que recibe al usuario
                         .map(u -> {
+                            // Identidad
+                            u.setGivenName(user.getGivenName());
+                            u.setFamilyName(user.getFamilyName());
+                            u.setDob(user.getDob());
+
+                            // Contacto
+                            u.setEmail(user.getEmail());
+                            u.setPhoneNumber(user.getPhoneNumber());
+                            u.setAddress(user.getAddress());
+                            
+                            // Cuenta
+                            u.setUsername(user.getUsername());
+
                             if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank()) {
                                 u.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
                             }
+
+                            // Acceso
                             u.setRoles(rolesUtils.assignRoles(user));
-                            u.setGivenName(user.getGivenName());
-                            u.setFamilyName(user.getFamilyName());
-                            u.setEmail(user.getEmail());
-                            u.setPhoneNumber(user.getPhoneNumber());
-                            u.setUsername(user.getUsername());
-                            u.setDob(user.getDob());
-                            u.setAddress(user.getAddress());
                             u.setEnabled(user.isEnabled());
-                            userRepository.save(u);
-                            return u;
+
+                            return userRepository.save(u);
                         })
                         .orElseThrow(() -> new UserNotFoundException("User " + id + " does not exist!")));
     }
