@@ -17,6 +17,7 @@ import com.cryfirock.auth.service.entity.User;
  * ==========================================================================================================================================================
  */
 
+//  MapStruct crea algo como UserMapperImpl automáticamente
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 

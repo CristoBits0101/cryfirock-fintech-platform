@@ -10,17 +10,17 @@ import org.springframework.data.repository.query.Param;
 import com.cryfirock.auth.service.entity.User;
 
 /**
- * ===============================================================================
+ * ==============================================================================
  * Paso 5.1: La interfaz incluye consultas CRUD predefinidas
- * ===============================================================================
+ * ==============================================================================
  */
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * ===========================================================================
+     * ==========================================================================
      * Paso 5.2: Spring Data JPA crea la consulta según el nombre del método
-     * ===========================================================================
+     * ==========================================================================
      */
 
     // Estos existsBy están vinculados a anotaciones de validación personalizada
