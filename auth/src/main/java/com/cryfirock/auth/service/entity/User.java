@@ -67,7 +67,7 @@ public class User {
     // El id solo se lee con getter y un int cabe en un long
     // El id lo genera la base de datos
     // Si dejas un setId() alguien podría asignar un valor y romper la integridad
-    @Setter(lombok.AccessLevel.NONE)
+    // @Setter(lombok.AccessLevel.NONE)
     private Long id;
 
     // JPA mapea atributo a columna cuando no coinciden

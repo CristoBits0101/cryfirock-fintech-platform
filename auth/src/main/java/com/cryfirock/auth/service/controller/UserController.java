@@ -1,22 +1,13 @@
 package com.cryfirock.auth.service.controller;
 
-import com.cryfirock.auth.service.entity.User;
-import com.cryfirock.auth.service.service.IUserService;
-
-import jakarta.validation.Valid;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,21 +18,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cryfirock.auth.service.entity.User;
+import com.cryfirock.auth.service.service.IUserService;
+import com.cryfirock.auth.service.util.ValidationUtils;
+
+import jakarta.validation.Valid;
+
 /**
- * ===========================================================================================
+ * ==================================================================================================================
  * Paso 13.1: Controlador que recibe solicitudes HTTP y devuelve respuestas JSON
- * ===========================================================================================
+ * ==================================================================================================================
  */
 
 //
 @RestController
 // Restringe desde donde se puede hacer peticiones
 @CrossOrigin(
-        // Permitir peticiones de un origen concreto:Protocolo//Dominio:Puerto desde el
-        // que se puede hacer peticiones
+        // Permitir peticiones de un origen concreto:Protocolo//Dominio:Puerto
         origins = "http://localhost:8082"
-        // Permitir un rango con comodines:
-        // originPatterns = "http://*.vercel.app"
+// Permitir un rango con comodines:
+// originPatterns = "http://*.vercel.app"
 )
 // Prefijo de rutas del servidor
 @RequestMapping("/api/users")
@@ -49,9 +45,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     /**
-     * ===========================================================================================
+     * ==============================================================================================================
      * Paso 13.2: Atributos
-     * ===========================================================================================
+     * ==============================================================================================================
      */
 
     // Inyección del bean por el contenedor de Spring
@@ -60,79 +56,74 @@ public class UserController {
     // Bean singleton pero los datos vienen de la BD y no de la memoria
     private IUserService userService;
 
-    /**
-     * Permite crear un nuevo usuario
-     * 
-     * @param user   el nuevo usuario
-     * @param result resultado de la validación
-     * @return ResponseEntity con errores de validación o 201 con el usuario creado
-     */
-    @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
-        // Valida los parámetros que almacenan los datos del JSON enviado
-        if (result.hasErrors()) return validation(result);
+    @Autowired
+    private ValidationUtils ValidationUtils;
 
-        // Establece admin en falso por defecto para el usuario creado
+    /**
+     * ==============================================================================================================
+     * Paso 13.3: Métodos create
+     * ==============================================================================================================
+     */
+
+    // Se ejecuta cuando se envía un método post
+    @PostMapping
+    // RequestBody deserializa el cuerpo de la respuesta en el objeto user
+    // @Valid Activa la validación de las anotaciones de la entidad user
+    // BindingResult Tiene varios métodos para comprobar los errores
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
+        // Comprobar si hay errores en el envío de datos
+        if (result.hasErrors())
+            return ValidationUtils
+                    // Devolver una respuesta con los errores
+                    .reportIncorrectFields(result);
+
+        // Establece admin en falso para usuarios
         user.setAdmin(false);
 
         // Guarda el usuario en la base de datos
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+        return ResponseEntity
+                // Status 201
+                .status(HttpStatus.CREATED)
+                // JSON Content
+                .body(userService.save(user));
     }
 
-    /**
-     * Permite crear un nuevo administrador
-     * 
-     * @param user   el nuevo administrador
-     * @param result resultado de la validación
-     * @return ResponseEntity con errores de validación o 201 con el usuario creado
-     */
+    // Revisa si el usuario que hace la petición es admin
+    // Si se cumple: El método se ejecuta normalmente.
+    // Si no se cumple: 403 AccessDeniedException
     @PreAuthorize("hasRole('ADMIN')")
+    // Se ejecuta cuando se envía un método post/superuser
     @PostMapping("/superuser")
+    // RequestBody deserializa el cuerpo de la respuesta en el objeto user
+    // @Valid Activa la validación de las anotaciones de la entidad user
+    // BindingResult Tiene varios métodos para comprobar los errores
     public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
-        // Valida los parámetros que almacenan los datos del JSON enviado
+        // Comprobar si hay errores en el envío de datos
         if (result.hasErrors())
-            return validation(result);
+            return ValidationUtils
+                    // Devolver una respuesta con los errores
+                    .reportIncorrectFields(result);
 
         // Establece admin en verdadero para el usuario creado
         user.setAdmin(true);
 
         // Guarda el usuario en la base de datos
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+        return ResponseEntity
+                // Status 201
+                .status(HttpStatus.CREATED)
+                // JSON Content
+                .body(userService.save(user));
     }
 
     /**
-     * Permite actualizar un usuario
-     * 
-     * @param id   el id del usuario
-     * @param user el usuario a actualizar
-     * @return ResponseEntity con errores de validación, 200 si se actualiza o 404
-     *         si hay error
+     * ==============================================================================================================
+     * Paso 13.4: Métodos read
+     * ==============================================================================================================
      */
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user, BindingResult result) {
-        // Valida los parámetros que almacenan los datos del JSON enviado
-        if (result.hasErrors())
-            return validation(result);
 
-        // Busca el usuario a actualizar
-        Optional<User> userOptional = userService.findById(id);
-
-        // Actualiza el usuario si existe
-        if (userOptional.isPresent()) {
-            user.setId(id);
-            return ResponseEntity.ok(userService.save(user));
-        }
-
-        // Devuelve error si el proceso falló
-        return ResponseEntity.notFound().build();
-    }
-
-    /**
-     * Obtiene todos los usuarios
-     * 
-     * @return Lista de todos los usuarios
-     */
+    // Revisa si el usuario que hace la petición es admin
+    // Si se cumple: El método se ejecuta normalmente.
+    // Si no se cumple: 403 AccessDeniedException
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping
     public List<User> getUsers() {
@@ -140,12 +131,9 @@ public class UserController {
         return userService.findAll();
     }
 
-    /**
-     * Obtiene un usuario por ID
-     * 
-     * @param id ID del usuario
-     * @return ResponseEntity con el usuario y estado 200 o 404 si no se encuentra
-     */
+    // Revisa si el usuario que hace la petición es admin
+    // Si se cumple: El método se ejecuta normalmente.
+    // Si no se cumple: 403 AccessDeniedException
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
@@ -154,18 +142,67 @@ public class UserController {
 
         // Devuelve el usuario si existe o error si no se encuentra
         if (userOptional.isPresent())
-            return ResponseEntity.ok(userOptional.orElseThrow());
+            return ResponseEntity
+                    // Status 200
+                    .ok(userOptional.orElseThrow());
 
         // Devuelve error si el proceso falló
-        return ResponseEntity.notFound().build();
+        return ResponseEntity
+                // Status 404
+                .notFound()
+                // Patrón builder
+                .build();
     }
 
     /**
-     * Permite eliminar un usuario
-     * 
-     * @param id ID del usuario a eliminar
-     * @return ResponseEntity con 200 si se elimina o 404 si no se encuentra
+     * ==============================================================================================================
+     * Paso 13.4: Métodos update
+     * ==============================================================================================================
      */
+
+    // Revisa si el usuario que hace la petición es admin
+    // Si se cumple: El método se ejecuta normalmente.
+    // Si no se cumple: 403 AccessDeniedException
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PutMapping("/{id}")
+    // RequestBody deserializa el cuerpo de la respuesta en el objeto user
+    // @Valid Activa la validación de las anotaciones de la entidad user
+    // BindingResult Tiene varios métodos para comprobar los errores
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user, BindingResult result) {
+        // Valida los parámetros que almacenan los datos del JSON enviado
+        if (result.hasErrors())
+            // Devolver una respuesta con los errores
+            return ValidationUtils
+                    .reportIncorrectFields(result);
+
+        // Busca el usuario a actualizar
+        Optional<User> userOptional = userService.findById(id);
+
+        // Actualiza el usuario si existe
+        if (userOptional.isPresent()) {
+            user.setId(id);
+            return ResponseEntity
+                    // Status 200
+                    .ok(userService.save(user));
+        }
+
+        // Devolver una respuesta con los errores
+        return ResponseEntity
+                // Status 404
+                .notFound()
+                // Patrón builder
+                .build();
+    }
+
+    /**
+     * ==============================================================================================================
+     * Paso 13.4: Métodos delete
+     * ==============================================================================================================
+     */
+
+    // Revisa si el usuario que hace la petición es admin
+    // Si se cumple: El método se ejecuta normalmente.
+    // Si no se cumple: 403 AccessDeniedException
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
@@ -184,25 +221,6 @@ public class UserController {
 
         // Devuelve error si el proceso falló
         return ResponseEntity.notFound().build();
-    }
-
-    /**
-     * Crea el mensaje de validación
-     * 
-     * @param result contiene los campos
-     * @return el mensaje de validación
-     */
-    private ResponseEntity<?> validation(BindingResult result) {
-        // Crea un mapa para almacenar los errores de validación y sus mensajes
-        Map<String, String> errors = new HashMap<>();
-
-        // Recorre cada campo con errores de validación y los agrega al mapa
-        result.getFieldErrors().forEach(err -> {
-            errors.put(err.getField(), err.getDefaultMessage());
-        });
-
-        // Devuelve los errores de validación con código de estado 400
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
 }
