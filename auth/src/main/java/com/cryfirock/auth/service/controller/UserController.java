@@ -41,11 +41,11 @@ import org.springframework.web.bind.annotation.RestController;
         // que se puede hacer peticiones
         origins = "http://localhost:8082"
         // Permitir un rango con comodines:
-        // originPatterns = "http://*.midominio.com"
+        // originPatterns = "http://*.vercel.app"
 )
 // Prefijo de rutas del servidor
 @RequestMapping("/api/users")
-//
+// Controlador de CRUD de usuarios
 public class UserController {
 
     /**
@@ -68,8 +68,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         // Valida los parámetros que almacenan los datos del JSON enviado
-        if (result.hasErrors())
-            return validation(result);
+        if (result.hasErrors()) return validation(result);
 
         // Establece admin en falso por defecto para el usuario creado
         user.setAdmin(false);
