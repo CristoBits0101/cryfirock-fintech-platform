@@ -27,22 +27,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// Controlador API que permite solicitudes desde todos los orígenes a /api/users
+/**
+ * ===========================================================================================
+ * Paso 13.1: Controlador que recibe solicitudes HTTP y devuelve respuestas JSON
+ * ===========================================================================================
+ */
+
+//
 @RestController
-@CrossOrigin(origins="http://localhost:8082", originPatterns = "*")
+// Restringe desde donde se puede hacer peticiones
+@CrossOrigin(
+        // Permitir peticiones de un origen concreto:Protocolo//Dominio:Puerto desde el
+        // que se puede hacer peticiones
+        origins = "http://localhost:8082"
+        // Permitir un rango con comodines:
+        // originPatterns = "http://*.midominio.com"
+)
+// Prefijo de rutas del servidor
 @RequestMapping("/api/users")
+//
 public class UserController {
 
     /**
-     * Atributos
+     * ===========================================================================================
+     * Paso 13.2: Atributos
+     * ===========================================================================================
      */
+
+    // Inyección del bean por el contenedor de Spring
     @Autowired
     private IUserService userService;
 
     /**
      * Permite crear un nuevo usuario
      * 
-     * @param user el nuevo usuario
+     * @param user   el nuevo usuario
      * @param result resultado de la validación
      * @return ResponseEntity con errores de validación o 201 con el usuario creado
      */
@@ -85,7 +104,8 @@ public class UserController {
      * 
      * @param id   el id del usuario
      * @param user el usuario a actualizar
-     * @return ResponseEntity con errores de validación, 200 si se actualiza o 404 si hay error
+     * @return ResponseEntity con errores de validación, 200 si se actualiza o 404
+     *         si hay error
      */
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/{id}")
