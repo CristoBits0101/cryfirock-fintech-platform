@@ -5,17 +5,21 @@ import java.time.LocalDate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
-// Dto con los datos de actualización de usuario mínimos
-// record:
-// - Menos código y más legible
-// - No puedes añadir estado mutable no hay setters
-// - Valores por defecto crear constructores adicionales
-// - equals/hashCode/toString listos sin Lombok
-// - Campos privados y final para cada componente
-// - Un constructor canónico con todos los componentes en orden
-// - Métodos de acceso getters sin prefijo get
-// - Clase y campos final no puede sustituir a una entidad
-// - Las entidades necesitan campos mutables
+/**
+ * =======================================================================
+ * Paso 11.1: Dto record con los datos de actualización de usuario mínimos
+ * =======================================================================
+ */
+
+// Menos código y más legible
+// No puedes añadir estado mutable no hay setters
+// Valores por defecto crear constructores adicionales
+// equals/hashCode/toString listos sin Lombok
+// Campos privados y final para cada componente
+// Un constructor canónico con todos los componentes en orden
+// Métodos de acceso getters sin prefijo get
+// Clase y campos final no puede sustituir a una entidad
+// Las entidades necesitan campos mutables
 public record UserUpdateDto(
         // Identidad
         @Size(max = 50) String givenName,
