@@ -169,7 +169,7 @@ public class UserController {
     // @Valid Activa la validación de las anotaciones de la entidad user
     // BindingResult Tiene varios métodos para comprobar los errores
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user, BindingResult result) {
-        // Valida los parámetros que almacenan los datos del JSON enviado
+        // Comprobar si hay errores en el envío de datos
         if (result.hasErrors())
             // Devolver una respuesta con los errores
             return ValidationUtils
@@ -217,10 +217,16 @@ public class UserController {
 
         // Devuelve 200 si el usuario fue eliminado o 404 si no se encontró
         if (userOptional.isPresent())
-            return ResponseEntity.ok(userOptional.orElseThrow());
+            return ResponseEntity
+                    // Status 200
+                    .ok(userOptional.orElseThrow());
 
         // Devuelve error si el proceso falló
-        return ResponseEntity.notFound().build();
+        return ResponseEntity
+                // Status 404
+                .notFound()
+                // Patrón builder
+                .build();
     }
 
 }
