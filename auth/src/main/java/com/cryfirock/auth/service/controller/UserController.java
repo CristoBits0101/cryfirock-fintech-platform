@@ -56,6 +56,8 @@ public class UserController {
 
     // Inyección del bean por el contenedor de Spring
     @Autowired
+    // Contiene la logica para hacer CRUD de usuarios
+    // Bean singleton pero los datos vienen de la BD y no de la memoria
     private IUserService userService;
 
     /**
