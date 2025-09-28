@@ -1,6 +1,6 @@
 package com.cryfirock.auth.service.validation;
 
-import com.cryfirock.auth.service.service.IUserService;
+import com.cryfirock.auth.service.service.IUserQueryService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -17,17 +17,17 @@ public class ExistsByUsernameValidationImpl implements ConstraintValidator<IExis
      * Paso 8.2: Servicio de usuarios
      * ==========================================================================================
      */
-    // Referencia a IUserService para consultar si un username existe
-    private final IUserService userService;
+    // Referencia a IUserQueryService para consultar si un username existe
+    private final IUserQueryService userQueryService;
 
     /**
      * ==========================================================================================
      * Paso 8.3: Constructor con inyección
      * ==========================================================================================
      */
-    // Recibe IUserService desde el contenedor de Spring
-    public ExistsByUsernameValidationImpl(IUserService userService) {
-        this.userService = userService;
+    // Recibe IUserQueryService desde el contenedor de Spring
+    public ExistsByUsernameValidationImpl(IUserQueryService userQueryService) {
+        this.userQueryService = userQueryService;
     }
 
     /**
@@ -40,6 +40,6 @@ public class ExistsByUsernameValidationImpl implements ConstraintValidator<IExis
     public boolean isValid(String value, ConstraintValidatorContext context) {
         return (value == null || value.trim().isEmpty())
                 ? true
-                : !userService.existsByUsername(value.trim());
+                : !userQueryService.existsByUsername(value.trim());
     }
 }

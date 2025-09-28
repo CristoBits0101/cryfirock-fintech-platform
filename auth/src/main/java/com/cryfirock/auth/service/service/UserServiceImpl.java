@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService {
             RolesUtils rolesUtils,
             // Codificación y verificación de contraseñas
             PasswordUtils passwordUtils,
-            //
+            // Convertir entre User y DTOs y aplicar actualizaciones ignorando null
             UserMapper userMapper) {
         this.userRepository = userRepository;
         this.rolesUtils = rolesUtils;
@@ -204,6 +204,7 @@ public class UserServiceImpl implements IUserService {
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Rollback deshace los cambios ante cualquier Exception checked y unchecked
     @Transactional
     public void deleteById(@NotNull Long id) {
         userRepository
@@ -217,6 +218,7 @@ public class UserServiceImpl implements IUserService {
 
     // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
     @Override
+    // Rollback deshace los cambios ante cualquier Exception checked y unchecked
     @Transactional
     public Optional<User> deleteUser(@NotNull User user) {
         return Optional.of(
@@ -227,33 +229,6 @@ public class UserServiceImpl implements IUserService {
                             return u;
                         })
                         .orElseThrow(() -> new UserNotFoundException("User " + user.getId() + " does not exist!")));
-    }
-
-    /**
-     * =============================================================================================================
-     * Paso 9.8: Métodos de validación de existencia
-     * =============================================================================================================
-     */
-
-    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
-    @Override
-    // Devuelve true si existe un email
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
-    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
-    @Override
-    // Devuelve true si existe un phoneNumber
-    public boolean existsByPhoneNumber(String phoneNumber) {
-        return userRepository.existsByPhoneNumber(phoneNumber);
-    }
-
-    // Implementa y sobrescribe el método de la interfaz con nueva lógica de negocio
-    @Override
-    // Devuelve true si existe un usuario
-    public boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
     }
 
 }

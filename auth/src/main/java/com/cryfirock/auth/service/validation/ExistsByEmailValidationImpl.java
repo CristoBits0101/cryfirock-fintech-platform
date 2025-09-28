@@ -2,7 +2,7 @@ package com.cryfirock.auth.service.validation;
 
 import org.springframework.stereotype.Component;
 
-import com.cryfirock.auth.service.service.IUserService;
+import com.cryfirock.auth.service.service.IUserQueryService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -21,8 +21,8 @@ public class ExistsByEmailValidationImpl implements ConstraintValidator<IExistsB
      * ==========================================================================================
      */
 
-    // Referencia a IUserService para consultar si un email existe
-    private final IUserService userService;
+    // Referencia a IUserQueryService para consultar si un email existe
+    private final IUserQueryService userQueryService;
 
     /**
      * ==========================================================================================
@@ -30,9 +30,9 @@ public class ExistsByEmailValidationImpl implements ConstraintValidator<IExistsB
      * ==========================================================================================
      */
 
-    // Recibe IUserService desde el contenedor de Spring
-    public ExistsByEmailValidationImpl(IUserService userService) {
-        this.userService = userService;
+    // Recibe IUserQueryService desde el contenedor de Spring
+    public ExistsByEmailValidationImpl(IUserQueryService userQueryService) {
+        this.userQueryService = userQueryService;
     }
 
     /**
@@ -46,6 +46,6 @@ public class ExistsByEmailValidationImpl implements ConstraintValidator<IExistsB
     public boolean isValid(String value, ConstraintValidatorContext context) {
         return (value == null || value.trim().isEmpty())
                 ? true
-                : !userService.existsByEmail(value.trim());
+                : !userQueryService.existsByEmail(value.trim());
     }
 }

@@ -1,6 +1,6 @@
 package com.cryfirock.auth.service.validation;
 
-import com.cryfirock.auth.service.service.IUserService;
+import com.cryfirock.auth.service.service.IUserQueryService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -18,8 +18,8 @@ public class ExistsByPhoneNumberValidationImpl implements ConstraintValidator<IE
      * ======================================================================================================
      */
 
-    // Referencia a IUserService para consultar si un phone number existe
-    private final IUserService userService;
+    // Referencia a IUserQueryService para consultar si un phone number existe
+    private final IUserQueryService userQueryService;
 
     /**
      * ======================================================================================================
@@ -27,9 +27,9 @@ public class ExistsByPhoneNumberValidationImpl implements ConstraintValidator<IE
      * ======================================================================================================
      */
 
-    // Recibe IUserService desde el contenedor de Spring
-    public ExistsByPhoneNumberValidationImpl(IUserService userService) {
-        this.userService = userService;
+    // Recibe IUserQueryService desde el contenedor de Spring
+    public ExistsByPhoneNumberValidationImpl(IUserQueryService userQueryService) {
+        this.userQueryService = userQueryService;
     }
 
     /**
@@ -43,6 +43,6 @@ public class ExistsByPhoneNumberValidationImpl implements ConstraintValidator<IE
     public boolean isValid(String value, ConstraintValidatorContext context) {
         return (value == null || value.trim().isEmpty())
                 ? true
-                : !userService.existsByPhoneNumber(value.trim());
+                : !userQueryService.existsByPhoneNumber(value.trim());
     }
 }
