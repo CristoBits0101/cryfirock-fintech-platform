@@ -13,13 +13,19 @@ import com.cryfirock.auth.service.entity.User;
 
 /**
  * ==========================================================================================================================================================
- * Paso 12.1: 
+ * Paso 12.1:
  * ==========================================================================================================================================================
  */
 
-//  MapStruct crea algo como UserMapperImpl automáticamente
+// MapStruct crea algo como UserMapperImpl automáticamente
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
+
+    /**
+     * ======================================================================================================================================================
+     * Paso 12.2:
+     * ======================================================================================================================================================
+     */
 
     @BeanMapping(ignoreByDefault = false)
     @Mappings({
