@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.controller;
+package com.cryfirock.auth.service.advice;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import com.cryfirock.auth.service.exception.UserNotFoundException;
 import com.cryfirock.auth.service.model.Error;
 
 @RestControllerAdvice
-public class HandlerExceptionController {
+public class GlobalExceptionHandler {
 
     /**
      * Gestiona los errores 404
