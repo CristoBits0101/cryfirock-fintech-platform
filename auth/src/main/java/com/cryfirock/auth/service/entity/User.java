@@ -117,6 +117,7 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     // Valida el objeto en memoria antes de guardarlo en la base de datos
     @NotBlank(message = "{NotBlank.user.password}")
+    // Se los datos en la petición pero no se los devuelvo en la respuesta
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwordHash;
 
