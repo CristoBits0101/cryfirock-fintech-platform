@@ -151,13 +151,14 @@ public class UserServiceImpl implements IUserService {
                             // Cuenta
                             u.setUsername(user.getUsername());
 
-                            if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank()) {
-                                u.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
-                            }
+                            if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank())
+                                u.setPasswordHash(
+                                        passwordUtils.encodeIfRaw(
+                                                user.getPasswordHash()));
 
                             // Acceso
                             u.setRoles(rolesUtils.assignRoles(user));
-                            u.setEnabled(user.isEnabled());
+                            u.setEnabled(user.getEnabled());
 
                             return userRepository.save(u);
                         })

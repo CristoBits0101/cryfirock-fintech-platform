@@ -3,6 +3,7 @@ package com.cryfirock.auth.service.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.cryfirock.auth.service.model.AccountStatus;
 import com.cryfirock.auth.service.validation.IExistsByEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -138,7 +139,7 @@ public class User {
     @Column(name = "account_status", nullable = false)
     // Indica que el valor se mapea a un enum y se persiste como STRING
     @Enumerated(EnumType.STRING)
-    private boolean enabled = true;
+    private AccountStatus enabled = AccountStatus.ACTIVE;
 
     // Cuando convierto a JSON no meto el campo users del otro lado
     // Role mantiene una lista de users y User mantiene una lista de roles
@@ -170,7 +171,7 @@ public class User {
     @PrePersist
     public void prePersist() {
         // El usuario está habilitado la primera vez que se almacena
-        enabled = true;
+        enabled = AccountStatus.ACTIVE;
     }
 
 }
