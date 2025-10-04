@@ -26,6 +26,7 @@ import com.cryfirock.auth.service.repository.UserRepository;
 // Estereotipo que registra el bean en el contenedor y marca lógica de negocio
 @Service
 // Se ejecuta cuando se accede a un recurso protegido o al iniciar sesión
+// Cuando se
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     /**
@@ -72,17 +73,22 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
                 // Se colectan los resultados en una lista de GrantedAuthority
                 .collect(Collectors.toList());
 
-        // Determina si la cuenta del usuario está habilitada según su estado
-        boolean isEnabled = user.getEnabled() == AccountStatus.ACTIVE;
-
         // Devuelve una instancia de UserDetails con la información del usuario
+        // User es una implementación de UserDetails que proporciona Spring Security
         return new org.springframework.security.core.userdetails.User(
+                // Nombre de usuario
                 user.getUsername(),
+                // Contraseña del usuario encriptada
                 user.getPasswordHash(),
-                isEnabled,
+                // Si el usuario está habilitado o no
+                user.getEnabled() == AccountStatus.ACTIVE,
+                // Si la cuenta no ha expirado
                 true,
+                // Si las credenciales no han expirado
                 true,
+                // Si la cuenta no está bloqueada
                 true,
+                // Los roles del usuarioconvertidos a GrantedAuthority
                 authorities);
     }
 
