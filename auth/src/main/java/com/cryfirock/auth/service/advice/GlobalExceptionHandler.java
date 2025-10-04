@@ -33,26 +33,30 @@ public class GlobalExceptionHandler {
 
     /**
      * ========================================================================
-     * Paso 14.2: Métodos
+     * Paso 14.2: Método para manejar excepciones específicas
      * ========================================================================
      */
 
     /**
-     * Gestiona los errores 404
+     * Gestiona los errores 404: Ruta no encontrada
      *
-     * @param e
-     * @return respuesta personalizada
+     * @param e: Excepción lanzada
+     * @return Respuesta personalizada
      * @throws NoHandlerFoundException
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
-        // Nueva instancia de Error
+        // Instancia del modelo de Error
         Error error = new Error();
 
-        // Inicializa los atributos
+        // Inicializa los atributos de la clase Error
+        // Usa la fecha actual
         error.setDate(new Date());
+        // Mensaje de error personalizado
         error.setError("La ruta de la API REST no existe.");
+        // Mensaje de la excepción
         error.setMessage(e.getMessage());
+        // Código de estado HTTP 404
         error.setStatus(HttpStatus.NOT_FOUND.value());
 
         // Devuelve un error 404 personalizado
@@ -60,14 +64,22 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Gestiona los errores de tipo null
+     * ========================================================================
+     * Paso 14.3: Método para manejar varias excepciones
+     * ========================================================================
+     */
+
+    /**
+     * Gestiona los errores
      *
-     * @param ex
-     * @return mapa con la información del error
+     * @param ex: Excepción lanzada
+     * @return Mapa con la información del error
      * @throws Exception
      */
     @ExceptionHandler({
+            // Maneja varios tipos de excepciones
             NullPointerException.class,
+            // Maneja errores al escribir mensajes HTTP
             HttpMessageNotWritableException.class,
             UserNotFoundException.class })
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
