@@ -15,8 +15,27 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import com.cryfirock.auth.service.exception.UserNotFoundException;
 import com.cryfirock.auth.service.model.Error;
 
+/**
+ * ============================================================================
+ * Paso 14.1: Clase que gestiona las excepciones de la aplicación
+ * ============================================================================
+ */
+
+// Marcar clase como manejador global de excepciones para controladores REST
 @RestControllerAdvice
+
+// Si se quiere limitar a un paquete concreto
+// @RestControllerAdvice(basePackages = "com.cryfirock.auth.controller")
+
+// Si se quiere limitar a un controlador concreto
+// @RestControllerAdvice(assignableTypes = {UserController.class})
 public class GlobalExceptionHandler {
+
+    /**
+     * ========================================================================
+     * Paso 14.2: Métodos
+     * ========================================================================
+     */
 
     /**
      * Gestiona los errores 404
