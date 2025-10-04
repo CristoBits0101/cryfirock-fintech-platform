@@ -16,16 +16,23 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-// Implementa UserDetailsService para autenticar usuarios usando JPA
-// Se ejecuta cada vez que Spring Security necesita autenticar un usuario en el sistema
-// Cuando un usuario intenta iniciar sesión mediante el filtro de autenticación
-// Cuando accede a un recurso protegido y Spring Security debe verificar la identidad del usuario
+/**
+ * ==============================================================================
+ * Paso 10.1: Sirve para verificar la identidad del usuario cuando intenta login
+ * ==============================================================================
+ */
+
+// Estereotipo que registra el bean en el contenedor y marca lógica de negocio
 @Service
-public class JpaUserDetailsService implements UserDetailsService {
+// Se ejecuta cuando se accede a un recurso protegido o al iniciar sesión
+public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     /**
-     * Atributos
+     * ==========================================================================
+     * Paso 10.2: Inyección del repositorio de usuarios para verificar existencia
+     * ==========================================================================
      */
+
     @Autowired
     private UserRepository userRepository;
 
@@ -37,6 +44,8 @@ public class JpaUserDetailsService implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     @Override
+    // Rollback: Deshace los cambios ante cualquier Exception checked y unchecked
+    // readOnly = true: Marca la transacción como lectura sin permisos de escritura
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Busca el usuario en la base de datos
@@ -49,7 +58,8 @@ public class JpaUserDetailsService implements UserDetailsService {
         // Extrae el usuario del Optional
         User user = optionalUser.orElseThrow();
 
-        // Convierte los roles del usuario en objetos GrantedAuthority de Spring Security
+        // Convierte los roles del usuario en objetos GrantedAuthority de Spring
+        // Security
         List<GrantedAuthority> authorities = user
                 .getRoles()
                 .stream()
@@ -59,7 +69,8 @@ public class JpaUserDetailsService implements UserDetailsService {
         // Determina si la cuenta del usuario está habilitada según su estado
         boolean isEnabled = user.isEnabled() == AccountStatus.ACTIVE;
 
-        // Devuelve un objeto UserDetails de Spring Security con la información del usuario
+        // Devuelve un objeto UserDetails de Spring Security con la información del
+        // usuario
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPasswordHash(),

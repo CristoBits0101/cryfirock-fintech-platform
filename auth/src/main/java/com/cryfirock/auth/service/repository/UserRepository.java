@@ -34,6 +34,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUsername(String username);
 
     // Hibernate la ejecuta y mapea a una instancia de la clase entidad
+    // Se usa en JpaUserDetailsServiceImpl para verificar existencia en login
     Optional<User> findByUsername(String username);
 
     // Usando JPQL (Java Persistence Query Language)
