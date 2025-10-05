@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     /**
      * ========================================================================
-     * Paso 14.2: Método para manejar excepciones específicas
+     * Paso 15.2: Método para manejar excepciones específicas
      * ========================================================================
      */
 
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
 
     /**
      * ========================================================================
-     * Paso 14.3: Método para manejar varias excepciones
+     * Paso 15.3: Método para manejar varias excepciones
      * ========================================================================
      */
 

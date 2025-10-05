@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 /**
  * ====================================================================
- * Paso 18.1: DTO record con las credenciales mínimas de acceso a login
+ * Paso 17.1: DTO record con las credenciales mínimas de acceso a login
  * ====================================================================
  *
  * - Menos código y más legible
@@ -19,7 +19,7 @@ public record UserLoginDto(
 
                 /**
                  * ====================================================
-                 * Paso 18.2: Atributos con validaciones
+                 * Paso 17.2: Atributos con validaciones
                  * ====================================================
                  */
 

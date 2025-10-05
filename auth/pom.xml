@@ -66,20 +66,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-        <!-- 19.1: JWT con API -->
+        <!-- Paso 19.1: JWT con API -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>0.12.6</version>
         </dependency>
-        <!-- 19.2: JWT con implementación -->
+        <!-- Paso 19.2: JWT con implementación -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>0.12.6</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- 19.3: JWT con Jackson -->
+        <!-- Paso19.3: JWT con Jackson -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
