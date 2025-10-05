@@ -10,11 +10,11 @@ import org.springframework.validation.BindingResult;
 
 /**
  * ===========================================================================================
- * Paso 13.1: Controlador que recibe solicitudes HTTP y devuelve respuestas JSON
+ * Paso 14.1: Controlador que recibe solicitudes HTTP y devuelve respuestas JSON
  * ===========================================================================================
  */
 
- @Component
+@Component
 public class ValidationUtils {
 
     public ResponseEntity<?> reportIncorrectFields(BindingResult result) {
@@ -27,7 +27,9 @@ public class ValidationUtils {
         });
 
         // Devuelve los errores de validación con código de estado 400
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errors);
     }
 
 }

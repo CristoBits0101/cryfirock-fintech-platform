@@ -13,7 +13,7 @@ import com.cryfirock.auth.service.entity.Role;
  */
 
 // Interface con métodos CRUD predefinidos de JPA ejecutados por Hibernate
-public interface RoleRepository extends CrudRepository<Role, Long> {
+public interface JpaRoleRepository extends CrudRepository<Role, Long> {
 
     /**
      * =====================================================================

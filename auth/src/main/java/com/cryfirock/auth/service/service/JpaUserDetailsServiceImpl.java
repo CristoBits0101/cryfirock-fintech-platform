@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cryfirock.auth.service.entity.User;
 import com.cryfirock.auth.service.model.AccountStatus;
-import com.cryfirock.auth.service.repository.UserRepository;
+import com.cryfirock.auth.service.repository.JpaUserRepository;
 
 /**
  * ==============================================================================
- * Paso 10.1: Sirve para verificar la identidad del usuario cuando intenta login
+ * Paso 15.1: Sirve para verificar la identidad del usuario cuando intenta login
  * ==============================================================================
  */
 
@@ -31,12 +31,12 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * ==========================================================================
-     * Paso 10.2: Inyección del repositorio de usuarios para verificar existencia
+     * Paso 15.2: Inyección del repositorio de usuarios para verificar existencia
      * ==========================================================================
      */
 
     @Autowired
-    private UserRepository userRepository;
+    private JpaUserRepository userRepository;
 
     /**
      * Carga un usuario por su nombre de usuario

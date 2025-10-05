@@ -15,7 +15,7 @@ import com.cryfirock.auth.service.entity.User;
  * ==============================================================================
  */
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface JpaUserRepository extends JpaRepository<User, Long> {
 
     /**
      * ==========================================================================

@@ -1,6 +1,6 @@
 package com.cryfirock.auth.service.service;
 
-import com.cryfirock.auth.service.repository.UserRepository;
+import com.cryfirock.auth.service.repository.JpaUserRepository;
 
 /**
  * =================================================================================
@@ -18,7 +18,7 @@ public class UserQueryServiceImpl implements IUserQueryService {
 
     // Repositorios de acceso a datos final
     // Referencia final no cambia y bean scope singleton misma instancia en petición
-    private final UserRepository userRepository;
+    private final JpaUserRepository userRepository;
 
     /**
      * =============================================================================
@@ -29,7 +29,7 @@ public class UserQueryServiceImpl implements IUserQueryService {
     // El contenedor ApplicationContext crea la instancia y la registra como bean
     // Si hay un solo constructor @Autowired es opcional
     // Persistencia de usuarios
-    public UserQueryServiceImpl(UserRepository userRepository) {
+    public UserQueryServiceImpl(JpaUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

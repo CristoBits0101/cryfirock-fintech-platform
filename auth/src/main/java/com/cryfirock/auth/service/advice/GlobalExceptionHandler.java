@@ -17,7 +17,7 @@ import com.cryfirock.auth.service.model.Error;
 
 /**
  * ============================================================================
- * Paso 14.1: Clase que gestiona las excepciones de la aplicación
+ * Paso 15.1: Clase que gestiona las excepciones de la aplicación
  * ============================================================================
  */
 

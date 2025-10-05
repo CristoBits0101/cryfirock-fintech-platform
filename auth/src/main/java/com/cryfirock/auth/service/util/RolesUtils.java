@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.cryfirock.auth.service.entity.Role;
 import com.cryfirock.auth.service.entity.User;
-import com.cryfirock.auth.service.repository.RoleRepository;
+import com.cryfirock.auth.service.repository.JpaRoleRepository;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +38,7 @@ public class RolesUtils {
 
     // Repositorios de acceso a datos final
     // Referencia final no cambia y bean scope singleton misma instancia en petición
-    private final RoleRepository roleRepository;
+    private final JpaRoleRepository roleRepository;
 
     /**
      * =======================================================================================
@@ -47,7 +47,7 @@ public class RolesUtils {
      */
 
     // Inicializa el atributo al instanciar la clase
-    public RolesUtils(RoleRepository roleRepository) {
+    public RolesUtils(JpaRoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 

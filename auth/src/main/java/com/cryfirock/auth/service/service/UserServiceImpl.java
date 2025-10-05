@@ -11,7 +11,7 @@ import com.cryfirock.auth.service.dto.UserUpdateDto;
 import com.cryfirock.auth.service.entity.User;
 import com.cryfirock.auth.service.exception.UserNotFoundException;
 import com.cryfirock.auth.service.mapper.UserMapper;
-import com.cryfirock.auth.service.repository.UserRepository;
+import com.cryfirock.auth.service.repository.JpaUserRepository;
 import com.cryfirock.auth.service.util.PasswordUtils;
 import com.cryfirock.auth.service.util.RolesUtils;
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements IUserService {
 
     // Repositorios de acceso a datos final
     // Referencia final no cambia y bean scope singleton misma instancia en petición
-    private final UserRepository userRepository;
+    private final JpaUserRepository userRepository;
 
     // Referencia final no cambia y bean scope singleton misma instancia en petición
     private final RolesUtils rolesUtils;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements IUserService {
     // Si hay un solo constructor @Autowired es opcional
     public UserServiceImpl(
             // Persistencia de usuarios
-            UserRepository userRepository,
+            JpaUserRepository userRepository,
             // Resolución de roles
             RolesUtils rolesUtils,
             // Codificación y verificación de contraseñas
