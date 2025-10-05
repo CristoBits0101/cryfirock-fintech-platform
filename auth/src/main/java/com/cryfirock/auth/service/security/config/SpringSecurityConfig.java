@@ -21,10 +21,24 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.cryfirock.auth.service.security.filter.JwtAuthenticationFilter;
+
+/**
+ * ============================================================================================================
+ * Paso 23.1: Configuración de seguridad de Spring Security
+ * ============================================================================================================
+ */
+
 // Clase de configuración para la seguridad de la aplicación
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
+
+    /**
+     * ============================================================================================================
+     * Paso 23.2: Atributos
+     * ============================================================================================================
+     */
 
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
@@ -80,7 +94,7 @@ public class SpringSecurityConfig {
                 // Configura CORS para frameworks frontend
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // Registra el filtro de gestión de autenticación
-                .addFilter(new JwtAutheticationFilter(authenticationConfiguration.getAuthenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
                 // Deshabilita las cookies de sesión
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // Construye la configuración
