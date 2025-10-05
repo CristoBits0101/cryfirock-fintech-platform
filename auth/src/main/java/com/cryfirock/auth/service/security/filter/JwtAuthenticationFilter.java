@@ -7,13 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.cryfirock.auth.service.entity.User;
+import com.cryfirock.auth.service.dto.UserLoginDto;
 import static com.cryfirock.auth.service.security.config.TokenJwtConfig.CONTENT_TYPE;
 import static com.cryfirock.auth.service.security.config.TokenJwtConfig.HEADER_AUTHORIZATION;
 import static com.cryfirock.auth.service.security.config.TokenJwtConfig.PREFIX_TOKEN;
@@ -102,24 +103,29 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String password = null;
 
         try {
-            // Intenta convertir el cuerpo de la solicitud entrante en un objeto User
-            User user = new ObjectMapper()
+            // Intenta convertir el cuerpo de la solicitud entrante en un objeto
+            UserLoginDto creds = new ObjectMapper()
                     .readValue(
+                            // Lee el flujo de entrada de la solicitud HTTP
                             request.getInputStream(),
-                            User.class);
+                            // Clase que representa las credenciales de inicio de sesión
+                            UserLoginDto.class);
 
             // Extrae el usuario y la contraseña del objeto User
-            username = user.getUsername();
-            password = user.getPasswordHash();
+            username = creds.username();
+            password = creds.password();
         } catch (StreamReadException e) {
             // Maneja la excepción si no se puede leer el flujo de entrada
-            e.printStackTrace();
+            logger.warn("Error leyendo el flujo de entrada del login ", e);
+            throw new AuthenticationServiceException("Invalid login payload ", e);
         } catch (DatabindException e) {
-            // Maneja la excepción si no se puede mapear la entrada a la clase User
-            e.printStackTrace();
+            // Maneja la excepción si no se puede mapear la entrada al DTO
+            logger.warn("Error mapeando JSON de login al DTO", e);
+            throw new AuthenticationServiceException("Invalid login JSON ", e);
         } catch (IOException e) {
             // Maneja otras excepciones de entrada/salida
-            e.printStackTrace();
+            logger.error("Error de E/S leyendo el cuerpo de la petición de login", e);
+            throw new AuthenticationServiceException("I/O error", e);
         }
 
         // Crea un token de autenticación con el usuario y la contraseña
