@@ -104,7 +104,7 @@ public class SpringSecurityConfig {
                 // Permite peticiones desde otros dominios
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // REGISTRA EL FILTRO DE AUTENTICACIÓN JWT
-                // EN CADA PETICIÓN AL SERVIDOR SE EJECUTARÁ ESTE FILTRO
+                // EN CADA PETICIÓN DE LOGIN AL SERVIDOR SE EJECUTARÁ ESTE FILTRO
                 // LE PASAMOS EL GESTOR DE AUTENTICACIÓN A LA CLASE FILTRO
                 .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
                 // Deshabilita las cookies de sesión
