@@ -1,7 +1,5 @@
 package com.cryfirock.auth.service.security.config;
 
-import com.cryfirock.auth.service.security.filter.JwtAutheticationFilter;
-
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;

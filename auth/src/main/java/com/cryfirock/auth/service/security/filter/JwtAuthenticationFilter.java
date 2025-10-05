@@ -1,21 +1,11 @@
 package com.cryfirock.auth.service.security.filter;
 
-import com.cryfirock.auth.service.entity.User;
-import com.cryfirock.auth.service.service.JpaUserDetailsService;
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,34 +13,54 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.cryfirock.auth.service.security.config.TokenJwtConfig.*;
+import com.cryfirock.auth.service.entity.User;
+import static com.cryfirock.auth.service.security.config.TokenJwtConfig.CONTENT_TYPE;
+import static com.cryfirock.auth.service.security.config.TokenJwtConfig.HEADER_AUTHORIZATION;
+import static com.cryfirock.auth.service.security.config.TokenJwtConfig.PREFIX_TOKEN;
+import static com.cryfirock.auth.service.security.config.TokenJwtConfig.SECRET_KEY;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * ====================================================================================
+ * ===================================================================================================
  * Paso 17.1: Filtro que autentica usuarios y genera el token de sesión JWT
- * ====================================================================================
+ * ===================================================================================================
  */
 
 // Clase que intercepta peticiones antes o después de llegar a los endpoints
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
-     * ================================================================================
+     * ===============================================================================================
      * Paso 17.2: Atributos
-     * ================================================================================
+     * ===============================================================================================
      */
 
     private final AuthenticationManager authenticationManager;
 
     /**
-     * ================================================================================
+     * ===============================================================================================
      * Paso 17.3: Constructores
-     * ================================================================================
+     * ===============================================================================================
      */
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
+    /**
+     * ===============================================================================================
+     * Paso 17.4: Métodos
+     * ===============================================================================================
+     */
 
     /**
      * Primera función que se ejecuta en el proceso de inicio de sesión
@@ -84,12 +94,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             HttpServletResponse response) throws AuthenticationException {
 
         // Variables para almacenar las credenciales del usuario
+        // Los filtros suelen ser singletones nunca guardar en atributos
+        // Hay que saber diferenciar entre atributos y variables locales
+        // Las variables locales son temporales y se destruyen al salir del método
+        // No se comparten entre peticiones ni instanacias del filtro
         String username = null;
         String password = null;
 
         try {
             // Intenta convertir el cuerpo de la solicitud entrante en un objeto User
-            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+            User user = new ObjectMapper()
+                    .readValue(
+                            request.getInputStream(),
+                            User.class);
 
             // Extrae el usuario y la contraseña del objeto User
             username = user.getUsername();
@@ -103,7 +120,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } catch (IOException e) {
             // Maneja otras excepciones de entrada/salida
             e.printStackTrace();
-
         }
 
         // Crea un token de autenticación con el usuario y la contraseña
