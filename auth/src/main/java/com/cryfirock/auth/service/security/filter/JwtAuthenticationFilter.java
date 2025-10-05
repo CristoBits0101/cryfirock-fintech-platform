@@ -197,6 +197,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
         // Crea un objeto claims de JWT para almacenar información adicional
+        // No poner información sensible en los claims
+        // El token puede ser decodificado fácilmente
+        // Esto  es lo que se recupera con el Jwts.parserBuilder()
+        // Se envía al cliente y se devuelve en cada petición
         Claims claims = Jwts
                 .claims()
                 .add("authorities", new ObjectMapper().writeValueAsString(roles))
