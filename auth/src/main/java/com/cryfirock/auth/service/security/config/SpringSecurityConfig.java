@@ -118,7 +118,10 @@ public class SpringSecurityConfig {
 
     /**
      * Reglas para las solicitudes
-     *
+     * Permite peticiones desde cualquier origen
+     * Permite métodos GET, POST, DELETE y PUT
+     * Permite cabeceras Authorization y Content-Type
+     * 
      * @return origen de configuración de CORS
      */
     @Bean
