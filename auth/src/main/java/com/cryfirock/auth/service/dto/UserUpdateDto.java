@@ -2,6 +2,8 @@ package com.cryfirock.auth.service.dto;
 
 import java.time.LocalDate;
 
+import com.cryfirock.auth.service.model.AccountStatus;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
@@ -41,5 +43,5 @@ public record UserUpdateDto(
                 String passwordHash,
                 // Acceso
                 Boolean admin,
-                Boolean enabled) {
+                AccountStatus enabled) {
 }

@@ -4,7 +4,7 @@ import com.cryfirock.auth.service.repository.JpaUserRepository;
 
 /**
  * =================================================================================
- * Paso 9.1: Servicio de dominio de usuarios
+ * Paso 9.1: Servicio para comprobar existencia de datos de usuario
  * =================================================================================
  */
 
