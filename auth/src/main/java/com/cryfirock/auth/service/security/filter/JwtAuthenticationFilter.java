@@ -36,6 +36,8 @@ import jakarta.servlet.http.HttpServletResponse;
  * ==============================================================================================================================
  */
 
+// IMPORTANTE: El entpoint de login es /login por defecto en Spring Security
+
 // attemptAuthentication [explícita: llamas
 // AuthenticationManager.authenticate(...)]
 // ⬇️

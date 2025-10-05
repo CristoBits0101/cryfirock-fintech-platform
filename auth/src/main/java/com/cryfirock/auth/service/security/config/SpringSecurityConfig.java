@@ -44,6 +44,12 @@ public class SpringSecurityConfig {
     private AuthenticationConfiguration authenticationConfiguration;
 
     /**
+     * ============================================================================================================
+     * Paso 23.3: BEANS
+     * ============================================================================================================
+     */
+
+    /**
      * Permite inyectar el gestor de autenticación
      *
      * @return instancia de AuthenticationManager
@@ -76,6 +82,8 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 // Define el tipo de acceso a las rutas
+                // Las rutas públicas no requieren autenticación
+                // Las rutas privadas requieren autenticación
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
                         .permitAll()
@@ -90,14 +98,21 @@ public class SpringSecurityConfig {
                         .anyRequest()
                         .authenticated())
                 // Deshabilita la protección CSRF
+                // No es necesaria para APIs REST sin sistema de sesión
                 .csrf(csrf -> csrf.disable())
                 // Configura CORS para frameworks frontend
+                // Permite peticiones desde otros dominios
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // Registra el filtro de gestión de autenticación
+                // REGISTRA EL FILTRO DE AUTENTICACIÓN JWT
+                // EN CADA PETICIÓN AL SERVIDOR SE EJECUTARÁ ESTE FILTRO
+                // LE PASAMOS EL GESTOR DE AUTENTICACIÓN A LA CLASE FILTRO
                 .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
                 // Deshabilita las cookies de sesión
+                // Cada petición debe ser autenticada de forma independiente
+                // No se mantiene estado entre peticiones
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // Construye la configuración
+                // Devuelve el filtro de seguridad con las reglas definidas
                 .build();
     }
 
