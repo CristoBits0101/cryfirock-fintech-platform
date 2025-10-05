@@ -25,43 +25,51 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static com.cryfirock.auth.service.security.config.TokenJwtConfig.*;
 
-// Este filtro autentica usuarios y genera tokens durante el proceso de inicio de sesión
-public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter {
+/**
+ * ====================================================================================
+ * Paso 17.1: Filtro que autentica usuarios y genera el token de sesión JWT
+ * ====================================================================================
+ */
+
+// Clase que intercepta peticiones antes o después de llegar a los endpoints
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
-     * Atributos
+     * ================================================================================
+     * Paso 17.2: Atributos
+     * ================================================================================
      */
-    private AuthenticationManager authenticationManager;
+
+    private final AuthenticationManager authenticationManager;
 
     /**
-     * Constructores
-     *
-     * @param authenticationManager
+     * ================================================================================
+     * Paso 17.3: Constructores
+     * ================================================================================
      */
-    public JwtAutheticationFilter(AuthenticationManager authenticationManager) {
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
     /**
      * Primera función que se ejecuta en el proceso de inicio de sesión
-     * Recibe usuario y contraseña
-     * {@link JwtAutheticationFilter#attemptAuthentication(HttpServletRequest, HttpServletResponse)}
+     * - Recibe usuario y contraseña para intenta autenticar
+     * - Delega la autenticación al AuthenticationManager proporcionado
+     * {@link JwtAuthenticationFilter.attemptAuthentication(HttpServletRequest,
+     * HttpServletResponse)}
      *
      * Segunda función que se ejecuta en el proceso de inicio de sesión
-     * Busca el usuario en la base de datos
-     * {@link JpaUserDetailsService#loadUserByUsername(String)}
+     * - Busca el usuario en la base de datos mediante el servicio
+     * {@link JpaUserDetailsService.loadUserByUsername(String)}
      *
      * Tercera función que se ejecuta en el proceso de inicio de sesión
-     * Valida la contraseña y roles del usuario
-     * {@link AuthenticationManager#authenticate(Authentication)}
+     * - Valida la contraseña y los roles del usuario
+     * {@link AuthenticationManager.authenticate(Authentication)}
      *
      * Cuarta función que se ejecuta en el proceso de inicio de sesión
-     * Genera el token JWT tras la autenticación exitosa
-     * {@link JwtAutheticationFilter#successfulAuthentication(HttpServletRequest, HttpServletResponse, FilterChain, Authentication)}
-     *
-     * Intenta autenticar a un usuario
-     * - Analiza el cuerpo de la solicitud para obtener las credenciales
-     * - Delega la autenticación al AuthenticationManager proporcionado
+     * - Genera el token JWT tras la autenticación exitosa
+     * {@link JwtAuthenticationFilter.successfulAuthentication(HttpServletRequest,HttpServletResponse, FilterChain, Authentication)}
      *
      * @param request  solicitud HTTP que contiene las credenciales
      * @param response respuesta HTTP para enviar el resultado de la autenticación
@@ -69,7 +77,9 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
      */
     @Override
     public Authentication attemptAuthentication(
+            // Solicitud HTTP entrante que contiene las credenciales de inicio de sesión
             HttpServletRequest request,
+            // Respuesta HTTP que se enviará al cliente
             HttpServletResponse response) throws AuthenticationException {
 
         // Declaración de un usuario nulo que no apunta a ningún objeto
@@ -114,9 +124,9 @@ public class JwtAutheticationFilter extends UsernamePasswordAuthenticationFilter
      * También prepara y envía una respuesta
      * Respuesta que contiene el token, el usuario y un mensaje de bienvenida
      *
-     * @param request  solicitud HTTP
-     * @param response respuesta HTTP
-     * @param chain    cadena de filtros
+     * @param request    solicitud HTTP
+     * @param response   respuesta HTTP
+     * @param chain      cadena de filtros
      * @param authResult resultado de la autenticación
      */
     @Override
