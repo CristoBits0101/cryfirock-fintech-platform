@@ -18,9 +18,9 @@ import com.cryfirock.auth.service.model.AccountStatus;
 import com.cryfirock.auth.service.repository.JpaUserRepository;
 
 /**
- * ==============================================================================
+ * =====================================================================================================================
  * Paso 16.1: Sirve para verificar la identidad del usuario cuando intenta login
- * ==============================================================================
+ * =====================================================================================================================
  */
 
 // Estereotipo que registra el bean en el contenedor y marca lógica de negocio
@@ -30,9 +30,9 @@ import com.cryfirock.auth.service.repository.JpaUserRepository;
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     /**
-     * ==========================================================================
+     * =================================================================================================================
      * Paso 16.2: Inyección del repositorio de usuarios para verificar existencia
-     * ==========================================================================
+     * =================================================================================================================
      */
 
     @Autowired
