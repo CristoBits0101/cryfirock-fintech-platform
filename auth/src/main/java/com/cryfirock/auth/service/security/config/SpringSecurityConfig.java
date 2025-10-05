@@ -94,7 +94,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
                         .permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
-                        .permitAll()
+                        .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                         .anyRequest()
                         .authenticated())
                 // Deshabilita la protección CSRF
