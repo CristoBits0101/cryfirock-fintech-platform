@@ -69,7 +69,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      *
      * Cuarta función que se ejecuta en el proceso de inicio de sesión
      * - Genera el token JWT tras la autenticación exitosa
-     * {@link JwtAuthenticationFilter.successfulAuthentication(HttpServletRequest,HttpServletResponse, FilterChain, Authentication)}
+     * {@link JwtAuthenticationFilter.successfulAuthentication(HttpServletRequest,HttpServletResponse,
+     * FilterChain, Authentication)}
      *
      * @param request  solicitud HTTP que contiene las credenciales
      * @param response respuesta HTTP para enviar el resultado de la autenticación
@@ -82,20 +83,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             // Respuesta HTTP que se enviará al cliente
             HttpServletResponse response) throws AuthenticationException {
 
-        // Declaración de un usuario nulo que no apunta a ningún objeto
-        User user = null;
-
-        // Crea dos variables para las credenciales del usuario
+        // Variables para almacenar las credenciales del usuario
         String username = null;
         String password = null;
 
         try {
             // Intenta convertir el cuerpo de la solicitud entrante en un objeto User
-            user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
 
             // Extrae el usuario y la contraseña del objeto User
             username = user.getUsername();
-            password = user.getPassword();
+            password = user.getPasswordHash();
         } catch (StreamReadException e) {
             // Maneja la excepción si no se puede leer el flujo de entrada
             e.printStackTrace();
@@ -105,6 +103,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } catch (IOException e) {
             // Maneja otras excepciones de entrada/salida
             e.printStackTrace();
+
         }
 
         // Crea un token de autenticación con el usuario y la contraseña
