@@ -104,7 +104,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         try {
             // Intenta convertir el cuerpo de la solicitud entrante en un objeto
-            UserLoginDto creds = new ObjectMapper()
+            UserLoginDto credentials = new ObjectMapper()
                     .readValue(
                             // Lee el flujo de entrada de la solicitud HTTP
                             request.getInputStream(),
@@ -112,8 +112,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             UserLoginDto.class);
 
             // Extrae el usuario y la contraseña del objeto User
-            username = creds.username();
-            password = creds.password();
+            username = credentials.username();
+            password = credentials.password();
         } catch (StreamReadException e) {
             // Maneja la excepción si no se puede leer el flujo de entrada
             logger.warn("Error leyendo el flujo de entrada del login ", e);
@@ -128,7 +128,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new AuthenticationServiceException("I/O error", e);
         }
 
-        // Crea un token de autenticación con el usuario y la contraseña
+        // Construye la solicitud de autenticación con las credenciales proporcionadas
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 username,
                 password);
