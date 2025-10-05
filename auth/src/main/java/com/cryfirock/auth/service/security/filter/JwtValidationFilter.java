@@ -25,25 +25,40 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import static com.cryfirock.auth.service.security.config.TokenJwtConfig.*;
 
 /**
- * Verifica credenciales y valida solicitudes al servidor
- * Filtro JWT para verificar y procesar tokens de autenticación en solicitudes
- * Extiende BasicAuthenticationFilter para integrarse con Spring Security
+ * ==============================================================================================================================
+ * Paso 24.1: Filtro que valida el token JWT y credenciales en cada petición
+ * ==============================================================================================================================
  */
+
 public class JwtValidationFilter extends BasicAuthenticationFilter {
 
     /**
-     * Inicializa el filtro con el AuthenticationManager de Spring
-     *
-     * @param authenticationManager proveedor de autenticación de Spring Security
+     * ==============================================================================================================================
+     * Paso 24.2: Constructor
+     * ==============================================================================================================================
      */
+
+    // Constructor que recibe el gestor de autenticación
+    // Lo pasamos a la clase padre
     public JwtValidationFilter(AuthenticationManager authenticationManager) {
         // Delegar la inicialización a la clase padre
         super(authenticationManager);
     }
 
+    /**
+     * ==============================================================================================================================
+     * Paso 24.3: Métodos
+     * ==============================================================================================================================
+     */
+
     @Override
+    // El método doFilterInternal es el núcleo del filtro
+    // Se ejecuta en cada petición HTTP para validar el token JWT
+    // Si el token es válido, establece la autenticación en el contexto de seguridad
     protected void doFilterInternal(
+            // Datos de la petición HTTP
             HttpServletRequest request,
+            // Datos de la respuesta HTTP
             HttpServletResponse response,
             FilterChain chain) throws ServletException, IOException {
 
