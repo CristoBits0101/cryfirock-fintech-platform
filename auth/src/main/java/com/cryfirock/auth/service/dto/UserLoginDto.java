@@ -4,9 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * =============================================================================
- * Paso 18.1: DTO record con las credenciales mínimas de acceso (login)
- * =============================================================================
+ * ====================================================================
+ * Paso 18.1: DTO record con las credenciales mínimas de acceso a login
+ * ====================================================================
  *
  * - Menos código y más legible
  * - Sin estado mutable (no setters)
@@ -16,6 +16,13 @@ import jakarta.validation.constraints.Size;
  * - No usar passwordHash aquí; el hash solo existe en la BD
  */
 public record UserLoginDto(
-        @NotBlank @Size(min = 1, max = 50) String username,
-        @NotBlank @Size(min = 6, max = 128) String password) {
+
+                /**
+                 * ====================================================
+                 * Paso 18.2: Atributos con validaciones
+                 * ====================================================
+                 */
+
+                @NotBlank @Size(min = 1, max = 50) String username,
+                @NotBlank @Size(min = 6, max = 128) String password) {
 }
