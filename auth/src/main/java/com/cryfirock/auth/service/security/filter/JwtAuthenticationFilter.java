@@ -31,26 +31,26 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * ===================================================================================================
+ * ==============================================================================================================================
  * Paso 17.1: Filtro que autentica usuarios y genera el token de sesión JWT
- * ===================================================================================================
+ * ==============================================================================================================================
  */
 
 // Clase que intercepta peticiones antes o después de llegar a los endpoints
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     /**
-     * ===============================================================================================
+     * ==========================================================================================================================
      * Paso 17.2: Atributos
-     * ===============================================================================================
+     * ==========================================================================================================================
      */
 
     private final AuthenticationManager authenticationManager;
 
     /**
-     * ===============================================================================================
+     * ==========================================================================================================================
      * Paso 17.3: Constructores
-     * ===============================================================================================
+     * ==========================================================================================================================
      */
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -58,9 +58,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     /**
-     * ===============================================================================================
+     * ==========================================================================================================================
      * Paso 17.4: Métodos
-     * ===============================================================================================
+     * ==========================================================================================================================
      */
 
     /**
@@ -139,6 +139,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     /**
+     * ==========================================================================================================================
+     * Paso 21.1: Métodos
+     * ==========================================================================================================================
+     */
+
+    /**
      * Se ejecuta automáticamente después de autenticar y no necesita ser invocada
      * Genera un token JWT tras la autenticación exitosa del usuario
      * Lo añade al encabezado de autorización de la respuesta
@@ -152,9 +158,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      */
     @Override
     protected void successfulAuthentication(
+            // Solicitud HTTP que se está procesando
             HttpServletRequest request,
+            // Respuesta HTTP que se enviará al cliente
             HttpServletResponse response,
+            // Cadena de filtros que permite pasar la solicitud al siguiente filtro
             FilterChain chain,
+            // Resultado de la autenticación que contiene detalles del usuario autenticado
             Authentication authResult) throws IOException, ServletException {
 
         // Obtiene el usuario autenticado
