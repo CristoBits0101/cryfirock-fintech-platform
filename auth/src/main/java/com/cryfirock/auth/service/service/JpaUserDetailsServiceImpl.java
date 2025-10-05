@@ -19,7 +19,7 @@ import com.cryfirock.auth.service.repository.JpaUserRepository;
 
 /**
  * ==============================================================================
- * Paso 15.1: Sirve para verificar la identidad del usuario cuando intenta login
+ * Paso 16.1: Sirve para verificar la identidad del usuario cuando intenta login
  * ==============================================================================
  */
 
@@ -31,7 +31,7 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * ==========================================================================
-     * Paso 15.2: Inyección del repositorio de usuarios para verificar existencia
+     * Paso 16.2: Inyección del repositorio de usuarios para verificar existencia
      * ==========================================================================
      */
 

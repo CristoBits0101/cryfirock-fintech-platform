@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 
 /**
  * ===========================================================================================
- * Paso 14.1: Controlador que recibe solicitudes HTTP y devuelve respuestas JSON
+ * Paso 14.1: Valida solicitud HTTP y devuelve respuesta de error en JSON
  * ===========================================================================================
  */
 
@@ -19,17 +19,17 @@ public class ValidationUtils {
 
     public ResponseEntity<?> reportIncorrectFields(BindingResult result) {
         // Crea un mapa para almacenar los errores de validación y sus mensajes
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> requestErrors = new HashMap<>();
 
         // Recorre cada campo con errores de validación y los agrega al mapa
         result.getFieldErrors().forEach(err -> {
-            errors.put(err.getField(), err.getDefaultMessage());
+            requestErrors.put(err.getField(), err.getDefaultMessage());
         });
 
         // Devuelve los errores de validación con código de estado 400
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(errors);
+                .body(requestErrors);
     }
 
 }
