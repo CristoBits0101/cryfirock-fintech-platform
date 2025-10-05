@@ -36,6 +36,18 @@ import jakarta.servlet.http.HttpServletResponse;
  * ==============================================================================================================================
  */
 
+// attemptAuthentication     [explícita: llamas AuthenticationManager.authenticate(...)] 
+// ⬇️
+// AuthenticationManager     [implícita: ProviderManager selecciona el AuthenticationProvider]   
+// ⬇️
+// DaoAuthenticationProvider [implícita: invoca UserDetailsService.loadUserByUsername(...)]
+// ⬇️
+// JpaUserDetailsService     [implícita: el provider usa PasswordEncoder.matches(...)]     
+// ⬇️
+// PasswordEncoder           [implícita: si valida OK, se devuelve Authentication autenticado]           
+// ⬇️
+// successfulAuthentication  [implícita: el filtro la ejecuta tras Auth OK]
+
 // Clase que intercepta peticiones antes o después de llegar a los endpoints
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
