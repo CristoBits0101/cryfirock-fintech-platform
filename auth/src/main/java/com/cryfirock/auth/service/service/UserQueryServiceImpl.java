@@ -2,12 +2,15 @@ package com.cryfirock.auth.service.service;
 
 import com.cryfirock.auth.service.repository.JpaUserRepository;
 
+import org.springframework.stereotype.Service;
+
 /**
  * =================================================================================
  * Paso 9.1: Servicio para comprobar existencia de datos de usuario
  * =================================================================================
  */
 
+@Service
 public class UserQueryServiceImpl implements IUserQueryService {
 
     /**

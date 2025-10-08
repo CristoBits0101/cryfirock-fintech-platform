@@ -5,11 +5,14 @@ import com.cryfirock.auth.service.service.IUserQueryService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+import org.springframework.stereotype.Component;
+
 /**
  * ==============================================================================================
  * Paso 8.1: Clase validadora para username
  * ==============================================================================================
  */
+@Component
 public class ExistsByUsernameValidationImpl implements ConstraintValidator<IExistsByUsername, String> {
 
     /**

@@ -1,11 +1,11 @@
 package com.cryfirock.auth.service.validation;
 
-import org.springframework.stereotype.Component;
-
 import com.cryfirock.auth.service.service.IUserQueryService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
+import org.springframework.stereotype.Component;
 
 /**
  * ==============================================================================================

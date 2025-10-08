@@ -1,8 +1,11 @@
 package com.cryfirock.auth.service.controller;
 
+import com.cryfirock.auth.service.entity.User;
+import com.cryfirock.auth.service.service.IUserService;
+import com.cryfirock.auth.service.util.ValidationUtils;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.cryfirock.auth.service.entity.User;
-import com.cryfirock.auth.service.service.IUserService;
-import com.cryfirock.auth.service.util.ValidationUtils;
-
-import jakarta.validation.Valid;
 
 /**
  * ==================================================================================================================
@@ -57,7 +54,7 @@ public class UserController {
     private IUserService userService;
 
     @Autowired
-    private ValidationUtils ValidationUtils;
+    private ValidationUtils validationUtils;
 
     /**
      * ==============================================================================================================
@@ -73,7 +70,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         // Comprobar si hay errores en el envío de datos
         if (result.hasErrors())
-            return ValidationUtils
+            return validationUtils
                     // Devolver una respuesta con los errores
                     .reportIncorrectFields(result);
 
@@ -100,7 +97,7 @@ public class UserController {
     public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
         // Comprobar si hay errores en el envío de datos
         if (result.hasErrors())
-            return ValidationUtils
+            return validationUtils
                     // Devolver una respuesta con los errores
                     .reportIncorrectFields(result);
 
@@ -172,7 +169,7 @@ public class UserController {
         // Comprobar si hay errores en el envío de datos
         if (result.hasErrors())
             // Devolver una respuesta con los errores
-            return ValidationUtils
+            return validationUtils
                     .reportIncorrectFields(result);
 
         // Busca el usuario a actualizar
