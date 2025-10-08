@@ -2,6 +2,7 @@ package com.cryfirock.auth.service.interceptor;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,8 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
      */
 
     private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
+
+    private static final Pattern NUMERIC_USER_PATH = Pattern.compile("^/api/users/\\d+$");
 
     /**
      * ==========================================================================================================================
@@ -74,8 +77,8 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
         // Guarda la marca de tiempo en la solicitud para usarla después
         request.setAttribute("start", start);
 
-        // Valida el token JWT para rutas protegidas
-        if (!endpoint.equals("/api/users") || !method.equals("POST")) {
+        // Valida el token JWT solo para rutas protegidas
+        if (requiresAuthentication(method, endpoint)) {
             // Obtiene el encabezado Authorization de la solicitud del JSON Web Token
             String authHeader = request.getHeader("Authorization");
 
@@ -206,5 +209,28 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
                     // Endpoint de la solicitud
                     request.getRequestURI());
         }
+    }
+
+    /**
+     * Determina si una ruta requiere autenticación mediante JWT.
+     *
+     * @param method   Método HTTP de la solicitud.
+     * @param endpoint URI solicitado.
+     * @return {@code true} si la ruta debe estar protegida.
+     */
+    private boolean requiresAuthentication(String method, String endpoint) {
+        // Permite el registro público de usuarios
+        if ("POST".equals(method) && "/api/users".equals(endpoint)) {
+            return false;
+        }
+
+        // Permite accesos públicos GET/PUT a rutas numéricas específicas
+        if (("GET".equals(method) || "PUT".equals(method))
+                && NUMERIC_USER_PATH.matcher(endpoint).matches()) {
+            return false;
+        }
+
+        // El resto de rutas permanecen protegidas
+        return true;
     }
 }
