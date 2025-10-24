@@ -15,10 +15,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+/**
+ * ==============================================================================================
+ * Paso 18.8: Punto de entrada personalizado para respuestas 401 en APIs REST
+ * ==============================================================================================
+ */
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    /**
+     * ==========================================================================================
+     * Paso 18.9: Atributos
+     * ==========================================================================================
+     */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * ==========================================================================================
+     * Paso 18.10: Construcción de la respuesta no autorizada
+     * ==========================================================================================
+     */
     @Override
     public void commence(
             HttpServletRequest request,
@@ -36,5 +51,5 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(CONTENT_TYPE);
         objectMapper.writeValue(response.getWriter(), error);
     }
-    
+
 }

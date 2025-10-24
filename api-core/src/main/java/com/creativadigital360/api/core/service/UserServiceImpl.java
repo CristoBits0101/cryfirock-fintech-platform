@@ -16,17 +16,37 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * =================================================================================================================
+ * Paso 9.1: Servicio para CRUD de usuarios
+ * =================================================================================================================
+ */
+// Estereotipo que registra el bean en el contenedor y marca lógica de negocio
 @Service
+// Activa validación en parámetros y retornos de métodos públicos
 @Validated
 public class UserServiceImpl implements IUserService {
 
+    /**
+     * =============================================================================================================
+     * Paso 9.2: Atributos
+     * =============================================================================================================
+     */
+    // Repositorios de acceso a datos final
     private final JpaUserRepository userRepository;
 
+    // Dependencias para roles y contraseñas
     private final RolesUtils rolesUtils;
     private final PasswordUtils passwordUtils;
 
+    // Mapper para aplicar actualizaciones parciales
     private final UserMapper userMapper;
 
+    /**
+     * =============================================================================================================
+     * Paso 9.3: Constructores
+     * =============================================================================================================
+     */
     public UserServiceImpl(
             JpaUserRepository userRepository,
             RolesUtils rolesUtils,
@@ -38,6 +58,11 @@ public class UserServiceImpl implements IUserService {
         this.userMapper = userMapper;
     }
 
+    /**
+     * =============================================================================================================
+     * Paso 9.4: Métodos create
+     * =============================================================================================================
+     */
     @Override
     @Transactional
     public User save(@NotNull User user) {
@@ -48,6 +73,11 @@ public class UserServiceImpl implements IUserService {
                 .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
     }
 
+    /**
+     * =============================================================================================================
+     * Paso 9.5: Métodos read
+     * =============================================================================================================
+     */
     @Override
     @Transactional(readOnly = true)
     public List<User> findAll() {
@@ -60,6 +90,11 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findById(id);
     }
 
+    /**
+     * =============================================================================================================
+     * Paso 9.6: Métodos update
+     * =============================================================================================================
+     */
     @Override
     @Transactional
     public Optional<User> update(@NotNull Long id, @NotNull User user) {
@@ -97,8 +132,8 @@ public class UserServiceImpl implements IUserService {
 
                     if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank()) {
                         u.setPasswordHash(
-                            passwordUtils.encodeIfRaw(
-                                userDto.passwordHash()));
+                                passwordUtils.encodeIfRaw(
+                                        userDto.passwordHash()));
                     }
 
                     u.setRoles(rolesUtils.assignRoles(u));
@@ -107,6 +142,11 @@ public class UserServiceImpl implements IUserService {
                 });
     }
 
+    /**
+     * =============================================================================================================
+     * Paso 9.7: Métodos delete
+     * =============================================================================================================
+     */
     @Override
     @Transactional
     public Optional<User> deleteById(@NotNull Long id) {

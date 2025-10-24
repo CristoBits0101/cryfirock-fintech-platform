@@ -20,26 +20,54 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+/**
+ * ============================================================================
+ * Paso 15.1: Clase que gestiona las excepciones de la aplicación
+ * ============================================================================
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * ========================================================================
+     * Paso 15.2: Atributos
+     * ========================================================================
+     */
     private final MessageSource messageSource;
 
+    /**
+     * ========================================================================
+     * Paso 15.3: Constructores
+     * ========================================================================
+     */
     public GlobalExceptionHandler(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
 
+    /**
+     * ========================================================================
+     * Paso 15.4: Método para manejar rutas no encontradas (404)
+     * ========================================================================
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
+        // Instancia del modelo de Error
         Error error = new Error();
+        // Inicializa los atributos de la clase Error
         error.setDate(new Date());
         error.setError("La ruta de la API REST no existe.");
         error.setMessage(e.getMessage());
         error.setStatus(HttpStatus.NOT_FOUND.value());
 
+        // Devuelve un error 404 personalizado
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
     }
 
+    /**
+     * ========================================================================
+     * Paso 15.5: Método para manejar errores de validación
+     * ========================================================================
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValidationErrors(MethodArgumentNotValidException ex) {
@@ -48,11 +76,17 @@ public class GlobalExceptionHandler {
         ex
                 .getBindingResult()
                 .getFieldErrors()
+                // Resuelve cada mensaje con el MessageSource y el locale actual
                 .forEach(error -> errors.put(error.getField(), resolveMessage(error)));
 
         return errors;
     }
 
+    /**
+     * ========================================================================
+     * Paso 15.6: Método para manejar JSON mal formado
+     * ========================================================================
+     */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Error> handleUnreadableMessage(HttpMessageNotReadableException ex) {
         Error error = new Error();
@@ -67,6 +101,11 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    /**
+     * ========================================================================
+     * Paso 15.7: Método para manejar errores internos del servidor
+     * ========================================================================
+     */
     @ExceptionHandler({
             NullPointerException.class,
             HttpMessageNotWritableException.class })
@@ -82,6 +121,11 @@ public class GlobalExceptionHandler {
         return error;
     }
 
+    /**
+     * ========================================================================
+     * Paso 15.8: Método para manejar usuario no encontrado
+     * ========================================================================
+     */
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Error> handleUserNotFound(UserNotFoundException ex) {
@@ -97,6 +141,11 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    /**
+     * ========================================================================
+     * Paso 15.9: Método auxiliar para internacionalizar mensajes
+     * ========================================================================
+     */
     private String resolveMessage(FieldError error) {
         return messageSource.getMessage(error, LocaleContextHolder.getLocale());
     }
