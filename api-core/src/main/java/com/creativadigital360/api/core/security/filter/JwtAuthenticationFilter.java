@@ -34,14 +34,34 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * ======================================================================================================
+ * Paso 19.1: Filtro que autentica credenciales y emite JWT para accesos posteriores
+ * ======================================================================================================
+ */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    /**
+     * ==================================================================================================
+     * Paso 19.2: Atributos
+     * ==================================================================================================
+     */
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * ==================================================================================================
+     * Paso 19.3: Constructores
+     * ==================================================================================================
+     */
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * ==================================================================================================
+     * Paso 19.4: Autenticación inicial de credenciales
+     * ==================================================================================================
+     */
     @Override
     public Authentication attemptAuthentication(
             HttpServletRequest request,
@@ -51,11 +71,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String password = null;
 
         try {
+            // Deserializa el cuerpo de la petición al DTO de login
             UserLoginDto credentials = new ObjectMapper()
                     .readValue(
                             request.getInputStream(),
                             UserLoginDto.class);
 
+            // Extrae credenciales para autenticar
             username = credentials.username();
             password = credentials.password();
         } catch (StreamReadException e) {
@@ -69,6 +91,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new AuthenticationServiceException("I/O error", e);
         }
 
+        // Construye el token de autenticación para delegarlo al AuthenticationManager
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 username,
                 password);
@@ -76,6 +99,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return authenticationManager.authenticate(authenticationToken);
     }
 
+    /**
+     * ==================================================================================================
+     * Paso 19.5: Generación del JWT cuando la autenticación es exitosa
+     * ==================================================================================================
+     */
     @Override
     protected void successfulAuthentication(
             HttpServletRequest request,
@@ -90,17 +118,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
+        // Convierte las autoridades a un listado serializable
         List<Map<String, String>> authorities = roles
                 .stream()
                 .map(role -> Map.of("authority", role.getAuthority()))
                 .collect(Collectors.toList());
 
+        // Construye las reclamaciones del token
         Claims claims = Jwts
                 .claims()
                 .add("authorities", authorities)
                 .add("username", username)
                 .build();
 
+        // Firma y genera el token JWT con expiración y fecha de emisión
         String token = Jwts
                 .builder()
                 .subject(username)
@@ -110,6 +141,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(SECRET_KEY)
                 .compact();
 
+        // Envía el token en el header estándar Authorization
         response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + " " + token);
 
         Map<String, String> body = new HashMap<>();
@@ -118,12 +150,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         body.put("username", username);
         body.put("message", String.format("Welcome %s! ", username));
 
+        // Devuelve la información del token en el cuerpo
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
 
         response.setContentType(CONTENT_TYPE);
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+    /**
+     * ==================================================================================================
+     * Paso 19.6: Manejo de autenticaciones fallidas
+     * ==================================================================================================
+     */
     @Override
     protected void unsuccessfulAuthentication(
             HttpServletRequest request,

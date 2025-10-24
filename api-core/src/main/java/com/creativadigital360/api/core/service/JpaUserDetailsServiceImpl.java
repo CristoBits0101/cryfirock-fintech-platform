@@ -17,16 +17,31 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * =====================================================================================================================
+ * Paso 16.1: Sirve para verificar la identidad del usuario cuando intenta login
+ * =====================================================================================================================
+ */
 @Service
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
+    /**
+     * =================================================================================================================
+     * Paso 16.2: Inyección del repositorio de usuarios para verificar existencia
+     * =================================================================================================================
+     */
     @Autowired
     private JpaUserRepository userRepository;
 
+    /**
+     * Carga un usuario por su nombre de usuario
+     *
+     * @param username nombre de usuario
+     * @return instancia de UserDetails
+     * @throws UsernameNotFoundException si el usuario no existe
+     */
     @Override
-
     @Transactional(readOnly = true)
-
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
 

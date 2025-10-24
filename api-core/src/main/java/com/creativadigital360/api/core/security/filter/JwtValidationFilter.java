@@ -33,15 +33,35 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+/**
+ * ======================================================================================================
+ * Paso 19.7: Filtro que valida el JWT en cada petición protegida
+ * ======================================================================================================
+ */
 public class JwtValidationFilter extends BasicAuthenticationFilter {
 
+    /**
+     * ==================================================================================================
+     * Paso 19.8: Atributos
+     * ==================================================================================================
+     */
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthorityJsonCreator.class);
 
+    /**
+     * ==================================================================================================
+     * Paso 19.9: Constructores
+     * ==================================================================================================
+     */
     public JwtValidationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
+    /**
+     * ==================================================================================================
+     * Paso 19.10: Validación del token recibido en la cabecera Authorization
+     * ==================================================================================================
+     */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -60,6 +80,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
                 .trim();
 
         try {
+            // Parsea y valida el token
             Claims claims = Jwts
                     .parser()
                     .verifyWith(SECRET_KEY)
@@ -71,6 +92,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
 
             Object authoritiesClaims = claims.get("authorities");
 
+            // Reconstruye las autoridades desde las reclamaciones
             Collection<? extends GrantedAuthority> authorities = extractAuthorities(authoritiesClaims);
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -94,6 +116,11 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
         }
     }
 
+    /**
+     * ==================================================================================================
+     * Paso 19.11: Conversión de autoridades
+     * ==================================================================================================
+     */
     private Collection<? extends GrantedAuthority> extractAuthorities(Object authoritiesClaims) throws IOException {
         if (authoritiesClaims instanceof Collection<?> collection) {
             return collection
@@ -106,7 +133,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
                 .readValue(
                         OBJECT_MAPPER.writeValueAsBytes(authoritiesClaims),
                         SimpleGrantedAuthority[].class);
-                        
+
         return Arrays.asList(authorities);
     }
 

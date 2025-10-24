@@ -15,10 +15,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+/**
+ * ==============================================================================================
+ * Paso 18.11: Manejador personalizado para respuestas 403 en APIs REST
+ * ==============================================================================================
+ */
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
 
+    /**
+     * ==========================================================================================
+     * Paso 18.12: Atributos
+     * ==========================================================================================
+     */
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * ==========================================================================================
+     * Paso 18.13: Construcción de la respuesta de acceso denegado
+     * ==========================================================================================
+     */
     @Override
     public void handle(
             HttpServletRequest request,
@@ -36,5 +51,5 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType(CONTENT_TYPE);
         objectMapper.writeValue(response.getWriter(), error);
     }
-    
+
 }
