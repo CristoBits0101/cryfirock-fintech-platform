@@ -1,0 +1,31 @@
+package com.creativadigital360.api.core.validation;
+
+import com.creativadigital360.api.core.service.IUserQueryService;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class ExistsByUsernameValidationImpl implements ConstraintValidator<IExistsByUsername, String> {
+
+    private final IUserQueryService userQueryService;
+
+    public ExistsByUsernameValidationImpl() {
+        this.userQueryService = null;
+    }
+
+    public ExistsByUsernameValidationImpl(IUserQueryService userQueryService) {
+        this.userQueryService = userQueryService;
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (userQueryService == null) return true;
+        return (value == null || value.trim().isEmpty())
+                ? true
+                : !userQueryService.existsByUsername(value.trim());
+    }
+
+}
