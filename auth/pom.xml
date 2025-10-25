@@ -13,11 +13,12 @@
 		<relativePath />
 	</parent>
 
-	<groupId>com.creativadigital360</groupId>
+	<groupId>com.cryfirock</groupId>
         <artifactId>auth</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <name>auth</name>
 	<description>Backend reutilizable y modular para diferentes frontends</description>
+
 	<url />
 
 	<licenses>
