@@ -1,9 +1,10 @@
 package com.cryfirock.auth.advice;
 
+import com.cryfirock.auth.exception.UserNotFoundException;
+import com.cryfirock.auth.model.Error;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-
-import com.cryfirock.auth.exception.UserNotFoundException;
-import com.cryfirock.auth.model.Error;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

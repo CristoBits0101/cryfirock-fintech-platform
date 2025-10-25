@@ -1,7 +1,5 @@
 package com.cryfirock.auth.security.handler;
 
-import static com.cryfirock.auth.security.config.TokenJwtConfig.CONTENT_TYPE;
-
 import com.cryfirock.auth.model.Error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +9,8 @@ import java.util.Date;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+
+import static com.cryfirock.auth.security.config.TokenJwtConfig.CONTENT_TYPE;
 
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
   private final ObjectMapper objectMapper = new ObjectMapper();
