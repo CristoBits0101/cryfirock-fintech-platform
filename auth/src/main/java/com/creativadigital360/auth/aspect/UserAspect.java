@@ -10,10 +10,8 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Component;
 
 /**
@@ -99,11 +97,10 @@ public class UserAspect {
         // Obtiene el nombre del método y los argumentos
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
-        Object result = null;
         // Ejecuta el método y registra los resultados y posibles excepciones
         try {
             logger.info("Entrando al método " + method + "() con parámetros " + args);
-            result = joinPoint.proceed();
+            Object result = joinPoint.proceed();
             logger.info("El método " + method + "() devolvió: " + result);
             return result;
         } catch (Throwable e) {
