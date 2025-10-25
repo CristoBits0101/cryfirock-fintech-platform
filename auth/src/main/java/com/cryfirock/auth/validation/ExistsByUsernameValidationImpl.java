@@ -22,8 +22,7 @@ public class ExistsByUsernameValidationImpl
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
-    if (userQueryService == null)
-      return true;
+    if (userQueryService == null) return true;
     return (value == null || value.trim().isEmpty())
         ? true
         : !userQueryService.existsByUsername(value.trim());

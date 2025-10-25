@@ -21,8 +21,7 @@ public class ExistsByEmailValidationImpl implements ConstraintValidator<IExistsB
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
-    if (userQueryService == null)
-      return true;
+    if (userQueryService == null) return true;
     return (value == null || value.trim().isEmpty())
         ? true
         : !userQueryService.existsByEmail(value.trim());
