@@ -1,16 +1,13 @@
 package com.cryfirock.auth.util;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.springframework.stereotype.Component;
-
 import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.repository.JpaRoleRepository;
-
+import java.util.List;
+import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 @Component
 @Setter

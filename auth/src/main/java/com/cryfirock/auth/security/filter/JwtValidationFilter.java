@@ -1,12 +1,21 @@
 package com.cryfirock.auth.security.filter;
 
+import com.cryfirock.auth.security.jackson.SimpleGrantedAuthorityJsonCreator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,17 +28,6 @@ import static com.cryfirock.auth.security.config.TokenJwtConfig.CONTENT_TYPE;
 import static com.cryfirock.auth.security.config.TokenJwtConfig.HEADER_AUTHORIZATION;
 import static com.cryfirock.auth.security.config.TokenJwtConfig.PREFIX_TOKEN;
 import static com.cryfirock.auth.security.config.TokenJwtConfig.SECRET_KEY;
-import com.cryfirock.auth.security.jackson.SimpleGrantedAuthorityJsonCreator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public class JwtValidationFilter extends BasicAuthenticationFilter {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()

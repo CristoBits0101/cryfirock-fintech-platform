@@ -2,7 +2,6 @@ package com.cryfirock.auth.util;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
