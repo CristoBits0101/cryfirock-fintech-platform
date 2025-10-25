@@ -1,8 +1,5 @@
 package com.creativadigital360.auth.advice;
 
-import com.creativadigital360.auth.exception.UserNotFoundException;
-import com.creativadigital360.auth.model.Error;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +16,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import com.creativadigital360.auth.exception.UserNotFoundException;
+import com.creativadigital360.auth.model.Error;
 
 /**
  * ============================================================================
@@ -53,6 +53,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
         // Instancia del modelo de Error
         Error error = new Error();
+
         // Inicializa los atributos de la clase Error
         error.setDate(new Date());
         error.setError("La ruta de la API REST no existe.");
@@ -74,11 +75,14 @@ public class GlobalExceptionHandler {
         Map<String, String> errors = new HashMap<>();
 
         ex
+                // Obtiene los errores de validación
                 .getBindingResult()
+                // Obtiene la lista de errores de campo
                 .getFieldErrors()
                 // Resuelve cada mensaje con el MessageSource y el locale actual
                 .forEach(error -> errors.put(error.getField(), resolveMessage(error)));
 
+        // Devuelve el mapa de errores
         return errors;
     }
 
