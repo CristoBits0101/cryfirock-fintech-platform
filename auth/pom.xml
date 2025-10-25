@@ -14,9 +14,9 @@
 	</parent>
 
 	<groupId>com.creativadigital360</groupId>
-	<artifactId>api-core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>api-core</name>
+        <artifactId>auth</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <name>auth</name>
 	<description>Backend reutilizable y modular para diferentes frontends</description>
 	<url />
 
