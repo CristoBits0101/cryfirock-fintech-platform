@@ -29,6 +29,7 @@ import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
+@SuppressWarnings("unused")
 public class SpringSecurityConfig {
   @Autowired private AuthenticationConfiguration authenticationConfiguration;
 
