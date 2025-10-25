@@ -1,0 +1,180 @@
+package com.creativadigital360.auth.security.filter;
+
+import static com.creativadigital360.auth.security.config.TokenJwtConfig.CONTENT_TYPE;
+import static com.creativadigital360.auth.security.config.TokenJwtConfig.HEADER_AUTHORIZATION;
+import static com.creativadigital360.auth.security.config.TokenJwtConfig.PREFIX_TOKEN;
+import static com.creativadigital360.auth.security.config.TokenJwtConfig.SECRET_KEY;
+
+import com.creativadigital360.auth.dto.UserLoginDto;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+/**
+ * ======================================================================================================
+ * Paso 19.1: Filtro que autentica credenciales y emite JWT para accesos posteriores
+ * ======================================================================================================
+ */
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    /**
+     * ==================================================================================================
+     * Paso 19.2: Atributos
+     * ==================================================================================================
+     */
+    private final AuthenticationManager authenticationManager;
+
+    /**
+     * ==================================================================================================
+     * Paso 19.3: Constructores
+     * ==================================================================================================
+     */
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    /**
+     * ==================================================================================================
+     * Paso 19.4: Autenticación inicial de credenciales
+     * ==================================================================================================
+     */
+    @Override
+    public Authentication attemptAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response) throws AuthenticationException {
+
+        String username = null;
+        String password = null;
+
+        try {
+            // Deserializa el cuerpo de la petición al DTO de login
+            UserLoginDto credentials = new ObjectMapper()
+                    .readValue(
+                            request.getInputStream(),
+                            UserLoginDto.class);
+
+            // Extrae credenciales para autenticar
+            username = credentials.username();
+            password = credentials.password();
+        } catch (StreamReadException e) {
+            logger.warn("Error leyendo el flujo de entrada del login ", e);
+            throw new AuthenticationServiceException("Invalid login payload ", e);
+        } catch (DatabindException e) {
+            logger.warn("Error mapeando JSON de login al DTO", e);
+            throw new AuthenticationServiceException("Invalid login JSON ", e);
+        } catch (IOException e) {
+            logger.error("Error de E/S leyendo el cuerpo de la petición de login", e);
+            throw new AuthenticationServiceException("I/O error", e);
+        }
+
+        // Construye el token de autenticación para delegarlo al AuthenticationManager
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                username,
+                password);
+
+        return authenticationManager.authenticate(authenticationToken);
+    }
+
+    /**
+     * ==================================================================================================
+     * Paso 19.5: Generación del JWT cuando la autenticación es exitosa
+     * ==================================================================================================
+     */
+    @Override
+    protected void successfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain,
+            Authentication authResult) throws IOException, ServletException {
+
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult
+                .getPrincipal();
+
+        String username = user.getUsername();
+
+        Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
+
+        // Convierte las autoridades a un listado serializable
+        List<Map<String, String>> authorities = roles
+                .stream()
+                .map(role -> Map.of("authority", role.getAuthority()))
+                .collect(Collectors.toList());
+
+        // Construye las reclamaciones del token
+        Claims claims = Jwts
+                .claims()
+                .add("authorities", authorities)
+                .add("username", username)
+                .build();
+
+        // Firma y genera el token JWT con expiración y fecha de emisión
+        String token = Jwts
+                .builder()
+                .subject(username)
+                .claims(claims)
+                .expiration(new Date(System.currentTimeMillis() + 3600000))
+                .issuedAt(new Date())
+                .signWith(SECRET_KEY)
+                .compact();
+
+        // Envía el token en el header estándar Authorization
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + " " + token);
+
+        Map<String, String> body = new HashMap<>();
+
+        body.put("token", token);
+        body.put("username", username);
+        body.put("message", String.format("Welcome %s! ", username));
+
+        // Devuelve la información del token en el cuerpo
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+
+        response.setContentType(CONTENT_TYPE);
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    /**
+     * ==================================================================================================
+     * Paso 19.6: Manejo de autenticaciones fallidas
+     * ==================================================================================================
+     */
+    @Override
+    protected void unsuccessfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException failed) throws IOException, ServletException {
+        Map<String, String> body = new HashMap<>();
+
+        body.put("message", "Authentication failed, credentials are not correct.");
+        body.put("error", failed.getMessage());
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setStatus(401);
+        response.setContentType(CONTENT_TYPE);
+    }
+
+}
