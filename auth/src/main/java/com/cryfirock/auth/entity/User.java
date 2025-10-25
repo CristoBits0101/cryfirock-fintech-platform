@@ -1,8 +1,13 @@
 package com.cryfirock.auth.entity;
+
+import java.time.LocalDate;
+import java.util.List;
+
 import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.validation.IExistsByEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,12 +27,11 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 @NoArgsConstructor
@@ -45,9 +49,7 @@ public class User {
     private String givenName;
     @Column(name = "family_name", nullable = false)
     @NotEmpty(message = "{NotEmpty.user.familyName}")
-    @Pattern(
-            regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+(\\s[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+)*$",
-            message = "{Pattern.user.familyName}")
+    @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+(\\s[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+)*$", message = "{Pattern.user.familyName}")
     @Size(min = 1, max = 50, message = "{Size.user.familyName}")
     private String familyName;
     @Column(nullable = false, unique = true)
@@ -78,13 +80,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccountStatus enabled = AccountStatus.ACTIVE;
     @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
-            "user_id", "role_id" }))
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id" }))
     @ManyToMany
     private List<Role> roles;
+    
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
+
     @PrePersist
     public void prePersist() {
         enabled = AccountStatus.ACTIVE;
