@@ -1,12 +1,9 @@
 package com.cryfirock.auth.security.config;
-
 import com.cryfirock.auth.security.filter.JwtAuthenticationFilter;
 import com.cryfirock.auth.security.filter.JwtValidationFilter;
 import com.cryfirock.auth.security.handler.RestAccessDeniedHandler;
 import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
-
 import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,49 +23,23 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-/**
- * =====================================================================================================
- * Paso 18.1: Configuración principal de seguridad con JWT y CORS
- * =====================================================================================================
- */
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
-
-    /**
-     * =================================================================================================
-     * Paso 18.2: Atributos
-     * =================================================================================================
-     */
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
-
-    /**
-     * =================================================================================================
-     * Paso 18.3: Beans principales de autenticación
-     * =================================================================================================
-     */
     @Bean
     AuthenticationManager authenticationManager() throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    /**
-     * =================================================================================================
-     * Paso 18.4: Cadena de filtros de Spring Security
-     * =================================================================================================
-     */
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
-
         return http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
@@ -93,12 +64,6 @@ public class SpringSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
-
-    /**
-     * =================================================================================================
-     * Paso 18.5: Configuración CORS
-     * =================================================================================================
-     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -106,22 +71,14 @@ public class SpringSecurityConfig {
         config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
-    /**
-     * =================================================================================================
-     * Paso 18.6: Registro del filtro CORS con máxima prioridad
-     * =================================================================================================
-     */
     @Bean
     FilterRegistrationBean<CorsFilter> corsFilter() {
         FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
         corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return corsBean;
     }
-
 }
