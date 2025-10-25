@@ -1,10 +1,9 @@
 package com.cryfirock.auth.advice;
 
-import com.cryfirock.auth.exception.UserNotFoundException;
-import com.cryfirock.auth.model.Error;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -17,6 +16,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import com.cryfirock.auth.exception.UserNotFoundException;
+import com.cryfirock.auth.model.Error;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -56,7 +58,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler({NullPointerException.class, HttpMessageNotWritableException.class})
+  @ExceptionHandler({ NullPointerException.class, HttpMessageNotWritableException.class })
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Map<String, Object> handleInternalServerError(Exception ex) {
     Map<String, Object> error = new HashMap<>();

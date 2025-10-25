@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@ComponentScan(basePackages = {"com.cryfirock.auth.service", "com.cryfirock.auth.validation"})
+@ComponentScan(basePackages = { "com.cryfirock.auth.service", "com.cryfirock.auth.validation" })
 public class AppConfig implements WebMvcConfigurer {
   @Autowired
   @Qualifier("userOperationsInterceptor")

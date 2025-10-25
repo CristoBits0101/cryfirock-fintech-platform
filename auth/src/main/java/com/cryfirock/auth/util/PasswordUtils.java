@@ -2,6 +2,7 @@ package com.cryfirock.auth.util;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,8 @@ public class PasswordUtils {
   }
 
   public String encodeIfRaw(String rawOrHash) {
-    if (rawOrHash == null) return null;
+    if (rawOrHash == null)
+      return null;
     return IS_BCRYPT.test(rawOrHash) ? rawOrHash : passwordEncoder.encode(rawOrHash);
   }
 }

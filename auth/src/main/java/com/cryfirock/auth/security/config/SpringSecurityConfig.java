@@ -31,7 +31,8 @@ import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
 @EnableMethodSecurity(prePostEnabled = true)
 @SuppressWarnings("unused")
 public class SpringSecurityConfig {
-  @Autowired private AuthenticationConfiguration authenticationConfiguration;
+  @Autowired
+  private AuthenticationConfiguration authenticationConfiguration;
 
   @Bean
   AuthenticationManager authenticationManager() throws Exception {
@@ -45,32 +46,29 @@ public class SpringSecurityConfig {
 
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    JwtAuthenticationFilter jwtAuthenticationFilter =
-        new JwtAuthenticationFilter(authenticationManager());
+    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
     jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
     return http.authorizeHttpRequests(
-            authz ->
-                authz
-                    .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/users")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/users/superuser")
-                    .hasRole("ADMIN")
-                    .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
-                    .permitAll()
-                    .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
-                    .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                    .anyRequest()
-                    .authenticated())
+        authz -> authz
+            .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
+            .permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/users")
+            .permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/users/superuser")
+            .hasRole("ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
+            .permitAll()
+            .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
+            .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+            .anyRequest()
+            .authenticated())
         .csrf(csrf -> csrf.disable())
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .exceptionHandling(
-            exception ->
-                exception
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                    .accessDeniedHandler(new RestAccessDeniedHandler()))
+            exception -> exception
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                .accessDeniedHandler(new RestAccessDeniedHandler()))
         .addFilter(jwtAuthenticationFilter)
         .addFilterBefore(
             new JwtValidationFilter(authenticationManager()),
@@ -98,8 +96,8 @@ public class SpringSecurityConfig {
   @Bean
   @SuppressWarnings("unused")
   FilterRegistrationBean<CorsFilter> corsFilter() {
-    FilterRegistrationBean<CorsFilter> corsBean =
-        new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
+    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(
+        new CorsFilter(corsConfigurationSource()));
     corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
     return corsBean;
   }
