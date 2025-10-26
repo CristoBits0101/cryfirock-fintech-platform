@@ -80,13 +80,12 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<Error> handleUserNotFound(UserNotFoundException ex) {
-    Error error = errorMapper.toError(
-        HttpStatus.NOT_FOUND.value(),
-        "Recurso no encontrado",
-        ex.getMessage());
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
-        .body(error);
+        .body(errorMapper.toError(
+            HttpStatus.NOT_FOUND.value(),
+            "Recurso no encontrado",
+            ex.getMessage()));
   }
 
   private String resolveMessage(FieldError error) {
