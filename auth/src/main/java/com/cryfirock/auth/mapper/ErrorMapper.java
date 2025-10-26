@@ -1,9 +1,10 @@
 package com.cryfirock.auth.mapper;
 
-import com.cryfirock.auth.model.Error;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+
+import com.cryfirock.auth.model.Error;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface ErrorMapper {
