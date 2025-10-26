@@ -84,7 +84,9 @@ public class GlobalExceptionHandler {
         HttpStatus.NOT_FOUND.value(),
         "Recurso no encontrado",
         ex.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(error);
   }
 
   private String resolveMessage(FieldError error) {
