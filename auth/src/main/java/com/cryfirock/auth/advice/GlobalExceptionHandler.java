@@ -52,8 +52,7 @@ public class GlobalExceptionHandler {
         .collect(Collectors.toMap(
             FieldError::getField,
             this::resolveMessage,
-            (existing, replacement) -> existing
-        ));
+            (existing, replacement) -> existing));
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -62,7 +61,9 @@ public class GlobalExceptionHandler {
         HttpStatus.BAD_REQUEST.value(),
         "Malformed JSON request.",
         "Request body is invalid or malformed.");
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(error);
   }
 
   @ExceptionHandler({ NullPointerException.class, HttpMessageNotWritableException.class })
