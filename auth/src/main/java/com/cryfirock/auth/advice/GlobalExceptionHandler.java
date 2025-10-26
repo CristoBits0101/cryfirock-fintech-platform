@@ -33,13 +33,12 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(NoHandlerFoundException.class)
   public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
-    Error error = errorMapper.toError(
-        HttpStatus.NOT_FOUND.value(),
-        "La ruta de la API REST no existe.",
-        e.getMessage());
     return ResponseEntity
-        .status(HttpStatus.NOT_FOUND.value())
-        .body(error);
+        .status(HttpStatus.NOT_FOUND)
+        .body(errorMapper.toError(
+            HttpStatus.NOT_FOUND.value(),
+            "La ruta de la API REST no existe.",
+            e.getMessage()));
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
