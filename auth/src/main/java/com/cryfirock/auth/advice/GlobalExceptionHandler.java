@@ -1,6 +1,7 @@
 package com.cryfirock.auth.advice;
 
 import com.cryfirock.auth.exception.UserNotFoundException;
+import com.cryfirock.auth.mapper.ErrorMapper;
 import com.cryfirock.auth.model.Error;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,18 +22,20 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
   private final MessageSource messageSource;
+  private final ErrorMapper errorMapper;
 
-  public GlobalExceptionHandler(MessageSource messageSource) {
+  public GlobalExceptionHandler(MessageSource messageSource, ErrorMapper errorMapper) {
     this.messageSource = messageSource;
+    this.errorMapper = errorMapper;
   }
 
   @ExceptionHandler(NoHandlerFoundException.class)
   public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
-    Error error = new Error();
-    error.setDate(new Date());
-    error.setError("La ruta de la API REST no existe.");
-    error.setMessage(e.getMessage());
-    error.setStatus(HttpStatus.NOT_FOUND.value());
+    Error error =
+        errorMapper.toError(
+            HttpStatus.NOT_FOUND.value(),
+            "La ruta de la API REST no existe.",
+            e.getMessage());
     return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
   }
 
@@ -48,11 +51,11 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<Error> handleUnreadableMessage(HttpMessageNotReadableException ex) {
-    Error error = new Error();
-    error.setDate(new Date());
-    error.setError("Malformed JSON request.");
-    error.setMessage("Request body is invalid or malformed.");
-    error.setStatus(HttpStatus.BAD_REQUEST.value());
+    Error error =
+        errorMapper.toError(
+            HttpStatus.BAD_REQUEST.value(),
+            "Malformed JSON request.",
+            "Request body is invalid or malformed.");
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
@@ -70,11 +73,11 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ResponseEntity<Error> handleUserNotFound(UserNotFoundException ex) {
-    Error error = new Error();
-    error.setDate(new Date());
-    error.setError("Recurso no encontrado");
-    error.setMessage(ex.getMessage());
-    error.setStatus(HttpStatus.NOT_FOUND.value());
+    Error error =
+        errorMapper.toError(
+            HttpStatus.NOT_FOUND.value(),
+            "Recurso no encontrado",
+            ex.getMessage());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
   }
 
