@@ -56,13 +56,12 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<Error> handleUnreadableMessage(HttpMessageNotReadableException ex) {
-    Error error = errorMapper.toError(
-        HttpStatus.BAD_REQUEST.value(),
-        "Malformed JSON request.",
-        "Request body is invalid or malformed.");
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
-        .body(error);
+        .body(errorMapper.toError(
+            HttpStatus.BAD_REQUEST.value(),
+            "Malformed JSON request.",
+            "Request body is invalid or malformed."));
   }
 
   @ExceptionHandler({ NullPointerException.class, HttpMessageNotWritableException.class })
@@ -72,8 +71,7 @@ public class GlobalExceptionHandler {
         "date", new Date(),
         "error", "El usuario o rol no existe!",
         "message", ex.getMessage(),
-        "status", HttpStatus.INTERNAL_SERVER_ERROR.value()
-    );
+        "status", HttpStatus.INTERNAL_SERVER_ERROR.value());
   }
 
   @ExceptionHandler(UserNotFoundException.class)
