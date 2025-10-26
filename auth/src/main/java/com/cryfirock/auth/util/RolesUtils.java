@@ -1,5 +1,6 @@
 package com.cryfirock.auth.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,6 +33,6 @@ public class RolesUtils {
         .map(role -> roleRepository
             .findByName(role)
             .orElseThrow(() -> new IllegalStateException("Missing role " + role)))
-        .collect(Collectors.toList());
+        .collect(Collectors.toCollection(ArrayList::new));
   }
 }

@@ -2,6 +2,7 @@ package com.cryfirock.auth.util;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -14,10 +15,9 @@ public class ValidationUtils {
 
     result
         .getFieldErrors()
-        .forEach(
-            err -> {
-              requestErrors.put(err.getField(), err.getDefaultMessage());
-            });
+        .forEach(err -> {
+          requestErrors.put(err.getField(), err.getDefaultMessage());
+        });
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(requestErrors);
   }

@@ -1,17 +1,21 @@
 package com.cryfirock.auth.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
+
 import com.cryfirock.auth.dto.UserUpdateDto;
 import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.mapper.UserMapper;
 import com.cryfirock.auth.repository.JpaUserRepository;
 import com.cryfirock.auth.util.PasswordUtils;
 import com.cryfirock.auth.util.RolesUtils;
+
 import jakarta.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 @Service
 @Validated
@@ -69,7 +73,7 @@ public class UserServiceImpl implements IUserService {
               u.setAddress(user.getAddress());
               u.setUsername(user.getUsername());
 
-              if (user.getPasswordHash() != null && !user.getPasswordHash().isBlank())
+              if (StringUtils.hasText(user.getPasswordHash()))
                 u.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
 
               u.setRoles(rolesUtils.assignRoles(user));
@@ -86,8 +90,12 @@ public class UserServiceImpl implements IUserService {
         .map(
             u -> {
               userMapper.update(u, userDto);
+
               if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank())
-                u.setPasswordHash(passwordUtils.encodeIfRaw(userDto.passwordHash()));
+                u.setPasswordHash(
+                    passwordUtils.encodeIfRaw(
+                        userDto.passwordHash()));
+
               u.setRoles(rolesUtils.assignRoles(u));
               return userRepository.save(u);
             });
