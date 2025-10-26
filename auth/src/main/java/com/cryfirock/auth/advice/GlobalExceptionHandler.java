@@ -1,7 +1,6 @@
 package com.cryfirock.auth.advice;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -69,12 +68,12 @@ public class GlobalExceptionHandler {
   @ExceptionHandler({ NullPointerException.class, HttpMessageNotWritableException.class })
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Map<String, Object> handleInternalServerError(Exception ex) {
-    Map<String, Object> error = new HashMap<>();
-    error.put("date", new Date());
-    error.put("error", "el usuario o role no existe!");
-    error.put("message", ex.getMessage());
-    error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-    return error;
+    return Map.of(
+        "date", new Date(),
+        "error", "El usuario o rol no existe!",
+        "message", ex.getMessage(),
+        "status", HttpStatus.INTERNAL_SERVER_ERROR.value()
+    );
   }
 
   @ExceptionHandler(UserNotFoundException.class)
