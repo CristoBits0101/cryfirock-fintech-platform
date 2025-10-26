@@ -1,10 +1,7 @@
 package com.cryfirock.auth.security.config;
 
-import com.cryfirock.auth.security.filter.JwtAuthenticationFilter;
-import com.cryfirock.auth.security.filter.JwtValidationFilter;
-import com.cryfirock.auth.security.handler.RestAccessDeniedHandler;
-import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
 import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +21,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.cryfirock.auth.security.filter.JwtAuthenticationFilter;
+import com.cryfirock.auth.security.filter.JwtValidationFilter;
+import com.cryfirock.auth.security.handler.RestAccessDeniedHandler;
+import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -94,8 +96,7 @@ public class SpringSecurityConfig {
   @Bean
   @SuppressWarnings("unused")
   FilterRegistrationBean<CorsFilter> corsFilter() {
-    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(
-        new CorsFilter(corsConfigurationSource()));
+    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
     corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
     return corsBean;
   }
