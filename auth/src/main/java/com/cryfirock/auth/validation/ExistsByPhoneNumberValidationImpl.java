@@ -8,8 +8,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 @Component
-public class ExistsByPhoneNumberValidationImpl
-    implements ConstraintValidator<IExistsByPhoneNumber, String> {
+public class ExistsByPhoneNumberValidationImpl implements ConstraintValidator<IExistsByPhoneNumber, String> {
   private final IUserQueryService userQueryService;
 
   public ExistsByPhoneNumberValidationImpl() {

@@ -8,8 +8,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 @Component
-public class ExistsByUsernameValidationImpl
-    implements ConstraintValidator<IExistsByUsername, String> {
+public class ExistsByUsernameValidationImpl implements ConstraintValidator<IExistsByUsername, String> {
   private final IUserQueryService userQueryService;
 
   public ExistsByUsernameValidationImpl() {
