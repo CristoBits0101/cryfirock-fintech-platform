@@ -3,7 +3,6 @@ package com.cryfirock.auth.helper;
 import java.util.function.Predicate;
 
 public class ValidationHelper {
-
     private ValidationHelper() {
     }
 
