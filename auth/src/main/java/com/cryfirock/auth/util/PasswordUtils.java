@@ -23,6 +23,8 @@ public class PasswordUtils {
 
   public String encodeIfRaw(String rawOrHash) {
     if (rawOrHash == null) return null;
-    return IS_BCRYPT.test(rawOrHash) ? rawOrHash : passwordEncoder.encode(rawOrHash);
+    return IS_BCRYPT.test(rawOrHash)
+        ? rawOrHash
+        : passwordEncoder.encode(rawOrHash);
   }
 }
