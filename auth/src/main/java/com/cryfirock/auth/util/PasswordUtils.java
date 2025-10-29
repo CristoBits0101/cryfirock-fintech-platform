@@ -16,7 +16,9 @@ public class PasswordUtils {
   }
 
   private static Predicate<String> startsWithAny(String... p) {
-    return s -> s != null && Arrays.stream(p).anyMatch(s::startsWith);
+    return s -> s != null && Arrays
+        .stream(p)
+        .anyMatch(s::startsWith);
   }
 
   public String encodeIfRaw(String rawOrHash) {
