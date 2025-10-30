@@ -21,22 +21,22 @@ import jakarta.validation.constraints.NotNull;
 @Validated
 public class UserServiceImpl implements IUserService {
   private final JpaUserRepository userRepository;
-  private final RolesHelper rolesUtils;
+  private final RolesHelper rolesHelper;
   private final UserMapper userMapper;
 
   public UserServiceImpl(
       JpaUserRepository userRepository,
-      RolesHelper rolesUtils,
+      RolesHelper rolesHelper,
       UserMapper userMapper) {
     this.userRepository = userRepository;
-    this.rolesUtils = rolesUtils;
+    this.rolesHelper = rolesHelper;
     this.userMapper = userMapper;
   }
 
   @Override
   @Transactional
   public User save(@NotNull User user) {
-    user.setRoles(rolesUtils.assignRoles(user));
+    user.setRoles(rolesHelper.assignRoles(user));
     user.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
     return Optional.ofNullable(user)
         .map(userRepository::save)
@@ -73,7 +73,7 @@ public class UserServiceImpl implements IUserService {
               if (StringUtils.hasText(user.getPasswordHash()))
                 u.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
 
-              u.setRoles(rolesUtils.assignRoles(user));
+              u.setRoles(rolesHelper.assignRoles(user));
               u.setEnabled(user.getEnabled());
               return userRepository.save(u);
             });
@@ -93,7 +93,7 @@ public class UserServiceImpl implements IUserService {
                     PasswordUtil.encodeIfRaw(
                         userDto.passwordHash()));
 
-              u.setRoles(rolesUtils.assignRoles(u));
+              u.setRoles(rolesHelper.assignRoles(u));
               return userRepository.save(u);
             });
   }
