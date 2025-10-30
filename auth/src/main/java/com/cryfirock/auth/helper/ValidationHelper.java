@@ -9,7 +9,7 @@ public class ValidationHelper {
     public static boolean isValidString(String value, Predicate<String> existenceChecker) {
         return existenceChecker == null
                 || value == null
-                || value.trim().isEmpty()
+                || value.trim().isBlank()
                 || !existenceChecker.test(value.trim());
     }
 }
