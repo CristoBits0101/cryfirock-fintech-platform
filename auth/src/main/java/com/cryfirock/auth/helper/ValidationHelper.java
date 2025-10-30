@@ -6,10 +6,11 @@ public class ValidationHelper {
     private ValidationHelper() {
     }
 
-    public static boolean isValidString(String value, Predicate<String> existenceChecker) {
-        return existenceChecker == null
-                || value == null
-                || value.trim().isBlank()
-                || !existenceChecker.test(value.trim());
+    public static boolean isValidString(String value, Predicate<String> exists) {
+        return exists == null || isBlankOrNull(value) || !exists.test(value.trim());
+    }
+
+    public static boolean isBlankOrNull(String value) {
+        return value == null || value.isBlank();
     }
 }
