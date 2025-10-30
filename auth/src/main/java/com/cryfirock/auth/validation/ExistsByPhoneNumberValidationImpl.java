@@ -2,6 +2,7 @@ package com.cryfirock.auth.validation;
 
 import org.springframework.stereotype.Component;
 
+import com.cryfirock.auth.helper.ValidationHelper;
 import com.cryfirock.auth.service.IUserQueryService;
 
 import jakarta.validation.ConstraintValidator;
@@ -21,9 +22,11 @@ public class ExistsByPhoneNumberValidationImpl implements ConstraintValidator<IE
 
   @Override
   public boolean isValid(String value, ConstraintValidatorContext context) {
-    if (userQueryService == null) return true;
-    return (value == null || value.trim().isEmpty())
-        ? true
-        : !userQueryService.existsByPhoneNumber(value.trim());
+    return ValidationHelper
+        .isValidString(
+            value,
+            userQueryService == null
+                ? null
+                : userQueryService::existsByPhoneNumber);
   }
 }
