@@ -10,10 +10,10 @@ import org.springframework.validation.annotation.Validated;
 
 import com.cryfirock.auth.dto.UserUpdateDto;
 import com.cryfirock.auth.entity.User;
+import com.cryfirock.auth.helper.RolesHelper;
 import com.cryfirock.auth.mapper.UserMapper;
 import com.cryfirock.auth.repository.JpaUserRepository;
-import com.cryfirock.auth.util.PasswordUtils;
-import com.cryfirock.auth.util.RolesUtils;
+import com.cryfirock.auth.util.PasswordUtil;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -21,14 +21,14 @@ import jakarta.validation.constraints.NotNull;
 @Validated
 public class UserServiceImpl implements IUserService {
   private final JpaUserRepository userRepository;
-  private final RolesUtils rolesUtils;
-  private final PasswordUtils passwordUtils;
+  private final RolesHelper rolesUtils;
+  private final PasswordUtil passwordUtils;
   private final UserMapper userMapper;
 
   public UserServiceImpl(
       JpaUserRepository userRepository,
-      RolesUtils rolesUtils,
-      PasswordUtils passwordUtils,
+      RolesHelper rolesUtils,
+      PasswordUtil passwordUtils,
       UserMapper userMapper) {
     this.userRepository = userRepository;
     this.rolesUtils = rolesUtils;

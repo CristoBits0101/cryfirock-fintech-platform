@@ -1,4 +1,4 @@
-package com.cryfirock.auth.util;
+package com.cryfirock.auth.helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +17,12 @@ import lombok.Setter;
 @Component
 @Setter
 @Getter
-public class RolesUtils {
+public class RolesHelper {
   private static final String ROLE_USER = "ROLE_USER";
   private static final String ROLE_ADMIN = "ROLE_ADMIN";
   private final JpaRoleRepository roleRepository;
 
-  public RolesUtils(JpaRoleRepository roleRepository) {
+  public RolesHelper(JpaRoleRepository roleRepository) {
     this.roleRepository = roleRepository;
   }
 

@@ -7,11 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PasswordUtils {
+public class PasswordUtil {
   private final PasswordEncoder passwordEncoder;
   private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
 
-  public PasswordUtils(PasswordEncoder passwordEncoder) {
+  public PasswordUtil(PasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
   }
 
