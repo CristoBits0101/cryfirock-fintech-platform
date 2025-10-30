@@ -7,7 +7,7 @@ public class ValidationHelper {
     }
 
     public static boolean isValidString(String value, Predicate<String> exists) {
-        return exists == null || isBlankOrNull(value) || !exists.test(value.trim());
+        return exists != null && !isBlankOrNull(value) && !exists.test(value.trim());
     }
 
     public static boolean isBlankOrNull(String value) {
