@@ -22,17 +22,14 @@ import jakarta.validation.constraints.NotNull;
 public class UserServiceImpl implements IUserService {
   private final JpaUserRepository userRepository;
   private final RolesHelper rolesUtils;
-  private final PasswordUtil passwordUtils;
   private final UserMapper userMapper;
 
   public UserServiceImpl(
       JpaUserRepository userRepository,
       RolesHelper rolesUtils,
-      PasswordUtil passwordUtils,
       UserMapper userMapper) {
     this.userRepository = userRepository;
     this.rolesUtils = rolesUtils;
-    this.passwordUtils = passwordUtils;
     this.userMapper = userMapper;
   }
 
@@ -40,7 +37,7 @@ public class UserServiceImpl implements IUserService {
   @Transactional
   public User save(@NotNull User user) {
     user.setRoles(rolesUtils.assignRoles(user));
-    user.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
+    user.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
     return Optional.ofNullable(user)
         .map(userRepository::save)
         .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
@@ -74,7 +71,7 @@ public class UserServiceImpl implements IUserService {
               u.setUsername(user.getUsername());
 
               if (StringUtils.hasText(user.getPasswordHash()))
-                u.setPasswordHash(passwordUtils.encodeIfRaw(user.getPasswordHash()));
+                u.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
 
               u.setRoles(rolesUtils.assignRoles(user));
               u.setEnabled(user.getEnabled());
@@ -93,7 +90,7 @@ public class UserServiceImpl implements IUserService {
 
               if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank())
                 u.setPasswordHash(
-                    passwordUtils.encodeIfRaw(
+                    PasswordUtil.encodeIfRaw(
                         userDto.passwordHash()));
 
               u.setRoles(rolesUtils.assignRoles(u));
