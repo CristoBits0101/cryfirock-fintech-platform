@@ -19,20 +19,9 @@ import com.cryfirock.auth.repository.JpaUserRepository;
 
 @Service
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
-  /**
-   * Atributos
-   */
   @Autowired
   private JpaUserRepository userRepository;
 
-  /**
-   * Carga los detalles del usuario por su nombre de usuario.
-   * Convierte los roles del usuario en autoridades de Spring Security.
-   * 
-   * @param username nombre de usuario a buscar.
-   * @return detalles del usuario para autenticación.
-   * @throws UsernameNotFoundException si el usuario no existe.
-   */
   @Override
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
-// Entity that maps the roles table and autogenerates methods
 @Entity
 @Table(name = "roles")
 public class Role {
