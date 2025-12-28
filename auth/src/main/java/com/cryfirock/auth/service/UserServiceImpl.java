@@ -17,20 +17,9 @@ import com.cryfirock.auth.util.PasswordUtil;
 
 import jakarta.validation.constraints.NotNull;
 
-/**
- * Implementación del servicio de usuarios.
- * Proporciona operaciones CRUD y lógica de negocio para la gestión de usuarios.
- * 
- * @author Cristo Suárez
- * @version 1.0
- * @since 2025
- */
 @Service
 @Validated
 public class UserServiceImpl implements IUserService {
-  /**
-   * Atributos
-   */
   private final JpaUserRepository userRepository;
   private final RolesHelper rolesHelper;
   private final UserMapper userMapper;
@@ -44,13 +33,6 @@ public class UserServiceImpl implements IUserService {
     this.userMapper = userMapper;
   }
 
-  /**
-   * Guarda un nuevo usuario en la base de datos.
-   * Asigna roles automáticamente y encripta la contraseña.
-   * 
-   * @param user objeto del usuario con detalles del nuevo usuario.
-   * @return el usuario guardado.
-   */
   @Override
   @Transactional
   public User save(@NotNull User user) {
@@ -61,36 +43,18 @@ public class UserServiceImpl implements IUserService {
         .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
   }
 
-  /**
-   * Recupera todos los usuarios de la base de datos.
-   * 
-   * @return lista de usuarios.
-   */
   @Override
   @Transactional(readOnly = true)
   public List<User> findAll() {
     return userRepository.findAll();
   }
 
-  /**
-   * Busca un usuario por su ID.
-   * 
-   * @param id el identificador único del usuario.
-   * @return un Optional que contiene el usuario si existe.
-   */
   @Override
   @Transactional(readOnly = true)
   public Optional<User> findById(@NotNull Long id) {
     return userRepository.findById(id);
   }
 
-  /**
-   * Actualiza la información de un usuario existente.
-   * 
-   * @param id el identificador único del usuario.
-   * @param user los nuevos datos del usuario.
-   * @return un Optional que contiene el usuario actualizado.
-   */
   @Override
   @Transactional
   public Optional<User> update(@NotNull Long id, @NotNull User user) {
@@ -115,13 +79,6 @@ public class UserServiceImpl implements IUserService {
             });
   }
 
-  /**
-   * Actualiza un usuario usando un DTO.
-   * 
-   * @param id el identificador único del usuario.
-   * @param userDto objeto con los datos a actualizar.
-   * @return un Optional que contiene el usuario actualizado.
-   */
   @Override
   @Transactional
   public Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto userDto) {

@@ -29,7 +29,6 @@ import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
-@SuppressWarnings("unused")
 public class SpringSecurityConfig {
   @Autowired
   private AuthenticationConfiguration authenticationConfiguration;
@@ -94,7 +93,6 @@ public class SpringSecurityConfig {
   }
 
   @Bean
-  @SuppressWarnings("unused")
   FilterRegistrationBean<CorsFilter> corsFilter() {
     FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
     corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
