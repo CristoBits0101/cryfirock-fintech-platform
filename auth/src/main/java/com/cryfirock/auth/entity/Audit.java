@@ -29,18 +29,23 @@ import lombok.NoArgsConstructor;
     @AttributeOverride(name = "lastLoginAt", column = @Column(name = "last_login_at"))
 })
 public class Audit {
+  
+  // Atributos.
   private Instant createdAt;
   private Instant updatedAt;
   private Instant lastLoginAt;
 
+  // Se establece la marca de tiempo antes de persistir la entidad.
   @PrePersist
   public void prePersist() {
     this.createdAt = Instant.now();
     this.updatedAt = this.createdAt;
   }
 
+  // Se actualiza la marca de tiempo antes de actualizar la entidad.
   @PreUpdate
   public void preUpdate() {
     this.updatedAt = Instant.now();
   }
+  
 }
