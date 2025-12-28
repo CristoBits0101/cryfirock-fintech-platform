@@ -13,7 +13,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 004: Esta clase puede incrustarse en otra y autogenera métodos.
  * @AllArgsConstructor: Genera constructor con todos los atributos.
  * @NoArgsConstructor: Genera constructor sin argumentos.
  * @Data: Genera getters, setters, toString, equals y hashCode.
