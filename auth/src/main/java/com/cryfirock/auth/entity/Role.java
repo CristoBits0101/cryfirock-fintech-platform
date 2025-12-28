@@ -13,9 +13,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
-/**
- * 003: 
- */
 @Entity
 @Table(name = "roles")
 public class Role {

@@ -12,9 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * 004: Esta clase puede incrustarse en otra y autogenera métodos.
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
