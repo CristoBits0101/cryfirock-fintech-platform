@@ -26,24 +26,49 @@ import com.cryfirock.auth.util.ValidationUtil;
 
 import jakarta.validation.Valid;
 
+/**
+ * 006: Controlador API que permite solicitudes desde todos los orígenes a /api/users
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("/api/users")
 public class UserController {
+  /**
+   * Atributos
+   */
   @Autowired
   private IUserService userService;
 
+  /**
+   * Permite crear un nuevo usuario
+   * 
+   * @param user el nuevo usuario
+   * @param result de la validación
+   * @return ResponseEntity con errores de validación o 201 y el usuario creado
+   */
   @PostMapping
   public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
+    // Valida los parámetros que almacenan los datos del JSON enviado
     if (result.hasErrors()) return ValidationUtil.reportIncorrectFields(result);
+    // Establece admin a falso por defecto para el usuario creado
     user.setAdmin(false);
+    // Guarda el usuario en la base de datos
     return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
   }
 
+  /**
+   * Permite crear un nuevo administrador
+   * 
+   * @param user   el nuevo administrador
+   * @param result de la validación
+   * @return ResponseEntity con errores de validación o 201 y el usuario creado
+   */
   @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/superuser")
   public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
+    // Valida los parámetros que almacenan los datos del JSON enviado
     if (result.hasErrors()) return ValidationUtil.reportIncorrectFields(result);
+    // Establece admin a verdadero para el usuario creado
     user.setAdmin(true);
     return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
   }

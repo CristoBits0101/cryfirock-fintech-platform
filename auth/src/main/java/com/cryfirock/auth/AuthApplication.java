@@ -5,8 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * 001: Configuración principal de la aplicación de autenticación.
- * 
  * @EnableAspectJAutoProxy: Habilita proxies AOP para interceptar métodos.
  * @SpringBootApplication: Marca esta clase como aplicación Spring Boot.
  */

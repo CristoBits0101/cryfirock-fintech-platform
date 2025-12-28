@@ -1,6 +1,9 @@
 package com.cryfirock.auth.entity;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,8 +12,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-import java.util.List;
 
+/**
+ * 003: 
+ */
 @Entity
 @Table(name = "roles")
 public class Role {
