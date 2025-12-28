@@ -35,7 +35,8 @@ public class UserController {
 
   @PostMapping
   public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
-    if (result.hasErrors()) return ValidationUtil.reportIncorrectFields(result);
+    if (result.hasErrors())
+      return ValidationUtil.reportIncorrectFields(result);
     user.setAdmin(false);
     return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
   }
@@ -43,7 +44,8 @@ public class UserController {
   @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/superuser")
   public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
-    if (result.hasErrors()) return ValidationUtil.reportIncorrectFields(result);
+    if (result.hasErrors())
+      return ValidationUtil.reportIncorrectFields(result);
     user.setAdmin(true);
     return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
   }
@@ -58,7 +60,8 @@ public class UserController {
   @GetMapping("/{id}")
   public ResponseEntity<?> getUserById(@PathVariable Long id) {
     Optional<User> userOptional = userService.findById(id);
-    if (userOptional.isPresent())return ResponseEntity.ok(userOptional.orElseThrow());
+    if (userOptional.isPresent())
+      return ResponseEntity.ok(userOptional.orElseThrow());
     return ResponseEntity.notFound().build();
   }
 
@@ -68,7 +71,8 @@ public class UserController {
       @PathVariable Long id,
       @Valid @RequestBody UserUpdateDto userDto,
       BindingResult result) {
-    if (result.hasErrors()) return ValidationUtil.reportIncorrectFields(result);
+    if (result.hasErrors())
+      return ValidationUtil.reportIncorrectFields(result);
     return userService
         .update(id, userDto)
         .map(ResponseEntity::ok)
