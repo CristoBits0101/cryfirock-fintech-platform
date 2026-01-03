@@ -312,15 +312,15 @@
 
 ### 🔐 Módulo Auth (`auth/controller/UserController.java`):
 
-| <sub>Método</sub> | <sub>Endpoint</sub> | <sub>Descripción</sub> | <sub>🔐 Auth</sub> |
+| Método</sub> | Endpoint</sub> | Descripción</sub> | 🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
-| <sub>`POST`</sub> | <sub>`/login`</sub> | <sub>Autenticación de usuario</sub> | <sub>🌍 Público</sub> |
-| <sub>`POST`</sub> | <sub>`/api/users`</sub> | <sub>Crear usuario</sub> | <sub>🌍 Público</sub> |
-| <sub>`POST`</sub> | <sub>`/api/users/superuser`</sub> | <sub>Crear administrador</sub> | <sub>👑 ADMIN</sub> |
-| <sub>`GET`</sub> | <sub>`/api/users`</sub> | <sub>Listar usuarios</sub> | <sub>👤 USER/ADMIN</sub> |
-| <sub>`GET`</sub> | <sub>`/api/users/{id}`</sub> | <sub>Obtener usuario</sub> | <sub>👤 USER/ADMIN</sub> |
-| <sub>`PUT`</sub> | <sub>`/api/users/{id}`</sub> | <sub>Actualizar usuario</sub> | <sub>👤 USER/ADMIN</sub> |
-| <sub>`DELETE`</sub> | <sub>`/api/users/{id}`</sub> | <sub>Eliminar usuario</sub> | <sub>👤 USER/ADMIN</sub> |
+| `POST`</sub> | `/login`</sub> | Autenticación de usuario</sub> | 🌍 Público</sub> |
+| `POST`</sub> | `/api/users`</sub> | Crear usuario</sub> | 🌍 Público</sub> |
+| `POST`</sub> | `/api/users/superuser`</sub> | Crear administrador</sub> | 👑 ADMIN</sub> |
+| `GET`</sub> | `/api/users`</sub> | Listar usuarios</sub> | 👤 USER/ADMIN</sub> |
+| `GET`</sub> | `/api/users/{id}`</sub> | Obtener usuario</sub> | 👤 USER/ADMIN</sub> |
+| `PUT`</sub> | `/api/users/{id}`</sub> | Actualizar usuario</sub> | 👤 USER/ADMIN</sub> |
+| `DELETE`</sub> | `/api/users/{id}`</sub> | Eliminar usuario</sub> | 👤 USER/ADMIN</sub> |
 
 ---
 
