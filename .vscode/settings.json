@@ -1,4 +1,8 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "workbench.colorCustomizations": {
+        "editorCursor.foreground": "#00FF00",
+        "terminalCursor.foreground": "#00FF00"
+    }
 }
