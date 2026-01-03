@@ -13,7 +13,7 @@
 
 ---
 
-### <sub>📋 Tabla de Contenidos</sub>
+### <sub>📋 TABLA DE CONTENIDOS</sub>
 
 - <sub>[Módulo Auth](#-módulo-auth) ⭍</sub>
 - <sub>[Módulo OAuth2](#-módulo-oauth2) ⭍</sub>
@@ -22,7 +22,7 @@
 
 ---
 
-### <sub>🔐 Módulo Auth</sub>
+### <sub>🔐 MÓDULO AUTH</sub>
 
 > Microservicio de Autenticación y Gestión de Usuarios
 
@@ -283,7 +283,7 @@
 
 ---
 
-### <sub>🌐 Módulo OAuth2</sub>
+### <sub>🌐 MÓDULO OAUTH2</sub>
 
 > ⚠️ *En Desarrollo*</sub>
 
