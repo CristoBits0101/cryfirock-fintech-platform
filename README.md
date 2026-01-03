@@ -308,7 +308,9 @@
 
 ---
 
-### <sub>📡 API ENDPOINTS</sub>
+## <sub>📡 API ENDPOINTS</sub>
+
+### <sub>🔐 Módulo Auth</sub>
 
 | <sub>Método</sub> | <sub>Endpoint</sub> | <sub>Descripción</sub> | <sub>🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
