@@ -24,7 +24,7 @@
 
 ## <sub>🔐 Módulo Auth</sub>
 
-> <sub>Microservicio de Autenticación y Gestión de Usuarios</sub>
+> Microservicio de Autenticación y Gestión de Usuarios
 
 ### <sub>⚙️ Configuración Principal</sub>
 
