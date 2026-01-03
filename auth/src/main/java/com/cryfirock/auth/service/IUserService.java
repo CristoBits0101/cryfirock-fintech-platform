@@ -1,10 +1,12 @@
 package com.cryfirock.auth.service;
 
-import com.cryfirock.auth.dto.UserUpdateDto;
-import com.cryfirock.auth.entity.User;
-import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
+
+import com.cryfirock.auth.dto.UserUpdateDto;
+import com.cryfirock.auth.entity.User;
+
+import jakarta.validation.constraints.NotNull;
 
 public interface IUserService {
   User save(@NotNull User user);

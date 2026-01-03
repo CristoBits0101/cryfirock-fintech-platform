@@ -1,6 +1,7 @@
 package com.cryfirock.auth.model;
 
 import java.util.Date;
+
 import lombok.Data;
 
 @Data

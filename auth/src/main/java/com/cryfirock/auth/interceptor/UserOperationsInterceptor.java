@@ -1,13 +1,8 @@
 package com.cryfirock.auth.interceptor;
 
-import com.cryfirock.auth.security.config.TokenJwtConfig;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -17,6 +12,14 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cryfirock.auth.security.config.TokenJwtConfig;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Component("userOperationsInterceptor")
 public class UserOperationsInterceptor implements HandlerInterceptor {
   private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
@@ -25,10 +28,8 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
   public boolean preHandle(
       @NonNull HttpServletRequest request,
       @NonNull HttpServletResponse response,
-      @NonNull Object handler)
-      throws Exception {
-    if (!(handler instanceof HandlerMethod))
-      return true;
+      @NonNull Object handler) throws Exception {
+    if (!(handler instanceof HandlerMethod)) return true;
     HandlerMethod controller = (HandlerMethod) handler;
     String endpoint = request.getRequestURI();
     String method = request.getMethod();
@@ -81,8 +82,7 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
       @NonNull HttpServletRequest request,
       @NonNull HttpServletResponse response,
       @NonNull Object handler,
-      @Nullable ModelAndView modelAndView)
-      throws Exception {
+      @Nullable ModelAndView modelAndView) throws Exception {
     if (!(handler instanceof HandlerMethod))
       return;
 

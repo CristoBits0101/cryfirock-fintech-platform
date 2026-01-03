@@ -18,8 +18,7 @@ public final class PasswordUtil {
   }
 
   public static String encodeIfRaw(String rawOrHash) {
-    if (rawOrHash == null)
-      return null;
+    if (rawOrHash == null) return null;
     return IS_BCRYPT.test(rawOrHash)
         ? rawOrHash
         : ENCODER.encode(rawOrHash);

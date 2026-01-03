@@ -38,6 +38,7 @@ public class UserServiceImpl implements IUserService {
   public User save(@NotNull User user) {
     user.setRoles(rolesHelper.assignRoles(user));
     user.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
+
     return Optional.ofNullable(user)
         .map(userRepository::save)
         .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
@@ -71,7 +72,9 @@ public class UserServiceImpl implements IUserService {
               u.setUsername(user.getUsername());
 
               if (StringUtils.hasText(user.getPasswordHash()))
-                u.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
+                u.setPasswordHash(
+                    PasswordUtil.encodeIfRaw(
+                        user.getPasswordHash()));
 
               u.setRoles(rolesHelper.assignRoles(user));
               u.setEnabled(user.getEnabled());

@@ -73,7 +73,8 @@ public class SpringSecurityConfig {
             new JwtValidationFilter(authenticationManager()),
             UsernamePasswordAuthenticationFilter.class)
         .sessionManagement(
-            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .build();
   }
 
@@ -94,8 +95,7 @@ public class SpringSecurityConfig {
 
   @Bean
   FilterRegistrationBean<CorsFilter> corsFilter() {
-    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(
-        new CorsFilter(corsConfigurationSource()));
+    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
     corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
     return corsBean;
   }
