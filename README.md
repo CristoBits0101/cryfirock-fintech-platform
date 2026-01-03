@@ -7,11 +7,9 @@
 
 <h1 align="center">🏦 CryfiRock Fintech Platform</h1>
 
-<p align="center">
+<h1 align="center">
   <strong>Plataforma fintech con Spring Boot que ofrece autenticación y autorización mediante JWT</strong>
-</p>
-
-##
+</h1>
 
 ### <sub>📋 Tabla de Contenidos</sub>
 
