@@ -13,7 +13,7 @@
 
 ---
 
-## <sub>📋 Tabla de Contenidos</sub>
+### <sub>📋 Tabla de Contenidos</sub>
 
 - <sub>[Módulo Auth](#-módulo-auth) ⭍</sub>
 - <sub>[Módulo OAuth2](#-módulo-oauth2) ⭍</sub>
@@ -22,7 +22,7 @@
 
 ---
 
-## <sub>🔐 Módulo Auth</sub>
+### <sub>🔐 Módulo Auth</sub>
 
 > Microservicio de Autenticación y Gestión de Usuarios
 
@@ -294,7 +294,7 @@
 
 ---
 
-## <sub>🚀 Ejecución de Módulos</sub>
+### <sub>🚀 Ejecución de Módulos</sub>
 
 ```bash
 # 📦 Módulo Auth:
@@ -308,7 +308,7 @@
 
 ---
 
-## <sub>📡 API Endpoints</sub>
+### <sub>📡 API Endpoints</sub>
 
 | <sub>Método</sub> | <sub>Endpoint</sub> | <sub>Descripción</sub> | <sub>🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
@@ -322,7 +322,7 @@
 
 ---
 
-## <sub>📚 Dependencias del Proyecto</sub>
+### <sub>📚 Dependencias del Proyecto</sub>
 
 ### <sub>🔐 Módulo Auth (`auth/pom.xml`)</sub>
 
