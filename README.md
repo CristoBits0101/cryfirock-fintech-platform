@@ -308,7 +308,7 @@
 
 ---
 
-## <sub>📡 API ENDPOINTS</sub>
+### <sub>📡 API ENDPOINTS</sub>
 
 ### <sub>🔐 Módulo Auth</sub>
 
@@ -324,7 +324,7 @@
 
 ---
 
-## <sub>📚 DEPENDENCIAS DE PROYECTOS</sub>
+### <sub>📚 DEPENDENCIAS DE PROYECTOS</sub>
 
 ### <sub>🔐 Módulo Auth (`auth/pom.xml`)</sub>
 
