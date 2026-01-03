@@ -34,7 +34,7 @@
 | <sub>2</sub> | <sub>📝</sub> | <sub>• Propiedades de aplicación<br>• Config BD y servidor</sub> | <sub>`application.properties`</sub> |
 | <sub>3</sub> | <sub>🌐</sub> | <sub>• Mensajes i18n<br>• Validaciones y errores</sub> | <sub>`messages.properties`</sub> |
 
----
+##
 
 ### <sub>📦 Paquete > `Advice`</sub>
 
@@ -46,7 +46,7 @@
 
 <sub>💡 **Advice:** Componente de Spring AOP que captura y maneja excepciones de forma centralizada.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Aspect`</sub>
 
@@ -58,7 +58,7 @@
 
 <sub>💡 **Aspect:** Clase AOP que intercepta métodos para lógica transversal de logging, seguridad y transacciones.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Config`</sub>
 
@@ -70,7 +70,7 @@
 
 <sub>💡 **Config:** Clases de configuración de Spring que definen beans, interceptores y ajustes del framework.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Controller`</sub>
 
@@ -82,7 +82,7 @@
 
 <sub>💡 **Controller:** Componente que recibe peticiones HTTP, las procesa y devuelve respuestas al cliente.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `DTO`</sub>
 
@@ -95,7 +95,7 @@
 
 <sub>💡 **DTO:** Objeto que transporta datos entre capas sin lógica de negocio usado para entrada/salida de la API.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Entity`</sub>
 
@@ -109,7 +109,7 @@
 
 <sub>💡 **Entity:** Clase que representa una tabla de la base de datos y es gestionada por JPA/Hibernate.</sub>
 
-<hr>
+##
 
 ### <sub>📦 Paquete > `Exception`</sub>
 
@@ -121,7 +121,7 @@
 
 <sub>💡 **Exception:** Clases que representan errores específicos del dominio para un manejo de errores más preciso.</sub>
 
-<hr>
+##
 
 ### <sub>📦 Paquete > `Helper`</sub>
 
@@ -133,7 +133,7 @@
 
 <sub>💡 **Helper:** Clases auxiliares con métodos utilitarios que encapsulan lógica de negocio reutilizable.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Interceptor`</sub>
 
@@ -145,7 +145,7 @@
 
 <sub>💡 **Interceptor:** Componente que intercepta peticiones HTTP antes/después de llegar al controlador.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Mapper`</sub>
 
@@ -158,7 +158,7 @@
 
 <sub>💡 **Mapper:** Interfaces que convierten automáticamente entre DTOs y Entities usando MapStruct.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Model`</sub>
 
@@ -171,7 +171,7 @@
 
 <sub>💡 **Model:** Clases de dominio que representan conceptos del negocio sin persistencia en base de datos.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Repository`</sub>
 
@@ -184,7 +184,7 @@
 
 <sub>💡 **Repository:** Interfaces que abstraen el acceso a datos y proporcionan operaciones CRUD sobre las entidades.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Service`</sub>
 
@@ -200,7 +200,7 @@
 
 <sub>💡 **Service:** Contiene la lógica de negocio, coordina transacciones y orquesta operaciones entre repositorios.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Util`</sub>
 
@@ -213,7 +213,7 @@
 
 <sub>💡 **Util:** Clases con métodos estáticos de propósito general reutilizables en toda la aplicación.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Validation`</sub>
 
@@ -230,7 +230,7 @@
 
 <sub>💡 **Validation:** Anotaciones y validadores personalizados que extienden Bean Validation para reglas específicas.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Security.Config`</sub>
 
@@ -243,7 +243,7 @@
 
 <sub>💡 **Security.Config:** Configuración que define reglas de autenticación, autorización y filtros de seguridad.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Security.Filter`</sub>
 
@@ -256,7 +256,7 @@
 
 <sub>💡 **Security.Filter:** Filtros de la cadena de seguridad que procesan autenticación y validación de tokens JWT.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Security.Handler`</sub>
 
@@ -269,7 +269,7 @@
 
 <sub>💡 **Security.Handler:** Manejadores que personalizan respuestas de error de seguridad (401, 403) en formato JSON.</sub>
 
----
+##
 
 ### <sub>📦 Paquete > `Security.Jackson`</sub>
 
