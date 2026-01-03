@@ -310,7 +310,7 @@
 
 ### <sub>📡 API ENDPOINTS</sub>
 
-### <sub>🔐 Módulo Auth (`auth/controller/UserController.java`)</sub>
+### <sub>🔐 Módulo Auth (`auth/controller/UserController.java`):</sub>
 
 | <sub>Método</sub> | <sub>Endpoint</sub> | <sub>Descripción</sub> | <sub>🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
@@ -326,7 +326,7 @@
 
 ### <sub>📚 DEPENDENCIAS DE PROYECTOS</sub>
 
-### <sub>🔐 Módulo Auth (`auth/pom.xml`)</sub>
+### <sub>🔐 Módulo Auth (`auth/pom.xml`):</sub>
 
 | <sub>Dependencia</sub> | <sub>Versión</sub> | <sub>Scope</sub> | <sub>Descripción</sub> |
 |:------------|:-------:|:-----:|:------------|
@@ -352,7 +352,7 @@
 
 ##
 
-### <sub>🌐 Módulo OAuth2 (`oauth2/pom.xml`)</sub>
+### <sub>🌐 Módulo OAuth2 (`oauth2/pom.xml`):</sub>
 
 | <sub>Dependencia</sub> | <sub>Versión</sub> | <sub>Scope</sub> | <sub>Descripción</sub> |
 |:------------|:-------:|:-----:|:------------|
