@@ -13,288 +13,288 @@
 
 ---
 
-### <sub>📋 TABLA DE CONTENIDOS</sub>
+### 📋 TABLA DE CONTENIDOS
 
-- <sub>[Módulo Auth](#-módulo-auth) ⭍</sub>
-- <sub>[Módulo OAuth2](#-módulo-oauth2) ⭍</sub>
-- <sub>[Ejecución](#-ejecución) ⭍</sub>
-- <sub>[API Endpoints](#-api-endpoints) ⭍</sub>
+- [Módulo Auth](#-módulo-auth) ⭍
+- [Módulo OAuth2](#-módulo-oauth2) ⭍
+- [Ejecución](#-ejecución) ⭍
+- [API Endpoints](#-api-endpoints) ⭍
 
 ---
 
-### <sub>🔐 MÓDULO AUTH</sub>
+### 🔐 MÓDULO AUTH
 
 > Microservicio de Autenticación y Gestión de Usuarios
 
-### <sub>⚙️ Configuración Principal</sub>
+### ⚙️ Configuración Principal
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>1</sub> | <sub>🚀</sub> | <sub>• Punto de entrada Spring Boot<br>• Habilita AspectJ (AOP)</sub> | <sub>`AuthApplication.java`</sub> |
-| <sub>2</sub> | <sub>📝</sub> | <sub>• Propiedades de aplicación<br>• Config BD y servidor</sub> | <sub>`application.properties`</sub> |
-| <sub>3</sub> | <sub>🌐</sub> | <sub>• Mensajes i18n<br>• Validaciones y errores</sub> | <sub>`messages.properties`</sub> |
+| 1 | 🚀 | • Punto de entrada Spring Boot<br>• Habilita AspectJ (AOP) | `AuthApplication.java` |
+| 2 | 📝 | • Propiedades de aplicación<br>• Config BD y servidor | `application.properties` |
+| 3 | 🌐 | • Mensajes i18n<br>• Validaciones y errores | `messages.properties` |
 
 ##
 
-### <sub>📦 Paquete > `Advice`</sub>
+### 📦 Paquete > `Advice`
 
 > Manejo Centralizado de Excepciones
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>4</sub> | <sub>⚠️</sub> | <sub>• Controlador de excepciones global<br>• Maneja:<br>&nbsp;&nbsp;◦ Validación<br>&nbsp;&nbsp;◦ 404<br>&nbsp;&nbsp;◦ Usuarios<br>&nbsp;&nbsp;◦ JSON<br>• Usa `MessageSource` (i18n)</sub> | <sub>`GlobalExceptionHandler.java`</sub> |
+| 4 | ⚠️ | • Controlador de excepciones global<br>• Maneja:<br>&nbsp;&nbsp;◦ Validación<br>&nbsp;&nbsp;◦ 404<br>&nbsp;&nbsp;◦ Usuarios<br>&nbsp;&nbsp;◦ JSON<br>• Usa `MessageSource` (i18n) | `GlobalExceptionHandler.java` |
 
-<sub>💡 **Advice:** Componente de Spring AOP que captura y maneja excepciones de forma centralizada.</sub>
+💡 **Advice:** Componente de Spring AOP que captura y maneja excepciones de forma centralizada.
 
 ##
 
-### <sub>📦 Paquete > `Aspect`</sub>
+### 📦 Paquete > `Aspect`
 
 > Programación Orientada a Aspectos (AOP)
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>5</sub> | <sub>📊</sub> | <sub>• Intercepta métodos de `UserServiceImpl`<br>• Advices:<br>&nbsp;&nbsp;◦ `@Before`<br>&nbsp;&nbsp;◦ `@After`<br>&nbsp;&nbsp;◦ `@Around`<br>• Logging de operaciones</sub> | <sub>`UserAspect.java`</sub> |
+| 5 | 📊 | • Intercepta métodos de `UserServiceImpl`<br>• Advices:<br>&nbsp;&nbsp;◦ `@Before`<br>&nbsp;&nbsp;◦ `@After`<br>&nbsp;&nbsp;◦ `@Around`<br>• Logging de operaciones | `UserAspect.java` |
 
-<sub>💡 **Aspect:** Clase AOP que intercepta métodos para lógica transversal de logging, seguridad y transacciones.</sub>
+💡 **Aspect:** Clase AOP que intercepta métodos para lógica transversal de logging, seguridad y transacciones.
 
 ##
 
-### <sub>📦 Paquete > `Config`</sub>
+### 📦 Paquete > `Config`
 
 > Configuración de Spring MVC
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>6</sub> | <sub>🔧</sub> | <sub>• Config Spring MVC<br>• Interceptor `/api/users/**`<br>• `MessageSource` (i18n)</sub> | <sub>`AppConfig.java`</sub> |
+| 6 | 🔧 | • Config Spring MVC<br>• Interceptor `/api/users/**`<br>• `MessageSource` (i18n) | `AppConfig.java` |
 
-<sub>💡 **Config:** Clases de configuración de Spring que definen beans, interceptores y ajustes del framework.</sub>
+💡 **Config:** Clases de configuración de Spring que definen beans, interceptores y ajustes del framework.
 
 ##
 
-### <sub>📦 Paquete > `Controller`</sub>
+### 📦 Paquete > `Controller`
 
 > Controladores REST de la API
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>7</sub> | <sub>🎮</sub> | <sub>• REST para gestión de usuarios<br>• CRUD endpoints<br>• `@PreAuthorize` (roles)</sub> | <sub>`UserController.java`</sub> |
+| 7 | 🎮 | • REST para gestión de usuarios<br>• CRUD endpoints<br>• `@PreAuthorize` (roles) | `UserController.java` |
 
-<sub>💡 **Controller:** Componente que recibe peticiones HTTP, las procesa y devuelve respuestas al cliente.</sub>
+💡 **Controller:** Componente que recibe peticiones HTTP, las procesa y devuelve respuestas al cliente.
 
 ##
 
-### <sub>📦 Paquete > `DTO`</sub>
+### 📦 Paquete > `DTO`
 
 > Objetos de Transferencia de Datos
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>8</sub> | <sub>🔑</sub> | <sub>• Record credenciales login<br>• Campos validados:<br>&nbsp;&nbsp;◦ `username`<br>&nbsp;&nbsp;◦ `password`</sub> | <sub>`UserLoginDto.java`</sub> |
-| <sub>9</sub> | <sub>✏️</sub> | <sub>• Record actualización parcial<br>• Campos:<br>&nbsp;&nbsp;◦ Nombre<br>&nbsp;&nbsp;◦ Email<br>&nbsp;&nbsp;◦ Teléfono<br>&nbsp;&nbsp;◦ Etc...</sub> | <sub>`UserUpdateDto.java`</sub> |
+| 8 | 🔑 | • Record credenciales login<br>• Campos validados:<br>&nbsp;&nbsp;◦ `username`<br>&nbsp;&nbsp;◦ `password` | `UserLoginDto.java` |
+| 9 | ✏️ | • Record actualización parcial<br>• Campos:<br>&nbsp;&nbsp;◦ Nombre<br>&nbsp;&nbsp;◦ Email<br>&nbsp;&nbsp;◦ Teléfono<br>&nbsp;&nbsp;◦ Etc... | `UserUpdateDto.java` |
 
-<sub>💡 **DTO:** Objeto que transporta datos entre capas sin lógica de negocio usado para entrada/salida de la API.</sub>
+💡 **DTO:** Objeto que transporta datos entre capas sin lógica de negocio usado para entrada/salida de la API.
 
 ##
 
-### <sub>📦 Paquete > `Entity`</sub>
+### 📦 Paquete > `Entity`
 
 > Entidades JPA Persistentes
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>10</sub> | <sub>👤</sub> | <sub>• Entidad principal usuario<br>• Contiene:<br>&nbsp;&nbsp;◦ Datos<br>&nbsp;&nbsp;◦ Credenciales<br>&nbsp;&nbsp;◦ Estado<br>• Relación con roles</sub> | <sub>`User.java`</sub> |
-| <sub>11</sub> | <sub>🎭</sub> | <sub>• Entidad rol<br>• Relación bidireccional<br>• Roles:<br>&nbsp;&nbsp;◦ `ROLE_USER`<br>&nbsp;&nbsp;◦ `ROLE_ADMIN`</sub> | <sub>`Role.java`</sub> |
-| <sub>12</sub> | <sub>📅</sub> | <sub>• Clase embebible auditoría<br>• Fechas:<br>&nbsp;&nbsp;◦ Creación<br>&nbsp;&nbsp;◦ Update<br>&nbsp;&nbsp;◦ Login</sub> | <sub>`Audit.java`</sub> |
+| 10 | 👤 | • Entidad principal usuario<br>• Contiene:<br>&nbsp;&nbsp;◦ Datos<br>&nbsp;&nbsp;◦ Credenciales<br>&nbsp;&nbsp;◦ Estado<br>• Relación con roles | `User.java` |
+| 11 | 🎭 | • Entidad rol<br>• Relación bidireccional<br>• Roles:<br>&nbsp;&nbsp;◦ `ROLE_USER`<br>&nbsp;&nbsp;◦ `ROLE_ADMIN` | `Role.java` |
+| 12 | 📅 | • Clase embebible auditoría<br>• Fechas:<br>&nbsp;&nbsp;◦ Creación<br>&nbsp;&nbsp;◦ Update<br>&nbsp;&nbsp;◦ Login | `Audit.java` |
 
-<sub>💡 **Entity:** Clase que representa una tabla de la base de datos y es gestionada por JPA/Hibernate.</sub>
+💡 **Entity:** Clase que representa una tabla de la base de datos y es gestionada por JPA/Hibernate.
 
 ##
 
-### <sub>📦 Paquete > `Exception`</sub>
+### 📦 Paquete > `Exception`
 
 > Excepciones Personalizadas
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>13</sub> | <sub>❌</sub> | <sub>• Usuario no encontrado en BD</sub> | <sub>`UserNotFoundException.java`</sub> |
+| 13 | ❌ | • Usuario no encontrado en BD | `UserNotFoundException.java` |
 
-<sub>💡 **Exception:** Clases que representan errores específicos del dominio para un manejo de errores más preciso.</sub>
+💡 **Exception:** Clases que representan errores específicos del dominio para un manejo de errores más preciso.
 
 ##
 
-### <sub>📦 Paquete > `Helper`</sub>
+### 📦 Paquete > `Helper`
 
 > Clases Auxiliares de Lógica de Negocio
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>14</sub> | <sub>🎯</sub> | <sub>• Asigna roles a usuarios<br>• `ROLE_USER` (todos)<br>• `ROLE_ADMIN` (flag admin)</sub> | <sub>`RolesHelper.java`</sub> |
+| 14 | 🎯 | • Asigna roles a usuarios<br>• `ROLE_USER` (todos)<br>• `ROLE_ADMIN` (flag admin) | `RolesHelper.java` |
 
-<sub>💡 **Helper:** Clases auxiliares con métodos utilitarios que encapsulan lógica de negocio reutilizable.</sub>
+💡 **Helper:** Clases auxiliares con métodos utilitarios que encapsulan lógica de negocio reutilizable.
 
 ##
 
-### <sub>📦 Paquete > `Interceptor`</sub>
+### 📦 Paquete > `Interceptor`
 
 > Interceptores HTTP
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>15</sub> | <sub>🛡️</sub> | <sub>• Valida tokens JWT<br>• Verifica:<br>&nbsp;&nbsp;◦ Header<br>&nbsp;&nbsp;◦ Firma<br>&nbsp;&nbsp;◦ Expiración</sub> | <sub>`UserOperationsInterceptor.java`</sub> |
+| 15 | 🛡️ | • Valida tokens JWT<br>• Verifica:<br>&nbsp;&nbsp;◦ Header<br>&nbsp;&nbsp;◦ Firma<br>&nbsp;&nbsp;◦ Expiración | `UserOperationsInterceptor.java` |
 
-<sub>💡 **Interceptor:** Componente que intercepta peticiones HTTP antes/después de llegar al controlador.</sub>
+💡 **Interceptor:** Componente que intercepta peticiones HTTP antes/después de llegar al controlador.
 
 ##
 
-### <sub>📦 Paquete > `Mapper`</sub>
+### 📦 Paquete > `Mapper`
 
 > Mapeadores de Objetos (MapStruct)
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>16</sub> | <sub>🔄</sub> | <sub>• Convierte params → `Error`<br>• Fecha automática</sub> | <sub>`ErrorMapper.java`</sub> |
-| <sub>17</sub> | <sub>🔄</sub> | <sub>• Actualización parcial usuarios<br>• Ignora campos sensibles</sub> | <sub>`UserMapper.java`</sub> |
+| 16 | 🔄 | • Convierte params → `Error`<br>• Fecha automática | `ErrorMapper.java` |
+| 17 | 🔄 | • Actualización parcial usuarios<br>• Ignora campos sensibles | `UserMapper.java` |
 
-<sub>💡 **Mapper:** Interfaces que convierten automáticamente entre DTOs y Entities usando MapStruct.</sub>
+💡 **Mapper:** Interfaces que convierten automáticamente entre DTOs y Entities usando MapStruct.
 
 ##
 
-### <sub>📦 Paquete > `Model`</sub>
+### 📦 Paquete > `Model`
 
 > Modelos de Dominio no Persistentes
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>18</sub> | <sub>📊</sub> | <sub>• Enum estados cuenta:<br>&nbsp;&nbsp;◦ `PENDING`<br>&nbsp;&nbsp;◦ `ACTIVE`<br>&nbsp;&nbsp;◦ `SUSPENDED`<br>&nbsp;&nbsp;◦ Etc.</sub> | <sub>`AccountStatus.java`</sub> |
-| <sub>19</sub> | <sub>💬</sub> | <sub>• POJO respuestas error<br>• Campos:<br>&nbsp;&nbsp;◦ `message`<br>&nbsp;&nbsp;◦ `error`<br>&nbsp;&nbsp;◦ `status`<br>&nbsp;&nbsp;◦ `date`</sub> | <sub>`Error.java`</sub> |
+| 18 | 📊 | • Enum estados cuenta:<br>&nbsp;&nbsp;◦ `PENDING`<br>&nbsp;&nbsp;◦ `ACTIVE`<br>&nbsp;&nbsp;◦ `SUSPENDED`<br>&nbsp;&nbsp;◦ Etc. | `AccountStatus.java` |
+| 19 | 💬 | • POJO respuestas error<br>• Campos:<br>&nbsp;&nbsp;◦ `message`<br>&nbsp;&nbsp;◦ `error`<br>&nbsp;&nbsp;◦ `status`<br>&nbsp;&nbsp;◦ `date` | `Error.java` |
 
-<sub>💡 **Model:** Clases de dominio que representan conceptos del negocio sin persistencia en base de datos.</sub>
+💡 **Model:** Clases de dominio que representan conceptos del negocio sin persistencia en base de datos.
 
 ##
 
-### <sub>📦 Paquete > `Repository`</sub>
+### 📦 Paquete > `Repository`
 
 > Repositorios de Acceso a Datos
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>20</sub> | <sub>🗃️</sub> | <sub>• Repositorio JPA usuarios<br>• Existencia y búsquedas</sub> | <sub>`JpaUserRepository.java`</sub> |
-| <sub>21</sub> | <sub>🗃️</sub> | <sub>• Repositorio roles<br>• Búsqueda por nombre</sub> | <sub>`JpaRoleRepository.java`</sub> |
+| 20 | 🗃️ | • Repositorio JPA usuarios<br>• Existencia y búsquedas | `JpaUserRepository.java` |
+| 21 | 🗃️ | • Repositorio roles<br>• Búsqueda por nombre | `JpaRoleRepository.java` |
 
-<sub>💡 **Repository:** Interfaces que abstraen el acceso a datos y proporcionan operaciones CRUD sobre las entidades.</sub>
+💡 **Repository:** Interfaces que abstraen el acceso a datos y proporcionan operaciones CRUD sobre las entidades.
 
 ##
 
-### <sub>📦 Paquete > `Service`</sub>
+### 📦 Paquete > `Service`
 
 > Servicios de Lógica de Negocio
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>22</sub> | <sub>📋</sub> | <sub>• Interfaz CRUD usuarios</sub> | <sub>`IUserService.java`</sub> |
-| <sub>23</sub> | <sub>📋</sub> | <sub>• Interfaz consultas existencia<br>• Por:<br>&nbsp;&nbsp;◦ Email<br>&nbsp;&nbsp;◦ Teléfono<br>&nbsp;&nbsp;◦ Username</sub> | <sub>`IUserQueryService.java`</sub> |
-| <sub>24</sub> | <sub>⚡</sub> | <sub>• Impl `IUserService`<br>• Incluye:<br>&nbsp;&nbsp;◦ Transacciones<br>&nbsp;&nbsp;◦ Roles<br>&nbsp;&nbsp;◦ BCrypt</sub> | <sub>`UserServiceImpl.java`</sub> |
-| <sub>25</sub> | <sub>⚡</sub> | <sub>• Impl `IUserQueryService`<br>• Delega al repositorio</sub> | <sub>`UserQueryServiceImpl.java`</sub> |
-| <sub>26</sub> | <sub>🔐</sub> | <sub>• Impl `UserDetailsService`<br>• Funciones:<br>&nbsp;&nbsp;◦ Carga usuarios<br>&nbsp;&nbsp;◦ Convierte roles</sub> | <sub>`JpaUserDetailsServiceImpl.java`</sub> |
+| 22 | 📋 | • Interfaz CRUD usuarios | `IUserService.java` |
+| 23 | 📋 | • Interfaz consultas existencia<br>• Por:<br>&nbsp;&nbsp;◦ Email<br>&nbsp;&nbsp;◦ Teléfono<br>&nbsp;&nbsp;◦ Username | `IUserQueryService.java` |
+| 24 | ⚡ | • Impl `IUserService`<br>• Incluye:<br>&nbsp;&nbsp;◦ Transacciones<br>&nbsp;&nbsp;◦ Roles<br>&nbsp;&nbsp;◦ BCrypt | `UserServiceImpl.java` |
+| 25 | ⚡ | • Impl `IUserQueryService`<br>• Delega al repositorio | `UserQueryServiceImpl.java` |
+| 26 | 🔐 | • Impl `UserDetailsService`<br>• Funciones:<br>&nbsp;&nbsp;◦ Carga usuarios<br>&nbsp;&nbsp;◦ Convierte roles | `JpaUserDetailsServiceImpl.java` |
 
-<sub>💡 **Service:** Contiene la lógica de negocio, coordina transacciones y orquesta operaciones entre repositorios.</sub>
+💡 **Service:** Contiene la lógica de negocio, coordina transacciones y orquesta operaciones entre repositorios.
 
 ##
 
-### <sub>📦 Paquete > `Util`</sub>
+### 📦 Paquete > `Util`
 
 > Utilidades Generales
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>27</sub> | <sub>🔒</sub> | <sub>• Codificación contraseñas<br>• BCrypt (detecta si codificada)</sub> | <sub>`PasswordUtil.java`</sub> |
-| <sub>28</sub> | <sub>✅</sub> | <sub>• Validación de strings<br>• Genera HTTP 400 formateados</sub> | <sub>`ValidationUtil.java`</sub> |
+| 27 | 🔒 | • Codificación contraseñas<br>• BCrypt (detecta si codificada) | `PasswordUtil.java` |
+| 28 | ✅ | • Validación de strings<br>• Genera HTTP 400 formateados | `ValidationUtil.java` |
 
-<sub>💡 **Util:** Clases con métodos estáticos de propósito general reutilizables en toda la aplicación.</sub>
+💡 **Util:** Clases con métodos estáticos de propósito general reutilizables en toda la aplicación.
 
 ##
 
-### <sub>📦 Paquete > `Validation`</sub>
+### 📦 Paquete > `Validation`
 
 > Validadores Personalizados de Bean Validation
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>29</sub> | <sub>📧</sub> | <sub>• Anotación email único en BD</sub> | <sub>`IExistsByEmail.java`</sub> |
-| <sub>30</sub> | <sub>📧</sub> | <sub>• Impl validador email único</sub> | <sub>`ExistsByEmailValidationImpl.java`</sub> |
-| <sub>31</sub> | <sub>📱</sub> | <sub>• Anotación teléfono único</sub> | <sub>`IExistsByPhoneNumber.java`</sub> |
-| <sub>32</sub> | <sub>📱</sub> | <sub>• Impl validador teléfono único</sub> | <sub>`ExistsByPhoneNumberValidationImpl.java`</sub> |
-| <sub>33</sub> | <sub>👤</sub> | <sub>• Anotación username único</sub> | <sub>`IExistsByUsername.java`</sub> |
-| <sub>34</sub> | <sub>👤</sub> | <sub>• Impl validador username único</sub> | <sub>`ExistsByUsernameValidationImpl.java`</sub> |
+| 29 | 📧 | • Anotación email único en BD | `IExistsByEmail.java` |
+| 30 | 📧 | • Impl validador email único | `ExistsByEmailValidationImpl.java` |
+| 31 | 📱 | • Anotación teléfono único | `IExistsByPhoneNumber.java` |
+| 32 | 📱 | • Impl validador teléfono único | `ExistsByPhoneNumberValidationImpl.java` |
+| 33 | 👤 | • Anotación username único | `IExistsByUsername.java` |
+| 34 | 👤 | • Impl validador username único | `ExistsByUsernameValidationImpl.java` |
 
-<sub>💡 **Validation:** Anotaciones y validadores personalizados que extienden Bean Validation para reglas específicas.</sub>
+💡 **Validation:** Anotaciones y validadores personalizados que extienden Bean Validation para reglas específicas.
 
 ##
 
-### <sub>📦 Paquete > `Security.Config`</sub>
+### 📦 Paquete > `Security.Config`
 
 > Configuración de Spring Security
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>35</sub> | <sub>🔐</sub> | <sub>• Config Spring Security<br>• Incluye:<br>&nbsp;&nbsp;◦ Filtros<br>&nbsp;&nbsp;◦ Autorización<br>&nbsp;&nbsp;◦ Stateless<br>• CORS y JWT</sub> | <sub>`SpringSecurityConfig.java`</sub> |
-| <sub>36</sub> | <sub>🎟️</sub> | <sub>• Config tokens JWT<br>• Incluye:<br>&nbsp;&nbsp;◦ Constantes<br>&nbsp;&nbsp;◦ Clave HMAC-SHA256</sub> | <sub>`TokenJwtConfig.java`</sub> |
+| 35 | 🔐 | • Config Spring Security<br>• Incluye:<br>&nbsp;&nbsp;◦ Filtros<br>&nbsp;&nbsp;◦ Autorización<br>&nbsp;&nbsp;◦ Stateless<br>• CORS y JWT | `SpringSecurityConfig.java` |
+| 36 | 🎟️ | • Config tokens JWT<br>• Incluye:<br>&nbsp;&nbsp;◦ Constantes<br>&nbsp;&nbsp;◦ Clave HMAC-SHA256 | `TokenJwtConfig.java` |
 
-<sub>💡 **Security.Config:** Configuración que define reglas de autenticación, autorización y filtros de seguridad.</sub>
+💡 **Security.Config:** Configuración que define reglas de autenticación, autorización y filtros de seguridad.
 
 ##
 
-### <sub>📦 Paquete > `Security.Filter`</sub>
+### 📦 Paquete > `Security.Filter`
 
 > Filtros de Seguridad JWT
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>37</sub> | <sub>🔑</sub> | <sub>• Filtro autenticación<br>• Procesa:<br>&nbsp;&nbsp;◦ Login<br>&nbsp;&nbsp;◦ JSON<br>&nbsp;&nbsp;◦ Token 1h</sub> | <sub>`JwtAuthenticationFilter.java`</sub> |
-| <sub>38</sub> | <sub>✔️</sub> | <sub>• Filtro validación<br>• Valida JWT, `SecurityContext`</sub> | <sub>`JwtValidationFilter.java`</sub> |
+| 37 | 🔑 | • Filtro autenticación<br>• Procesa:<br>&nbsp;&nbsp;◦ Login<br>&nbsp;&nbsp;◦ JSON<br>&nbsp;&nbsp;◦ Token 1h | `JwtAuthenticationFilter.java` |
+| 38 | ✔️ | • Filtro validación<br>• Valida JWT, `SecurityContext` | `JwtValidationFilter.java` |
 
-<sub>💡 **Security.Filter:** Filtros de la cadena de seguridad que procesan autenticación y validación de tokens JWT.</sub>
+💡 **Security.Filter:** Filtros de la cadena de seguridad que procesan autenticación y validación de tokens JWT.
 
 ##
 
-### <sub>📦 Paquete > `Security.Handler`</sub>
+### 📦 Paquete > `Security.Handler`
 
 > Manejadores de Errores de Seguridad
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>39</sub> | <sub>🚫</sub> | <sub>• Acceso denegado (403)<br>• Respuesta JSON</sub> | <sub>`RestAccessDeniedHandler.java`</sub> |
-| <sub>40</sub> | <sub>🚷</sub> | <sub>• Error autenticación (401)<br>• Respuesta JSON</sub> | <sub>`RestAuthenticationEntryPoint.java`</sub> |
+| 39 | 🚫 | • Acceso denegado (403)<br>• Respuesta JSON | `RestAccessDeniedHandler.java` |
+| 40 | 🚷 | • Error autenticación (401)<br>• Respuesta JSON | `RestAuthenticationEntryPoint.java` |
 
-<sub>💡 **Security.Handler:** Manejadores que personalizan respuestas de error de seguridad (401, 403) en formato JSON.</sub>
+💡 **Security.Handler:** Manejadores que personalizan respuestas de error de seguridad (401, 403) en formato JSON.
 
 ##
 
-### <sub>📦 Paquete > `Security.Jackson`</sub>
+### 📦 Paquete > `Security.Jackson`
 
 > Configuración de Serialización Jackson
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>41</sub> | <sub>🔧</sub> | <sub>• Mixin Jackson<br>• Deserializa `SimpleGrantedAuthority`</sub> | <sub>`SimpleGrantedAuthorityJsonCreator.java`</sub> |
+| 41 | 🔧 | • Mixin Jackson<br>• Deserializa `SimpleGrantedAuthority` | `SimpleGrantedAuthorityJsonCreator.java` |
 
-<sub>💡 **Security.Jackson:** Configuración de Jackson para serializar/deserializar objetos de Spring Security en JSON.</sub>
+💡 **Security.Jackson:** Configuración de Jackson para serializar/deserializar objetos de Spring Security en JSON.
 
 ---
 
-### <sub>🌐 MÓDULO OAUTH2</sub>
+### 🌐 MÓDULO OAUTH2
 
-> ⚠️ *En Desarrollo*</sub>
+> ⚠️ *En Desarrollo*
 
-| <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
+| # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| <sub>42</sub> | <sub>🔗</sub> | <sub>• Proveedores OAuth2 externos</sub> | <sub>`provider/`</sub> |
-| <sub>43</sub> | <sub>📝</sub> | <sub>• Config propiedades OAuth2</sub> | <sub>`application.properties`</sub> |
+| 42 | 🔗 | • Proveedores OAuth2 externos | `provider/` |
+| 43 | 📝 | • Config propiedades OAuth2 | `application.properties` |
 
 ---
 
-### <sub>🚀 EJECUCIÓN DE MÓDULOS</sub>
+### 🚀 EJECUCIÓN DE MÓDULOS
 
 ```bash
 # 📦 Módulo Auth:
@@ -308,9 +308,9 @@
 
 ---
 
-### <sub>📡 API ENDPOINTS</sub>
+### 📡 API ENDPOINTS
 
-### <sub>🔐 Módulo Auth (`auth/controller/UserController.java`):</sub>
+### 🔐 Módulo Auth (`auth/controller/UserController.java`):
 
 | <sub>Método</sub> | <sub>Endpoint</sub> | <sub>Descripción</sub> | <sub>🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
@@ -324,9 +324,9 @@
 
 ---
 
-### <sub>📚 DEPENDENCIAS DE PROYECTOS</sub>
+### 📚 DEPENDENCIAS DE PROYECTOS
 
-### <sub>🔐 Módulo Auth (`auth/pom.xml`):</sub>
+### 🔐 Módulo Auth (`auth/pom.xml`):
 
 | <sub>Dependencia</sub> | <sub>Versión</sub> | <sub>Scope</sub> | <sub>Descripción</sub> |
 |:------------|:-------:|:-----:|:------------|
@@ -352,7 +352,7 @@
 
 ##
 
-### <sub>🌐 Módulo OAuth2 (`oauth2/pom.xml`):</sub>
+### 🌐 Módulo OAuth2 (`oauth2/pom.xml`):
 
 | <sub>Dependencia</sub> | <sub>Versión</sub> | <sub>Scope</sub> | <sub>Descripción</sub> |
 |:------------|:-------:|:-----:|:------------|
@@ -372,10 +372,10 @@
 | <sub>**reactor-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de flujos reactivos</sub> |
 | <sub>**spring-security-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de seguridad</sub> |
 
-<sub>💡 Las versiones marcadas con `-` son gestionadas automáticamente por `spring-boot-starter-parent`.</sub>
+💡 Las versiones marcadas con `-` son gestionadas automáticamente por `spring-boot-starter-parent`.
 
 ---
 
 <p align="center">
-  <sub>Desarrollado con ❤️ por <strong>CryfiRock Team</strong></sub>
+  Desarrollado con ❤️ por <strong>CryfiRock Team</strong>
 </p>
