@@ -38,7 +38,7 @@
 
 ### <sub>📦 Paquete > `Advice`</sub>
 
-> <sub>*Manejo Centralizado de Excepciones*</sub>
+> *Manejo Centralizado de Excepciones
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -50,7 +50,7 @@
 
 ### <sub>📦 Paquete > `Aspect`</sub>
 
-> <sub>*Programación Orientada a Aspectos (AOP)*</sub>
+> *Programación Orientada a Aspectos (AOP)
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -62,7 +62,7 @@
 
 ### <sub>📦 Paquete > `Config`</sub>
 
-> <sub>*Configuración de Spring MVC*</sub>
+> *Configuración de Spring MVC
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -74,7 +74,7 @@
 
 ### <sub>📦 Paquete > `Controller`</sub>
 
-> <sub>*Controladores REST de la API*</sub>
+> *Controladores REST de la API
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -86,7 +86,7 @@
 
 ### <sub>📦 Paquete > `DTO`</sub>
 
-> <sub>*Objetos de Transferencia de Datos*</sub>
+> *Objetos de Transferencia de Datos
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -99,7 +99,7 @@
 
 ### <sub>📦 Paquete > `Entity`</sub>
 
-> <sub>*Entidades JPA Persistentes*</sub>
+> *Entidades JPA Persistentes
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -113,7 +113,7 @@
 
 ### <sub>📦 Paquete > `Exception`</sub>
 
-> <sub>*Excepciones Personalizadas*</sub>
+> *Excepciones Personalizadas
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -125,7 +125,7 @@
 
 ### <sub>📦 Paquete > `Helper`</sub>
 
-> <sub>*Clases Auxiliares de Lógica de Negocio*</sub>
+> *Clases Auxiliares de Lógica de Negocio
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -137,7 +137,7 @@
 
 ### <sub>📦 Paquete > `Interceptor`</sub>
 
-> <sub>*Interceptores HTTP*</sub>
+> *Interceptores HTTP
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -149,7 +149,7 @@
 
 ### <sub>📦 Paquete > `Mapper`</sub>
 
-> <sub>*Mapeadores de Objetos (MapStruct)*</sub>
+> *Mapeadores de Objetos (MapStruct)
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -162,7 +162,7 @@
 
 ### <sub>📦 Paquete > `Model`</sub>
 
-> <sub>*Modelos de Dominio no Persistentes*</sub>
+> *Modelos de Dominio no Persistentes
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -175,7 +175,7 @@
 
 ### <sub>📦 Paquete > `Repository`</sub>
 
-> <sub>*Repositorios de Acceso a Datos*</sub>
+> *Repositorios de Acceso a Datos
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -188,7 +188,7 @@
 
 ### <sub>📦 Paquete > `Service`</sub>
 
-> <sub>*Servicios de Lógica de Negocio*</sub>
+> *Servicios de Lógica de Negocio
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -204,7 +204,7 @@
 
 ### <sub>📦 Paquete > `Util`</sub>
 
-> <sub>*Utilidades Generales*</sub>
+> *Utilidades Generales
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -217,7 +217,7 @@
 
 ### <sub>📦 Paquete > `Validation`</sub>
 
-> <sub>*Validadores Personalizados de Bean Validation*</sub>
+> *Validadores Personalizados de Bean Validation
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -234,7 +234,7 @@
 
 ### <sub>📦 Paquete > `Security.Config`</sub>
 
-> <sub>*Configuración de Spring Security*</sub>
+> *Configuración de Spring Security
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -247,7 +247,7 @@
 
 ### <sub>📦 Paquete > `Security.Filter`</sub>
 
-> <sub>*Filtros de Seguridad JWT*</sub>
+> *Filtros de Seguridad JWT
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -260,7 +260,7 @@
 
 ### <sub>📦 Paquete > `Security.Handler`</sub>
 
-> <sub>*Manejadores de Errores de Seguridad*</sub>
+> *Manejadores de Errores de Seguridad
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -273,7 +273,7 @@
 
 ### <sub>📦 Paquete > `Security.Jackson`</sub>
 
-> <sub>*Configuración de Serialización Jackson*</sub>
+> *Configuración de Serialización Jackson
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
@@ -285,7 +285,7 @@
 
 ## <sub>🌐 Módulo OAuth2</sub>
 
-> <sub>⚠️ *En Desarrollo*</sub>
+> ⚠️ *En Desarrollo*</sub>
 
 | <sub>#</sub> | <sub>#</sub> | <sub>Descripción</sub> | <sub>Archivo</sub> |
 |:-:|:-:|:------------|---------|
