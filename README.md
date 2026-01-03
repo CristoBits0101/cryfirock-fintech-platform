@@ -350,7 +350,7 @@
 | <sub>**reactor-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de flujos reactivos</sub> |
 | <sub>**spring-security-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de seguridad</sub> |
 
----
+##
 
 ### <sub>🌐 Módulo OAuth2 (`oauth2/pom.xml`)</sub>
 
