@@ -10,8 +10,7 @@
 <p align="center">
   <strong>Plataforma fintech con Spring Boot que ofrece autenticación y autorización mediante JWT</strong>
 </p>
-
----
+##
 
 ### <sub>📋 Tabla de Contenidos</sub>
 
