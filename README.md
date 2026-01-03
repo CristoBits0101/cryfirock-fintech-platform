@@ -17,7 +17,7 @@
 
 - [Módulo Auth](#-módulo-auth) ⭍
 - [Módulo OAuth2](#-módulo-oauth2) ⭍
-- [Ejecución](#-ejecución) ⭍
+- [Ejecución](#-ejecución-de-módulos) ⭍
 - [API Endpoints](#-api-endpoints) ⭍
 
 ---
