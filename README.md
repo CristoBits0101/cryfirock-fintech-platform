@@ -372,7 +372,7 @@
 
 <sub>💡 Las versiones marcadas con `-` son gestionadas automáticamente por `spring-boot-starter-parent`.</sub>
 
----
+##
 
 <p align="center">
   <sub>Desarrollado con ❤️ por <strong>CryfiRock Team</strong></sub>
