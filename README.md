@@ -283,7 +283,7 @@
 
 ---
 
-## <sub>🌐 Módulo OAuth2</sub>
+### <sub>🌐 Módulo OAuth2</sub>
 
 > ⚠️ *En Desarrollo*</sub>
 
