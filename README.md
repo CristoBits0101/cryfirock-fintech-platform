@@ -13,7 +13,7 @@
 
 ##
 
-## <sub>📋 Tabla de Contenidos</sub>
+### <sub>📋 Tabla de Contenidos</sub>
 
 - <sub>[Módulo Auth](#-módulo-auth) ⭍</sub>
 - <sub>[Módulo OAuth2](#-módulo-oauth2) ⭍</sub>
@@ -22,7 +22,7 @@
 
 ##
 
-## <sub>🔐 Módulo Auth</sub>
+### <sub>🔐 Módulo Auth</sub>
 
 > <sub>Microservicio de Autenticación y Gestión de Usuarios</sub>
 
