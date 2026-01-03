@@ -11,18 +11,18 @@
   <strong>Plataforma fintech con Spring Boot que ofrece autenticación y autorización mediante JWT</strong>
 </p>
 
-##
+---
 
-### <sub>📋 Tabla de Contenidos</sub>
+## <sub>📋 Tabla de Contenidos</sub>
 
 - <sub>[Módulo Auth](#-módulo-auth) ⭍</sub>
 - <sub>[Módulo OAuth2](#-módulo-oauth2) ⭍</sub>
 - <sub>[Ejecución](#-ejecución) ⭍</sub>
 - <sub>[API Endpoints](#-api-endpoints) ⭍</sub>
 
-##
+---
 
-### <sub>🔐 Módulo Auth</sub>
+## <sub>🔐 Módulo Auth</sub>
 
 > <sub>Microservicio de Autenticación y Gestión de Usuarios</sub>
 
@@ -34,7 +34,7 @@
 | <sub>2</sub> | <sub>📝</sub> | <sub>• Propiedades de aplicación<br>• Config BD y servidor</sub> | <sub>`application.properties`</sub> |
 | <sub>3</sub> | <sub>🌐</sub> | <sub>• Mensajes i18n<br>• Validaciones y errores</sub> | <sub>`messages.properties`</sub> |
 
-##
+---
 
 ### <sub>📦 Paquete > `Advice`</sub>
 
@@ -46,7 +46,7 @@
 
 <sub>💡 **Advice:** Componente de Spring AOP que captura y maneja excepciones de forma centralizada.</sub>
 
-##
+---
 
 ### <sub>📦 Paquete > `Aspect`</sub>
 
@@ -58,7 +58,7 @@
 
 <sub>💡 **Aspect:** Clase AOP que intercepta métodos para lógica transversal de logging, seguridad y transacciones.</sub>
 
-##
+---
 
 ### <sub>📦 Paquete > `Config`</sub>
 
@@ -70,7 +70,7 @@
 
 <sub>💡 **Config:** Clases de configuración de Spring que definen beans, interceptores y ajustes del framework.</sub>
 
-##
+---
 
 ### <sub>📦 Paquete > `Controller`</sub>
 
@@ -82,7 +82,7 @@
 
 <sub>💡 **Controller:** Componente que recibe peticiones HTTP, las procesa y devuelve respuestas al cliente.</sub>
 
-##
+---
 
 ### <sub>📦 Paquete > `DTO`</sub>
 
@@ -95,7 +95,7 @@
 
 <sub>💡 **DTO:** Objeto que transporta datos entre capas sin lógica de negocio usado para entrada/salida de la API.</sub>
 
-##
+---
 
 ### <sub>📦 Paquete > `Entity`</sub>
 
