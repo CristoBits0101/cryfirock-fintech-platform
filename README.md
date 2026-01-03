@@ -310,7 +310,7 @@
 
 ### <sub>📡 API ENDPOINTS</sub>
 
-### <sub>🔐 Módulo Auth</sub>
+### <sub>🔐 Módulo Auth (`auth/controller/UserController.java`)</sub>
 
 | <sub>Método</sub> | <sub>Endpoint</sub> | <sub>Descripción</sub> | <sub>🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
