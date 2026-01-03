@@ -322,7 +322,7 @@
 
 ---
 
-### <sub>📚 Dependencias del Proyecto</sub>
+### <sub>📚 DEPENDENCIAS DEL PROYECTO</sub>
 
 ### <sub>🔐 Módulo Auth (`auth/pom.xml`)</sub>
 
