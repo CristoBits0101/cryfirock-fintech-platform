@@ -294,7 +294,7 @@
 
 ---
 
-### <sub>🚀 Ejecución de Módulos</sub>
+### <sub>🚀 EJECUCIÓN DE MÓDULOS</sub>
 
 ```bash
 # 📦 Módulo Auth:
@@ -308,7 +308,7 @@
 
 ---
 
-### <sub>📡 API Endpoints</sub>
+### <sub>📡 API ENDPOINTS</sub>
 
 | <sub>Método</sub> | <sub>Endpoint</sub> | <sub>Descripción</sub> | <sub>🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
