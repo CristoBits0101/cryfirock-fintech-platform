@@ -3,6 +3,13 @@ package com.cryfirock.oauth2.provider.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class User {
     private Long id;
     private String givenName;
@@ -14,23 +21,6 @@ public class User {
     private String address;
     private String enabled;
     private List<Role> roles;
-
-    public User() {
-    }
-
-    public User(Long id, String givenName, String familyName, String email, String phoneNumber,
-                String username, LocalDate dob, String address, String enabled, List<Role> roles) {
-        this.id = id;
-        this.givenName = givenName;
-        this.familyName = familyName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.username = username;
-        this.dob = dob;
-        this.address = address;
-        this.enabled = enabled;
-        this.roles = roles;
-    }
 
     public Long getId() {
         return id;
