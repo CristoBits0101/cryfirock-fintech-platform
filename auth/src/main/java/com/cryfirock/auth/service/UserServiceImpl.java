@@ -3,6 +3,7 @@ package com.cryfirock.auth.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.cfg.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -24,13 +25,17 @@ public class UserServiceImpl implements IUserService {
   private final RolesHelper rolesHelper;
   private final UserMapper userMapper;
 
+  private Environment environment;
+
   public UserServiceImpl(
       JpaUserRepository userRepository,
       RolesHelper rolesHelper,
-      UserMapper userMapper) {
+      UserMapper userMapper,
+      Environment environment) {
     this.userRepository = userRepository;
     this.rolesHelper = rolesHelper;
     this.userMapper = userMapper;
+    this.environment = environment;
   }
 
   @Override
