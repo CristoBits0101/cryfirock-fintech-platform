@@ -3,7 +3,7 @@ package com.cryfirock.auth.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.cfg.Environment;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -52,7 +52,14 @@ public class UserServiceImpl implements IUserService {
   @Override
   @Transactional(readOnly = true)
   public List<User> findAll() {
-    return userRepository.findAll();
+    return userRepository
+        .findAll()
+        .stream()
+        .peek(user -> user
+            .setPort(Integer
+                .parseInt(environment
+                    .getProperty("local.server.port"))))
+        .toList();
   }
 
   @Override
