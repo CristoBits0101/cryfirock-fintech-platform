@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,9 @@ public class Audit {
   private Instant createdAt;
   private Instant updatedAt;
   private Instant lastLoginAt;
+
+  @Transient
+  private int port;
 
   @PrePersist
   public void prePersist() {
