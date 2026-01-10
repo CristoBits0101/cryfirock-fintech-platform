@@ -25,7 +25,7 @@ public class UserServiceImpl implements IUserService {
   private final RolesHelper rolesHelper;
   private final UserMapper userMapper;
 
-  private Environment environment;
+  private final Environment environment;
 
   public UserServiceImpl(
       JpaUserRepository userRepository,
