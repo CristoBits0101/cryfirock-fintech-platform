@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -95,9 +94,6 @@ public class User {
       "user_id", "role_id" }))
   @ManyToMany
   private List<Role> roles;
-
-  @Embedded
-  private Audit audit;
 
   @Transient
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
