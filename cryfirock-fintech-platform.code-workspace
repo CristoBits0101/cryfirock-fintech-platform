@@ -1,10 +1,14 @@
 {
+  // Carpetas del espacio de trabajo
   "folders": [
     { "path": "auth" },
     { "path": "oauth2" }
   ],
+  // Opciones específicas del espacio de trabajo
   "settings": {
+    // Java debug en terminal integrada
     "java.debug.settings.console": "integratedTerminal",
+    // Perfil de terminal por defecto en Windows: CMD
     "terminal.integrated.defaultProfile.windows": "Command Prompt"
   }
 }
