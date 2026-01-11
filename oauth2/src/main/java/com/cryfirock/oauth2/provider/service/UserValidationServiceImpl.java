@@ -12,12 +12,6 @@ public class UserValidationServiceImpl implements IUserValidationService {
 
     @Override
     public boolean isEmailAlreadyRegistered(String email) {
-        try {
-            Boolean exists = userFeignClient.checkEmailExists(email);
-            return exists != null && exists;
-        } catch (Exception e) {
-            System.err.println("Error al verificar email: " + e.getMessage());
-            return false;
-        }
+        return Boolean.TRUE.equals(userFeignClient.checkEmailExists(email));
     }
 }
