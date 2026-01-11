@@ -9,16 +9,6 @@
             "projectName": "oauth2",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
-        },
-        {
-            "type": "java",
-            "name": "Launch Auth Service",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.cryfirock.auth.AuthApplication",
-            "projectName": "auth",
-            "args": "",
-            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
