@@ -1,0 +1,10 @@
+{
+  "folders": [
+    { "path": "auth" },
+    { "path": "oauth2" }
+  ],
+  "settings": {
+    "java.debug.settings.console": "integratedTerminal",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt"
+  }
+}
