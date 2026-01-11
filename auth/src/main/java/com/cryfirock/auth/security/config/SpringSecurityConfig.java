@@ -39,11 +39,13 @@ public class SpringSecurityConfig {
   }
 
   @Bean
+  @SuppressWarnings("unused")
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
   @Bean
+  @SuppressWarnings("unused")
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
     jwtAuthenticationFilter.setFilterProcessesUrl("/login");
@@ -94,8 +96,10 @@ public class SpringSecurityConfig {
   }
 
   @Bean
+  @SuppressWarnings("unused")
   FilterRegistrationBean<CorsFilter> corsFilter() {
-    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
+    CorsConfigurationSource configSource = corsConfigurationSource();
+    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(configSource));
     corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
     return corsBean;
   }

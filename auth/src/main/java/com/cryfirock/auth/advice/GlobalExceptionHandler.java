@@ -85,6 +85,8 @@ public class GlobalExceptionHandler {
   }
 
   private String resolveMessage(FieldError error) {
-    return messageSource.getMessage(error, LocaleContextHolder.getLocale());
+    return (error == null)
+        ? ""
+        : messageSource.getMessage(error, LocaleContextHolder.getLocale());
   }
 }
