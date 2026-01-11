@@ -1,16 +1,11 @@
 package com.cryfirock.oauth2.provider.client;
 
-import java.util.Optional;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.cryfirock.oauth2.provider.model.User;
-
-import jakarta.validation.constraints.NotNull;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "msvc-users")
 public interface UserFeignClient {
-    @GetMapping("/{id}")
-    Optional<User> findById(@NotNull Long id);
+    @GetMapping("/api/validations/exists/email/{email}")
+    Boolean checkEmailExists(@PathVariable("email") String email);
 }
