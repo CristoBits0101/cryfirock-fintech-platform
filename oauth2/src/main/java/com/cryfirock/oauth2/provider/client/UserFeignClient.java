@@ -9,7 +9,7 @@ import com.cryfirock.oauth2.provider.model.User;
 
 import jakarta.validation.constraints.NotNull;
 
-@FeignClient(url = "localhost:8082", name = "msvc-users")
+@FeignClient(name = "msvc-users")
 public interface UserFeignClient {
     @GetMapping("/{id}")
     Optional<User> findById(@NotNull Long id);
