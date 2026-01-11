@@ -1,3 +1,4 @@
 {
+    // Habilitar análisis nulo automático en Java.
     "java.compile.nullAnalysis.mode": "automatic"
 }
