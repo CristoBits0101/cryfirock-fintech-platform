@@ -99,6 +99,7 @@ public class SpringSecurityConfig {
   @SuppressWarnings("unused")
   FilterRegistrationBean<CorsFilter> corsFilter() {
     CorsConfigurationSource configSource = corsConfigurationSource();
+    @SuppressWarnings("null")
     FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(configSource));
     corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
     return corsBean;

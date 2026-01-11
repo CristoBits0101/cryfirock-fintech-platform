@@ -64,12 +64,14 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   @Transactional(readOnly = true)
+  @SuppressWarnings("null")
   public Optional<User> findById(@NotNull Long id) {
     return userRepository.findById(id);
   }
 
   @Override
   @Transactional
+  @SuppressWarnings("null")
   public Optional<User> update(@NotNull Long id, @NotNull User user) {
     return userRepository
         .findById(id)
@@ -96,6 +98,7 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   @Transactional
+  @SuppressWarnings("null")
   public Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto userDto) {
     return userRepository
         .findById(id)
@@ -115,6 +118,7 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   @Transactional
+  @SuppressWarnings("null")
   public Optional<User> deleteById(@NotNull Long id) {
     return userRepository
         .findById(id)
