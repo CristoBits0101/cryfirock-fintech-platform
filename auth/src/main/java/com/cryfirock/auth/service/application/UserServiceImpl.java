@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service;
+package com.cryfirock.auth.service.application;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +14,7 @@ import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.helper.RolesHelper;
 import com.cryfirock.auth.mapper.UserMapper;
 import com.cryfirock.auth.repository.JpaUserRepository;
+import com.cryfirock.auth.service.contract.IUserService;
 import com.cryfirock.auth.util.PasswordUtil;
 
 import jakarta.validation.constraints.NotNull;

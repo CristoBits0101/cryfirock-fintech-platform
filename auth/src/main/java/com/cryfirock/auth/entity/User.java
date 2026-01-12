@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.cryfirock.auth.model.AccountStatus;
-import com.cryfirock.auth.validation.IExistsByEmail;
+import com.cryfirock.auth.validation.contract.IExistsByEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

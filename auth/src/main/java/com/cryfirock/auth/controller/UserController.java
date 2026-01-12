@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cryfirock.auth.dto.UserUpdateDto;
 import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.exception.UserNotFoundException;
-import com.cryfirock.auth.service.IUserService;
+import com.cryfirock.auth.service.contract.IUserService;
 import com.cryfirock.auth.util.ValidationUtil;
 
 import jakarta.validation.Valid;

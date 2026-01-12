@@ -1,8 +1,9 @@
-package com.cryfirock.auth.service;
+package com.cryfirock.auth.service.application;
 
 import org.springframework.stereotype.Service;
 
 import com.cryfirock.auth.repository.JpaUserRepository;
+import com.cryfirock.auth.service.contract.IUserQueryService;
 
 @Service
 public class UserQueryServiceImpl implements IUserQueryService {
