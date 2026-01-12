@@ -12,44 +12,50 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// Genera un constructor con todos los argumentos.
+/**
+ * 1. Genera un constructor con todos los argumentos.
+ * 2. Genera un constructor sin argumentos.
+ * 3. Genera getters, setters, toString, hashCode y equals.
+ * 4. Clase embebible que contiene atributos de auditoría para entidades JPA.
+ * 5. Mapea estos atributos a columnas con otro nombre en la tabla.
+ * 6. Alguno de estos atributos no se pueden actualizar o no pueden ser nulos.
+ */
 @AllArgsConstructor
-// Genera un constructor sin argumentos.
 @NoArgsConstructor
-// Genera getters, setters, toString, hashCode y equals.
 @Data
-// Marca la clase como un componente embebible en una entidad JPA.
 @Embeddable
-// Mapea estos atributos a columnas con otro nombre en la tabla.
-// Alguno de estos atributos no se pueden actualizar o no pueden ser nulos.
 @AttributeOverrides({
     @AttributeOverride(name = "createdAt", column = @Column(name = "created_at", nullable = false, updatable = false)),
     @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at")),
     @AttributeOverride(name = "lastLoginAt", column = @Column(name = "last_login_at"))
 })
 public class Audit {
-  // Sirve para marcar la fecha de creación del registro.
-  // Instant es una clase que representa fecha y hora en UTC.
+  /**
+   * 1. Sirve para marcar la fecha de creación del registro.
+   * 2. Sirve para marcar la fecha de la última actualización del registro.
+   * 3. Sirve para marcar la fecha del último inicio de sesión.
+   * 4. Instant es una clase que representa fecha y hora en UTC.
+   */
   private Instant createdAt;
-  // Sirve para marcar la fecha de la última actualización del registro.
-  // Instant es una clase que representa fecha y hora en UTC.
   private Instant updatedAt;
-  // Sirve para marcar la fecha del último inicio de sesión.
-  // Instant es una clase que representa fecha y hora en UTC.
   private Instant lastLoginAt;
 
-  // Método que se ejecuta antes de persistir la entidad.
+  /**
+   * 1. Método que se ejecuta antes de persistir la entidad.
+   * 2. Asigna la fecha y hora actual a createdAt y updatedAt.
+   */
   @PrePersist
   public void prePersist() {
-    // Asigna la fecha y hora actual a createdAt y updatedAt.
     this.createdAt = Instant.now();
     this.updatedAt = this.createdAt;
   }
 
-  // Método que se ejecuta antes de actualizar la entidad.
+  /**
+   * 1. Método que se ejecuta antes de actualizar la entidad.
+   * 2. Asigna la fecha y hora actual a updatedAt.
+   */
   @PreUpdate
   public void preUpdate() {
-    // Asigna la fecha y hora actual a updatedAt.
     this.updatedAt = Instant.now();
   }
 }

@@ -13,9 +13,11 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
-// Entidad JPA que representa una tabla en la base de datos.
+/**
+ * 1. Entidad JPA que representa una tabla en la base de datos.
+ * 2. Nombre de la tabla en la base de datos.
+ */
 @Entity
-// Nombre de la tabla en la base de datos.
 @Table(name = "roles")
 public class Role {
   /**
