@@ -1,2 +1,7 @@
+# Script mvnw (Linux/macOS).
+# Fuerza finales de línea LF.
 /mvnw text eol=lf
+
+# Scripts de Windows.
+# Fuerza finales de línea CRLF.
 *.cmd text eol=crlf

@@ -56,7 +56,7 @@ public class User {
   private String familyName;
 
   @Column(nullable = false, unique = true)
-  @IExistsByEmail(message = "{Email.user.email}")
+  @IExistsByEmail(message = "{ExistsByEmail.user.email}")
   @NotBlank(message = "{NotBlank.user.email}")
   @Size(min = 1, max = 100, message = "{Size.user.email}")
   private String email;
