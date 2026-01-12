@@ -12,11 +12,12 @@ import com.cryfirock.auth.dto.UserUpdateDto;
 import com.cryfirock.auth.entity.User;
 
 /**
- * 1. Mapper para actualizar entidades User a partir de UserUpdateDto.
- * 2. Genera la implementación del mapper como un bean de Spring (@Component).
- * 3. Cuando el source tiene un campo null MapStruct NO lo copia al target.
- * 4. Si el target tiene campos sin mapear MapStruct no da warning ni error.
- * 5. Este intermediario es útil para actualizar parcialmente entidades User.
+ * Mapper para actualizar entidades User a partir de UserUpdateDto.
+ * 
+ * {@code UserMapper}: Este intermediario es útil para actualizar parcialmente entidades User.
+ * {@code componentModel}: Genera la implementación del mapper como un bean de Spring (@Component).
+ * {@code nullValuePropertyMappingStrategy}: Cuando el source tiene un campo null MapStruct NO lo copia al target.
+ * {@code unmappedTargetPolicy}: Si el target tiene campos sin mapear MapStruct no da warning ni error.
  */
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
