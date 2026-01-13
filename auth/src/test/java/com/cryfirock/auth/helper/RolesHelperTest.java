@@ -29,6 +29,7 @@ import com.cryfirock.auth.repository.JpaRoleRepository;
  * 2. Verifica el correcto funcionamiento de la asignación de roles.
  * 3. Utiliza JUnit 5 y Mockito para las pruebas.
  */
+@SuppressWarnings("unused")
 @ExtendWith(MockitoExtension.class)
 class RolesHelperTest {
 
