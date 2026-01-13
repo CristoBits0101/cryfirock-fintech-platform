@@ -42,6 +42,7 @@ public class ValidationUtil {
    * 1. Reporta los campos incorrectos en una respuesta HTTP.
    * 2. Utiliza el BindingResult para extraer errores de validación.
    * 3. Retorna un ResponseEntity con estado 400 y un mapa de errores.
+   * 4. Si hay múltiples errores en el mismo campo, concatena los mensajes.
    * 
    * @param result Resultado de la validación.
    * @return ResponseEntity con los errores de validación.
@@ -54,6 +55,7 @@ public class ValidationUtil {
             .stream()
             .collect(Collectors.toMap(
                 FieldError::getField,
-                FieldError::getDefaultMessage)));
+                FieldError::getDefaultMessage,
+                (msg1, msg2) -> msg1 + "; " + msg2)));
   }
 }

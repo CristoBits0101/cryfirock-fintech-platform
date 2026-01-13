@@ -87,16 +87,16 @@ public class SpringSecurityConfig {
 
     return http.authorizeHttpRequests(
         authz -> authz
-            .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
-            .permitAll()
             .requestMatchers(HttpMethod.POST, "/api/users")
             .permitAll()
+            .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
+            .hasAnyRole("ADMIN", "USER")
             .requestMatchers(HttpMethod.POST, "/api/users/superuser")
             .hasRole("ADMIN")
             .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
-            .permitAll()
+            .hasAnyRole("ADMIN", "USER")
             .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
-            .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+            .hasAnyRole("ADMIN", "USER")
             .anyRequest()
             .authenticated())
         .csrf(csrf -> csrf.disable())
