@@ -308,6 +308,22 @@
 
 ---
 
+### 🧹 FORMATEO DE CÓDIGO
+
+> Spotless con Google Java Format (AOSP - 4 espacios)
+
+```bash
+# 📦 Verificar formato:
+⌨️ cd auth
+⌨️ ./mvnw spotless:check
+
+# 📦 Aplicar formato automáticamente:
+⌨️ cd auth
+⌨️ ./mvnw spotless:apply
+```
+
+---
+
 ### 📡 API ENDPOINTS
 
 ### 🔐 Módulo Auth (`auth/controller/UserController.java`):
@@ -321,6 +337,14 @@
 | `GET`</sub> | `/api/users/{id}`</sub> | Obtener usuario</sub> | 👤 USER/ADMIN</sub> |
 | `PUT`</sub> | `/api/users/{id}`</sub> | Actualizar usuario</sub> | 👤 USER/ADMIN</sub> |
 | `DELETE`</sub> | `/api/users/{id}`</sub> | Eliminar usuario</sub> | 👤 USER/ADMIN</sub> |
+
+### 🔍 Módulo Auth (`auth/controller/UserValidationController.java`):
+
+| Método</sub> | Endpoint</sub> | Descripción</sub> | 🔐 Auth</sub> |
+|:------:|----------|-------------|:-------:|
+| `GET`</sub> | `/api/validations/exists/email/{email}`</sub> | Verificar si email existe</sub> | 👤 USER/ADMIN</sub> |
+| `GET`</sub> | `/api/validations/exists/username/{username}`</sub> | Verificar si username existe</sub> | 👤 USER/ADMIN</sub> |
+| `GET`</sub> | `/api/validations/exists/phone/{phoneNumber}`</sub> | Verificar si teléfono existe</sub> | 👤 USER/ADMIN</sub> |
 
 ---
 
