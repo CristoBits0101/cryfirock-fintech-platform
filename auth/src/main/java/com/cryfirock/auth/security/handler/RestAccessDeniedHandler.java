@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import com.cryfirock.auth.model.Error;
+import com.cryfirock.auth.model.ErrorResponse;
 import static com.cryfirock.auth.security.config.TokenJwtConfig.CONTENT_TYPE;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,7 +22,7 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
       HttpServletRequest request,
       HttpServletResponse response,
       AccessDeniedException accessDeniedException) throws IOException {
-    Error error = new Error();
+    ErrorResponse error = new ErrorResponse();
 
     error.setDate(new Date());
     error.setError("Forbidden");

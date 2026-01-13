@@ -9,7 +9,7 @@ import lombok.Data;
  * 2. Genera getters, setters, toString, hashCode y equals.
  */
 @Data
-public class Error {
+public class ErrorResponse {
   /**
    * 1. Mensaje descriptivo del error.
    * 2. Error específico ocurrido.
