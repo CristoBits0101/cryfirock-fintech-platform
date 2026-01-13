@@ -99,6 +99,7 @@ class ValidationUtilTest {
     @DisplayName("Tests para reportIncorrectFields")
     class ReportIncorrectFieldsTests {
 
+        @SuppressWarnings("null")
         @Test
         @DisplayName("Debe retornar BAD_REQUEST con errores de validación")
         void shouldReturnBadRequestWithValidationErrors() {
@@ -118,6 +119,7 @@ class ValidationUtilTest {
             assertEquals("Email inválido", errors.get("email"));
         }
 
+        @SuppressWarnings("null")
         @Test
         @DisplayName("Debe manejar múltiples errores en el mismo campo")
         void shouldHandleMultipleErrorsOnSameField() {
@@ -139,6 +141,7 @@ class ValidationUtilTest {
             assertTrue(passwordError.contains("Sin mayúsculas"));
         }
 
+        @SuppressWarnings("null")
         @Test
         @DisplayName("Debe retornar mapa vacío si no hay errores")
         void shouldReturnEmptyMapWhenNoErrors() {
@@ -156,6 +159,7 @@ class ValidationUtilTest {
             assertTrue(errors.isEmpty());
         }
 
+        @SuppressWarnings("null")
         @Test
         @DisplayName("Debe manejar múltiples campos con errores")
         void shouldHandleMultipleFieldsWithErrors() {
