@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import com.cryfirock.auth.model.Error;
+import com.cryfirock.auth.model.ErrorResponse;
 
 /**
  * 1. Mapper para convertir detalles de error en un objeto Error.
@@ -31,5 +31,5 @@ public interface ErrorMapper {
   @Mapping(target = "message", source = "detail")
   @Mapping(target = "status", source = "status")
   @Mapping(target = "date", expression = "java(new java.util.Date())")
-  Error toError(int status, String errorMessage, String detail);
+  ErrorResponse toError(int status, String errorMessage, String detail);
 }
