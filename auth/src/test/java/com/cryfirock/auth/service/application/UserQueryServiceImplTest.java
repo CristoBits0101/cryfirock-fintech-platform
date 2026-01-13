@@ -21,102 +21,102 @@ import com.cryfirock.auth.repository.JpaUserRepository;
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("unused")
 class UserQueryServiceImplTest {
-  @Mock
-  private JpaUserRepository userRepository;
+    @Mock
+    private JpaUserRepository userRepository;
 
-  @InjectMocks
-  private UserQueryServiceImpl userQueryService;
+    @InjectMocks
+    private UserQueryServiceImpl userQueryService;
 
-  @Nested
-  @DisplayName("Tests para existsByEmail")
-  class ExistsByEmailTests {
+    @Nested
+    @DisplayName("Tests para existsByEmail")
+    class ExistsByEmailTests {
 
-    @Test
-    @DisplayName("Debe retornar true si el email existe")
-    void shouldReturnTrueWhenEmailExists() {
-      // Arrange
-      when(userRepository.existsByEmail("existe@test.com")).thenReturn(true);
+        @Test
+        @DisplayName("Debe retornar true si el email existe")
+        void shouldReturnTrueWhenEmailExists() {
+            // Arrange
+            when(userRepository.existsByEmail("existe@test.com")).thenReturn(true);
 
-      // Act
-      boolean result = userQueryService.existsByEmail("existe@test.com");
+            // Act
+            boolean result = userQueryService.existsByEmail("existe@test.com");
 
-      // Assert
-      assertTrue(result);
+            // Assert
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("Debe retornar false si el email no existe")
+        void shouldReturnFalseWhenEmailNotExists() {
+            // Arrange
+            when(userRepository.existsByEmail("noexiste@test.com")).thenReturn(false);
+
+            // Act
+            boolean result = userQueryService.existsByEmail("noexiste@test.com");
+
+            // Assert
+            assertFalse(result);
+        }
     }
 
-    @Test
-    @DisplayName("Debe retornar false si el email no existe")
-    void shouldReturnFalseWhenEmailNotExists() {
-      // Arrange
-      when(userRepository.existsByEmail("noexiste@test.com")).thenReturn(false);
+    @Nested
+    @DisplayName("Tests para existsByPhoneNumber")
+    class ExistsByPhoneNumberTests {
 
-      // Act
-      boolean result = userQueryService.existsByEmail("noexiste@test.com");
+        @Test
+        @DisplayName("Debe retornar true si el teléfono existe")
+        void shouldReturnTrueWhenPhoneExists() {
+            // Arrange
+            when(userRepository.existsByPhoneNumber("123456789")).thenReturn(true);
 
-      // Assert
-      assertFalse(result);
-    }
-  }
+            // Act
+            boolean result = userQueryService.existsByPhoneNumber("123456789");
 
-  @Nested
-  @DisplayName("Tests para existsByPhoneNumber")
-  class ExistsByPhoneNumberTests {
+            // Assert
+            assertTrue(result);
+        }
 
-    @Test
-    @DisplayName("Debe retornar true si el teléfono existe")
-    void shouldReturnTrueWhenPhoneExists() {
-      // Arrange
-      when(userRepository.existsByPhoneNumber("123456789")).thenReturn(true);
+        @Test
+        @DisplayName("Debe retornar false si el teléfono no existe")
+        void shouldReturnFalseWhenPhoneNotExists() {
+            // Arrange
+            when(userRepository.existsByPhoneNumber("999999999")).thenReturn(false);
 
-      // Act
-      boolean result = userQueryService.existsByPhoneNumber("123456789");
+            // Act
+            boolean result = userQueryService.existsByPhoneNumber("999999999");
 
-      // Assert
-      assertTrue(result);
-    }
-
-    @Test
-    @DisplayName("Debe retornar false si el teléfono no existe")
-    void shouldReturnFalseWhenPhoneNotExists() {
-      // Arrange
-      when(userRepository.existsByPhoneNumber("999999999")).thenReturn(false);
-
-      // Act
-      boolean result = userQueryService.existsByPhoneNumber("999999999");
-
-      // Assert
-      assertFalse(result);
-    }
-  }
-
-  @Nested
-  @DisplayName("Tests para existsByUsername")
-  class ExistsByUsernameTests {
-
-    @Test
-    @DisplayName("Debe retornar true si el username existe")
-    void shouldReturnTrueWhenUsernameExists() {
-      // Arrange
-      when(userRepository.existsByUsername("existente")).thenReturn(true);
-
-      // Act
-      boolean result = userQueryService.existsByUsername("existente");
-
-      // Assert
-      assertTrue(result);
+            // Assert
+            assertFalse(result);
+        }
     }
 
-    @Test
-    @DisplayName("Debe retornar false si el username no existe")
-    void shouldReturnFalseWhenUsernameNotExists() {
-      // Arrange
-      when(userRepository.existsByUsername("noexistente")).thenReturn(false);
+    @Nested
+    @DisplayName("Tests para existsByUsername")
+    class ExistsByUsernameTests {
 
-      // Act
-      boolean result = userQueryService.existsByUsername("noexistente");
+        @Test
+        @DisplayName("Debe retornar true si el username existe")
+        void shouldReturnTrueWhenUsernameExists() {
+            // Arrange
+            when(userRepository.existsByUsername("existente")).thenReturn(true);
 
-      // Assert
-      assertFalse(result);
+            // Act
+            boolean result = userQueryService.existsByUsername("existente");
+
+            // Assert
+            assertTrue(result);
+        }
+
+        @Test
+        @DisplayName("Debe retornar false si el username no existe")
+        void shouldReturnFalseWhenUsernameNotExists() {
+            // Arrange
+            when(userRepository.existsByUsername("noexistente")).thenReturn(false);
+
+            // Act
+            boolean result = userQueryService.existsByUsername("noexistente");
+
+            // Assert
+            assertFalse(result);
+        }
     }
-  }
 }
