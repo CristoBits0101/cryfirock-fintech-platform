@@ -53,7 +53,7 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
     long start = System.currentTimeMillis();
     request.setAttribute("start", start);
 
-    // Obtener usuario del contexto de Spring Security
+    // Obtener usuario del contexto de Spring Security.
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = (auth != null && auth.isAuthenticated()) ? auth.getName() : "anonymous";
     request.setAttribute("username", username);
@@ -106,14 +106,14 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
         username != null ? username : "anonymous",
         status);
 
-    // Operaciones de escritura se registran como WARN para auditoría
+    // Operaciones de escritura se registran como WARN para auditoría.
     if (isWriteOperation(request.getMethod())) {
       logger.warn(logMessage);
     } else {
       logger.info(logMessage);
     }
 
-    // Errores se registran adicionalmente
+    // Errores se registran adicionalmente.
     if (status >= 400) {
       logger.error(
           "Error in operation {}: {} - {}",
