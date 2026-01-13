@@ -12,17 +12,18 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**                                                           
+/**
  * 1. Componente de configuración de la aplicación.
- * 2. Escanea los paquetes especificados para detectar componentes de servicios y validadores.
+ * 2. Escanea los paquetes especificados para detectar componentes de Spring.
  */
 @Configuration
 @ComponentScan(basePackages = { "com.cryfirock.auth.service", "com.cryfirock.auth.validation" })
 public class AppConfig implements WebMvcConfigurer {
   /**
    * 1. Interceptor para operaciones de usuario.
-   * 2. Se inyecta mediante Autowired y Qualifier.
-   * 3. Se utiliza para interceptar solicitudes a rutas específicas relacionadas con usuarios.
+   * 2. Se inyecta mediante Autowired y el selector Qualifier.
+   * 3. Interceptar solicitudes a rutas específicas relacionadas con usuarios.
+   * 4. No puede ser nulo en tiempo de ejecución.
    */
   @Autowired
   @Qualifier("userOperationsInterceptor")
@@ -33,6 +34,8 @@ public class AppConfig implements WebMvcConfigurer {
    * 1. Configura el interceptor userOperationsInterceptor para la aplicación web.
    * 2. Intercepta todas las solicitudes a rutas que coinciden con /api/users/**
    * 3. Excluye la ruta /api/users de la interceptación.
+   * 
+   * @param registry Registro de interceptores para la aplicación web.
    */
   @Override
   public void addInterceptors(@NonNull InterceptorRegistry registry) {
@@ -42,6 +45,14 @@ public class AppConfig implements WebMvcConfigurer {
         .excludePathPatterns("/api/users");
   }
 
+  /**
+   * 1. Registra la fuente de mensajes configurada en la carpeta i18n.
+   * 2. Carga mensajes desde messages.properties ubicado en classpath:i18n/.
+   * 3. Establece la codificación predeterminada en UTF-8.
+   * 4. Permite la recarga de mensajes sin reiniciar la aplicación.
+   * 
+   * @return MessageSource configurado para i18n.
+   */
   @Bean
   @SuppressWarnings("unused")
   MessageSource messageSource() {
