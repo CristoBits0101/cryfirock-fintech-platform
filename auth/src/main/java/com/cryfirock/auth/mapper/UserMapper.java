@@ -29,8 +29,8 @@ public interface UserMapper {
    * 6. Actualiza la entidad target con los valores del dto.
    * 7. No retorna nada porque el target se actualiza in place.
    * 
-   * @param target
-   * @param dto
+   * @param target La entidad User a actualizar.
+   * @param dto   El DTO con los datos para actualizar.
    */
   @BeanMapping(ignoreByDefault = false)
   @Mappings({
