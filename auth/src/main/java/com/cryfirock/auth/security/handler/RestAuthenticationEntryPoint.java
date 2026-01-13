@@ -14,9 +14,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * 1. Punto de entrada para errores de autenticación.
+ * 2. Implementa AuthenticationEntryPoint de Spring Security.
+ * 3. Responde con un JSON de error cuando la autenticación falla.
+ * 4. Retorna código de estado HTTP 401 Unauthorized.
+ */
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+  /**
+   * 1. ObjectMapper para serializar la respuesta de error a JSON.
+   */
   private final ObjectMapper objectMapper = new ObjectMapper();
 
+  /**
+   * 1. Inicia el proceso de autenticación cuando falla.
+   * 2. Construye un ErrorResponse con los detalles del error.
+   * 3. Escribe la respuesta JSON con estado 401.
+   * 
+   * @param request       Solicitud HTTP.
+   * @param response      Respuesta HTTP.
+   * @param authException Excepción de autenticación.
+   * @throws IOException Si ocurre un error de E/S.
+   */
   @Override
   public void commence(
       HttpServletRequest request,

@@ -27,23 +27,58 @@ import com.cryfirock.auth.security.filter.JwtValidationFilter;
 import com.cryfirock.auth.security.handler.RestAccessDeniedHandler;
 import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
 
+/**
+ * 1. Configuración de seguridad de Spring Security.
+ * 2. Habilita la seguridad a nivel de método con @EnableMethodSecurity.
+ * 3. Define la cadena de filtros de seguridad.
+ * 4. Configura autenticación JWT y políticas CORS.
+ * 5. Establece el manejo de excepciones de seguridad.
+ */
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
+  /**
+   * 1. Configuración de autenticación de Spring Security.
+   * 2. Inyectado automáticamente por Spring.
+   */
   @Autowired
   private AuthenticationConfiguration authenticationConfiguration;
 
+  /**
+   * 1. Bean que proporciona el AuthenticationManager.
+   * 2. Utilizado para autenticar usuarios en el sistema.
+   * 
+   * @return AuthenticationManager configurado.
+   * @throws Exception Si ocurre un error al obtener el manager.
+   */
   @Bean
   AuthenticationManager authenticationManager() throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
+  /**
+   * 1. Bean que proporciona el codificador de contraseñas.
+   * 2. Utiliza BCrypt para codificar contraseñas de forma segura.
+   * 
+   * @return PasswordEncoder con BCrypt.
+   */
   @Bean
   @SuppressWarnings("unused")
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
+  /**
+   * 1. Bean que configura la cadena de filtros de seguridad.
+   * 2. Define reglas de autorización para endpoints.
+   * 3. Configura filtros JWT de autenticación y validación.
+   * 4. Establece política de sesiones sin estado (stateless).
+   * 5. Configura manejo de excepciones de seguridad.
+   * 
+   * @param http Configurador de seguridad HTTP.
+   * @return SecurityFilterChain configurada.
+   * @throws Exception Si ocurre un error en la configuración.
+   */
   @Bean
   @SuppressWarnings("unused")
   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

@@ -32,13 +32,38 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * 1. Filtro de autenticación JWT.
+ * 2. Extiende UsernamePasswordAuthenticationFilter de Spring Security.
+ * 3. Procesa solicitudes de login y genera tokens JWT.
+ * 4. Maneja autenticación exitosa y fallida.
+ */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+  /**
+   * 1. Gestor de autenticación de Spring Security.
+   */
   private final AuthenticationManager authenticationManager;
 
+  /**
+   * 1. Constructor que inyecta el gestor de autenticación.
+   * 
+   * @param authenticationManager Gestor de autenticación.
+   */
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
     this.authenticationManager = authenticationManager;
   }
 
+  /**
+   * 1. Intenta autenticar al usuario con las credenciales proporcionadas.
+   * 2. Lee el cuerpo de la solicitud como UserLoginDto.
+   * 3. Crea un token de autenticación con usuario y contraseña.
+   * 4. Lanza AuthenticationServiceException si hay errores de lectura.
+   * 
+   * @param request  Solicitud HTTP con las credenciales.
+   * @param response Respuesta HTTP.
+   * @return Authentication con el resultado de la autenticación.
+   * @throws AuthenticationException Si la autenticación falla.
+   */
   @Override
   public Authentication attemptAuthentication(
       HttpServletRequest request, 
@@ -67,6 +92,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     return authenticationManager.authenticate(authenticationToken);
   }
 
+  /**
+   * 1. Maneja la autenticación exitosa.
+   * 2. Genera un token JWT con las autoridades del usuario.
+   * 3. Añade el token al encabezado Authorization de la respuesta.
+   * 4. Escribe un cuerpo JSON con el token y mensaje de bienvenida.
+   * 
+   * @param request    Solicitud HTTP.
+   * @param response   Respuesta HTTP.
+   * @param chain      Cadena de filtros.
+   * @param authResult Resultado de la autenticación exitosa.
+   * @throws IOException      Si ocurre un error de E/S.
+   * @throws ServletException Si ocurre un error del servlet.
+   */
   @Override
   protected void successfulAuthentication(
       HttpServletRequest request,

@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service;
+package com.cryfirock.auth.service.application;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +17,32 @@ import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
 
+/**
+ * 1. Implementación del servicio de detalles de usuario para Spring Security.
+ * 2. Implementa UserDetailsService para la autenticación de usuarios.
+ * 3. Utiliza JpaUserRepository para consultar usuarios en la base de datos.
+ * 4. Convierte entidades User en objetos UserDetails de Spring Security.
+ */
 @Service
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
+  /**
+   * 1. Repositorio JPA para usuarios.
+   * 2. Inyectado automáticamente por Spring.
+   */
   @Autowired
   private JpaUserRepository userRepository;
 
+  /**
+   * 1. Carga un usuario por su nombre de usuario.
+   * 2. Marca la transacción como de solo lectura.
+   * 3. Lanza UsernameNotFoundException si el usuario no existe.
+   * 4. Convierte los roles del usuario en GrantedAuthority.
+   * 5. Retorna un UserDetails con los datos del usuario.
+   * 
+   * @param username Nombre de usuario a buscar.
+   * @return UserDetails con la información del usuario.
+   * @throws UsernameNotFoundException Si el usuario no existe.
+   */
   @Override
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

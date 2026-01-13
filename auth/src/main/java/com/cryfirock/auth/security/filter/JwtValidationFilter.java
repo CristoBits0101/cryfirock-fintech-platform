@@ -31,14 +31,42 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * 1. Filtro de validación de tokens JWT.
+ * 2. Extiende BasicAuthenticationFilter de Spring Security.
+ * 3. Verifica y procesa tokens JWT en solicitudes entrantes.
+ * 4. Establece el contexto de seguridad si el token es válido.
+ */
 public class JwtValidationFilter extends BasicAuthenticationFilter {
+  /**
+   * 1. ObjectMapper configurado para deserializar SimpleGrantedAuthority.
+   * 2. Utiliza un mixin para la creación de autoridades desde JSON.
+   */
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
       .addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthorityJsonCreator.class);
 
+  /**
+   * 1. Constructor que inyecta el gestor de autenticación.
+   * 
+   * @param authenticationManager Gestor de autenticación.
+   */
   public JwtValidationFilter(AuthenticationManager authenticationManager) {
     super(authenticationManager);
   }
 
+  /**
+   * 1. Filtra las solicitudes entrantes para validar el token JWT.
+   * 2. Si no hay token, continúa con la cadena de filtros.
+   * 3. Verifica el token y extrae las autoridades del usuario.
+   * 4. Establece el contexto de seguridad con la autenticación.
+   * 5. Responde con error 401 si el token es inválido.
+   * 
+   * @param request  Solicitud HTTP entrante.
+   * @param response Respuesta HTTP saliente.
+   * @param chain    Cadena de filtros.
+   * @throws ServletException Si ocurre un error del servlet.
+   * @throws IOException      Si ocurre un error de E/S.
+   */
   @Override
   protected void doFilterInternal(
       HttpServletRequest request, 
@@ -77,6 +105,15 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
     }
   }
 
+  /**
+   * 1. Extrae las autoridades del claim de autoridades del token.
+   * 2. Soporta colecciones y arrays de autoridades.
+   * 3. Convierte cada autoridad a GrantedAuthority.
+   * 
+   * @param authoritiesClaims Claim con las autoridades del token.
+   * @return Colección de GrantedAuthority.
+   * @throws IOException Si ocurre un error al deserializar.
+   */
   private Collection<? extends GrantedAuthority> extractAuthorities(Object authoritiesClaims) throws IOException {
     if (authoritiesClaims instanceof Collection<?> collection)
       return collection.stream().map(this::toGrantedAuthority).collect(Collectors.toList());
@@ -87,6 +124,13 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
     return Arrays.asList(authorities);
   }
 
+  /**
+   * 1. Convierte un objeto de autoridad a GrantedAuthority.
+   * 2. Soporta mapas con clave "authority" y valores directos.
+   * 
+   * @param authorityClaim Objeto con la información de la autoridad.
+   * @return GrantedAuthority con la autoridad extraída.
+   */
   private GrantedAuthority toGrantedAuthority(Object authorityClaim) {
     boolean isMap = authorityClaim instanceof Map<?, ?> map && map.containsKey("authority");
 

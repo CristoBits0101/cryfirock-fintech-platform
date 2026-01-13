@@ -20,10 +20,32 @@ import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * 1. Interceptor para operaciones de usuario.
+ * 2. Implementa HandlerInterceptor de Spring MVC.
+ * 3. Valida tokens JWT en solicitudes a rutas protegidas.
+ * 4. Registra logs de las operaciones realizadas.
+ * 5. Mide el tiempo de ejecución de las solicitudes.
+ */
 @Component("userOperationsInterceptor")
 public class UserOperationsInterceptor implements HandlerInterceptor {
+  /**
+   * 1. Logger para registrar mensajes de log.
+   */
   private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
 
+  /**
+   * 1. Ejecuta antes del manejo de la solicitud.
+   * 2. Valida el token JWT en solicitudes protegidas.
+   * 3. Registra el inicio de la operación.
+   * 4. Retorna false si la autenticación falla.
+   * 
+   * @param request  Solicitud HTTP entrante.
+   * @param response Respuesta HTTP saliente.
+   * @param handler  Controlador que manejará la solicitud.
+   * @return true si la solicitud puede continuar, false si debe detenerse.
+   * @throws Exception Si ocurre un error durante la validación.
+   */
   @Override
   public boolean preHandle(
       @NonNull HttpServletRequest request,
@@ -77,6 +99,18 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
     return true;
   }
 
+  /**
+   * 1. Ejecuta después del manejo de la solicitud.
+   * 2. Calcula el tiempo de ejecución de la operación.
+   * 3. Registra logs según el tipo de operación y estado.
+   * 4. Registra errores si el estado HTTP es >= 400.
+   * 
+   * @param request      Solicitud HTTP entrante.
+   * @param response     Respuesta HTTP saliente.
+   * @param handler      Controlador que manejó la solicitud.
+   * @param modelAndView Modelo y vista (puede ser null).
+   * @throws Exception Si ocurre un error durante el post-procesamiento.
+   */
   @Override
   public void postHandle(
       @NonNull HttpServletRequest request,
