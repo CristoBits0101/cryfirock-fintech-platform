@@ -99,19 +99,13 @@ public class GlobalExceptionHandler {
 ```java
 /**
  * 1. Primera explicación del componente.
- */
-/**
  * 2. Segunda explicación del comportamiento.
- */
-/**
  * 3. Tercera explicación de dependencias.
  */
 @Component
 public class MiComponente {
     /**
      * 1. Descripción del atributo.
-     */
-    /**
      * 2. Propósito del atributo.
      */
     private final MiDependencia dependencia;
@@ -131,11 +125,7 @@ import java.util.List;
 
 /**
  * 1. Descripción principal del servicio.
- */
-/**
  * 2. Responsabilidades del componente.
- */
-/**
  * 3. Dependencias principales.
  *
  * @author Cristo Suárez
@@ -154,11 +144,7 @@ public class MiServicio {
 ```java
 /**
  * 1. Descripción del propósito del método.
- */
-/**
  * 2. Comportamiento esperado.
- */
-/**
  * 3. Casos especiales o excepciones.
  *
  * {@code resultado = miMetodo(parametro);}
@@ -178,8 +164,6 @@ public String miMetodo(String parametro) {
 ```java
 /**
  * 1. Repositorio JPA para usuarios.
- */
-/**
  * 2. Proporciona operaciones CRUD.
  */
 private final JpaUserRepository userRepository;
@@ -265,11 +249,7 @@ import com.cryfirock.auth.service.contract.INuevoService;
 
 /**
  * 1. Implementación del servicio para operaciones de X.
- */
-/**
  * 2. Maneja transacciones y lógica de negocio.
- */
-/**
  * 3. Utiliza JUnit 5 y Mockito para las pruebas.
  *
  * @author Cristo Suárez
@@ -279,7 +259,7 @@ import com.cryfirock.auth.service.contract.INuevoService;
 @Service
 public class NuevoServiceImpl implements INuevoService {
     /**
-     * 1. Repositorio para acceso a datos.
+     * Repositorio para acceso a datos.
      */
     private final JpaEntidadRepository repository;
 
@@ -318,11 +298,7 @@ import com.cryfirock.auth.service.contract.INuevoService;
 
 /**
  * 1. Controlador REST para operaciones de X.
- */
-/**
  * 2. Permite solicitudes CORS desde cualquier origen.
- */
-/**
  * 3. Mapea las solicitudes a /api/nuevo.
  *
  * @author Cristo Suárez
@@ -334,7 +310,7 @@ import com.cryfirock.auth.service.contract.INuevoService;
 @RequestMapping("/api/nuevo")
 public class NuevoController {
     /**
-     * 1. Servicio para operaciones de negocio.
+     * Servicio para operaciones de negocio.
      */
     private final INuevoService nuevoService;
 
@@ -348,9 +324,8 @@ public class NuevoController {
     }
 
     /**
-     * 1. Obtiene todos los recursos.
-     */
     /**
+     * 1. Obtiene todos los recursos.
      * 2. Mapea las solicitudes GET a la raíz.
      *
      * @return Lista de recursos.
@@ -379,11 +354,7 @@ import lombok.Setter;
 
 /**
  * 1. Entidad JPA que representa la tabla X.
- */
-/**
  * 2. Mapea los campos a columnas de la base de datos.
- */
-/**
  * 3. Usa Lombok para getters, setters y constructores.
  *
  * @author Cristo Suárez
@@ -399,8 +370,6 @@ import lombok.Setter;
 public class MiEntidad {
     /**
      * 1. Identificador único de la entidad.
-     */
-    /**
      * 2. Generación automática por la base de datos.
      */
     @Id
@@ -408,7 +377,7 @@ public class MiEntidad {
     private Long id;
 
     /**
-     * 1. Campo de ejemplo.
+     * Campo de ejemplo.
      */
     private String nombre;
 }
@@ -433,11 +402,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * 1. Pruebas unitarias para NuevoServiceImpl.
- */
-/**
  * 2. Verifica el correcto funcionamiento del servicio.
- */
-/**
  * 3. Utiliza JUnit 5 y Mockito para las pruebas.
  *
  * @author Cristo Suárez
