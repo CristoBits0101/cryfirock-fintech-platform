@@ -13,10 +13,10 @@ import com.cryfirock.auth.service.contract.IUserQueryService;
  */
 @Service
 public class UserQueryServiceImpl implements IUserQueryService {
-  // Repositorio JPA para usuarios
+  // Repositorio JPA para usuarios.
   private final JpaUserRepository userRepository;
 
-  // Constructor que inyecta el repositorio de usuarios
+  // Constructor que inyecta el repositorio de usuarios.
   public UserQueryServiceImpl(JpaUserRepository userRepository) {
     this.userRepository = userRepository;
   }

@@ -19,15 +19,32 @@ import com.cryfirock.auth.util.PasswordUtil;
 
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * 1. Se ocupa de las operaciones relacionadas con los usuarios.
+ * 2. Implementa la interfaz IUserService.
+ * 3. Utiliza JpaUserRepository para interactuar con la base de datos.
+ * 4. Proporciona métodos para CRUD usuarios.
+ */
 @Service
 @Validated
 public class UserServiceImpl implements IUserService {
+  // Repositorio JPA para usuarios.
   private final JpaUserRepository userRepository;
+  // Helper para asignar roles a los usuarios.
   private final RolesHelper rolesHelper;
+  // Mapper para convertir entre entidades y DTOs de usuario.
   private final UserMapper userMapper;
-
+  // Entorno de configuración de Spring.
   private final Environment environment;
 
+  /**
+   * Constructor que inyecta las dependencias necesarias.
+   * 
+   * @param userRepository
+   * @param rolesHelper
+   * @param userMapper
+   * @param environment
+   */
   public UserServiceImpl(
       JpaUserRepository userRepository,
       RolesHelper rolesHelper,
@@ -39,6 +56,15 @@ public class UserServiceImpl implements IUserService {
     this.environment = environment;
   }
 
+  /**
+   * 1. Guarda un nuevo usuario en la base de datos.
+   * 2. Asigna roles al usuario utilizando RolesHelper.
+   * 3. Codifica la contraseña si es necesario.
+   * 4. Lanza IllegalArgumentException si el usuario es nulo.
+   * 
+   * @param user Usuario a guardar.
+   * @return Usuario guardado.
+   */
   @Override
   @Transactional
   public User save(@NotNull User user) {
@@ -50,6 +76,15 @@ public class UserServiceImpl implements IUserService {
         .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
   }
 
+  /**
+   * 1. Recupera todos los usuarios de la base de datos.
+   * 2. Establece el puerto del servidor en cada usuario.
+   * 3. Utiliza el entorno de Spring para obtener el puerto.
+   * 4. Marca la transacción como de solo lectura.
+   * 
+   * @param id ID del usuario a buscar.
+   * @return Lista de todos los usuarios.
+   */
   @Override
   @Transactional(readOnly = true)
   public List<User> findAll() {
@@ -63,6 +98,15 @@ public class UserServiceImpl implements IUserService {
         .toList();
   }
 
+  /**
+   * 1. Busca un usuario por su ID.
+   * 2. Marca la transacción como de solo lectura.
+   * 3. Suprime las advertencias de nulidad.
+   * 4. Devuelve un Optional que puede contener el usuario encontrado.
+   *
+   * @param id ID del usuario a buscar.
+   * @return Optional con el usuario si se encuentra y vacío si no.
+   */
   @Override
   @Transactional(readOnly = true)
   @SuppressWarnings("null")
@@ -70,6 +114,16 @@ public class UserServiceImpl implements IUserService {
     return userRepository.findById(id);
   }
 
+  /**
+   * 1. Actualiza un usuario existente por su ID.
+   * 2. Marca la transacción como de solo lectura.
+   * 3. Suprime las advertencias de nulidad.
+   * 4. Devuelve un Optional que puede contener el usuario actualizado.
+   * 
+   * @param id   ID del usuario a actualizar.
+   * @param user Datos del usuario para la actualización.
+   * @return Optional con el usuario actualizado si se encuentra y vacío si no.
+   */
   @Override
   @Transactional
   @SuppressWarnings("null")
@@ -97,6 +151,16 @@ public class UserServiceImpl implements IUserService {
             });
   }
 
+  /**
+   * 1. Actualiza un usuario existente por su ID utilizando un DTO.
+   * 2. Marca la transacción como de solo lectura.
+   * 3. Suprime las advertencias de nulidad.
+   * 4. Devuelve un Optional que puede contener el usuario actualizado.
+   * 
+   * @param id      ID del usuario a actualizar.
+   * @param userDto Datos del usuario para la actualización en forma de DTO.
+   * @return Optional con el usuario actualizado si se encuentra y vacío si no.
+   */
   @Override
   @Transactional
   @SuppressWarnings("null")
@@ -117,6 +181,15 @@ public class UserServiceImpl implements IUserService {
             });
   }
 
+  /**
+   * 1. Elimina un usuario por su ID.
+   * 2. Marca la transacción como de solo lectura.
+   * 3. Suprime las advertencias de nulidad.
+   * 4. Devuelve un Optional que puede contener el usuario eliminado.
+   * 
+   * @param id ID del usuario a eliminar.
+   * @return Optional con el usuario eliminado si se encuentra y vacío si no.
+   */
   @Override
   @Transactional
   @SuppressWarnings("null")
