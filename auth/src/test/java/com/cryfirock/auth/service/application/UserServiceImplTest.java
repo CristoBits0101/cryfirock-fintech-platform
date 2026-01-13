@@ -37,8 +37,8 @@ import com.cryfirock.auth.repository.JpaUserRepository;
  * 3. Utiliza JUnit 5 y Mockito para las pruebas.
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("unused")
 class UserServiceImplTest {
-
   @Mock
   private JpaUserRepository userRepository;
 

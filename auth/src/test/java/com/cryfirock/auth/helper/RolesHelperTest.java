@@ -29,112 +29,109 @@ import com.cryfirock.auth.repository.JpaRoleRepository;
  * 2. Verifica el correcto funcionamiento de la asignación de roles.
  * 3. Utiliza JUnit 5 y Mockito para las pruebas.
  */
-@SuppressWarnings("unused")
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("unused")
 class RolesHelperTest {
+    @Mock
+    private JpaRoleRepository roleRepository;
 
-  @Mock
-  private JpaRoleRepository roleRepository;
+    @InjectMocks
+    private RolesHelper rolesHelper;
 
-  @InjectMocks
-  private RolesHelper rolesHelper;
+    private Role roleUser;
+    private Role roleAdmin;
 
-  private Role roleUser;
-  private Role roleAdmin;
-
-  @BeforeEach
-  void setUp() {
-    roleUser = new Role("ROLE_USER");
-    roleAdmin = new Role("ROLE_ADMIN");
-  }
-
-  @Nested
-  @DisplayName("Tests para assignRoles")
-  class AssignRolesTests {
-
-    @Test
-    @DisplayName("Debe asignar solo ROLE_USER a un usuario no administrador")
-    void shouldAssignOnlyUserRoleToNonAdmin() {
-      // Arrange
-      User user = new User();
-      user.setAdmin(false);
-      when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
-
-      // Act
-      List<Role> roles = rolesHelper.assignRoles(user);
-
-      // Assert
-      assertEquals(1, roles.size());
-      assertEquals("ROLE_USER", roles.get(0).getName());
-      verify(roleRepository, times(1)).findByName("ROLE_USER");
-      verify(roleRepository, never()).findByName("ROLE_ADMIN");
+    @BeforeEach
+    void setUp() {
+        roleUser = new Role("ROLE_USER");
+        roleAdmin = new Role("ROLE_ADMIN");
     }
 
-    @Test
-    @DisplayName("Debe asignar ROLE_USER y ROLE_ADMIN a un usuario administrador")
-    void shouldAssignUserAndAdminRolesToAdmin() {
-      // Arrange
-      User user = new User();
-      user.setAdmin(true);
-      when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
-      when(roleRepository.findByName("ROLE_ADMIN")).thenReturn(Optional.of(roleAdmin));
+    @Nested
+    @DisplayName("Tests para assignRoles")
+    class AssignRolesTests {
 
-      // Act
-      List<Role> roles = rolesHelper.assignRoles(user);
+        @Test
+        @DisplayName("Debe asignar solo ROLE_USER a un usuario no administrador")
+        void shouldAssignOnlyUserRoleToNonAdmin() {
+            // Arrange
+            User user = new User();
+            user.setAdmin(false);
+            when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
 
-      // Assert
-      assertEquals(2, roles.size());
-      assertTrue(roles.stream().anyMatch(r -> r.getName().equals("ROLE_USER")));
-      assertTrue(roles.stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN")));
+            // Act
+            List<Role> roles = rolesHelper.assignRoles(user);
+
+            // Assert
+            assertEquals(1, roles.size());
+            assertEquals("ROLE_USER", roles.get(0).getName());
+            verify(roleRepository, times(1)).findByName("ROLE_USER");
+            verify(roleRepository, never()).findByName("ROLE_ADMIN");
+        }
+
+        @Test
+        @DisplayName("Debe asignar ROLE_USER y ROLE_ADMIN a un usuario administrador")
+        void shouldAssignUserAndAdminRolesToAdmin() {
+            // Arrange
+            User user = new User();
+            user.setAdmin(true);
+            when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
+            when(roleRepository.findByName("ROLE_ADMIN")).thenReturn(Optional.of(roleAdmin));
+
+            // Act
+            List<Role> roles = rolesHelper.assignRoles(user);
+
+            // Assert
+            assertEquals(2, roles.size());
+            assertTrue(roles.stream().anyMatch(r -> r.getName().equals("ROLE_USER")));
+            assertTrue(roles.stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN")));
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si ROLE_USER no existe")
+        void shouldThrowExceptionWhenRoleUserNotFound() {
+            // Arrange
+            User user = new User();
+            user.setAdmin(false);
+            when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.empty());
+
+            // Act & Assert
+            IllegalStateException exception = assertThrows(
+                    IllegalStateException.class,
+                    () -> rolesHelper.assignRoles(user));
+            assertEquals("Missing role ROLE_USER", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si ROLE_ADMIN no existe para usuario admin")
+        void shouldThrowExceptionWhenRoleAdminNotFoundForAdmin() {
+            // Arrange
+            User user = new User();
+            user.setAdmin(true);
+            when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
+            when(roleRepository.findByName("ROLE_ADMIN")).thenReturn(Optional.empty());
+
+            // Act & Assert
+            IllegalStateException exception = assertThrows(
+                    IllegalStateException.class,
+                    () -> rolesHelper.assignRoles(user));
+            assertEquals("Missing role ROLE_ADMIN", exception.getMessage());
+        }
+
+        @Test
+        @DisplayName("Debe retornar una lista modificable")
+        void shouldReturnModifiableList() {
+            // Arrange
+            User user = new User();
+            user.setAdmin(false);
+            when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
+
+            // Act
+            List<Role> roles = rolesHelper.assignRoles(user);
+
+            // Assert - verificar que la lista es modificable
+            assertDoesNotThrow(() -> roles.add(roleAdmin));
+            assertEquals(2, roles.size());
+        }
     }
-
-    @Test
-    @DisplayName("Debe lanzar excepción si ROLE_USER no existe")
-    void shouldThrowExceptionWhenRoleUserNotFound() {
-      // Arrange
-      User user = new User();
-      user.setAdmin(false);
-      when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.empty());
-
-      // Act & Assert
-      IllegalStateException exception = assertThrows(
-          IllegalStateException.class,
-          () -> rolesHelper.assignRoles(user)
-      );
-      assertEquals("Missing role ROLE_USER", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Debe lanzar excepción si ROLE_ADMIN no existe para usuario admin")
-    void shouldThrowExceptionWhenRoleAdminNotFoundForAdmin() {
-      // Arrange
-      User user = new User();
-      user.setAdmin(true);
-      when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
-      when(roleRepository.findByName("ROLE_ADMIN")).thenReturn(Optional.empty());
-
-      // Act & Assert
-      IllegalStateException exception = assertThrows(
-          IllegalStateException.class,
-          () -> rolesHelper.assignRoles(user)
-      );
-      assertEquals("Missing role ROLE_ADMIN", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Debe retornar una lista modificable")
-    void shouldReturnModifiableList() {
-      // Arrange
-      User user = new User();
-      user.setAdmin(false);
-      when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
-
-      // Act
-      List<Role> roles = rolesHelper.assignRoles(user);
-
-      // Assert - verificar que la lista es modificable
-      assertDoesNotThrow(() -> roles.add(roleAdmin));
-      assertEquals(2, roles.size());
-    }
-  }
 }

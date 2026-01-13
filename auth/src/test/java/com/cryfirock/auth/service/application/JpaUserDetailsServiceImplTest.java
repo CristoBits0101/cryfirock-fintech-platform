@@ -31,137 +31,136 @@ import com.cryfirock.auth.repository.JpaUserRepository;
  * 3. Utiliza JUnit 5 y Mockito para las pruebas.
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("unused")
 class JpaUserDetailsServiceImplTest {
+    @Mock
+    private JpaUserRepository userRepository;
 
-  @Mock
-  private JpaUserRepository userRepository;
+    @InjectMocks
+    private JpaUserDetailsServiceImpl userDetailsService;
 
-  @InjectMocks
-  private JpaUserDetailsServiceImpl userDetailsService;
+    private User testUser;
+    private Role roleUser;
+    private Role roleAdmin;
 
-  private User testUser;
-  private Role roleUser;
-  private Role roleAdmin;
+    @BeforeEach
+    void setUp() {
+        roleUser = new Role("ROLE_USER");
+        roleAdmin = new Role("ROLE_ADMIN");
 
-  @BeforeEach
-  void setUp() {
-    roleUser = new Role("ROLE_USER");
-    roleAdmin = new Role("ROLE_ADMIN");
-
-    testUser = new User();
-    testUser.setId(1L);
-    testUser.setUsername("juanperez");
-    testUser.setPasswordHash("$2a$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW");
-    testUser.setEnabled(AccountStatus.ACTIVE);
-    testUser.setRoles(List.of(roleUser));
-  }
-
-  @Nested
-  @DisplayName("Tests para loadUserByUsername")
-  class LoadUserByUsernameTests {
-
-    @Test
-    @DisplayName("Debe cargar usuario existente")
-    void shouldLoadExistingUser() {
-      // Arrange
-      when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
-
-      // Act
-      UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
-
-      // Assert
-      assertNotNull(userDetails);
-      assertEquals("juanperez", userDetails.getUsername());
-      assertTrue(userDetails.isEnabled());
-      assertEquals(1, userDetails.getAuthorities().size());
+        testUser = new User();
+        testUser.setId(1L);
+        testUser.setUsername("juanperez");
+        testUser.setPasswordHash("$2a$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW");
+        testUser.setEnabled(AccountStatus.ACTIVE);
+        testUser.setRoles(List.of(roleUser));
     }
 
-    @Test
-    @DisplayName("Debe lanzar excepción si el usuario no existe")
-    void shouldThrowExceptionWhenUserNotFound() {
-      // Arrange
-      when(userRepository.findByUsername("noexiste")).thenReturn(Optional.empty());
+    @Nested
+    @DisplayName("Tests para loadUserByUsername")
+    class LoadUserByUsernameTests {
 
-      // Act & Assert
-      UsernameNotFoundException exception = assertThrows(
-          UsernameNotFoundException.class,
-          () -> userDetailsService.loadUserByUsername("noexiste")
-      );
-      assertTrue(exception.getMessage().contains("noexiste"));
+        @Test
+        @DisplayName("Debe cargar usuario existente")
+        void shouldLoadExistingUser() {
+            // Arrange
+            when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
+
+            // Act
+            UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
+
+            // Assert
+            assertNotNull(userDetails);
+            assertEquals("juanperez", userDetails.getUsername());
+            assertTrue(userDetails.isEnabled());
+            assertEquals(1, userDetails.getAuthorities().size());
+        }
+
+        @Test
+        @DisplayName("Debe lanzar excepción si el usuario no existe")
+        void shouldThrowExceptionWhenUserNotFound() {
+            // Arrange
+            when(userRepository.findByUsername("noexiste")).thenReturn(Optional.empty());
+
+            // Act & Assert
+            UsernameNotFoundException exception = assertThrows(
+                    UsernameNotFoundException.class,
+                    () -> userDetailsService.loadUserByUsername("noexiste"));
+            assertTrue(exception.getMessage().contains("noexiste"));
+        }
+
+        @Test
+        @DisplayName("Debe cargar las autoridades correctamente")
+        void shouldLoadAuthoritiesCorrectly() {
+            // Arrange
+            testUser.setRoles(List.of(roleUser, roleAdmin));
+            when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
+
+            // Act
+            UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
+
+            // Assert
+            assertEquals(2, userDetails.getAuthorities().size());
+            assertTrue(userDetails.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
+            assertTrue(userDetails.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
+        }
+
+        @Test
+        @DisplayName("Debe marcar como deshabilitado si la cuenta está suspendida")
+        void shouldBeDisabledWhenAccountSuspended() {
+            // Arrange
+            testUser.setEnabled(AccountStatus.SUSPENDED);
+            when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
+
+            // Act
+            UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
+
+            // Assert
+            assertFalse(userDetails.isEnabled());
+        }
+
+        @Test
+        @DisplayName("Debe marcar como deshabilitado si la cuenta está baneada")
+        void shouldBeDisabledWhenAccountBanned() {
+            // Arrange
+            testUser.setEnabled(AccountStatus.BANNED);
+            when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
+
+            // Act
+            UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
+
+            // Assert
+            assertFalse(userDetails.isEnabled());
+        }
+
+        @Test
+        @DisplayName("Debe marcar como deshabilitado si la cuenta está pendiente")
+        void shouldBeDisabledWhenAccountPending() {
+            // Arrange
+            testUser.setEnabled(AccountStatus.PENDING);
+            when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
+
+            // Act
+            UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
+
+            // Assert
+            assertFalse(userDetails.isEnabled());
+        }
+
+        @Test
+        @DisplayName("Debe estar habilitado si la cuenta está activa")
+        void shouldBeEnabledWhenAccountActive() {
+            // Arrange
+            testUser.setEnabled(AccountStatus.ACTIVE);
+            when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
+
+            // Act
+            UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
+
+            // Assert
+            assertTrue(userDetails.isEnabled());
+        }
     }
-
-    @Test
-    @DisplayName("Debe cargar las autoridades correctamente")
-    void shouldLoadAuthoritiesCorrectly() {
-      // Arrange
-      testUser.setRoles(List.of(roleUser, roleAdmin));
-      when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
-
-      // Act
-      UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
-
-      // Assert
-      assertEquals(2, userDetails.getAuthorities().size());
-      assertTrue(userDetails.getAuthorities().stream()
-          .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
-      assertTrue(userDetails.getAuthorities().stream()
-          .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
-    }
-
-    @Test
-    @DisplayName("Debe marcar como deshabilitado si la cuenta está suspendida")
-    void shouldBeDisabledWhenAccountSuspended() {
-      // Arrange
-      testUser.setEnabled(AccountStatus.SUSPENDED);
-      when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
-
-      // Act
-      UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
-
-      // Assert
-      assertFalse(userDetails.isEnabled());
-    }
-
-    @Test
-    @DisplayName("Debe marcar como deshabilitado si la cuenta está baneada")
-    void shouldBeDisabledWhenAccountBanned() {
-      // Arrange
-      testUser.setEnabled(AccountStatus.BANNED);
-      when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
-
-      // Act
-      UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
-
-      // Assert
-      assertFalse(userDetails.isEnabled());
-    }
-
-    @Test
-    @DisplayName("Debe marcar como deshabilitado si la cuenta está pendiente")
-    void shouldBeDisabledWhenAccountPending() {
-      // Arrange
-      testUser.setEnabled(AccountStatus.PENDING);
-      when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
-
-      // Act
-      UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
-
-      // Assert
-      assertFalse(userDetails.isEnabled());
-    }
-
-    @Test
-    @DisplayName("Debe estar habilitado si la cuenta está activa")
-    void shouldBeEnabledWhenAccountActive() {
-      // Arrange
-      testUser.setEnabled(AccountStatus.ACTIVE);
-      when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
-
-      // Act
-      UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
-
-      // Assert
-      assertTrue(userDetails.isEnabled());
-    }
-  }
 }
