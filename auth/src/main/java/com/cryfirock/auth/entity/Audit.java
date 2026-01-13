@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
  * 3. Genera getters, setters, toString, hashCode y equals.
  * 4. Clase embebible que contiene atributos de auditoría para entidades JPA.
  * 5. Mapea estos atributos a columnas con otro nombre en la tabla.
- * 6. Alguno de estos atributos no se pueden actualizar o no pueden ser nulos.
+ * 6. Algunos de estos atributos no se pueden actualizar o no pueden ser nulos.
  */
 @AllArgsConstructor
 @NoArgsConstructor

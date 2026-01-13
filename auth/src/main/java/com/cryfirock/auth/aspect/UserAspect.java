@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * 1. Aspecto para el registro de datos métodos en UserServiceImpl.
- * 2. Proporciona logging antes y después de la ejecución de algunos métodos.
+ * 1. Aspecto para la obtención de información de métodos en UserServiceImpl.
+ * 2. Proporciona logging antes y después de la ejecución de los métodos.
  * 3. Maneja logging para ejecuciones exitosas y excepciones.
  * 4. Utiliza AOP de Spring para interceptar llamadas a métodos.
  */
@@ -75,7 +75,7 @@ public class UserAspect {
    * 1. Log después de que un método en UserServiceImpl lanza una excepción.
    * 2. Registra el nombre del método y sus argumentos.
    * 
-   * @param joinPoint
+   * @param joinPoint Información del punto de unión.
    */
   @AfterThrowing("execution(* com.cryfirock.auth.service.UserServiceImpl.*(..))")
   public void loggerAfterThrowing(JoinPoint joinPoint) {

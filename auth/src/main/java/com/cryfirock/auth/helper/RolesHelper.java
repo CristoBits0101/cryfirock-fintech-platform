@@ -52,12 +52,12 @@ public class RolesHelper {
   public List<Role> assignRoles(User user) {
     /**
      * 1. Verifica si el usuario es administrador.
-     * 2. Si es administrador asigna ROLE_USER y ROLE_ADMIN.
-     * 3. Si no es administrador asigna solo ROLE_USER.
+     * 2. Si es administrador se asigna ROLE_USER y ROLE_ADMIN.
+     * 3. Si no es administrador se asigna solo ROLE_USER.
      * 4. Utiliza Streams para mapear los nombres de roles a objetos Role.
      * 5. Lanza una excepción si un rol no se encuentra en el repositorio.
      * 6. Devuelve una lista de roles asignados al usuario.
-     * 7. Converte el Stream resultante en una ArrayList.
+     * 7. Convierte el Stream resultante en una ArrayList.
      */
     return (user.isAdmin()
         ? Stream.of(ROLE_USER, ROLE_ADMIN)

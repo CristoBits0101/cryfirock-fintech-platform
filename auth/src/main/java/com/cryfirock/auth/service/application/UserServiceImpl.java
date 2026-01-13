@@ -23,7 +23,7 @@ import jakarta.validation.constraints.NotNull;
  * 1. Se ocupa de las operaciones relacionadas con los usuarios.
  * 2. Implementa la interfaz IUserService.
  * 3. Utiliza JpaUserRepository para interactuar con la base de datos.
- * 4. Proporciona métodos para CRUD usuarios.
+ * 4. Proporciona métodos para CRUD de usuarios.
  */
 @Service
 @Validated
@@ -82,7 +82,6 @@ public class UserServiceImpl implements IUserService {
    * 3. Utiliza el entorno de Spring para obtener el puerto.
    * 4. Marca la transacción como de solo lectura.
    * 
-   * @param id ID del usuario a buscar.
    * @return Lista de todos los usuarios.
    */
   @Override
@@ -105,7 +104,7 @@ public class UserServiceImpl implements IUserService {
    * 4. Devuelve un Optional que puede contener el usuario encontrado.
    *
    * @param id ID del usuario a buscar.
-   * @return Optional con el usuario si se encuentra y vacío si no.
+   * @return Optional con el usuario si se encuentra, o vacío si no.
    */
   @Override
   @Transactional(readOnly = true)
@@ -116,13 +115,13 @@ public class UserServiceImpl implements IUserService {
 
   /**
    * 1. Actualiza un usuario existente por su ID.
-   * 2. Marca la transacción como de solo lectura.
+   * 2. Marca la transacción como de escritura.
    * 3. Suprime las advertencias de nulidad.
    * 4. Devuelve un Optional que puede contener el usuario actualizado.
    * 
    * @param id   ID del usuario a actualizar.
    * @param user Datos del usuario para la actualización.
-   * @return Optional con el usuario actualizado si se encuentra y vacío si no.
+   * @return Optional con el usuario actualizado si se encuentra, o vacío si no.
    */
   @Override
   @Transactional
@@ -153,13 +152,13 @@ public class UserServiceImpl implements IUserService {
 
   /**
    * 1. Actualiza un usuario existente por su ID utilizando un DTO.
-   * 2. Marca la transacción como de solo lectura.
+   * 2. Marca la transacción como de escritura.
    * 3. Suprime las advertencias de nulidad.
    * 4. Devuelve un Optional que puede contener el usuario actualizado.
    * 
    * @param id      ID del usuario a actualizar.
    * @param userDto Datos del usuario para la actualización en forma de DTO.
-   * @return Optional con el usuario actualizado si se encuentra y vacío si no.
+   * @return Optional con el usuario actualizado si se encuentra, o vacío si no.
    */
   @Override
   @Transactional
@@ -183,12 +182,12 @@ public class UserServiceImpl implements IUserService {
 
   /**
    * 1. Elimina un usuario por su ID.
-   * 2. Marca la transacción como de solo lectura.
+   * 2. Marca la transacción como de escritura.
    * 3. Suprime las advertencias de nulidad.
    * 4. Devuelve un Optional que puede contener el usuario eliminado.
    * 
    * @param id ID del usuario a eliminar.
-   * @return Optional con el usuario eliminado si se encuentra y vacío si no.
+   * @return Optional con el usuario eliminado si se encuentra, o vacío si no.
    */
   @Override
   @Transactional

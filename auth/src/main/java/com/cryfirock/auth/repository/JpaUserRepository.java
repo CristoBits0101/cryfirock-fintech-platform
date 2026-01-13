@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.cryfirock.auth.entity.User;
 
 /**
- * 1. JPA repositorio para entidades User.
+ * 1. Repositorio JPA para entidades User.
  * 2. Anotado con @Repository para la detección automática por Spring.
  * 3. Proporciona métodos para operaciones CRUD y consultas personalizadas.
  */

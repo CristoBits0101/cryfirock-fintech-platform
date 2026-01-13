@@ -21,16 +21,16 @@ import com.cryfirock.auth.entity.User;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
   /**
-   * 1. Dejar explícito sí quieres el mapeo completo por defecto.
-   * 2. Ignorar los campos que no quieres mapear para actualizar.
+   * 1. Deja explícito si quieres el mapeo completo por defecto.
+   * 2. Ignora los campos que no quieres mapear para actualizar.
    * 3. El id no se mapea para evitar cambios accidentales.
    * 4. El passwordHash no se mapea para evitar cambios accidentales.
    * 5. Los roles no se mapean para evitar cambios accidentales.
-   * 6. Actualiza la entidad target con los valores del dto.
-   * 7. No retorna nada porque el target se actualiza in place.
+   * 6. Actualiza la entidad target con los valores del DTO.
+   * 7. No retorna nada porque el target se actualiza in situ.
    * 
    * @param target La entidad User a actualizar.
-   * @param dto   El DTO con los datos para actualizar.
+   * @param dto    El DTO con los datos para actualizar.
    */
   @BeanMapping(ignoreByDefault = false)
   @Mappings({
