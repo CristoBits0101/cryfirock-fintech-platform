@@ -19,7 +19,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.cryfirock.auth.exception.UserNotFoundException;
 import com.cryfirock.auth.mapper.ErrorMapper;
-import com.cryfirock.auth.model.Error;
+import com.cryfirock.auth.model.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(NoHandlerFoundException.class)
-  public ResponseEntity<Error> notFoundEx(NoHandlerFoundException e) {
+  public ResponseEntity<ErrorResponse> notFoundEx(NoHandlerFoundException e) {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
         .body(errorMapper.toError(
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
-  public ResponseEntity<Error> handleUnreadableMessage(HttpMessageNotReadableException ex) {
+  public ResponseEntity<ErrorResponse> handleUnreadableMessage(HttpMessageNotReadableException ex) {
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
         .body(errorMapper.toError(
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  public ResponseEntity<Error> handleUserNotFound(UserNotFoundException ex) {
+  public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
         .body(errorMapper.toError(
