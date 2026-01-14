@@ -1,4 +1,5 @@
 {
+    // Configuraciones específicas para el proyecto Java.
     "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "automatic",
 
