@@ -35,11 +35,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Error> handleUserNotFound(FeignException.NotFound ex) {
         return ResponseEntity
-            .status(HttpStatus.NOT_FOUND)
-            .body(new Error(
-                "El usuario solicitado no existe en el sistema",
-                "Usuario no encontrado",
-                HttpStatus.NOT_FOUND.value(),
-                new Date()));
+                .status(HttpStatus.NOT_FOUND)
+                .body(new Error(
+                        "El usuario solicitado no existe en el sistema",
+                        "Usuario no encontrado",
+                        HttpStatus.NOT_FOUND.value(),
+                        new Date()));
     }
 }

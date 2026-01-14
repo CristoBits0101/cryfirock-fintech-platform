@@ -78,6 +78,7 @@ public class GlobalExceptionHandler {
 | 2 | No superar el **máximo de 100 caracteres** por línea. |
 | 3 | Todos los comentarios deben **terminar en punto (.)** |
 | 4 | Usar comentarios numerados para explicaciones múltiples. |
+| 5 | **Todos los comentarios deben estar en español.** |
 
 ### Tipos de Comentarios
 
