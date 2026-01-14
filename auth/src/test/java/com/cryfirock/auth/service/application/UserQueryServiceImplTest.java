@@ -1,18 +1,17 @@
 package com.cryfirock.auth.service.application;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cryfirock.auth.repository.JpaUserRepository;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 /**
  * 1. Pruebas unitarias para UserQueryServiceImpl.
@@ -24,8 +23,7 @@ import static org.mockito.Mockito.when;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@ExtendWith(MockitoExtension.class)
-@SuppressWarnings("unused")
+@ExtendWith(MockitoExtension.class) @SuppressWarnings("unused")
 class UserQueryServiceImplTest {
     @Mock
     private JpaUserRepository userRepository;
@@ -33,12 +31,10 @@ class UserQueryServiceImplTest {
     @InjectMocks
     private UserQueryServiceImpl userQueryService;
 
-    @Nested
-    @DisplayName("Tests para existsByEmail")
+    @Nested @DisplayName("Tests para existsByEmail")
     class ExistsByEmailTests {
 
-        @Test
-        @DisplayName("Debe retornar true si el email existe")
+        @Test @DisplayName("Debe retornar true si el email existe")
         void shouldReturnTrueWhenEmailExists() {
             // Arrange
             when(userRepository.existsByEmail("existe@test.com")).thenReturn(true);
@@ -50,8 +46,7 @@ class UserQueryServiceImplTest {
             assertTrue(result);
         }
 
-        @Test
-        @DisplayName("Debe retornar false si el email no existe")
+        @Test @DisplayName("Debe retornar false si el email no existe")
         void shouldReturnFalseWhenEmailNotExists() {
             // Arrange
             when(userRepository.existsByEmail("noexiste@test.com")).thenReturn(false);
@@ -64,12 +59,10 @@ class UserQueryServiceImplTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para existsByPhoneNumber")
+    @Nested @DisplayName("Tests para existsByPhoneNumber")
     class ExistsByPhoneNumberTests {
 
-        @Test
-        @DisplayName("Debe retornar true si el teléfono existe")
+        @Test @DisplayName("Debe retornar true si el teléfono existe")
         void shouldReturnTrueWhenPhoneExists() {
             // Arrange
             when(userRepository.existsByPhoneNumber("123456789")).thenReturn(true);
@@ -81,8 +74,7 @@ class UserQueryServiceImplTest {
             assertTrue(result);
         }
 
-        @Test
-        @DisplayName("Debe retornar false si el teléfono no existe")
+        @Test @DisplayName("Debe retornar false si el teléfono no existe")
         void shouldReturnFalseWhenPhoneNotExists() {
             // Arrange
             when(userRepository.existsByPhoneNumber("999999999")).thenReturn(false);
@@ -95,12 +87,10 @@ class UserQueryServiceImplTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para existsByUsername")
+    @Nested @DisplayName("Tests para existsByUsername")
     class ExistsByUsernameTests {
 
-        @Test
-        @DisplayName("Debe retornar true si el username existe")
+        @Test @DisplayName("Debe retornar true si el username existe")
         void shouldReturnTrueWhenUsernameExists() {
             // Arrange
             when(userRepository.existsByUsername("existente")).thenReturn(true);
@@ -112,8 +102,7 @@ class UserQueryServiceImplTest {
             assertTrue(result);
         }
 
-        @Test
-        @DisplayName("Debe retornar false si el username no existe")
+        @Test @DisplayName("Debe retornar false si el username no existe")
         void shouldReturnFalseWhenUsernameNotExists() {
             // Arrange
             when(userRepository.existsByUsername("noexistente")).thenReturn(false);

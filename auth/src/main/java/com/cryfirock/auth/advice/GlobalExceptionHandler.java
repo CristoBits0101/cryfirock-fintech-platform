@@ -74,8 +74,7 @@ public class GlobalExceptionHandler {
      * @param ex Excepción lanzada durante la validación de argumentos.
      * @return Mapa de campos con errores y mensajes.
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class) @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValidationErrors(MethodArgumentNotValidException ex) {
         return ex.getBindingResult()
                 .getFieldErrors()
@@ -94,7 +93,8 @@ public class GlobalExceptionHandler {
      * @return Respuesta HTTP con estado 400 y detalles del error.
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleUnreadableMessage(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ErrorResponse> handleUnreadableMessage(
+            HttpMessageNotReadableException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errorMapper.toError(
@@ -110,8 +110,8 @@ public class GlobalExceptionHandler {
      * @param ex Excepción lanzada durante el procesamiento interno.
      * @return Mapa con detalles del error.
      */
-    @ExceptionHandler({ NullPointerException.class, HttpMessageNotWritableException.class })
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({ NullPointerException.class,
+            HttpMessageNotWritableException.class }) @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, Object> handleInternalServerError(Exception ex) {
         return Map.of(
                 "date", new Date(),
@@ -127,8 +127,7 @@ public class GlobalExceptionHandler {
      * @param ex Excepción lanzada cuando un usuario no es encontrado.
      * @return Respuesta HTTP con estado 404 y detalles del error.
      */
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UserNotFoundException.class) @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)

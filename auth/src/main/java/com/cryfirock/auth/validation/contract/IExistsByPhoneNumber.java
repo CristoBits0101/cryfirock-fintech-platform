@@ -21,9 +21,7 @@ import jakarta.validation.Payload;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Constraint(validatedBy = ExistsByPhoneNumberValidationImpl.class)
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = ExistsByPhoneNumberValidationImpl.class) @Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME)
 public @interface IExistsByPhoneNumber {
     /**
      * 1. Define mensajes del mensaje de error.

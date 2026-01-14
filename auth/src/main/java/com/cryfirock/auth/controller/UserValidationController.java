@@ -20,9 +20,7 @@ import com.cryfirock.auth.service.contract.IUserQueryService;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@RestController
-@CrossOrigin
-@RequestMapping("/api/validations")
+@RestController @CrossOrigin @RequestMapping("/api/validations")
 public class UserValidationController {
     /**
      * 1. Inyección automática del servicio.
@@ -39,7 +37,7 @@ public class UserValidationController {
      * 5. Llama al servicio para verificar la existencia del correo electrónico.
      * 6. Retorna true si el correo existe y false en caso contrario.
      * 7. ResponseEntity permite personalizar el JSON y el estado HTTP.
-     * 
+     *
      * @param email El correo electrónico a verificar.
      * @return ResponseEntity<Boolean> indicando si el correo existe.
      */
@@ -57,7 +55,7 @@ public class UserValidationController {
      * 5. Llama al servicio para verificar la existencia del nombre de usuario.
      * 6. Retorna true si el nombre de usuario existe y false en caso contrario.
      * 7. ResponseEntity permite personalizar el JSON y el estado HTTP.
-     * 
+     *
      * @param username El nombre de usuario a verificar.
      * @return ResponseEntity<Boolean> indicando si el nombre de usuario existe.
      */
@@ -75,7 +73,7 @@ public class UserValidationController {
      * 5. Llama al servicio para verificar la existencia del número de teléfono.
      * 6. Retorna true si el número de teléfono existe y false en caso contrario.
      * 7. ResponseEntity permite personalizar el JSON y el estado HTTP.
-     * 
+     *
      * @param phoneNumber El número de teléfono a verificar.
      * @return ResponseEntity<Boolean> indicando si el número de teléfono existe.
      */

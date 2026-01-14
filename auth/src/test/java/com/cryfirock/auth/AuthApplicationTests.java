@@ -16,8 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@SpringBootTest
-@ActiveProfiles("test")
+@SpringBootTest @ActiveProfiles("test")
 class AuthApplicationTests {
     @Test
     void contextLoads() {

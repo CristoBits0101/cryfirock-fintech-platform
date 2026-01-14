@@ -22,9 +22,7 @@ import com.cryfirock.oauth2.provider.service.IUserValidationService;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@RestController
-@CrossOrigin
-@RequestMapping("/api/oauth2/validate")
+@RestController @CrossOrigin @RequestMapping("/api/oauth2/validate")
 public class UserValidationController {
     /**
      * Servicio para validaciones de usuarios.

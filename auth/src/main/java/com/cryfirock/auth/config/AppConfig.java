@@ -21,8 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Configuration
-@ComponentScan(basePackages = { "com.cryfirock.auth.service", "com.cryfirock.auth.validation" })
+@Configuration @ComponentScan(basePackages = { "com.cryfirock.auth.service",
+        "com.cryfirock.auth.validation" })
 public class AppConfig implements WebMvcConfigurer {
     /**
      * 1. Interceptor para operaciones de usuario.
@@ -30,9 +30,7 @@ public class AppConfig implements WebMvcConfigurer {
      * 3. Interceptar solicitudes a rutas específicas relacionadas con usuarios.
      * 4. No puede ser nulo en tiempo de ejecución.
      */
-    @Autowired
-    @Qualifier("userOperationsInterceptor")
-    @NonNull
+    @Autowired @Qualifier("userOperationsInterceptor") @NonNull
     private HandlerInterceptor userOperationsInterceptor;
 
     /**
@@ -58,8 +56,7 @@ public class AppConfig implements WebMvcConfigurer {
      *
      * @return MessageSource configurado para i18n.
      */
-    @Bean
-    @SuppressWarnings("unused")
+    @Bean @SuppressWarnings("unused")
     MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:i18n/messages");

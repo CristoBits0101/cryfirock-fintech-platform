@@ -3,6 +3,10 @@ package com.cryfirock.auth.helper;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,20 +14,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.repository.JpaRoleRepository;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * 1. Pruebas unitarias para la clase RolesHelper.
@@ -35,8 +34,7 @@ import static org.mockito.Mockito.when;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@ExtendWith(MockitoExtension.class)
-@SuppressWarnings("unused")
+@ExtendWith(MockitoExtension.class) @SuppressWarnings("unused")
 class RolesHelperTest {
     @Mock
     private JpaRoleRepository roleRepository;
@@ -53,12 +51,10 @@ class RolesHelperTest {
         roleAdmin = new Role("ROLE_ADMIN");
     }
 
-    @Nested
-    @DisplayName("Tests para assignRoles")
+    @Nested @DisplayName("Tests para assignRoles")
     class AssignRolesTests {
 
-        @Test
-        @DisplayName("Debe asignar solo ROLE_USER a un usuario no administrador")
+        @Test @DisplayName("Debe asignar solo ROLE_USER a un usuario no administrador")
         void shouldAssignOnlyUserRoleToNonAdmin() {
             // Arrange
             User user = new User();
@@ -75,8 +71,7 @@ class RolesHelperTest {
             verify(roleRepository, never()).findByName("ROLE_ADMIN");
         }
 
-        @Test
-        @DisplayName("Debe asignar ROLE_USER y ROLE_ADMIN a un usuario administrador")
+        @Test @DisplayName("Debe asignar ROLE_USER y ROLE_ADMIN a un usuario administrador")
         void shouldAssignUserAndAdminRolesToAdmin() {
             // Arrange
             User user = new User();
@@ -93,8 +88,7 @@ class RolesHelperTest {
             assertTrue(roles.stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN")));
         }
 
-        @Test
-        @DisplayName("Debe lanzar excepción si ROLE_USER no existe")
+        @Test @DisplayName("Debe lanzar excepción si ROLE_USER no existe")
         void shouldThrowExceptionWhenRoleUserNotFound() {
             // Arrange
             User user = new User();
@@ -108,8 +102,7 @@ class RolesHelperTest {
             assertEquals("Missing role ROLE_USER", exception.getMessage());
         }
 
-        @Test
-        @DisplayName("Debe lanzar excepción si ROLE_ADMIN no existe para usuario admin")
+        @Test @DisplayName("Debe lanzar excepción si ROLE_ADMIN no existe para usuario admin")
         void shouldThrowExceptionWhenRoleAdminNotFoundForAdmin() {
             // Arrange
             User user = new User();
@@ -124,8 +117,7 @@ class RolesHelperTest {
             assertEquals("Missing role ROLE_ADMIN", exception.getMessage());
         }
 
-        @Test
-        @DisplayName("Debe retornar una lista modificable")
+        @Test @DisplayName("Debe retornar una lista modificable")
         void shouldReturnModifiableList() {
             // Arrange
             User user = new User();

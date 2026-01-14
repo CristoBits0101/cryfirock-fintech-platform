@@ -30,8 +30,7 @@ import jakarta.validation.constraints.NotNull;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Service
-@Validated
+@Service @Validated
 public class UserServiceImpl implements IUserService {
     // Repositorio JPA para usuarios.
     private final JpaUserRepository userRepository;
@@ -70,8 +69,7 @@ public class UserServiceImpl implements IUserService {
      * @param user Usuario a guardar.
      * @return Usuario guardado.
      */
-    @Override
-    @Transactional
+    @Override @Transactional
     public User save(@NotNull User user) {
         user.setRoles(rolesHelper.assignRoles(user));
         user.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
@@ -89,8 +87,7 @@ public class UserServiceImpl implements IUserService {
      *
      * @return Lista de todos los usuarios.
      */
-    @Override
-    @Transactional(readOnly = true)
+    @Override @Transactional(readOnly = true)
     public List<User> findAll() {
         return userRepository
                 .findAll()
@@ -111,9 +108,7 @@ public class UserServiceImpl implements IUserService {
      * @param id ID del usuario a buscar.
      * @return Optional con el usuario si se encuentra, o vacío si no.
      */
-    @Override
-    @Transactional(readOnly = true)
-    @SuppressWarnings("null")
+    @Override @Transactional(readOnly = true) @SuppressWarnings("null")
     public Optional<User> findById(@NotNull Long id) {
         return userRepository.findById(id);
     }
@@ -128,9 +123,7 @@ public class UserServiceImpl implements IUserService {
      * @param user Datos del usuario para la actualización.
      * @return Optional con el usuario actualizado si se encuentra, o vacío si no.
      */
-    @Override
-    @Transactional
-    @SuppressWarnings("null")
+    @Override @Transactional @SuppressWarnings("null")
     public Optional<User> update(@NotNull Long id, @NotNull User user) {
         return userRepository
                 .findById(id)
@@ -165,9 +158,7 @@ public class UserServiceImpl implements IUserService {
      * @param userDto Datos del usuario para la actualización en forma de DTO.
      * @return Optional con el usuario actualizado si se encuentra, o vacío si no.
      */
-    @Override
-    @Transactional
-    @SuppressWarnings("null")
+    @Override @Transactional @SuppressWarnings("null")
     public Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto userDto) {
         return userRepository
                 .findById(id)
@@ -194,9 +185,7 @@ public class UserServiceImpl implements IUserService {
      * @param id ID del usuario a eliminar.
      * @return Optional con el usuario eliminado si se encuentra, o vacío si no.
      */
-    @Override
-    @Transactional
-    @SuppressWarnings("null")
+    @Override @Transactional @SuppressWarnings("null")
     public Optional<User> deleteById(@NotNull Long id) {
         return userRepository
                 .findById(id)

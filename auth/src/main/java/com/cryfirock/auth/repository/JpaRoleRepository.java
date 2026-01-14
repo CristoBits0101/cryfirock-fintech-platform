@@ -19,11 +19,11 @@ import com.cryfirock.auth.entity.Role;
  */
 @Repository
 public interface JpaRoleRepository extends CrudRepository<Role, Long> {
-  /**
-   * Busca un rol por su nombre.
-   * 
-   * @param name El nombre del rol a buscar.
-   * @return Un Optional que contiene el rol si se encuentra o vacío si no.
-   */
-  Optional<Role> findByName(String name);
+    /**
+     * Busca un rol por su nombre.
+     *
+     * @param name El nombre del rol a buscar.
+     * @return Un Optional que contiene el rol si se encuentra o vacío si no.
+     */
+    Optional<Role> findByName(String name);
 }

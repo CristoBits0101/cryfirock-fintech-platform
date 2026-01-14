@@ -25,14 +25,10 @@ import lombok.NoArgsConstructor;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@Embeddable
-@AttributeOverrides({
-    @AttributeOverride(name = "createdAt", column = @Column(name = "created_at", nullable = false, updatable = false)),
-    @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at")),
-    @AttributeOverride(name = "lastLoginAt", column = @Column(name = "last_login_at"))
+@AllArgsConstructor @NoArgsConstructor @Data @Embeddable @AttributeOverrides({
+        @AttributeOverride(name = "createdAt", column = @Column(name = "created_at", nullable = false, updatable = false)),
+        @AttributeOverride(name = "updatedAt", column = @Column(name = "updated_at")),
+        @AttributeOverride(name = "lastLoginAt", column = @Column(name = "last_login_at"))
 })
 public class Audit {
     /**

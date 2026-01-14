@@ -12,15 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cryfirock.auth.repository.JpaUserRepository;
 
 import jakarta.persistence.EntityManager;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * 1. Tests de integración para el controlador de validaciones.
@@ -34,11 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@SpringBootTest
-@AutoConfigureMockMvc
-@ActiveProfiles("test")
-@Transactional
-@SuppressWarnings("unused")
+@SpringBootTest @AutoConfigureMockMvc @ActiveProfiles("test") @Transactional @SuppressWarnings("unused")
 class UserValidationControllerIntegrationTest {
 
     @Autowired
@@ -56,13 +51,10 @@ class UserValidationControllerIntegrationTest {
         entityManager.flush();
     }
 
-    @Nested
-    @DisplayName("Tests para GET /api/validations/exists/email/{email}")
+    @Nested @DisplayName("Tests para GET /api/validations/exists/email/{email}")
     class CheckEmailExistsTests {
 
-        @Test
-        @WithMockUser(roles = "USER")
-        @DisplayName("Debe retornar true cuando el email existe")
+        @Test @WithMockUser(roles = "USER") @DisplayName("Debe retornar true cuando el email existe")
         void shouldReturnTrueWhenEmailExists() throws Exception {
             createTestUserNative("test@exists.com", "611111111", "testuser1");
 
@@ -71,9 +63,7 @@ class UserValidationControllerIntegrationTest {
                     .andExpect(content().string("true"));
         }
 
-        @Test
-        @WithMockUser(roles = "USER")
-        @DisplayName("Debe retornar false cuando el email no existe")
+        @Test @WithMockUser(roles = "USER") @DisplayName("Debe retornar false cuando el email no existe")
         void shouldReturnFalseWhenEmailNotExists() throws Exception {
             mockMvc.perform(get("/api/validations/exists/email/noexiste@test.com"))
                     .andExpect(status().isOk())
@@ -81,13 +71,10 @@ class UserValidationControllerIntegrationTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para GET /api/validations/exists/username/{username}")
+    @Nested @DisplayName("Tests para GET /api/validations/exists/username/{username}")
     class CheckUsernameExistsTests {
 
-        @Test
-        @WithMockUser(roles = "USER")
-        @DisplayName("Debe retornar true cuando el username existe")
+        @Test @WithMockUser(roles = "USER") @DisplayName("Debe retornar true cuando el username existe")
         void shouldReturnTrueWhenUsernameExists() throws Exception {
             createTestUserNative("user@test.com", "633333333", "usuarioexistente");
 
@@ -96,9 +83,7 @@ class UserValidationControllerIntegrationTest {
                     .andExpect(content().string("true"));
         }
 
-        @Test
-        @WithMockUser(roles = "USER")
-        @DisplayName("Debe retornar false cuando el username no existe")
+        @Test @WithMockUser(roles = "USER") @DisplayName("Debe retornar false cuando el username no existe")
         void shouldReturnFalseWhenUsernameNotExists() throws Exception {
             mockMvc.perform(get("/api/validations/exists/username/usuariofantasma"))
                     .andExpect(status().isOk())
@@ -106,13 +91,10 @@ class UserValidationControllerIntegrationTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para GET /api/validations/exists/phone/{phoneNumber}")
+    @Nested @DisplayName("Tests para GET /api/validations/exists/phone/{phoneNumber}")
     class CheckPhoneExistsTests {
 
-        @Test
-        @WithMockUser(roles = "USER")
-        @DisplayName("Debe retornar true cuando el teléfono existe")
+        @Test @WithMockUser(roles = "USER") @DisplayName("Debe retornar true cuando el teléfono existe")
         void shouldReturnTrueWhenPhoneExists() throws Exception {
             createTestUserNative("phone@test.com", "644444444", "phoneuser");
 
@@ -121,9 +103,7 @@ class UserValidationControllerIntegrationTest {
                     .andExpect(content().string("true"));
         }
 
-        @Test
-        @WithMockUser(roles = "USER")
-        @DisplayName("Debe retornar false cuando el teléfono no existe")
+        @Test @WithMockUser(roles = "USER") @DisplayName("Debe retornar false cuando el teléfono no existe")
         void shouldReturnFalseWhenPhoneNotExists() throws Exception {
             mockMvc.perform(get("/api/validations/exists/phone/999999999"))
                     .andExpect(status().isOk())
@@ -131,26 +111,22 @@ class UserValidationControllerIntegrationTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests de seguridad")
+    @Nested @DisplayName("Tests de seguridad")
     class SecurityTests {
 
-        @Test
-        @DisplayName("Debe retornar 401 sin autenticación en email")
+        @Test @DisplayName("Debe retornar 401 sin autenticación en email")
         void shouldReturn401WithoutAuthOnEmail() throws Exception {
             mockMvc.perform(get("/api/validations/exists/email/test@test.com"))
                     .andExpect(status().isUnauthorized());
         }
 
-        @Test
-        @DisplayName("Debe retornar 401 sin autenticación en username")
+        @Test @DisplayName("Debe retornar 401 sin autenticación en username")
         void shouldReturn401WithoutAuthOnUsername() throws Exception {
             mockMvc.perform(get("/api/validations/exists/username/testuser"))
                     .andExpect(status().isUnauthorized());
         }
 
-        @Test
-        @DisplayName("Debe retornar 401 sin autenticación en phone")
+        @Test @DisplayName("Debe retornar 401 sin autenticación en phone")
         void shouldReturn401WithoutAuthOnPhone() throws Exception {
             mockMvc.perform(get("/api/validations/exists/phone/600000000"))
                     .andExpect(status().isUnauthorized());

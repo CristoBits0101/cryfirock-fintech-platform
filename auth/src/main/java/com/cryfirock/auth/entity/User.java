@@ -45,21 +45,15 @@ import lombok.Setter;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Entity @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username")) @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class User {
     /**
      * 1. Clave primaria de la entidad.
      * 2. Generación automática del valor de la clave primaria.
      * 3. Columna de la tabla que almacena el ID del usuario.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-      private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * 1. Columna de la tabla que almacena nombre(s) no nulos del usuario.
@@ -68,11 +62,8 @@ public class User {
      * 4. Tamaño mínimo de 1 carácter y máximo de 50 caracteres.
      * 5. Nombre(s) del usuario.
      */
-    @Column(name = "given_name", nullable = false)
-    @NotEmpty(message = "{NotEmpty.user.givenName}")
-    @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+$", message = "{Pattern.user.givenName}")
-    @Size(min = 1, max = 50, message = "{Size.user.givenName}")
-      private String givenName;
+    @Column(name = "given_name", nullable = false) @NotEmpty(message = "{NotEmpty.user.givenName}") @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+$", message = "{Pattern.user.givenName}") @Size(min = 1, max = 50, message = "{Size.user.givenName}")
+    private String givenName;
 
     /**
      * 1. Columna de la tabla que almacena apellidos no nulos del usuario.
@@ -81,11 +72,8 @@ public class User {
      * 4. Tamaño mínimo de 1 carácter y máximo de 50 caracteres.
      * 5. Apellidos del usuario.
      */
-    @Column(name = "family_name", nullable = false)
-    @NotEmpty(message = "{NotEmpty.user.familyName}")
-    @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+(\\s[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+)*$", message = "{Pattern.user.familyName}")
-    @Size(min = 1, max = 50, message = "{Size.user.familyName}")
-      private String familyName;
+    @Column(name = "family_name", nullable = false) @NotEmpty(message = "{NotEmpty.user.familyName}") @Pattern(regexp = "^[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+(\\s[A-Za-zÁáÉéÍíÓóÚúÝýÆæØøÅåÄäÖöÑñÜüß]+)*$", message = "{Pattern.user.familyName}") @Size(min = 1, max = 50, message = "{Size.user.familyName}")
+    private String familyName;
 
     /**
      * 1. Columna de la tabla que almacena un email irrepetible.
@@ -94,11 +82,8 @@ public class User {
      * 4. Tamaño mínimo de 1 carácter y máximo de 100 caracteres.
      * 5. Email del usuario.
      */
-    @Column(nullable = false, unique = true)
-    @IExistsByEmail(message = "{ExistsByEmail.user.email}")
-    @NotBlank(message = "{NotBlank.user.email}")
-    @Size(min = 1, max = 100, message = "{Size.user.email}")
-      private String email;
+    @Column(nullable = false, unique = true) @IExistsByEmail(message = "{ExistsByEmail.user.email}") @NotBlank(message = "{NotBlank.user.email}") @Size(min = 1, max = 100, message = "{Size.user.email}")
+    private String email;
 
     /**
      * 1. Columna de la tabla que almacena un número de teléfono irrepetible.
@@ -107,11 +92,8 @@ public class User {
      * 4. Tamaño mínimo de 9 dígitos y máximo de 20 dígitos.
      * 5. Número de teléfono del usuario.
      */
-    @Column(name = "phone_number", nullable = false, unique = true)
-    @NotEmpty(message = "{NotEmpty.user.phoneNumber}")
-    @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}")
-    @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
-      private String phoneNumber;
+    @Column(name = "phone_number", nullable = false, unique = true) @NotEmpty(message = "{NotEmpty.user.phoneNumber}") @Pattern(regexp = "^[0-9]{9,20}$", message = "{Pattern.user.phoneNumber}") @Size(min = 9, max = 20, message = "{Size.user.phoneNumber}")
+    private String phoneNumber;
 
     /**
      * 1. Columna de la tabla que almacena un nombre de usuario irrepetible.
@@ -119,10 +101,8 @@ public class User {
      * 3. Tamaño mínimo de 1 carácter y máximo de 50 caracteres.
      * 4. Nombre de usuario del usuario.
      */
-    @Column(nullable = false)
-    @NotBlank(message = "{NotBlank.user.username}")
-    @Size(min = 1, max = 50, message = "{Size.user.username}")
-      private String username;
+    @Column(nullable = false) @NotBlank(message = "{NotBlank.user.username}") @Size(min = 1, max = 50, message = "{Size.user.username}")
+    private String username;
 
     /**
      * 1. Columna de la tabla que almacena el hash de la contraseña.
@@ -130,57 +110,50 @@ public class User {
      * 3. El hash de la contraseña solo se puede escribir y no se lee desde JSON.
      * 4. Hash de la contraseña del usuario.
      */
-    @Column(name = "password_hash", nullable = false)
-    @NotBlank(message = "{NotBlank.user.password}")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-      private String passwordHash;
+    @Column(name = "password_hash", nullable = false) @NotBlank(message = "{NotBlank.user.password}") @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String passwordHash;
 
     /**
      * 1. Columna de la tabla que almacena la fecha de nacimiento.
      * 2. La fecha de nacimiento no puede ser nula.
      * 3. Fecha de nacimiento del usuario.
      */
-    @Column(nullable = false)
-    @NotNull(message = "{NotNull.user.dob}")
-      private LocalDate dob;
+    @Column(nullable = false) @NotNull(message = "{NotNull.user.dob}")
+    private LocalDate dob;
 
     /**
      * 1. Columna de la tabla que almacena la dirección.
      * 2. La dirección no puede ser nula.
      * 3. Dirección del usuario.
      */
-    @Column(nullable = false)
-    @NotNull(message = "{NotNull.user.address}")
-      private String address;
+    @Column(nullable = false) @NotNull(message = "{NotNull.user.address}")
+    private String address;
 
     /**
      * 1. Columna de la tabla que almacena el estado de la cuenta.
      * 2. El estado de la cuenta no puede ser nulo.
      * 3. Estado de la cuenta del usuario.
      */
-    @Column(name = "account_status", nullable = false)
-    @Enumerated(EnumType.STRING)
-      private AccountStatus enabled = AccountStatus.ACTIVE;
+    @Column(name = "account_status", nullable = false) @Enumerated(EnumType.STRING)
+    private AccountStatus enabled = AccountStatus.ACTIVE;
 
     /**
      * 1. Evita referencias circulares al serializar a JSON.
      * 2. Lista de roles asociados a este usuario.
      * 3. Relación muchos a muchos con la entidad Role.
      */
-    @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" })
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
-        "user_id", "role_id" }))
-    @ManyToMany
-      private List<Role> roles;
+    @JsonIgnoreProperties({ "users", "handler",
+            "hibernateLazyInitializer" }) @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
+                    "user_id", "role_id" })) @ManyToMany
+    private List<Role> roles;
 
     /**
      * 1. No se mapea a ninguna columna de la tabla.
      * 2. Solo se puede escribir y no se lee desde JSON.
      * 3. Indica si el usuario tiene rol de administrador.
      */
-    @Transient
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-      private boolean admin;
+    @Transient @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private boolean admin;
 
     /**
      * 1. Método que se ejecuta antes de persistir la entidad.

@@ -37,5 +37,11 @@
             value="true" />
         <setting id="org.eclipse.jdt.core.formatter.never_indent_line_comments_on_first_column"
             value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_simple_if_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line"
+            value="true" />
     </profile>
 </profiles>

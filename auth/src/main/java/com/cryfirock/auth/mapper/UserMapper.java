@@ -35,10 +35,9 @@ public interface UserMapper {
      * 7. No retorna nada porque el target se actualiza in situ.
      *
      * @param target La entidad User a actualizar.
-     * @param dto    El DTO con los datos para actualizar.
+     * @param dto El DTO con los datos para actualizar.
      */
-    @BeanMapping(ignoreByDefault = false)
-    @Mappings({
+    @BeanMapping(ignoreByDefault = false) @Mappings({
             @Mapping(target = "roles", ignore = true),
             @Mapping(target = "passwordHash", ignore = true),
             @Mapping(target = "id", ignore = true)

@@ -310,17 +310,25 @@
 
 ### 🧹 FORMATEO DE CÓDIGO
 
-> Spotless con Google Java Format (AOSP - 4 espacios)
+> VS Code Java Formatter con perfil CryfiRock (4 espacios, 100 chars)
 
-```bash
-# 📦 Verificar formato:
-⌨️ cd auth
-⌨️ C:\Users\reuda\.maven\maven-3.9.12\bin\mvn.cmd spotless:check
+📁 **Archivos de configuración:**
+- `.editorconfig` → Reglas básicas de archivos
+- `.vscode/java-formatter.xml` → Perfil de formato Java
+- `.vscode/settings.json` → Configuración del editor
 
-# 📦 Aplicar formato automáticamente:
-⌨️ cd auth
-⌨️ C:\Users\reuda\.maven\maven-3.9.12\bin\mvn.cmd spotless:apply
-```
+### 📊 EditorConfig vs Java Formatter
+
+| Aspecto | EditorConfig | Java Formatter XML |
+|---------|:------------:|:------------------:|
+| Indentación Java | 🔶 Respaldo | ✅ **Principal** |
+| Largo de línea Java | ❌ No aplica | ✅ **100 chars** |
+| Finales de línea (LF) | ✅ **Aplica** | ❌ No controla |
+| Nueva línea al final | ✅ **Aplica** | ❌ No controla |
+| Trailing whitespace | ✅ **Aplica** | ❌ No controla |
+| Formato XML | ✅ **Aplica** | ❌ No aplica |
+
+💡 **EditorConfig** funciona para reglas de archivos y formato básico, pero para formatear código Java específicamente, el **Java Formatter XML** es el que manda.
 
 ---
 

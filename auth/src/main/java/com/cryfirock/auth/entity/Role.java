@@ -22,16 +22,14 @@ import jakarta.validation.constraints.Size;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Entity
-@Table(name = "roles")
+@Entity @Table(name = "roles")
 public class Role {
     /**
      * 1. Clave primaria de la entidad.
      * 2. Generación automática del valor de la clave primaria.
      * 3. Columna de la tabla que almacena el ID del rol.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -40,8 +38,7 @@ public class Role {
      * 3. El nombre no puede ser nulo y debe ser único.
      * 4. Tamaño máximo del nombre es de 50 caracteres.
      */
-    @Column(name = "role", nullable = false, unique = true)
-    @Size(max = 50)
+    @Column(name = "role", nullable = false, unique = true) @Size(max = 50)
     private String name;
 
     /**
@@ -49,8 +46,7 @@ public class Role {
      * 2. Evita referencias circulares al serializar a JSON.
      * 3. Relación muchos a muchos con la entidad User.
      */
-    @JsonIgnoreProperties({ "roles" })
-    @ManyToMany(mappedBy = "roles")
+    @JsonIgnoreProperties({ "roles" }) @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
     // Constructores.

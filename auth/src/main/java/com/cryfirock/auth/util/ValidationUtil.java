@@ -24,7 +24,7 @@ public class ValidationUtil {
      * 1. Verifica si una cadena es válida.
      * 2. Una cadena es válida si no es nula y no está en blanco.
      *
-     * @param value  Cadena a validar.
+     * @param value Cadena a validar.
      * @param exists Predicado para verificar existencia.
      * @return Verdadero si la cadena es válida.
      */

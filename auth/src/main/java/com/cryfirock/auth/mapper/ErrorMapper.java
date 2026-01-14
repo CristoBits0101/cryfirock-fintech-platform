@@ -20,21 +20,18 @@ import com.cryfirock.auth.model.ErrorResponse;
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface ErrorMapper {
-  /**
-   * 1. Mapea el código de estado HTTP al campo status.
-   * 2. Mapea el mensaje breve al campo error.
-   * 3. Mapea los detalles adicionales al campo message.
-   * 4. Establece la fecha actual en el campo date.
-   * 5. Retorna el objeto Error mapeado.
-   * 
-   * @param status       Código de estado HTTP del error.
-   * @param errorMessage Mensaje breve del error.
-   * @param detail       Detalles adicionales del error.
-   * @return Objeto Error con la información mapeada.
-   */
-  @Mapping(target = "error", source = "errorMessage")
-  @Mapping(target = "message", source = "detail")
-  @Mapping(target = "status", source = "status")
-  @Mapping(target = "date", expression = "java(new java.util.Date())")
-  ErrorResponse toError(int status, String errorMessage, String detail);
+    /**
+     * 1. Mapea el código de estado HTTP al campo status.
+     * 2. Mapea el mensaje breve al campo error.
+     * 3. Mapea los detalles adicionales al campo message.
+     * 4. Establece la fecha actual en el campo date.
+     * 5. Retorna el objeto Error mapeado.
+     *
+     * @param status Código de estado HTTP del error.
+     * @param errorMessage Mensaje breve del error.
+     * @param detail Detalles adicionales del error.
+     * @return Objeto Error con la información mapeada.
+     */
+    @Mapping(target = "error", source = "errorMessage") @Mapping(target = "message", source = "detail") @Mapping(target = "status", source = "status") @Mapping(target = "date", expression = "java(new java.util.Date())")
+    ErrorResponse toError(int status, String errorMessage, String detail);
 }

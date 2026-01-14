@@ -66,11 +66,11 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
      * 4. Establece el contexto de seguridad con la autenticación.
      * 5. Responde con error 401 si el token es inválido.
      *
-     * @param request  Solicitud HTTP entrante.
+     * @param request Solicitud HTTP entrante.
      * @param response Respuesta HTTP saliente.
-     * @param chain    Cadena de filtros.
+     * @param chain Cadena de filtros.
      * @throws ServletException Si ocurre un error del servlet.
-     * @throws IOException      Si ocurre un error de E/S.
+     * @throws IOException Si ocurre un error de E/S.
      */
     @Override
     protected void doFilterInternal(
@@ -87,14 +87,16 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
         String token = header.substring(PREFIX_TOKEN.length()).trim();
 
         try {
-            Claims claims = Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token).getPayload();
+            Claims claims = Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token)
+                    .getPayload();
 
             String username = claims.getSubject();
             Object authoritiesClaims = claims.get("authorities");
-            Collection<? extends GrantedAuthority> authorities = extractAuthorities(authoritiesClaims);
+            Collection<? extends GrantedAuthority> authorities = extractAuthorities(
+                    authoritiesClaims);
 
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(username, null, authorities);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    username, null, authorities);
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
@@ -120,7 +122,8 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
      * @return Colección de GrantedAuthority.
      * @throws IOException Si ocurre un error al deserializar.
      */
-    private Collection<? extends GrantedAuthority> extractAuthorities(Object authoritiesClaims) throws IOException {
+    private Collection<? extends GrantedAuthority> extractAuthorities(Object authoritiesClaims)
+            throws IOException {
         if (authoritiesClaims instanceof Collection<?> collection) {
             return collection.stream().map(this::toGrantedAuthority).collect(Collectors.toList());
         }

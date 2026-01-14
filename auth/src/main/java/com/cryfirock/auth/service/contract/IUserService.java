@@ -45,7 +45,7 @@ public interface IUserService {
     /**
      * 1. Actualiza un usuario existente por su ID.
      *
-     * @param id   el ID del usuario a actualizar.
+     * @param id el ID del usuario a actualizar.
      * @param user el usuario con los datos actualizados.
      * @return un Optional con el usuario actualizado si se encuentra y o vacío si no.
      */
@@ -54,7 +54,7 @@ public interface IUserService {
     /**
      * 1. Actualiza un usuario existente por su ID usando un DTO.
      *
-     * @param id  el ID del usuario a actualizar.
+     * @param id el ID del usuario a actualizar.
      * @param dto el DTO con los datos actualizados.
      * @return un Optional con el usuario actualizado si se encuentra y o vacío si no.
      */

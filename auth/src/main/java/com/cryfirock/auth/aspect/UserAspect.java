@@ -25,8 +25,7 @@ import org.springframework.stereotype.Component;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Aspect
-@Component
+@Aspect @Component
 public class UserAspect {
     // 1. Logger para registrar mensajes de log.
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -44,7 +43,7 @@ public class UserAspect {
         String methodArgs = Arrays.toString(joinPoint.getArgs());
         // Mostrar el log antes de la ejecución del método.
         logger.info("Antes de ejecutar: " + methodName + " con argumentos " + methodArgs);
-      }
+    }
 
     /**
      * 1. Log después de ejecutar métodos de la clase UserServiceImpl.
@@ -74,7 +73,7 @@ public class UserAspect {
         String args = Arrays.toString(joinPoint.getArgs());
         // Mostrar el log después de una ejecución exitosa.
         logger.info("Después de una ejecución exitosa: " + method + " con argumentos " + args);
-      }
+    }
 
     /**
      * 1. Log después de que un método en UserServiceImpl lanza una excepción.
@@ -89,7 +88,7 @@ public class UserAspect {
         String args = Arrays.toString(joinPoint.getArgs());
         // Mostrar el log después de una excepción.
         logger.error("Después de una excepción en: " + method + " con argumentos " + args);
-      }
+    }
 
     /**
      * 1. Log alrededor de la ejecución de métodos en UserServiceImpl.

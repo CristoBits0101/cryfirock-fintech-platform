@@ -36,8 +36,8 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
      * 2. Construye un ErrorResponse con los detalles del error.
      * 3. Escribe la respuesta JSON con estado 401.
      *
-     * @param request       Solicitud HTTP.
-     * @param response      Respuesta HTTP.
+     * @param request Solicitud HTTP.
+     * @param response Respuesta HTTP.
      * @param authException Excepción de autenticación.
      * @throws IOException Si ocurre un error de E/S.
      */

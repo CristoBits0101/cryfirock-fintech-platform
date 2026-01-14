@@ -3,20 +3,19 @@ package com.cryfirock.auth.util;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 /**
  * 1. Pruebas unitarias para la clase ValidationUtil.
@@ -30,84 +29,69 @@ import static org.mockito.Mockito.when;
  */
 @SuppressWarnings("unused")
 class ValidationUtilTest {
-    @Nested
-    @DisplayName("Tests para isBlankOrNull")
+    @Nested @DisplayName("Tests para isBlankOrNull")
     class IsBlankOrNullTests {
 
-        @Test
-        @DisplayName("Debe retornar true si la cadena es null")
+        @Test @DisplayName("Debe retornar true si la cadena es null")
         void shouldReturnTrueWhenNull() {
             assertTrue(ValidationUtil.isBlankOrNull(null));
         }
 
-        @Test
-        @DisplayName("Debe retornar true si la cadena está vacía")
+        @Test @DisplayName("Debe retornar true si la cadena está vacía")
         void shouldReturnTrueWhenEmpty() {
             assertTrue(ValidationUtil.isBlankOrNull(""));
         }
 
-        @Test
-        @DisplayName("Debe retornar true si la cadena tiene solo espacios")
+        @Test @DisplayName("Debe retornar true si la cadena tiene solo espacios")
         void shouldReturnTrueWhenOnlySpaces() {
             assertTrue(ValidationUtil.isBlankOrNull("   "));
         }
 
-        @Test
-        @DisplayName("Debe retornar false si la cadena tiene contenido")
+        @Test @DisplayName("Debe retornar false si la cadena tiene contenido")
         void shouldReturnFalseWhenHasContent() {
             assertFalse(ValidationUtil.isBlankOrNull("contenido"));
         }
 
-        @Test
-        @DisplayName("Debe retornar false si la cadena tiene contenido con espacios")
+        @Test @DisplayName("Debe retornar false si la cadena tiene contenido con espacios")
         void shouldReturnFalseWhenHasContentWithSpaces() {
             assertFalse(ValidationUtil.isBlankOrNull("  contenido  "));
         }
     }
 
-    @Nested
-    @DisplayName("Tests para isValidString")
+    @Nested @DisplayName("Tests para isValidString")
     class IsValidStringTests {
 
-        @Test
-        @DisplayName("Debe retornar false si la cadena es null")
+        @Test @DisplayName("Debe retornar false si la cadena es null")
         void shouldReturnFalseWhenNull() {
             assertFalse(ValidationUtil.isValidString(null, s -> false));
         }
 
-        @Test
-        @DisplayName("Debe retornar false si el predicado es null")
+        @Test @DisplayName("Debe retornar false si el predicado es null")
         void shouldReturnFalseWhenPredicateIsNull() {
             assertFalse(ValidationUtil.isValidString("valor", null));
         }
 
-        @Test
-        @DisplayName("Debe retornar false si el valor ya existe")
+        @Test @DisplayName("Debe retornar false si el valor ya existe")
         void shouldReturnFalseWhenValueExists() {
             assertFalse(ValidationUtil.isValidString("existente", s -> true));
         }
 
-        @Test
-        @DisplayName("Debe retornar true si el valor es válido y no existe")
+        @Test @DisplayName("Debe retornar true si el valor es válido y no existe")
         void shouldReturnTrueWhenValidAndNotExists() {
             assertTrue(ValidationUtil.isValidString("nuevo", s -> false));
         }
 
-        @Test
-        @DisplayName("Debe trimear el valor antes de verificar existencia")
+        @Test @DisplayName("Debe trimear el valor antes de verificar existencia")
         void shouldTrimValueBeforeCheckingExistence() {
             // El predicado verifica si recibe "trimmed"
             assertTrue(ValidationUtil.isValidString("  trimmed  ", s -> s.equals("noexiste")));
         }
     }
 
-    @Nested
-    @DisplayName("Tests para reportIncorrectFields")
+    @Nested @DisplayName("Tests para reportIncorrectFields")
     class ReportIncorrectFieldsTests {
 
-        @SuppressWarnings("null")
-        @Test
-        @DisplayName("Debe retornar BAD_REQUEST con errores de validación")
+        @SuppressWarnings("null") @Test @DisplayName("Debe retornar BAD_REQUEST con errores de validación")
         void shouldReturnBadRequestWithValidationErrors() {
             // Arrange
             BindingResult bindingResult = mock(BindingResult.class);
@@ -125,9 +109,7 @@ class ValidationUtilTest {
             assertEquals("Email inválido", errors.get("email"));
         }
 
-        @SuppressWarnings("null")
-        @Test
-        @DisplayName("Debe manejar múltiples errores en el mismo campo")
+        @SuppressWarnings("null") @Test @DisplayName("Debe manejar múltiples errores en el mismo campo")
         void shouldHandleMultipleErrorsOnSameField() {
             // Arrange
             BindingResult bindingResult = mock(BindingResult.class);
@@ -147,9 +129,7 @@ class ValidationUtilTest {
             assertTrue(passwordError.contains("Sin mayúsculas"));
         }
 
-        @SuppressWarnings("null")
-        @Test
-        @DisplayName("Debe retornar mapa vacío si no hay errores")
+        @SuppressWarnings("null") @Test @DisplayName("Debe retornar mapa vacío si no hay errores")
         void shouldReturnEmptyMapWhenNoErrors() {
             // Arrange
             BindingResult bindingResult = mock(BindingResult.class);
@@ -165,9 +145,7 @@ class ValidationUtilTest {
             assertTrue(errors.isEmpty());
         }
 
-        @SuppressWarnings("null")
-        @Test
-        @DisplayName("Debe manejar múltiples campos con errores")
+        @SuppressWarnings("null") @Test @DisplayName("Debe manejar múltiples campos con errores")
         void shouldHandleMultipleFieldsWithErrors() {
             // Arrange
             BindingResult bindingResult = mock(BindingResult.class);

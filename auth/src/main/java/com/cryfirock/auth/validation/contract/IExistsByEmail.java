@@ -21,9 +21,7 @@ import jakarta.validation.Payload;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Constraint(validatedBy = ExistsByEmailValidationImpl.class)
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = ExistsByEmailValidationImpl.class) @Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME)
 public @interface IExistsByEmail {
     /**
      * 1. Define mensajes del mensaje de error.

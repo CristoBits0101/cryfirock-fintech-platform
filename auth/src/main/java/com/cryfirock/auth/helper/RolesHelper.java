@@ -23,9 +23,7 @@ import lombok.Setter;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Component
-@Setter
-@Getter
+@Component @Setter @Getter
 public class RolesHelper {
     /**
      * 1. Roles predefinidos en el sistema.
@@ -65,11 +63,12 @@ public class RolesHelper {
          * 7. Convierte el Stream resultante en una ArrayList.
          */
         return (user.isAdmin()
-            ? Stream.of(ROLE_USER, ROLE_ADMIN)
-            : Stream.of(ROLE_USER))
-            .map(role -> roleRepository
-                .findByName(role)
-                .orElseThrow(() -> new IllegalStateException("Missing role " + role)))
-            .collect(Collectors.toCollection(ArrayList::new));
+                ? Stream.of(ROLE_USER, ROLE_ADMIN)
+                : Stream.of(ROLE_USER))
+                        .map(role -> roleRepository
+                                .findByName(role)
+                                .orElseThrow(
+                                        () -> new IllegalStateException("Missing role " + role)))
+                        .collect(Collectors.toCollection(ArrayList::new));
     }
 }

@@ -31,7 +31,7 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
     /**
      * 1. Logger para registrar mensajes de log.
      */
-      private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
 
     /**
      * 1. Ejecuta antes del manejo de la solicitud.
@@ -39,9 +39,9 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
      * 3. Obtiene el usuario del contexto de Spring Security.
      * 4. La validación de seguridad es manejada por Spring Security.
      *
-     * @param request  Solicitud HTTP entrante.
+     * @param request Solicitud HTTP entrante.
      * @param response Respuesta HTTP saliente.
-     * @param handler  Controlador que manejará la solicitud.
+     * @param handler Controlador que manejará la solicitud.
      * @return true para continuar con la cadena de interceptores.
      */
     @Override
@@ -79,9 +79,9 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
      * 3. Registra logs según el tipo de operación y estado.
      * 4. Registra errores si el estado HTTP es >= 400.
      *
-     * @param request      Solicitud HTTP entrante.
-     * @param response     Respuesta HTTP saliente.
-     * @param handler      Controlador que manejó la solicitud.
+     * @param request Solicitud HTTP entrante.
+     * @param response Respuesta HTTP saliente.
+     * @param handler Controlador que manejó la solicitud.
      * @param modelAndView Modelo y vista (puede ser null).
      */
     @Override

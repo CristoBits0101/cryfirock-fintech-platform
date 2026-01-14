@@ -4,13 +4,22 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.env.Environment;
 
@@ -22,16 +31,6 @@ import com.cryfirock.auth.mapper.UserMapper;
 import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 /**
  * 1. Pruebas unitarias para UserServiceImpl.
  * 2. Verifica el correcto funcionamiento de las operaciones CRUD.
@@ -42,8 +41,7 @@ import static org.mockito.Mockito.when;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@ExtendWith(MockitoExtension.class)
-@SuppressWarnings("unused")
+@ExtendWith(MockitoExtension.class) @SuppressWarnings("unused")
 class UserServiceImplTest {
     @Mock
     private JpaUserRepository userRepository;
@@ -81,12 +79,10 @@ class UserServiceImplTest {
         testUser.setAdmin(false);
     }
 
-    @Nested
-    @DisplayName("Tests para save")
+    @Nested @DisplayName("Tests para save")
     class SaveTests {
 
-        @Test
-        @DisplayName("Debe guardar un usuario correctamente")
+        @Test @DisplayName("Debe guardar un usuario correctamente")
         void shouldSaveUserSuccessfully() {
             // Arrange
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
@@ -102,13 +98,13 @@ class UserServiceImplTest {
             verify(userRepository).save(testUser);
         }
 
-        @Test
-        @DisplayName("Debe codificar la contraseña al guardar")
+        @Test @DisplayName("Debe codificar la contraseña al guardar")
         void shouldEncodePasswordWhenSaving() {
             // Arrange
             testUser.setPasswordHash("plainPassword");
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
-            when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            when(userRepository.save(any(User.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
 
             // Act
             User result = userService.save(testUser);
@@ -118,14 +114,14 @@ class UserServiceImplTest {
             assertTrue(result.getPasswordHash().startsWith("$2"));
         }
 
-        @Test
-        @DisplayName("No debe re-codificar una contraseña ya codificada")
+        @Test @DisplayName("No debe re-codificar una contraseña ya codificada")
         void shouldNotReEncodeAlreadyEncodedPassword() {
             // Arrange
             String bcryptHash = "$2a$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
             testUser.setPasswordHash(bcryptHash);
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
-            when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            when(userRepository.save(any(User.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
 
             // Act
             User result = userService.save(testUser);
@@ -135,12 +131,10 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para findById")
+    @Nested @DisplayName("Tests para findById")
     class FindByIdTests {
 
-        @Test
-        @DisplayName("Debe encontrar usuario por ID")
+        @Test @DisplayName("Debe encontrar usuario por ID")
         void shouldFindUserById() {
             // Arrange
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
@@ -153,8 +147,7 @@ class UserServiceImplTest {
             assertEquals("Juan", result.get().getGivenName());
         }
 
-        @Test
-        @DisplayName("Debe retornar vacío si el usuario no existe")
+        @Test @DisplayName("Debe retornar vacío si el usuario no existe")
         void shouldReturnEmptyWhenUserNotFound() {
             // Arrange
             when(userRepository.findById(999L)).thenReturn(Optional.empty());
@@ -167,12 +160,10 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para findAll")
+    @Nested @DisplayName("Tests para findAll")
     class FindAllTests {
 
-        @Test
-        @DisplayName("Debe retornar todos los usuarios con puerto")
+        @Test @DisplayName("Debe retornar todos los usuarios con puerto")
         void shouldReturnAllUsersWithPort() {
             // Arrange
             when(userRepository.findAll()).thenReturn(List.of(testUser));
@@ -186,8 +177,7 @@ class UserServiceImplTest {
             assertEquals(8080, result.get(0).getPort());
         }
 
-        @Test
-        @DisplayName("Debe retornar lista vacía si no hay usuarios")
+        @Test @DisplayName("Debe retornar lista vacía si no hay usuarios")
         void shouldReturnEmptyListWhenNoUsers() {
             // Arrange
             when(userRepository.findAll()).thenReturn(List.of());
@@ -200,12 +190,10 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para update con User")
+    @Nested @DisplayName("Tests para update con User")
     class UpdateWithUserTests {
 
-        @Test
-        @DisplayName("Debe actualizar un usuario existente")
+        @Test @DisplayName("Debe actualizar un usuario existente")
         void shouldUpdateExistingUser() {
             // Arrange
             User updatedUser = new User();
@@ -220,7 +208,8 @@ class UserServiceImplTest {
 
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
-            when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            when(userRepository.save(any(User.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
 
             // Act
             Optional<User> result = userService.update(1L, updatedUser);
@@ -231,8 +220,7 @@ class UserServiceImplTest {
             assertEquals("García", result.get().getFamilyName());
         }
 
-        @Test
-        @DisplayName("Debe retornar vacío si el usuario no existe")
+        @Test @DisplayName("Debe retornar vacío si el usuario no existe")
         void shouldReturnEmptyWhenUserNotExistsForUpdate() {
             // Arrange
             when(userRepository.findById(999L)).thenReturn(Optional.empty());
@@ -245,8 +233,7 @@ class UserServiceImplTest {
             verify(userRepository, never()).save(any());
         }
 
-        @Test
-        @DisplayName("Debe actualizar contraseña si se proporciona")
+        @Test @DisplayName("Debe actualizar contraseña si se proporciona")
         void shouldUpdatePasswordWhenProvided() {
             // Arrange
             User updatedUser = new User();
@@ -262,7 +249,8 @@ class UserServiceImplTest {
 
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
-            when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            when(userRepository.save(any(User.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
 
             // Act
             Optional<User> result = userService.update(1L, updatedUser);
@@ -273,12 +261,10 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para update con DTO")
+    @Nested @DisplayName("Tests para update con DTO")
     class UpdateWithDtoTests {
 
-        @Test
-        @DisplayName("Debe actualizar usuario con DTO")
+        @Test @DisplayName("Debe actualizar usuario con DTO")
         void shouldUpdateUserWithDto() {
             // Arrange
             UserUpdateDto dto = new UserUpdateDto(
@@ -288,7 +274,8 @@ class UserServiceImplTest {
 
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
-            when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            when(userRepository.save(any(User.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
             doNothing().when(userMapper).update(any(User.class), any(UserUpdateDto.class));
 
             // Act
@@ -299,8 +286,7 @@ class UserServiceImplTest {
             verify(userMapper).update(any(User.class), eq(dto));
         }
 
-        @Test
-        @DisplayName("Debe actualizar contraseña con DTO si se proporciona")
+        @Test @DisplayName("Debe actualizar contraseña con DTO si se proporciona")
         void shouldUpdatePasswordWithDtoWhenProvided() {
             // Arrange
             UserUpdateDto dto = new UserUpdateDto(
@@ -310,7 +296,8 @@ class UserServiceImplTest {
 
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
-            when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            when(userRepository.save(any(User.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
             doNothing().when(userMapper).update(any(User.class), any(UserUpdateDto.class));
 
             // Act
@@ -322,12 +309,10 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested
-    @DisplayName("Tests para deleteById")
+    @Nested @DisplayName("Tests para deleteById")
     class DeleteByIdTests {
 
-        @Test
-        @DisplayName("Debe eliminar usuario existente")
+        @Test @DisplayName("Debe eliminar usuario existente")
         void shouldDeleteExistingUser() {
             // Arrange
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
@@ -342,8 +327,7 @@ class UserServiceImplTest {
             verify(userRepository).delete(testUser);
         }
 
-        @Test
-        @DisplayName("Debe retornar vacío si el usuario no existe")
+        @Test @DisplayName("Debe retornar vacío si el usuario no existe")
         void shouldReturnEmptyWhenUserNotExistsForDelete() {
             // Arrange
             when(userRepository.findById(999L)).thenReturn(Optional.empty());

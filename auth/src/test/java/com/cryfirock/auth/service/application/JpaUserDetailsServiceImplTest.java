@@ -3,6 +3,11 @@ package com.cryfirock.auth.service.application;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,13 +24,6 @@ import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 /**
  * 1. Pruebas unitarias para JpaUserDetailsServiceImpl.
@@ -36,8 +35,7 @@ import static org.mockito.Mockito.when;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@ExtendWith(MockitoExtension.class)
-@SuppressWarnings("unused")
+@ExtendWith(MockitoExtension.class) @SuppressWarnings("unused")
 class JpaUserDetailsServiceImplTest {
     @Mock
     private JpaUserRepository userRepository;
@@ -62,12 +60,10 @@ class JpaUserDetailsServiceImplTest {
         testUser.setRoles(List.of(roleUser));
     }
 
-    @Nested
-    @DisplayName("Tests para loadUserByUsername")
+    @Nested @DisplayName("Tests para loadUserByUsername")
     class LoadUserByUsernameTests {
 
-        @Test
-        @DisplayName("Debe cargar usuario existente")
+        @Test @DisplayName("Debe cargar usuario existente")
         void shouldLoadExistingUser() {
             // Arrange
             when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
@@ -82,8 +78,7 @@ class JpaUserDetailsServiceImplTest {
             assertEquals(1, userDetails.getAuthorities().size());
         }
 
-        @Test
-        @DisplayName("Debe lanzar excepción si el usuario no existe")
+        @Test @DisplayName("Debe lanzar excepción si el usuario no existe")
         void shouldThrowExceptionWhenUserNotFound() {
             // Arrange
             when(userRepository.findByUsername("noexiste")).thenReturn(Optional.empty());
@@ -95,8 +90,7 @@ class JpaUserDetailsServiceImplTest {
             assertTrue(exception.getMessage().contains("noexiste"));
         }
 
-        @Test
-        @DisplayName("Debe cargar las autoridades correctamente")
+        @Test @DisplayName("Debe cargar las autoridades correctamente")
         void shouldLoadAuthoritiesCorrectly() {
             // Arrange
             testUser.setRoles(List.of(roleUser, roleAdmin));
@@ -113,8 +107,7 @@ class JpaUserDetailsServiceImplTest {
                     .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
         }
 
-        @Test
-        @DisplayName("Debe marcar como deshabilitado si la cuenta está suspendida")
+        @Test @DisplayName("Debe marcar como deshabilitado si la cuenta está suspendida")
         void shouldBeDisabledWhenAccountSuspended() {
             // Arrange
             testUser.setEnabled(AccountStatus.SUSPENDED);
@@ -127,8 +120,7 @@ class JpaUserDetailsServiceImplTest {
             assertFalse(userDetails.isEnabled());
         }
 
-        @Test
-        @DisplayName("Debe marcar como deshabilitado si la cuenta está baneada")
+        @Test @DisplayName("Debe marcar como deshabilitado si la cuenta está baneada")
         void shouldBeDisabledWhenAccountBanned() {
             // Arrange
             testUser.setEnabled(AccountStatus.BANNED);
@@ -141,8 +133,7 @@ class JpaUserDetailsServiceImplTest {
             assertFalse(userDetails.isEnabled());
         }
 
-        @Test
-        @DisplayName("Debe marcar como deshabilitado si la cuenta está pendiente")
+        @Test @DisplayName("Debe marcar como deshabilitado si la cuenta está pendiente")
         void shouldBeDisabledWhenAccountPending() {
             // Arrange
             testUser.setEnabled(AccountStatus.PENDING);
@@ -155,8 +146,7 @@ class JpaUserDetailsServiceImplTest {
             assertFalse(userDetails.isEnabled());
         }
 
-        @Test
-        @DisplayName("Debe estar habilitado si la cuenta está activa")
+        @Test @DisplayName("Debe estar habilitado si la cuenta está activa")
         void shouldBeEnabledWhenAccountActive() {
             // Arrange
             testUser.setEnabled(AccountStatus.ACTIVE);

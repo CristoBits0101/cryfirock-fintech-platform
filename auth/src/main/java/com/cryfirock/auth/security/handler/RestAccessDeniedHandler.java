@@ -36,8 +36,8 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
      * 2. Construye un ErrorResponse con los detalles del error.
      * 3. Escribe la respuesta JSON con estado 403.
      *
-     * @param request               Solicitud HTTP.
-     * @param response              Respuesta HTTP.
+     * @param request Solicitud HTTP.
+     * @param response Respuesta HTTP.
      * @param accessDeniedException Excepción de acceso denegado.
      * @throws IOException Si ocurre un error de E/S.
      */

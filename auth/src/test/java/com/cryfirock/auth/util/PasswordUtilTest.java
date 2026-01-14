@@ -1,14 +1,13 @@
 package com.cryfirock.auth.util;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 /**
  * 1. Pruebas unitarias para la clase PasswordUtil.
@@ -22,12 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @SuppressWarnings("unused")
 class PasswordUtilTest {
-    @Nested
-    @DisplayName("Tests para encodeIfRaw")
+    @Nested @DisplayName("Tests para encodeIfRaw")
     class EncodeIfRawTests {
 
-        @Test
-        @DisplayName("Debe retornar null si la contraseña es null")
+        @Test @DisplayName("Debe retornar null si la contraseña es null")
         void shouldReturnNullWhenPasswordIsNull() {
             // Arrange & Act
             String result = PasswordUtil.encodeIfRaw(null);
@@ -36,8 +33,7 @@ class PasswordUtilTest {
             assertNull(result);
         }
 
-        @Test
-        @DisplayName("Debe codificar una contraseña en texto plano")
+        @Test @DisplayName("Debe codificar una contraseña en texto plano")
         void shouldEncodeRawPassword() {
             // Arrange
             String rawPassword = "miContraseña123";
@@ -48,11 +44,11 @@ class PasswordUtilTest {
             // Assert
             assertNotNull(result);
             assertNotEquals(rawPassword, result);
-            assertTrue(result.startsWith("$2a$") || result.startsWith("$2b$") || result.startsWith("$2y$"));
+            assertTrue(result.startsWith("$2a$") || result.startsWith("$2b$")
+                    || result.startsWith("$2y$"));
         }
 
-        @Test
-        @DisplayName("Debe retornar el mismo hash si ya está codificado con $2a$")
+        @Test @DisplayName("Debe retornar el mismo hash si ya está codificado con $2a$")
         void shouldReturnSameHashWhen2aPrefix() {
             // Arrange
             String bcryptHash = "$2a$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
@@ -64,8 +60,7 @@ class PasswordUtilTest {
             assertEquals(bcryptHash, result);
         }
 
-        @Test
-        @DisplayName("Debe retornar el mismo hash si ya está codificado con $2b$")
+        @Test @DisplayName("Debe retornar el mismo hash si ya está codificado con $2b$")
         void shouldReturnSameHashWhen2bPrefix() {
             // Arrange
             String bcryptHash = "$2b$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
@@ -77,8 +72,7 @@ class PasswordUtilTest {
             assertEquals(bcryptHash, result);
         }
 
-        @Test
-        @DisplayName("Debe retornar el mismo hash si ya está codificado con $2y$")
+        @Test @DisplayName("Debe retornar el mismo hash si ya está codificado con $2y$")
         void shouldReturnSameHashWhen2yPrefix() {
             // Arrange
             String bcryptHash = "$2y$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
@@ -90,8 +84,7 @@ class PasswordUtilTest {
             assertEquals(bcryptHash, result);
         }
 
-        @Test
-        @DisplayName("Debe codificar una cadena vacía")
+        @Test @DisplayName("Debe codificar una cadena vacía")
         void shouldEncodeEmptyString() {
             // Arrange
             String emptyPassword = "";
@@ -101,11 +94,11 @@ class PasswordUtilTest {
 
             // Assert
             assertNotNull(result);
-            assertTrue(result.startsWith("$2a$") || result.startsWith("$2b$") || result.startsWith("$2y$"));
+            assertTrue(result.startsWith("$2a$") || result.startsWith("$2b$")
+                    || result.startsWith("$2y$"));
         }
 
-        @Test
-        @DisplayName("Debe generar hashes diferentes para la misma contraseña")
+        @Test @DisplayName("Debe generar hashes diferentes para la misma contraseña")
         void shouldGenerateDifferentHashesForSamePassword() {
             // Arrange
             String rawPassword = "testPassword123";

@@ -39,8 +39,7 @@ import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Configuration
-@EnableMethodSecurity(prePostEnabled = true)
+@Configuration @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
     /**
      * 1. Configuración de autenticación de Spring Security.
@@ -67,8 +66,7 @@ public class SpringSecurityConfig {
      *
      * @return PasswordEncoder con BCrypt.
      */
-    @Bean
-    @SuppressWarnings("unused")
+    @Bean @SuppressWarnings("unused")
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -84,10 +82,10 @@ public class SpringSecurityConfig {
      * @return SecurityFilterChain configurada.
      * @throws Exception Si ocurre un error en la configuración.
      */
-    @Bean
-    @SuppressWarnings("unused")
+    @Bean @SuppressWarnings("unused")
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(
+                authenticationManager());
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
         return http.authorizeHttpRequests(
@@ -147,12 +145,12 @@ public class SpringSecurityConfig {
      *
      * @return FilterRegistrationBean configurado.
      */
-    @Bean
-    @SuppressWarnings("unused")
+    @Bean @SuppressWarnings("unused")
     FilterRegistrationBean<CorsFilter> corsFilter() {
         CorsConfigurationSource configSource = corsConfigurationSource();
         @SuppressWarnings("null")
-        FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(configSource));
+        FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(
+                new CorsFilter(configSource));
         corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return corsBean;
     }

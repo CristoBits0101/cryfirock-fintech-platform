@@ -64,7 +64,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * 3. Crea un token de autenticación con usuario y contraseña.
      * 4. Lanza AuthenticationServiceException si hay errores de lectura.
      *
-     * @param request  Solicitud HTTP con las credenciales.
+     * @param request Solicitud HTTP con las credenciales.
      * @param response Respuesta HTTP.
      * @return Authentication con el resultado de la autenticación.
      * @throws AuthenticationException Si la autenticación falla.
@@ -77,7 +77,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String password = null;
 
         try {
-            UserLoginDto credentials = new ObjectMapper().readValue(request.getInputStream(), UserLoginDto.class);
+            UserLoginDto credentials = new ObjectMapper().readValue(request.getInputStream(),
+                    UserLoginDto.class);
 
             username = credentials.username();
             password = credentials.password();
@@ -92,8 +93,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new AuthenticationServiceException("I/O error", e);
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, password);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                username, password);
 
         return authenticationManager.authenticate(authenticationToken);
     }
@@ -104,11 +105,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * 3. Añade el token al encabezado Authorization de la respuesta.
      * 4. Escribe un cuerpo JSON con el token y mensaje de bienvenida.
      *
-     * @param request    Solicitud HTTP.
-     * @param response   Respuesta HTTP.
-     * @param chain      Cadena de filtros.
+     * @param request Solicitud HTTP.
+     * @param response Respuesta HTTP.
+     * @param chain Cadena de filtros.
      * @param authResult Resultado de la autenticación exitosa.
-     * @throws IOException      Si ocurre un error de E/S.
+     * @throws IOException Si ocurre un error de E/S.
      * @throws ServletException Si ocurre un error del servlet.
      */
     @Override
@@ -117,8 +118,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             HttpServletResponse response,
             FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
-        org.springframework.security.core.userdetails.User user =
-                (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult
+                .getPrincipal();
         String username = user.getUsername();
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
@@ -126,7 +127,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .map(role -> Map.of("authority", role.getAuthority()))
                 .collect(Collectors.toList());
 
-        Claims claims = Jwts.claims().add("authorities", authorities).add("username", username).build();
+        Claims claims = Jwts.claims().add("authorities", authorities).add("username", username)
+                .build();
 
         String token = Jwts.builder()
                 .subject(username)
@@ -154,10 +156,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
      * 2. Construye un cuerpo JSON con el mensaje de error.
      * 3. Responde con código de estado 401 Unauthorized.
      *
-     * @param request  Solicitud HTTP.
+     * @param request Solicitud HTTP.
      * @param response Respuesta HTTP.
-     * @param failed   Excepción de autenticación fallida.
-     * @throws IOException      Si ocurre un error de E/S.
+     * @param failed Excepción de autenticación fallida.
+     * @throws IOException Si ocurre un error de E/S.
      * @throws ServletException Si ocurre un error del servlet.
      */
     @Override

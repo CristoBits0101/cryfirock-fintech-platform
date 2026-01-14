@@ -36,9 +36,7 @@ import jakarta.validation.Valid;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@RestController
-@CrossOrigin
-@RequestMapping("/api/users")
+@RestController @CrossOrigin @RequestMapping("/api/users")
 public class UserController {
     /**
      * 1. Inyección automática del servicio.
@@ -56,7 +54,7 @@ public class UserController {
      * 6. Usa BindingResult para manejar errores de validación.
      * 7. ResponseEntity permite personalizar el JSON y el estado HTTP.
      *
-     * @param user   El usuario a crear.
+     * @param user El usuario a crear.
      * @param result Los resultados de la validación.
      * @return ResponseEntity<?> con el usuario creado o errores de validación.
      */
@@ -83,12 +81,11 @@ public class UserController {
      * 7. ResponseEntity permite personalizar el JSON y el estado HTTP.
      * 8. Requiere que el usuario tenga el rol ADMIN para acceder a este endpoint.
      *
-     * @param user   El usuario a crear.
+     * @param user El usuario a crear.
      * @param result Los resultados de la validación.
      * @return ResponseEntity<?> con el usuario creado o errores de validación.
      */
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/superuser")
+    @PreAuthorize("hasRole('ADMIN')") @PostMapping("/superuser")
     public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
         /**
          * 1. Establece el rol de administrador en true.
@@ -110,8 +107,7 @@ public class UserController {
      *
      * @return List<User> La lista de usuarios.
      */
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')") @GetMapping
     public ResponseEntity<List<User>> getUsers() {
         // Obtiene todos los usuarios del servicio.
         return ResponseEntity.ok(userService.findAll());
@@ -126,8 +122,7 @@ public class UserController {
      * @param id El ID del usuario a buscar.
      * @return ResponseEntity<?> con el usuario encontrado o estado 404.
      */
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')") @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         /**
          * 1. Busca el usuario por ID.
@@ -148,13 +143,12 @@ public class UserController {
      * 5. Devuelve un ResponseEntity con el usuario o errores de validación.
      * 6. Usa BindingResult para manejar errores de validación.
      *
-     * @param id      El ID del usuario a actualizar.
+     * @param id El ID del usuario a actualizar.
      * @param userDto Los datos del usuario a actualizar.
-     * @param result  Los resultados de la validación.
+     * @param result Los resultados de la validación.
      * @return ResponseEntity<?> con el usuario actualizado o errores de validación.
      */
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')") @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(
             @PathVariable Long id,
             @Valid @RequestBody UserUpdateDto userDto,
@@ -185,8 +179,7 @@ public class UserController {
      * @param id El ID del usuario a eliminar.
      * @return ResponseEntity<?> con estado 204 o 404.
      */
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')") @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         /**
          * 1. Intenta eliminar el usuario por ID.

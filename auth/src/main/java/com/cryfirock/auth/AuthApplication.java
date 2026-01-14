@@ -16,8 +16,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@EnableAspectJAutoProxy
-@SpringBootApplication
+@EnableAspectJAutoProxy @SpringBootApplication
 public class AuthApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);

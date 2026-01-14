@@ -31,8 +31,7 @@ public class GlobalExceptionHandler {
      * @param ex Excepción Feign de tipo NotFound.
      * @return ResponseEntity con el error formateado.
      */
-    @ExceptionHandler(FeignException.NotFound.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(FeignException.NotFound.class) @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Error> handleUserNotFound(FeignException.NotFound ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
