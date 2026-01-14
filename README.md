@@ -315,11 +315,11 @@
 ```bash
 # 📦 Verificar formato:
 ⌨️ cd auth
-⌨️ ./mvnw spotless:check
+⌨️ C:\Users\reuda\.maven\maven-3.9.12\bin\mvn.cmd spotless:check
 
 # 📦 Aplicar formato automáticamente:
 ⌨️ cd auth
-⌨️ ./mvnw spotless:apply
+⌨️ C:\Users\reuda\.maven\maven-3.9.12\bin\mvn.cmd spotless:apply
 ```
 
 ---
