@@ -1,22 +1,28 @@
 package com.cryfirock.auth.service.application;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cryfirock.auth.repository.JpaUserRepository;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * 1. Pruebas unitarias para UserQueryServiceImpl.
  * 2. Verifica el correcto funcionamiento de las consultas de existencia.
  * 3. Utiliza JUnit 5 y Mockito para las pruebas.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("unused")

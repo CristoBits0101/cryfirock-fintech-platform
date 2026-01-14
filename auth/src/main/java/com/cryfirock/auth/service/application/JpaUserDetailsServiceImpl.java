@@ -22,51 +22,56 @@ import com.cryfirock.auth.repository.JpaUserRepository;
  * 2. Implementa UserDetailsService para la autenticación de usuarios.
  * 3. Utiliza JpaUserRepository para consultar usuarios en la base de datos.
  * 4. Convierte entidades User en objetos UserDetails de Spring Security.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Service
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
-  /**
-   * 1. Repositorio JPA para usuarios.
-   * 2. Inyectado automáticamente por Spring.
-   */
-  @Autowired
-  private JpaUserRepository userRepository;
+    /**
+     * 1. Repositorio JPA para usuarios.
+     * 2. Inyectado automáticamente por Spring.
+     */
+    @Autowired
+    private JpaUserRepository userRepository;
 
-  /**
-   * 1. Carga un usuario por su nombre de usuario.
-   * 2. Marca la transacción como de solo lectura.
-   * 3. Lanza UsernameNotFoundException si el usuario no existe.
-   * 4. Convierte los roles del usuario en GrantedAuthority.
-   * 5. Retorna un UserDetails con los datos del usuario.
-   * 
-   * @param username Nombre de usuario a buscar.
-   * @return UserDetails con la información del usuario.
-   * @throws UsernameNotFoundException Si el usuario no existe.
-   */
-  @Override
-  @Transactional(readOnly = true)
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<User> optionalUser = userRepository.findByUsername(username);
+    /**
+     * 1. Carga un usuario por su nombre de usuario.
+     * 2. Marca la transacción como de solo lectura.
+     * 3. Lanza UsernameNotFoundException si el usuario no existe.
+     * 4. Convierte los roles del usuario en GrantedAuthority.
+     * 5. Retorna un UserDetails con los datos del usuario.
+     *
+     * @param username Nombre de usuario a buscar.
+     * @return UserDetails con la información del usuario.
+     * @throws UsernameNotFoundException Si el usuario no existe.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
 
-    if (optionalUser.isEmpty())
-      throw new UsernameNotFoundException(
-          String.format("User with username %s does not exist", username));
+        if (optionalUser.isEmpty())
+            throw new UsernameNotFoundException(
+                    String.format("User with username %s does not exist", username));
 
-    User user = optionalUser.orElseThrow();
+        User user = optionalUser.orElseThrow();
 
-    List<GrantedAuthority> authorities = user
-        .getRoles()
-        .stream()
-        .map(role -> new SimpleGrantedAuthority(role.getName()))
-        .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = user
+                .getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
 
-    return new org.springframework.security.core.userdetails.User(
-        user.getUsername(),
-        user.getPasswordHash(),
-        user.getEnabled() == AccountStatus.ACTIVE,
-        true,
-        true,
-        true,
-        authorities);
-  }
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPasswordHash(),
+                user.getEnabled() == AccountStatus.ACTIVE,
+                true,
+                true,
+                true,
+                authorities);
+    }
 }

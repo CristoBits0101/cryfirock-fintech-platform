@@ -12,14 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cryfirock.auth.repository.JpaUserRepository;
 
 import jakarta.persistence.EntityManager;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * 1. Tests de integración para el controlador de validaciones.
@@ -27,6 +28,11 @@ import jakarta.persistence.EntityManager;
  * 3. Usa MockMvc para simular peticiones HTTP.
  * 4. Verifica respuestas booleanas correctas.
  * 5. Requiere autenticación para acceder a los endpoints.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -10,6 +10,11 @@ import org.springframework.test.context.ActiveProfiles;
  * 3. Prueba de carga del contexto de Spring Boot.
  * 4. Utiliza JUnit 5 para las pruebas.
  * 5. Utiliza el perfil "test" para la configuración de H2.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @SpringBootTest
 @ActiveProfiles("test")

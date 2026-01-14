@@ -12,6 +12,11 @@ import com.cryfirock.auth.model.ErrorResponse;
  * 3. Cuando el source tiene un campo null MapStruct no lo copia al target.
  * 4. Si el target tiene campos sin mapear MapStruct da warning y error.
  * 5. Este intermediario es útil para actualizar parcialmente entidades User.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface ErrorMapper {

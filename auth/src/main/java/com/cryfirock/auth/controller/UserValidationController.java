@@ -14,6 +14,11 @@ import com.cryfirock.auth.service.contract.IUserQueryService;
  * 1. Controlador REST para validaciones de usuarios.
  * 2. Permite solicitudes CORS desde cualquier origen.
  * 3. Mapea las solicitudes a /api/validations.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @RestController
 @CrossOrigin

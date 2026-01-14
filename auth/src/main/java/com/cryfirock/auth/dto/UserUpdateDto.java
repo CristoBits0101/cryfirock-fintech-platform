@@ -27,6 +27,11 @@ import jakarta.validation.constraints.Size;
  * 10. passwordHash: Hash de la contraseña.
  * 11. admin: Indica si es administrador.
  * 12. enabled: Indica si el usuario está habilitado.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public record UserUpdateDto(
                 @Size(max = 50) String givenName,

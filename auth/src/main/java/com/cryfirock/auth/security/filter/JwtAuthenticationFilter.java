@@ -37,123 +37,141 @@ import jakarta.servlet.http.HttpServletResponse;
  * 2. Extiende UsernamePasswordAuthenticationFilter de Spring Security.
  * 3. Procesa solicitudes de login y genera tokens JWT.
  * 4. Maneja autenticación exitosa y fallida.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-  /**
-   * 1. Gestor de autenticación de Spring Security.
-   */
-  private final AuthenticationManager authenticationManager;
+    /**
+     * 1. Gestor de autenticación de Spring Security.
+     */
+    private final AuthenticationManager authenticationManager;
 
-  /**
-   * 1. Constructor que inyecta el gestor de autenticación.
-   * 
-   * @param authenticationManager Gestor de autenticación.
-   */
-  public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-    this.authenticationManager = authenticationManager;
-  }
-
-  /**
-   * 1. Intenta autenticar al usuario con las credenciales proporcionadas.
-   * 2. Lee el cuerpo de la solicitud como UserLoginDto.
-   * 3. Crea un token de autenticación con usuario y contraseña.
-   * 4. Lanza AuthenticationServiceException si hay errores de lectura.
-   * 
-   * @param request  Solicitud HTTP con las credenciales.
-   * @param response Respuesta HTTP.
-   * @return Authentication con el resultado de la autenticación.
-   * @throws AuthenticationException Si la autenticación falla.
-   */
-  @Override
-  public Authentication attemptAuthentication(
-      HttpServletRequest request, 
-      HttpServletResponse response) throws AuthenticationException {
-    String username = null;
-    String password = null;
-
-    try {
-      UserLoginDto credentials = new ObjectMapper().readValue(request.getInputStream(), UserLoginDto.class);
-
-      username = credentials.username();
-      password = credentials.password();
-    } catch (StreamReadException e) {
-      logger.warn("Error leyendo el flujo de entrada del login ", e);
-      throw new AuthenticationServiceException("Invalid login payload ", e);
-    } catch (DatabindException e) {
-      logger.warn("Error mapeando JSON de login al DTO", e);
-      throw new AuthenticationServiceException("Invalid login JSON ", e);
-    } catch (IOException e) {
-      logger.error("Error de E/S leyendo el cuerpo de la petición de login", e);
-      throw new AuthenticationServiceException("I/O error", e);
+    /**
+     * 1. Constructor que inyecta el gestor de autenticación.
+     *
+     * @param authenticationManager Gestor de autenticación.
+     */
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
     }
 
-    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+    /**
+     * 1. Intenta autenticar al usuario con las credenciales proporcionadas.
+     * 2. Lee el cuerpo de la solicitud como UserLoginDto.
+     * 3. Crea un token de autenticación con usuario y contraseña.
+     * 4. Lanza AuthenticationServiceException si hay errores de lectura.
+     *
+     * @param request  Solicitud HTTP con las credenciales.
+     * @param response Respuesta HTTP.
+     * @return Authentication con el resultado de la autenticación.
+     * @throws AuthenticationException Si la autenticación falla.
+     */
+    @Override
+    public Authentication attemptAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response) throws AuthenticationException {
+        String username = null;
+        String password = null;
 
-    return authenticationManager.authenticate(authenticationToken);
-  }
+        try {
+            UserLoginDto credentials = new ObjectMapper().readValue(request.getInputStream(), UserLoginDto.class);
 
-  /**
-   * 1. Maneja la autenticación exitosa.
-   * 2. Genera un token JWT con las autoridades del usuario.
-   * 3. Añade el token al encabezado Authorization de la respuesta.
-   * 4. Escribe un cuerpo JSON con el token y mensaje de bienvenida.
-   * 
-   * @param request    Solicitud HTTP.
-   * @param response   Respuesta HTTP.
-   * @param chain      Cadena de filtros.
-   * @param authResult Resultado de la autenticación exitosa.
-   * @throws IOException      Si ocurre un error de E/S.
-   * @throws ServletException Si ocurre un error del servlet.
-   */
-  @Override
-  protected void successfulAuthentication(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      FilterChain chain,
-      Authentication authResult) throws IOException, ServletException {
-    org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
-    String username = user.getUsername();
-    Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
+            username = credentials.username();
+            password = credentials.password();
+        } catch (StreamReadException e) {
+            logger.warn("Error leyendo el flujo de entrada del login ", e);
+            throw new AuthenticationServiceException("Invalid login payload ", e);
+        } catch (DatabindException e) {
+            logger.warn("Error mapeando JSON de login al DTO", e);
+            throw new AuthenticationServiceException("Invalid login JSON ", e);
+        } catch (IOException e) {
+            logger.error("Error de E/S leyendo el cuerpo de la petición de login", e);
+            throw new AuthenticationServiceException("I/O error", e);
+        }
 
-    List<Map<String, String>> authorities = roles.stream()
-        .map(role -> Map.of("authority", role.getAuthority()))
-        .collect(Collectors.toList());
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, password);
 
-    Claims claims = Jwts.claims().add("authorities", authorities).add("username", username).build();
+        return authenticationManager.authenticate(authenticationToken);
+    }
 
-    String token = Jwts.builder()
-        .subject(username)
-        .claims(claims)
-        .expiration(new Date(System.currentTimeMillis() + 3600000))
-        .issuedAt(new Date())
-        .signWith(SECRET_KEY)
-        .compact();
+    /**
+     * 1. Maneja la autenticación exitosa.
+     * 2. Genera un token JWT con las autoridades del usuario.
+     * 3. Añade el token al encabezado Authorization de la respuesta.
+     * 4. Escribe un cuerpo JSON con el token y mensaje de bienvenida.
+     *
+     * @param request    Solicitud HTTP.
+     * @param response   Respuesta HTTP.
+     * @param chain      Cadena de filtros.
+     * @param authResult Resultado de la autenticación exitosa.
+     * @throws IOException      Si ocurre un error de E/S.
+     * @throws ServletException Si ocurre un error del servlet.
+     */
+    @Override
+    protected void successfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain,
+            Authentication authResult) throws IOException, ServletException {
+        org.springframework.security.core.userdetails.User user =
+                (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
+        String username = user.getUsername();
+        Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
-    response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + " " + token);
+        List<Map<String, String>> authorities = roles.stream()
+                .map(role -> Map.of("authority", role.getAuthority()))
+                .collect(Collectors.toList());
 
-    Map<String, String> body = new HashMap<>();
+        Claims claims = Jwts.claims().add("authorities", authorities).add("username", username).build();
 
-    body.put("token", token);
-    body.put("username", username);
-    body.put("message", String.format("Welcome %s! ", username));
+        String token = Jwts.builder()
+                .subject(username)
+                .claims(claims)
+                .expiration(new Date(System.currentTimeMillis() + 3600000))
+                .issuedAt(new Date())
+                .signWith(SECRET_KEY)
+                .compact();
 
-    response.getWriter().write(new ObjectMapper().writeValueAsString(body));
-    response.setContentType(CONTENT_TYPE);
-    response.setStatus(HttpServletResponse.SC_OK);
-  }
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + " " + token);
 
-  @Override
-  protected void unsuccessfulAuthentication(
-      HttpServletRequest request, 
-      HttpServletResponse response, 
-      AuthenticationException failed) throws IOException, ServletException {
-    Map<String, String> body = new HashMap<>();
+        Map<String, String> body = new HashMap<>();
 
-    body.put("message", "Authentication failed, credentials are not correct.");
-    body.put("error", failed.getMessage());
+        body.put("token", token);
+        body.put("username", username);
+        body.put("message", String.format("Welcome %s! ", username));
 
-    response.getWriter().write(new ObjectMapper().writeValueAsString(body));
-    response.setStatus(401);
-    response.setContentType(CONTENT_TYPE);
-  }
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setContentType(CONTENT_TYPE);
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    /**
+     * 1. Maneja la autenticación fallida.
+     * 2. Construye un cuerpo JSON con el mensaje de error.
+     * 3. Responde con código de estado 401 Unauthorized.
+     *
+     * @param request  Solicitud HTTP.
+     * @param response Respuesta HTTP.
+     * @param failed   Excepción de autenticación fallida.
+     * @throws IOException      Si ocurre un error de E/S.
+     * @throws ServletException Si ocurre un error del servlet.
+     */
+    @Override
+    protected void unsuccessfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException failed) throws IOException, ServletException {
+        Map<String, String> body = new HashMap<>();
+
+        body.put("message", "Authentication failed, credentials are not correct.");
+        body.put("error", failed.getMessage());
+
+        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.setStatus(401);
+        response.setContentType(CONTENT_TYPE);
+    }
 }

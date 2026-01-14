@@ -11,6 +11,11 @@ import com.cryfirock.auth.entity.Role;
  * 1. Repositorio JPA para entidades Role.
  * 2. Anotado con @Repository para la detección automática por Spring.
  * 3. Proporciona métodos para operaciones CRUD y consultas personalizadas.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Repository
 public interface JpaRoleRepository extends CrudRepository<Role, Long> {

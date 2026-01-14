@@ -33,110 +33,127 @@ import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
  * 3. Define la cadena de filtros de seguridad.
  * 4. Configura autenticación JWT y políticas CORS.
  * 5. Establece el manejo de excepciones de seguridad.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
-  /**
-   * 1. Configuración de autenticación de Spring Security.
-   * 2. Inyectado automáticamente por Spring.
-   */
-  @Autowired
-  private AuthenticationConfiguration authenticationConfiguration;
+    /**
+     * 1. Configuración de autenticación de Spring Security.
+     * 2. Inyectado automáticamente por Spring.
+     */
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
 
-  /**
-   * 1. Bean que proporciona el AuthenticationManager.
-   * 2. Utilizado para autenticar usuarios en el sistema.
-   * 
-   * @return AuthenticationManager configurado.
-   * @throws Exception Si ocurre un error al obtener el manager.
-   */
-  @Bean
-  AuthenticationManager authenticationManager() throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
-  }
+    /**
+     * 1. Bean que proporciona el AuthenticationManager.
+     * 2. Utilizado para autenticar usuarios en el sistema.
+     *
+     * @return AuthenticationManager configurado.
+     * @throws Exception Si ocurre un error al obtener el manager.
+     */
+    @Bean
+    AuthenticationManager authenticationManager() throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-  /**
-   * 1. Bean que proporciona el codificador de contraseñas.
-   * 2. Utiliza BCrypt para codificar contraseñas de forma segura.
-   * 
-   * @return PasswordEncoder con BCrypt.
-   */
-  @Bean
-  @SuppressWarnings("unused")
-  PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    /**
+     * 1. Bean que proporciona el codificador de contraseñas.
+     * 2. Utiliza BCrypt para codificar contraseñas de forma segura.
+     *
+     * @return PasswordEncoder con BCrypt.
+     */
+    @Bean
+    @SuppressWarnings("unused")
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-  /**
-   * 1. Bean que configura la cadena de filtros de seguridad.
-   * 2. Define reglas de autorización para endpoints.
-   * 3. Configura filtros JWT de autenticación y validación.
-   * 4. Establece política de sesiones sin estado (stateless).
-   * 5. Configura manejo de excepciones de seguridad.
-   * 
-   * @param http Configurador de seguridad HTTP.
-   * @return SecurityFilterChain configurada.
-   * @throws Exception Si ocurre un error en la configuración.
-   */
-  @Bean
-  @SuppressWarnings("unused")
-  SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
-    jwtAuthenticationFilter.setFilterProcessesUrl("/login");
+    /**
+     * 1. Bean que configura la cadena de filtros de seguridad.
+     * 2. Define reglas de autorización para endpoints.
+     * 3. Configura filtros JWT de autenticación y validación.
+     * 4. Establece política de sesiones sin estado (stateless).
+     * 5. Configura manejo de excepciones de seguridad.
+     *
+     * @param http Configurador de seguridad HTTP.
+     * @return SecurityFilterChain configurada.
+     * @throws Exception Si ocurre un error en la configuración.
+     */
+    @Bean
+    @SuppressWarnings("unused")
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+        jwtAuthenticationFilter.setFilterProcessesUrl("/login");
 
-    return http.authorizeHttpRequests(
-        authz -> authz
-            .requestMatchers(HttpMethod.POST, "/api/users")
-            .permitAll()
-            .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
-            .hasAnyRole("ADMIN", "USER")
-            .requestMatchers(HttpMethod.POST, "/api/users/superuser")
-            .hasRole("ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
-            .hasAnyRole("ADMIN", "USER")
-            .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
-            .hasAnyRole("ADMIN", "USER")
-            .anyRequest()
-            .authenticated())
-        .csrf(csrf -> csrf.disable())
-        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-        .exceptionHandling(
-            exception -> exception
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .accessDeniedHandler(new RestAccessDeniedHandler()))
-        .addFilter(jwtAuthenticationFilter)
-        .addFilterBefore(
-            new JwtValidationFilter(authenticationManager()),
-            UsernamePasswordAuthenticationFilter.class)
-        .sessionManagement(
-            session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .build();
-  }
+        return http.authorizeHttpRequests(
+                authz -> authz
+                        .requestMatchers(HttpMethod.POST, "/api/users")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
+                        .hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/users/superuser")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
+                        .hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
+                        .hasAnyRole("ADMIN", "USER")
+                        .anyRequest()
+                        .authenticated())
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .exceptionHandling(
+                        exception -> exception
+                                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                                .accessDeniedHandler(new RestAccessDeniedHandler()))
+                .addFilter(jwtAuthenticationFilter)
+                .addFilterBefore(
+                        new JwtValidationFilter(authenticationManager()),
+                        UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(
+                        session -> session
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
+    }
 
-  @Bean
-  CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration config = new CorsConfiguration();
+    /**
+     * 1. Bean que configura la fuente de configuración CORS.
+     * 2. Permite todos los orígenes, métodos y cabeceras comunes.
+     *
+     * @return CorsConfigurationSource configurada.
+     */
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
 
-    config.setAllowedOriginPatterns(Arrays.asList("*"));
-    config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"));
-    config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-    config.setAllowCredentials(true);
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"));
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        config.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", config);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
 
-    return source;
-  }
+        return source;
+    }
 
-  @Bean
-  @SuppressWarnings("unused")
-  FilterRegistrationBean<CorsFilter> corsFilter() {
-    CorsConfigurationSource configSource = corsConfigurationSource();
-    @SuppressWarnings("null")
-    FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(configSource));
-    corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-    return corsBean;
-  }
+    /**
+     * 1. Bean que registra el filtro CORS con la mayor prioridad.
+     * 2. Garantiza que CORS se procese antes que otros filtros.
+     *
+     * @return FilterRegistrationBean configurado.
+     */
+    @Bean
+    @SuppressWarnings("unused")
+    FilterRegistrationBean<CorsFilter> corsFilter() {
+        CorsConfigurationSource configSource = corsConfigurationSource();
+        @SuppressWarnings("null")
+        FilterRegistrationBean<CorsFilter> corsBean = new FilterRegistrationBean<>(new CorsFilter(configSource));
+        corsBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return corsBean;
+    }
 }

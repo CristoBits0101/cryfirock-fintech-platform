@@ -1,15 +1,38 @@
 package com.cryfirock.oauth2.provider.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cryfirock.oauth2.provider.client.UserFeignClient;
 
+/**
+ * 1. Implementación del servicio de validación de usuarios.
+ * 2. Utiliza Feign Client para comunicarse con el microservicio de usuarios.
+ * 3. Proporciona validaciones de email y otros datos de usuario.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-13
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
+ */
 @Service
 public class UserValidationServiceImpl implements IUserValidationService {
-    @Autowired
-    private UserFeignClient userFeignClient;
+    /**
+     * Cliente Feign para comunicación con el microservicio de usuarios.
+     */
+    private final UserFeignClient userFeignClient;
 
+    /**
+     * Constructor que inyecta las dependencias necesarias.
+     *
+     * @param userFeignClient Cliente Feign para el microservicio de usuarios.
+     */
+    public UserValidationServiceImpl(UserFeignClient userFeignClient) {
+        this.userFeignClient = userFeignClient;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isEmailAlreadyRegistered(String email) {
         return Boolean.TRUE.equals(userFeignClient.checkEmailExists(email));
