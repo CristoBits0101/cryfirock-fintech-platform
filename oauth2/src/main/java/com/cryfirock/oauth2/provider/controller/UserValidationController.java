@@ -1,12 +1,11 @@
 package com.cryfirock.oauth2.provider.controller;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,27 +41,17 @@ public class UserValidationController {
      * 1. Valida si un email ya está registrado en el sistema.
      * 2. Retorna la disponibilidad del email.
      *
-     * @param request Mapa con el email a validar.
+     * @param email Email a validar.
      * @return ResponseEntity con la disponibilidad del email.
      */
-    @PostMapping("/email")
-    public ResponseEntity<?> validateEmail(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-
-        if (email == null || email.trim().isEmpty()) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", "INVALID_EMAIL");
-            error.put("message", "El email no puede estar vacío");
-            return ResponseEntity.badRequest().body(error);
-        }
-
-        boolean exists = userValidationService.isEmailAlreadyRegistered(email);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("email", email);
-        response.put("available", !exists);
-        response.put("message", exists ? "Email no disponible" : "Email disponible");
-
-        return ResponseEntity.ok(response);
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> validateEmail(@PathVariable String email) {
+        return ResponseEntity
+                .ok()
+                .body(new HashMap<String, Boolean>() {
+                    {
+                        put("emailExists", userValidationService.isEmailAlreadyRegistered(email));
+                    }
+                });
     }
 }
