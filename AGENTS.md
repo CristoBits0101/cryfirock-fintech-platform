@@ -77,9 +77,10 @@ public class GlobalExceptionHandler {
 | 1 | Cada comentario debe caber en **una sola línea** (sin wrap). |
 | 2 | No superar el **máximo de 100 caracteres** por línea. |
 | 3 | Todos los comentarios deben **terminar en punto (.)** |
-| 6 | Los comentarios de línea simple deben terminar en punto final. |
-| 4 | Usar comentarios numerados para explicaciones múltiples. |
-| 5 | **Todos los comentarios deben estar en español.** |
+| 4 | Los comentarios de línea simple deben terminar en punto final. |
+| 5 | Usar comentarios numerados para explicaciones múltiples. |
+| 6 | **Todos los comentarios deben estar en español.** |
+| 7 | Si el comentario tiene **solo una línea**, usar formato simple `//`. |
 
 ### Tipos de Comentarios
 
@@ -92,8 +93,31 @@ public class GlobalExceptionHandler {
  */
 
 /**
- * Comentario JavaDoc para documentación pública.
+ * Comentario JavaDoc multilínea para documentación pública.
  */
+```
+
+### Comentarios Simples de Una Línea
+
+Cuando el comentario tiene una única línea de descripción, usar formato simple `//`:
+
+```java
+// ✅ CORRECTO - Comentario simple de una línea.
+public class MiClase {
+    // Mensaje descriptivo del error.
+    private String message;
+
+    // Código de estado HTTP asociado al error.
+    private int status;
+}
+
+// ❌ INCORRECTO - No usar JavaDoc para una sola línea.
+public class MiClase {
+    /**
+     * Mensaje descriptivo del error.
+     */
+    private String message;
+}
 ```
 
 ### Comentarios Numerados (Estilo del Proyecto)

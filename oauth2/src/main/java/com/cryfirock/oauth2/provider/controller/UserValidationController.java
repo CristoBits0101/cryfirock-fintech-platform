@@ -44,6 +44,7 @@ public class UserValidationController {
      */
     @GetMapping("/email")
     public ResponseEntity<Map<String, Boolean>> validateEmail(@RequestParam String email) {
-        return ResponseEntity.ok(Map.of("emailExists", userValidationService.isEmailAlreadyRegistered(email)));
+        return ResponseEntity
+                .ok(Map.of("emailExists", userValidationService.isEmailAlreadyRegistered(email)));
     }
 }
