@@ -292,6 +292,22 @@
 | 42 | 🔗 | • Proveedores OAuth2 externos | `provider/` |
 | 43 | 📝 | • Config propiedades OAuth2 | `application.properties` |
 
+#### 📋 Flujo de Autenticación
+
+```
+[ React ]
+   │
+(Login OAuth)
+   │
+   ▼
+[ OAuth Provider (Google, Keycloak, Auth0...) ]
+   │
+ (JWT)
+   │
+   ▼
+[ Spring Boot API ]
+```
+
 ---
 
 ### 🚀 EJECUCIÓN DE MÓDULOS
