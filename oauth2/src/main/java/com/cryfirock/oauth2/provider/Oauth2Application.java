@@ -14,8 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@EnableFeignClients
-@SpringBootApplication
+@EnableFeignClients @SpringBootApplication
 public class Oauth2Application {
     /**
      * Método principal que inicia la aplicación.

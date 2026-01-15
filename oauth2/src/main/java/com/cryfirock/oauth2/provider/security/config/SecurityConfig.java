@@ -16,8 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @since 2025-01-14
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Configuration
-@EnableWebSecurity
+@Configuration @EnableWebSecurity
 public class SecurityConfig {
     /**
      * Configura la cadena de filtros de seguridad.
@@ -28,18 +27,22 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // Configuración de seguridad HTTP.
         http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                // Permitir acceso público a los endpoints de validación.
-                .requestMatchers("/api/oauth2/validate/**").permitAll()
-                // Permitir actuator health.
-                .requestMatchers("/actuator/health").permitAll()
-                // Cualquier otra solicitud requiere autenticación.
-                .anyRequest().authenticated()
-            );
+                // Deshabilitar CSRF ya que es una API REST sin sesiones.
+                .csrf(csrf -> csrf.disable())
+                // 1. Configurar la gestión de sesiones como stateless.
+                // 2. Significa que no se mantendrán sesiones en el servidor.
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Configurar las reglas de autorización.
+                .authorizeHttpRequests(auth -> auth
+                        // Permitir acceso público a los endpoints de validación.
+                        .requestMatchers("/api/oauth2/validate/**").permitAll()
+                        // Permitir actuator health.
+                        .requestMatchers("/actuator/health").permitAll()
+                        // Cualquier otra solicitud requiere autenticación.
+                        .anyRequest().authenticated());
         return http.build();
     }
 }

@@ -75,7 +75,7 @@ public class SpringSecurityConfig {
      * 1. Bean que configura la cadena de filtros de seguridad.
      * 2. Define reglas de autorización para endpoints.
      * 3. Configura filtros JWT de autenticación y validación.
-     * 4. Establece política de sesiones sin estado (stateless).
+     * 4. Establece política de sesiones sin estado en servidor (stateless).
      * 5. Configura manejo de excepciones de seguridad.
      *
      * @param http Configurador de seguridad HTTP.
