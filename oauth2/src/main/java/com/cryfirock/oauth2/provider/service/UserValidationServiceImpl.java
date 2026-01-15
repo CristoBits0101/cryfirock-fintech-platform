@@ -1,5 +1,6 @@
 package com.cryfirock.oauth2.provider.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cryfirock.oauth2.provider.client.UserFeignClient;
@@ -19,6 +20,7 @@ public class UserValidationServiceImpl implements IUserValidationService {
     /**
      * Cliente Feign para comunicación con el microservicio de usuarios.
      */
+    @Autowired
     private final UserFeignClient userFeignClient;
 
     /**
@@ -35,6 +37,6 @@ public class UserValidationServiceImpl implements IUserValidationService {
      */
     @Override
     public boolean isEmailAlreadyRegistered(String email) {
-        return Boolean.TRUE.equals(userFeignClient.checkEmailExists(email));
+        return Boolean.TRUE.equals(userFeignClient.checkDataExists(email, null, null).getBody());
     }
 }

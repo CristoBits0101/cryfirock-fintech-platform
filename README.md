@@ -350,9 +350,9 @@
 
 | Método</sub> | Endpoint</sub> | Descripción</sub> | 🔐 Auth</sub> |
 |:------:|----------|-------------|:-------:|
-| `GET`</sub> | `/api/validations/exists/email/{email}`</sub> | Verificar si email existe</sub> | 👤 USER/ADMIN</sub> |
-| `GET`</sub> | `/api/validations/exists/username/{username}`</sub> | Verificar si username existe</sub> | 👤 USER/ADMIN</sub> |
-| `GET`</sub> | `/api/validations/exists/phone/{phoneNumber}`</sub> | Verificar si teléfono existe</sub> | 👤 USER/ADMIN</sub> |
+| `GET`</sub> | `/api/validations/exists?email={email}`</sub> | Verificar si email existe</sub> | 👤 USER/ADMIN</sub> |
+| `GET`</sub> | `/api/validations/exists?username={username}`</sub> | Verificar si username existe</sub> | 👤 USER/ADMIN</sub> |
+| `GET`</sub> | `/api/validations/exists?phoneNumber={phoneNumber}`</sub> | Verificar si teléfono existe</sub> | 👤 USER/ADMIN</sub> |
 
 ---
 

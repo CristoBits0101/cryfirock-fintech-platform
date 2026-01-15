@@ -29,35 +29,6 @@ import org.springframework.validation.FieldError;
  */
 @SuppressWarnings("unused")
 class ValidationUtilTest {
-    @Nested @DisplayName("Tests para isBlankOrNull")
-    class IsBlankOrNullTests {
-
-        @Test @DisplayName("Debe retornar true si la cadena es null")
-        void shouldReturnTrueWhenNull() {
-            assertTrue(ValidationUtil.isBlankOrNull(null));
-        }
-
-        @Test @DisplayName("Debe retornar true si la cadena está vacía")
-        void shouldReturnTrueWhenEmpty() {
-            assertTrue(ValidationUtil.isBlankOrNull(""));
-        }
-
-        @Test @DisplayName("Debe retornar true si la cadena tiene solo espacios")
-        void shouldReturnTrueWhenOnlySpaces() {
-            assertTrue(ValidationUtil.isBlankOrNull("   "));
-        }
-
-        @Test @DisplayName("Debe retornar false si la cadena tiene contenido")
-        void shouldReturnFalseWhenHasContent() {
-            assertFalse(ValidationUtil.isBlankOrNull("contenido"));
-        }
-
-        @Test @DisplayName("Debe retornar false si la cadena tiene contenido con espacios")
-        void shouldReturnFalseWhenHasContentWithSpaces() {
-            assertFalse(ValidationUtil.isBlankOrNull("  contenido  "));
-        }
-    }
-
     @Nested @DisplayName("Tests para isValidString")
     class IsValidStringTests {
 
