@@ -10,6 +10,8 @@
         // Java debug en terminal integrada.
         "java.debug.settings.console": "integratedTerminal",
         // Perfil de terminal por defecto en Windows: CMD.
-        "terminal.integrated.defaultProfile.windows": "Command Prompt"
+        "terminal.integrated.defaultProfile.windows": "Command Prompt",
+        // Actualización automática de la configuración de compilación de Java.
+        "java.configuration.updateBuildConfiguration": "automatic"
     }
 }

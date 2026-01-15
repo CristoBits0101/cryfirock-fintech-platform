@@ -1,12 +1,12 @@
 package com.cryfirock.oauth2.provider.controller;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cryfirock.oauth2.provider.service.IUserValidationService;
@@ -21,7 +21,9 @@ import com.cryfirock.oauth2.provider.service.IUserValidationService;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@RestController @CrossOrigin @RequestMapping("/api/oauth2/validate")
+@RestController
+@CrossOrigin
+@RequestMapping("/api/oauth2/validate")
 public class UserValidationController {
     /**
      * Servicio para validaciones de usuarios.
@@ -44,14 +46,8 @@ public class UserValidationController {
      * @param email Email a validar.
      * @return ResponseEntity con la disponibilidad del email.
      */
-    @GetMapping("/email/{email}")
-    public ResponseEntity<?> validateEmail(@PathVariable String email) {
-        return ResponseEntity
-                .ok()
-                .body(new HashMap<String, Boolean>() {
-                    {
-                        put("emailExists", userValidationService.isEmailAlreadyRegistered(email));
-                    }
-                });
+    @GetMapping("/email")
+    public ResponseEntity<Map<String, Boolean>> validateEmail(@RequestParam String email) {
+        return ResponseEntity.ok(Map.of("emailExists", userValidationService.isEmailAlreadyRegistered(email)));
     }
 }

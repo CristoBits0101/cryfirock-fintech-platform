@@ -2,10 +2,11 @@ package com.cryfirock.oauth2.provider;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 1. Clase principal de la aplicación OAuth2.
- * 2. Punto de entrada para el microservicio de autenticación OAuth2.
+ * 2. Habilita clientes Feign para llamadas a servicios externos.
  * 3. Configura y arranca el contexto de Spring Boot.
  *
  * @author Cristo Suárez
@@ -13,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
+@EnableFeignClients
 @SpringBootApplication
 public class Oauth2Application {
     /**
