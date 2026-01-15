@@ -35,29 +35,29 @@ public class MiClase {
      */
     private final String atributo;
 
-    // ... resto del código
+    // ... resto del código.
 
     /**
      * Último método de la clase.
      */
     public void ultimoMetodo() {
-        // implementación
+        // implementación.
     }
 }
-// ← Línea en blanco obligatoria después del cierre de la clase
+// ← Línea en blanco obligatoria después del cierre de la clase.
 ```
 
 **Regla crítica:** La primera línea de código dentro de una clase debe ir **pegada** a la llave de apertura:
 
 ```java
-// ✅ CORRECTO
+// ✅ CORRECTO.
 public class GlobalExceptionHandler {
     /**
      * Fuente de mensajes para la internacionalización.
      */
     private final MessageSource messageSource;
 
-// ❌ INCORRECTO
+// ❌ INCORRECTO.
 public class GlobalExceptionHandler {
 
     /**
@@ -77,13 +77,14 @@ public class GlobalExceptionHandler {
 | 1 | Cada comentario debe caber en **una sola línea** (sin wrap). |
 | 2 | No superar el **máximo de 100 caracteres** por línea. |
 | 3 | Todos los comentarios deben **terminar en punto (.)** |
+| 6 | Los comentarios de línea simple deben terminar en punto final. |
 | 4 | Usar comentarios numerados para explicaciones múltiples. |
 | 5 | **Todos los comentarios deben estar en español.** |
 
 ### Tipos de Comentarios
 
 ```java
-// Comentario de línea simple. ← Termina en punto
+// Comentario de línea simple. ← Termina en punto.
 
 /*
  * Comentario de bloque para explicaciones extensas.
@@ -136,7 +137,7 @@ import java.util.List;
  */
 @Service
 public class MiServicio {
-    // implementación
+    // implementación.
 }
 ```
 
@@ -426,13 +427,13 @@ class NuevoServiceImplTest {
         @Test
         @DisplayName("Debe retornar resultado esperado")
         void shouldReturnExpectedResult() {
-            // Arrange
+            // Arrange.
             when(repository.findAll()).thenReturn(List.of());
 
-            // Act
+            // Act.
             var result = service.findAll();
 
-            // Assert
+            // Assert.
             assertNotNull(result);
         }
     }
@@ -444,19 +445,19 @@ class NuevoServiceImplTest {
 ## ⚡ COMANDOS ÚTILES
 
 ```bash
-# Formatear código automáticamente
+# Formatear código automáticamente.
 ./mvnw spotless:apply
 
-# Verificar formato sin modificar
+# Verificar formato sin modificar.
 ./mvnw spotless:check
 
-# Ejecutar tests
+# Ejecutar tests.
 ./mvnw test
 
-# Compilar proyecto
+# Compilar proyecto.
 ./mvnw clean compile
 
-# Ejecutar aplicación
+# Ejecutar aplicación.
 ./mvnw spring-boot:run
 ```
 
