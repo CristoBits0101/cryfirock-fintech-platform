@@ -2,42 +2,30 @@ package com.cryfirock.oauth2.provider.model;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 1. Clase que representa un error en la aplicación.
  * 2. Utilizado para respuestas de error estandarizadas.
- * 3. Inmutable por diseño con campos finales.
  *
  * @author Cristo Suárez
  * @version 1.0
  * @since 2025-01-13
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
+@AllArgsConstructor @Getter @Setter
 public class Error {
-    private final String message;
-    private final String error;
-    private final int status;
-    private final Date date;
+    // Mensaje descriptivo del error.
+    private String message;
 
-    public Error(String message, String error, int status, Date date) {
-        this.message = message;
-        this.error = error;
-        this.status = status;
-        this.date = date;
-    }
+    // Tipo de error ocurrido.
+    private String error;
 
-    public String getMessage() {
-        return message;
-    }
+    // Código de estado HTTP asociado al error.
+    private int status;
 
-    public String getError() {
-        return error;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public Date getDate() {
-        return date;
-    }
+    // Fecha y hora en que ocurrió el error.
+    private Date date;
 }
