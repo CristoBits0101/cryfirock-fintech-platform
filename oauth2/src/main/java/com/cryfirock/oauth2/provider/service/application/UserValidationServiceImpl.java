@@ -1,9 +1,10 @@
-package com.cryfirock.oauth2.provider.service;
+package com.cryfirock.oauth2.provider.service.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cryfirock.oauth2.provider.client.UserFeignClient;
+import com.cryfirock.oauth2.provider.service.contract.IUserValidationService;
 
 /**
  * 1. Implementación del servicio de validación de usuarios.

@@ -1,4 +1,4 @@
-package com.cryfirock.oauth2.provider.service;
+package com.cryfirock.oauth2.provider.service.contract;
 
 /**
  * 1. Interface para validaciones de usuarios.
