@@ -1,7 +1,7 @@
 package com.cryfirock.accounts.entity;
 
+import com.cryfirock.accounts.model.AccountNature;
 import com.cryfirock.accounts.model.AccountStatus;
-import com.cryfirock.accounts.model.AccountType;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -28,7 +28,7 @@ public class Account {
     // Moneda en la que se maneja la cuenta.
     private String currency;
     // Finalidad de la cuenta.
-    private AccountType type;
+    private AccountNature nature;
     // Estado actual de la cuenta.
     private AccountStatus status;
     // Atributos de tiempo para auditoría.
