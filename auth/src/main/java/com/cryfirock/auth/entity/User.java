@@ -12,6 +12,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -54,6 +55,10 @@ public class User {
      */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // Auditoria embebida de la entidad.
+    @Embedded
+    private Audit audit;
 
     /**
      * 1. Columna de la tabla que almacena nombre(s) no nulos del usuario.
