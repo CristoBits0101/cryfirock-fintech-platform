@@ -9,10 +9,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -55,10 +55,6 @@ public class User {
      */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // Auditoria embebida de la entidad.
-    @Embedded
-    private Audit audit;
 
     /**
      * 1. Columna de la tabla que almacena nombre(s) no nulos del usuario.
@@ -151,6 +147,14 @@ public class User {
             "hibernateLazyInitializer" }) @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
                     "user_id", "role_id" })) @ManyToMany
     private List<Role> roles;
+
+    /**
+     * 1. Atributos de auditoría para la entidad User.
+     * 2. Mapeado atributos a columnas de la tabla con otro nombre.
+     * 3. Algunos de estos atributos no se pueden actualizar o no pueden ser nulos.
+     */
+    @Embedded
+    private Audit audit;
 
     /**
      * 1. No se mapea a ninguna columna de la tabla.
