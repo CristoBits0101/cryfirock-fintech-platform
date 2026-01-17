@@ -5,6 +5,8 @@ import com.cryfirock.accounts.model.AccountStatus;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,8 +34,10 @@ public class Account {
     // Moneda en la que se maneja la cuenta.
     private String currency;
     // Finalidad de la cuenta.
+    @Enumerated(EnumType.STRING)
     private AccountNature nature;
     // Estado actual de la cuenta.
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
     // Atributos de tiempo para auditoría.
     @Embedded
