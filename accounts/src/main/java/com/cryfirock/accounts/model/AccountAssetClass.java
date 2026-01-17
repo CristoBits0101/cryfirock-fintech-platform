@@ -9,16 +9,16 @@ package com.cryfirock.accounts.model;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public enum AccountAssetClass {
-    // ==================================================================
+    // =================================================================
     // --- Activos monetarios ---
-    // ==================================================================
+    // =================================================================
     FIAT,      // Activo fiduciario o moneda tradicional.
     E_MONEY,   // Activo electrónico o dinero digital.
     CRYPTO,    // Activo criptográfico o moneda digital descentralizada.
 
-    // ==================================================================
+    // =================================================================
     // --- Activos de inversión ---
-    // ==================================================================
+    // =================================================================
     SECURITY,  // Activo tangible como bienes raíces o metales preciosos.
     COMMODITY  // Activo derivado cuyo valor depende de otro activo.
 }
