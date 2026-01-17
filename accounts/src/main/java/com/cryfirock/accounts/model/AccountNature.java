@@ -1,8 +1,8 @@
 package com.cryfirock.accounts.model;
 
 /**
- * 1. Enumera las posibles naturalezas de una cuenta.
- * 2. Ayuda a categorizar las cuentas según su propósito y usuario final.
+ * 1. Enum que representa la naturaleza o finalidad de una cuenta.
+ * 2. Define diferentes tipos de cuentas según su propósito o uso.
  *
  * @author Cristo Suárez
  * @version 1.0
@@ -10,49 +10,22 @@ package com.cryfirock.accounts.model;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public enum AccountNature {
-    /**
-     * 1. Cuenta de cliente para persona física.
-     * - Personal (uso particular).
-     * - Individual (titular único).
-     * - Retail (consumidor final).
-     */
+    // Cuenta perteneciente a una persona física o individuo.
     CUSTOMER,
-    /**
-     * 2. Cuenta de cliente para persona jurídica.
-     * - Negocio (autónomos y pequeñas empresas).
-     * - Corporativo (empresa mediana y grande).
-     * - PYME (pequeña y mediana empresa).
-     */
+    // Cuenta perteneciente a una persona jurídica u organización.
     BUSINESS,
-    /**
-     * 3. Cuenta interna de la institución financiera.
-     * - Banco ().
-     * - Fondos propios ().
-     * - Brokers ().
-     */
+    // Cuenta perteneciente a una institución financiera.
     INSTITUTIONAL,
-    /**
-    *
-    */
+    // Cuenta perteneciente a un comerciante o vendedor.
     MERCHANT,
-    /**
-    *
-    */
+    // Cuenta perteneciente a un socio o colaborador.
     PARTNER,
-    /**
-    *
-    */
+    // Cuenta perteneciente al sistema o plataforma.
     SYSTEM,
-    /**
-    *
-    */
+    // Cuenta perteneciente a la tesorería o gestión de fondos.
     TREASURY,
-    /**
-    *
-    */
+    // Cuenta omnibus que agrupa fondos de múltiples clientes.
     OMNIBUS,
-    /**
-    *
-    */
+    // Cuenta en custodia o depósito en garantía.
     ESCROW
 }
