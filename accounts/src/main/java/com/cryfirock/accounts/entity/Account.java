@@ -3,16 +3,22 @@ package com.cryfirock.accounts.entity;
 import com.cryfirock.accounts.model.AccountStatus;
 import com.cryfirock.accounts.model.AccountType;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// Clase entidad que representa una tabla de cuenta financiera en la base de datos.
-@Entity @Getter @Setter
+/**
+ * 1. Entidad JPA que representa una tabla en la base de datos.
+ * 2. Genera getters y setters para todos los campos.
+ * 3. Genera un constructor sin argumentos.
+ */
+@Entity @Setter @Getter @NoArgsConstructor @AllArgsConstructor()
 public class Account {
     // Clave primaria auto-generada indetificadora de la cuenta.
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,13 +31,7 @@ public class Account {
     private AccountType type;
     // Estado actual de la cuenta.
     private AccountStatus status;
-
-    /**
-     * 1. Método que se ejecuta antes de persistir la entidad.
-     * 2. Asigna el estado ACTIVE al campo enabled por defecto.
-     */
-    @PrePersist
-    public void prePersist() {
-        enabled = AccountStatus.ACTIVE;
-    }
+    // Atributos de tiempo para auditoría.
+    @Embedded
+    private Audit audit;
 }
