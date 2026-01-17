@@ -1,55 +1,80 @@
 package com.cryfirock.accounts.model;
 
+/**
+ * 1. Enum que representa los diferentes tipos de productos financieros que una cuenta ofrece.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-17
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
+ */
 public enum ProductType {
-    // --- Deposits & Payments (FIAT/E_MONEY) ---
-    CHECKING,            // Cuenta corriente
-    BASIC_CHECKING,      // Cuenta básica
-    PAYROLL,             // Nómina
-    SAVINGS,             // Ahorro
-    YOUTH,               // Joven/estudiante
-    BUSINESS_CHECKING,   // Cuenta empresa
-    MULTICURRENCY,       // Multidivisa
-    TERM_DEPOSIT,        // Depósito a plazo / CD
-    NOTICE_ACCOUNT,      // Ahorro con preaviso
-    ESCROW,              // Plica/garantía
-    PREPAID_WALLET,      // Monedero prepago
+    // ==========================================================
+    // --- Cuentas bancarias ---
+    // ==========================================================
+    CHECKING,               // Cuenta corriente.
+    BASIC_PAYMENT_ACCOUNT,  // Cuenta de pago básica.
+    SALARY_ACCOUNT,         // Cuenta sueldo.
+    SAVINGS,                // Cuenta de ahorro.
+    YOUTH,                  // Cuenta joven o estudiante.
+    BUSINESS_CHECKING,      // Cuenta corriente de empresa.
+    MULTICURRENCY,          // Cuenta multidivisa.
+    TERM_DEPOSIT,           // Depósito a plazo fijo.
+    NOTICE_ACCOUNT,         // Cuenta con preaviso.
+    ESCROW,                 // Cuenta de plica y garantía.
+    PREPAID_WALLET,         // Monedero prepago.
 
-    // --- Cards ---
-    DEBIT_CARD,          // Producto de tarjeta débito (si lo modelas como producto)
-    CREDIT_CARD,         // Tarjeta crédito
+    // ==========================================================
+    // --- Tarjetas ---
+    // ==========================================================
+    DEBIT_CARD,             // Tarjeta débito.
+    CREDIT_CARD,            // Tarjeta crédito.
 
-    // --- Credit / Lending ---
-    OVERDRAFT,           // Descubierto
-    CREDIT_LINE,         // Línea de crédito (revolving)
-    PERSONAL_LOAN,       // Préstamo personal
-    MORTGAGE,            // Hipoteca
-    AUTO_LOAN,           // Préstamo auto
-    SME_LOAN,            // Préstamo empresa
-    BNPL,                // Buy Now Pay Later
+    // ==========================================================
+    // --- Crédito y financiación ---
+    // ==========================================================
+    OVERDRAFT,              // Descubierto.
+    CREDIT_LINE,            // Línea de crédito revolving.
+    PERSONAL_LOAN,          // Préstamo personal.
+    MORTGAGE,               // Hipoteca.
+    AUTO_LOAN,              // Préstamo para automóvil.
+    SME_LOAN,               // Préstamo para empresa.
+    BNPL,                   // Compra ahora y paga después.
 
-        // --- Investments / Securities ---
-    BROKERAGE,           // Cuenta broker
-    CUSTODY_SECURITIES,  // Custodia de valores
-    MUTUAL_FUNDS,        // Fondos
-    PENSION,             // Pensión / jubilación
-    // --- Crypto Spot / Custody ---
-    CRYPTO_SPOT,         // Spot balance
-    CRYPTO_CUSTODY,      // Custodia separada (si aplicas segregación)
+    // ==========================================================
+    // --- Inversión tradicional ---
+    // ==========================================================
+    BROKERAGE,              // Cuenta de bróker.
+    CUSTODY_SECURITIES,     // Custodia de valores.
+    MUTUAL_FUNDS,           // Fondos de inversión.
+    PENSION,                // Pensión y jubilación.
 
-    // --- Crypto Yield / Earn ---
-    STAKING,             // Staking
-    EARN_FLEX,           // Earn flexible
-    EARN_LOCKED,         // Earn bloqueado
-    LENDING,             // Lending (prestar cripto)
-    BORROW,              // Borrow (deuda)
-    COLLATERAL,          // Colateral
+    // ==========================================================
+    // --- Cripto: Balances y custodia ---
+    // ==========================================================
+    CRYPTO_SPOT,            // Saldo spot.
+    CRYPTO_CUSTODY,         // Custodia separada por segregación.
 
-    // --- Crypto Trading Advanced ---
-    MARGIN,              // Margin
-    FUTURES,             // Futuros
-    PERPETUALS,          // Perpetuos
-    OPTIONS,             // Opciones
+    // ==========================================================
+    // --- Cripto: Rendimiento y préstamos ---
+    // ==========================================================
+    STAKING,                // Rendimiento de participación.
+    EARN_FLEX,              // Rendimiento flexible.
+    EARN_LOCKED,            // Rendimiento bloqueado.
+    LENDING,                // Préstamo cripto a terceros.
+    BORROW,                 // Deuda de préstamo recibido.
+    COLLATERAL,             // Colateral y garantía.
 
-    // --- Rewards ---
-    REWARDS              // Cashback / airdrops / loyalty
+    // ==========================================================
+    // --- Trading de derivados ---
+    // ==========================================================
+    MARGIN,                 // Margen.
+    FUTURES,                // Futuros.
+    PERPETUALS,             // Perpetuos.
+    OPTIONS,                // Opciones.
+
+    // ==========================================================
+    // --- Fidelización ---
+    // ==========================================================
+    REWARDS                 // Recompensas y fidelización.
 }
