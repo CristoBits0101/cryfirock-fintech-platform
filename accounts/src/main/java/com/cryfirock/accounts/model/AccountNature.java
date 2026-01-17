@@ -11,9 +11,10 @@ package com.cryfirock.accounts.model;
  */
 public enum AccountNature {
     /**
-     * 1. Cuenta de cliente para persona física (retail).
+     * 1. Cuenta de cliente para persona física.
      * - Personal (uso particular).
      * - Individual (titular único).
+     * - Retail (consumidor final).
      */
     CUSTOMER,
     /**
