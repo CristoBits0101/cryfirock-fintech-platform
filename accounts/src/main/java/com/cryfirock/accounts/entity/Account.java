@@ -14,9 +14,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 1. Entidad JPA que representa una tabla en la base de datos.
- * 2. Genera getters y setters para todos los campos.
- * 3. Genera un constructor sin argumentos.
+ * 1. Clase que representa una cuenta en el sistema.
+ * 2. Mapea la entidad de cuenta a la tabla accounts en la base de datos.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-17
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Entity @Setter @Getter @NoArgsConstructor @AllArgsConstructor()
 public class Account {
