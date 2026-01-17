@@ -1,9 +1,22 @@
 package com.cryfirock.accounts.model;
 
+/**
+ * 1. Enum que representa las diferentes clases de activos que una cuenta puede manejar.
+ *
+ * @author Cristo Suárez
+ * @version 1.0
+ * @since 2025-01-17
+ * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
+ */
 public enum AssetClass {
-    FIAT, // Dinero fiduciario (EUR, USD...)
-    E_MONEY, // Dinero electrónico (si operas como EMI)
-    CRYPTO, // Criptoactivos (BTC, ETH, etc.)
-    SECURITY, // Valores/instrumentos (acciones, ETFs, bonos)
-    COMMODITY // Opcional: oro tokenizado, commodities, etc.
+    // Activo fiduciario o moneda tradicional.
+    FIAT,
+    // Activo electrónico o dinero digital.
+    E_MONEY,
+    // Activo criptográfico o moneda digital descentralizada.
+    CRYPTO,
+    // Activo tangible como bienes raíces o metales preciosos.
+    SECURITY,
+    // Activo derivado cuyo valor depende de otro activo.
+    COMMODITY
 }

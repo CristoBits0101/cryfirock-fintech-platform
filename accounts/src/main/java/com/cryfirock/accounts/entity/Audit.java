@@ -13,16 +13,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 1. Genera un constructor con todos los argumentos.
- * 2. Genera un constructor sin argumentos.
- * 3. Genera getters, setters, toString, hashCode y equals.
- * 4. Clase embebible que contiene atributos de auditoría para entidades JPA.
- * 5. Mapea estos atributos a columnas con otro nombre en la tabla.
- * 6. Algunos de estos atributos no se pueden actualizar o no pueden ser nulos.
+ * 1. Clase embebible que contiene atributos de auditoría para las entidades.
+ * 2. Proporciona campos para rastrear la creación y actualización de registros.
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2025-01-13
+ * @since 2025-01-17
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @AllArgsConstructor @NoArgsConstructor @Data @Embeddable @AttributeOverrides({
