@@ -28,11 +28,14 @@ import lombok.NoArgsConstructor;
 public class Audit {
     /**
      * 1. Sirve para marcar la fecha de creación del registro.
-     * 2. Sirve para marcar la fecha de la última actualización del registro.
-     * 3. Sirve para marcar la fecha del último inicio de sesión.
-     * 4. Instant es una clase que representa fecha y hora en UTC.
+     * 2. Instant es una clase que representa fecha y hora en UTC.
      */
     private Instant createdAt;
+
+    /**
+     * 1. Sirve para marcar la fecha de la última actualización del registro.
+     * 2. Instant es una clase que representa fecha y hora en UTC.
+     */
     private Instant updatedAt;
 
     /**
