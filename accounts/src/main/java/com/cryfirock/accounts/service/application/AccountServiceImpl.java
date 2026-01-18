@@ -3,6 +3,7 @@ package com.cryfirock.accounts.service.application;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,7 +67,7 @@ public class AccountServiceImpl implements IAccountService {
      * {@inheritDoc}
      */
     @Override @Transactional(readOnly = true)
-    public Optional<AccountResponseDto> findById(Long id) {
+    public Optional<AccountResponseDto> findById(@NonNull Long id) {
         return accountRepository.findById(id).map(accountMapper::toResponseDto);
     }
 
