@@ -43,13 +43,6 @@ public class Account {
     private Long id;
 
     /**
-     * 1. Número de cuenta único en el sistema.
-     * 2. Formato alfanumérico generado por el sistema.
-     */
-    @Column(name = "account_number", nullable = false, unique = true, length = 20)
-    private String accountNumber;
-
-    /**
      * 1. Identificador del propietario de la cuenta.
      * 2. Referencia al usuario dueño de la cuenta.
      */
@@ -57,8 +50,15 @@ public class Account {
     private Long ownerId;
 
     /**
+     * 1. Número de cuenta único en el sistema.
+     * 2. Formato alfanumérico generado por el sistema.
+     */
+    @Column(name = "account_number", nullable = false, unique = true, length = 20)
+    private String accountNumber;
+
+    /**
      * 1. Código de moneda en la que se maneja la cuenta.
-     * 2. Formato ISO 4217 (ej: USD, EUR, COP).
+     * 2. Formato ISO 4217 en 3 letras USE o EUR o similar.
      */
     @Column(name = "currency", nullable = false, length = 3)
     private String currency;
@@ -72,7 +72,7 @@ public class Account {
 
     /**
      * 1. Clase de activo que maneja la cuenta.
-     * 2. Define si es FIAT, CRYPTO, E_MONEY, etc.
+     * 2. Define si es FIAT o CRYPTO o E_MONEY...
      */
     @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
     private AccountAssetClass assetClass;
