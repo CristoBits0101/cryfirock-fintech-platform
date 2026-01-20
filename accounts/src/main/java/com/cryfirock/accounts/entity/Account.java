@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import com.cryfirock.accounts.model.AccountAssetClass;
 import com.cryfirock.accounts.model.AccountNature;
 import com.cryfirock.accounts.model.AccountOperationalPurpose;
-import com.cryfirock.accounts.model.AccountProductType;
 import com.cryfirock.accounts.model.AccountStatus;
 
 import jakarta.persistence.Column;
@@ -94,11 +93,6 @@ public class Account {
     // Ejemplo: PENDING
     @Enumerated(EnumType.STRING) @Column(name = "operational_purpose", nullable = false)
     private AccountOperationalPurpose operationalPurpose;
-
-    // Representa los productos financieros ofrecidos por la cuenta bancaria.
-    // Ejemplo: SAVINGS
-    @Enumerated(EnumType.STRING) @Column(name = "product_type", nullable = false)
-    private AccountProductType productType;
 
     // Representa el estado actual de la cuenta bancaria.
     // Ejemplo: ACTIVE
