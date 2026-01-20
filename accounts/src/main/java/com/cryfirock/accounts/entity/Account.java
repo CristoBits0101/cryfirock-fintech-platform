@@ -26,7 +26,7 @@ import lombok.Setter;
 /**
  * 1. Clase que representa una cuenta en el sistema.
  * 2. Mapea la entidad de cuenta a la tabla accounts en la base de datos.
- * 3. Usa Lombok para getters, setters y constructores.
+ * 3. Usa Lombok para generar los métodos de acceso y constructores.
  *
  * @author Cristo Suárez
  * @version 1.0
@@ -36,58 +36,66 @@ import lombok.Setter;
 @Entity @Table(name = "accounts") @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class Account {
     /**
-     * 1. Identificador único de la cuenta.
-     * 2. Generación automática por la base de datos.
+     * ===================================================================================
+     * Registros asociados a la cuenta bancaria.
+     * ===================================================================================
      */
+
+    // Refiere al número identificador único de la cuenta en la base de datos.
+    // Ejemplo: 1001
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * 1. Identificador del propietario de la cuenta.
-     * 2. Referencia al usuario dueño de la cuenta.
-     */
+    // Refiere al número identificador del propietario de la cuenta en la base de datos.
+    // Ejemplo: 523
     @Column(name = "owner_id", nullable = false)
     private Long ownerId;
 
     /**
-     * 1. Número de cuenta único en el sistema.
-     * 2. Formato alfanumérico generado por el sistema.
+     * ===================================================================================
+     * Denominaciones asociadas a la cuenta bancaria.
+     * ===================================================================================
      */
-    @Column(name = "account_number", nullable = false, unique = true, length = 20)
-    private String accountNumber;
 
-    /**
-     * 1. Código de moneda en la que se maneja la cuenta.
-     * 2. Formato ISO 4217 en 3 letras USE o EUR o similar.
-     */
-    @Column(name = "currency", nullable = false, length = 3)
+    // Refiere a la clase de activo financiero de la cuenta.
+    // Ejemplo: CRYPTO para criptomonedas.
+    @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
+    private AccountAssetClass assetClass;
+
+    // Refiere al código de denominación ISO o CRYPTO de la moneda utilizada en la cuenta.
+    // Ejemplo: "USD" para dólares estadounidenses.
+    @Column(name = "currency", nullable = false, length = 12)
     private String currency;
 
     /**
-     * 1. Saldo disponible de la cuenta.
-     * 2. Precisión de 19 dígitos con 4 decimales.
+     * ===================================================================================
+     * Valores asociados a la cuenta bancaria.
+     * ===================================================================================
      */
+
+    // Refiere al número único asociado a la cuenta bancaria.
+    // Ejemplo: "ES7620770024003102575766" para el IBAN.
+    @Column(name = "account_number", nullable = false, unique = true, length = 34)
+    private String accountNumber;
+
+    // Refiere al saldo actual de la cuenta.
+    // Ejemplo: 1500.75
     @Column(name = "balance", nullable = false, precision = 19, scale = 4)
     private BigDecimal balance;
 
     /**
-     * 1. Clase de activo que maneja la cuenta.
-     * 2. Define si es FIAT o CRYPTO o E_MONEY...
+     * ===================================================================================
+     * Propósito operativo del saldo de la cuenta bancaria.
+     * ===================================================================================
      */
-    @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
-    private AccountAssetClass assetClass;
 
-    /**
-     * 1. Naturaleza o finalidad de la cuenta.
-     * 2. Define el tipo de cliente o propósito de la cuenta.
-     */
+    // Representa la finalidad de la cuenta.
+    // Ejemplo: CUSTOMER para cuentas de clientes.
     @Enumerated(EnumType.STRING) @Column(name = "nature", nullable = false)
     private AccountNature nature;
 
-    /**
-     * 1. Propósito operativo del saldo de la cuenta.
-     * 2. Define si es AVAILABLE, RESERVED, PENDING, etc.
-     */
+    // Representa un estado del saldo de la cuenta.
+    // Ejemplo: PENDING para saldos pendientes.
     @Enumerated(EnumType.STRING) @Column(name = "operational_purpose", nullable = false)
     private AccountOperationalPurpose operationalPurpose;
 

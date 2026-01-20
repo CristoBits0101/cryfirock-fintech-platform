@@ -1,7 +1,7 @@
 package com.cryfirock.accounts.model;
 
 /**
- * Enum que representa la finalidad operativa de un saldo o movimiento dentro del sistema.
+ * Enum que representa el estado de un saldo o movimiento dentro del sistema.
  *
  * @author Cristo Suárez
  * @version 1.0
