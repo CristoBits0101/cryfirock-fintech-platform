@@ -99,38 +99,32 @@ public class Account {
     @Enumerated(EnumType.STRING) @Column(name = "operational_purpose", nullable = false)
     private AccountOperationalPurpose operationalPurpose;
 
-    /**
-     * 1. Tipo de producto financiero de la cuenta.
-     * 2. Define si es CHECKING, SAVINGS, CRYPTO_SPOT, etc.
-     */
+    // Representa los productos financieros ofrecidos por la cuenta bancaria.
+    // Ejemplo: SAVINGS para cuentas de ahorro.
     @Enumerated(EnumType.STRING) @Column(name = "product_type", nullable = false)
     private AccountProductType productType;
 
-    /**
-     * 1. Estado actual de la cuenta.
-     * 2. Indica si la cuenta está activa, suspendida o cerrada.
-     */
+    // Representa el estado actual de la cuenta bancaria.
+    // Ejemplo: ACTIVE para cuentas activas.
     @Enumerated(EnumType.STRING) @Column(name = "status", nullable = false)
     private AccountStatus status;
 
     /**
-     * 1. Atributos de auditoría para la entidad Account.
-     * 2. Contiene fechas de creación y actualización.
+     * ============================================================================================
+     * Metadatos asociados a la cuenta bancaria.
+     * ============================================================================================
      */
+
+    // Metadatos de manipulación de la cuenta bancarias.
+    // Ejemplo: 07/01/2025 10:15:30
     @Embedded
     private Audit audit;
 
-    /**
-     * 1. Método que se ejecuta antes de persistir la entidad.
-     * 2. Asigna valores por defecto a status y balance.
-     */
+    // Metadatos para establecer valores predeterminados.
+    // Ejemplo: Si el estado es nulo se establece como ACTIVE.
     @PrePersist
     public void prePersist() {
-        if (this.status == null) {
-            this.status = AccountStatus.ACTIVE;
-        }
-        if (this.balance == null) {
-            this.balance = BigDecimal.ZERO;
-        }
+        if (this.status == null) this.status = AccountStatus.ACTIVE;
+        if (this.balance == null) this.balance = BigDecimal.ZERO;
     }
 }
