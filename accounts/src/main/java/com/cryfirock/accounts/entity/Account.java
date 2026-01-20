@@ -36,9 +36,9 @@ import lombok.Setter;
 @Entity @Table(name = "accounts") @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class Account {
     /**
-     * ===================================================================================
+     * ============================================================================================
      * Registros asociados a la cuenta bancaria.
-     * ===================================================================================
+     * ============================================================================================
      */
 
     // Refiere al número identificador único de la cuenta en la base de datos.
@@ -52,25 +52,25 @@ public class Account {
     private Long ownerId;
 
     /**
-     * ===================================================================================
+     * ============================================================================================
      * Denominaciones asociadas a la cuenta bancaria.
-     * ===================================================================================
+     * ============================================================================================
      */
 
-    // Refiere a la clase de activo financiero de la cuenta.
+    // Refiere a la clase de activo financiero de la cuenta bancaria.
     // Ejemplo: CRYPTO para criptomonedas.
     @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
     private AccountAssetClass assetClass;
 
-    // Refiere al código de denominación ISO o CRYPTO de la moneda utilizada en la cuenta.
+    // Refiere al código de denominación ISO o CRYPTO de la moneda utilizada en la cuenta bancaria.
     // Ejemplo: "USD" para dólares estadounidenses.
     @Column(name = "currency", nullable = false, length = 12)
     private String currency;
 
     /**
-     * ===================================================================================
+     * ============================================================================================
      * Valores asociados a la cuenta bancaria.
-     * ===================================================================================
+     * ============================================================================================
      */
 
     // Refiere al número único asociado a la cuenta bancaria.
@@ -78,23 +78,23 @@ public class Account {
     @Column(name = "account_number", nullable = false, unique = true, length = 34)
     private String accountNumber;
 
-    // Refiere al saldo actual de la cuenta.
+    // Refiere al saldo actual de la cuenta bancaria.
     // Ejemplo: 1500.75
     @Column(name = "balance", nullable = false, precision = 19, scale = 4)
     private BigDecimal balance;
 
     /**
-     * ===================================================================================
-     * Propósito operativo del saldo de la cuenta bancaria.
-     * ===================================================================================
+     * ============================================================================================
+     * Representaciones asociadas a la cuenta bancaria.
+     * ============================================================================================
      */
 
-    // Representa la finalidad de la cuenta.
+    // Representa la finalidad de la cuenta bancaria.
     // Ejemplo: CUSTOMER para cuentas de clientes.
     @Enumerated(EnumType.STRING) @Column(name = "nature", nullable = false)
     private AccountNature nature;
 
-    // Representa un estado del saldo de la cuenta.
+    // Representa los estados del saldo de la cuenta bancaria.
     // Ejemplo: PENDING para saldos pendientes.
     @Enumerated(EnumType.STRING) @Column(name = "operational_purpose", nullable = false)
     private AccountOperationalPurpose operationalPurpose;
