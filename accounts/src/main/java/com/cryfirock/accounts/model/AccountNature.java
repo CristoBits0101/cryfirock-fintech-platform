@@ -11,7 +11,7 @@ package com.cryfirock.accounts.model;
  */
 public enum AccountNature {
     // ============================================================================
-    // --- Titularidad y tipo de cliente ---
+    // --- Finalidad según cliente ---
     // ============================================================================
     CUSTOMER,        // Cuenta perteneciente a una persona física o individuo.
     BUSINESS,        // Cuenta perteneciente a una persona jurídica u organización.
@@ -20,13 +20,13 @@ public enum AccountNature {
     INSTITUTIONAL,   // Cuenta perteneciente a una institución financiera.
 
     // ============================================================================
-    // --- Cuentas internas del sistema ---
+    // --- Finalidad según institución ---
     // ============================================================================
     SYSTEM,          // Cuenta perteneciente al sistema o plataforma.
     TREASURY,        // Cuenta perteneciente a la tesorería o gestión de fondos.
 
     // ============================================================================
-    // --- Estructura y custodia ---
+    // --- Finalidad según custodia ---
     // ============================================================================
     OMNIBUS,         // Cuenta ómnibus que agrupa fondos de múltiples clientes.
     ESCROW           // Cuenta en custodia o depósito en garantía.

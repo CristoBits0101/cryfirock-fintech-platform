@@ -3,9 +3,9 @@ package com.cryfirock.accounts.dto;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import com.cryfirock.accounts.model.AccountAssetClass;
+import com.cryfirock.accounts.model.AccountAsset;
 import com.cryfirock.accounts.model.AccountNature;
-import com.cryfirock.accounts.model.AccountOperationalPurpose;
+import com.cryfirock.accounts.model.AccountOperational;
 import com.cryfirock.accounts.model.AccountProductType;
 import com.cryfirock.accounts.model.AccountStatus;
 
@@ -37,9 +37,9 @@ public record AccountResponseDto(
         Long ownerId,
         String currency,
         BigDecimal balance,
-        AccountAssetClass assetClass,
+        AccountAsset assetClass,
         AccountNature nature,
-        AccountOperationalPurpose operationalPurpose,
+        AccountOperational operationalPurpose,
         AccountProductType productType,
         AccountStatus status,
         Instant createdAt,

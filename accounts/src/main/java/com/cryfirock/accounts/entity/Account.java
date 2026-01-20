@@ -2,9 +2,9 @@ package com.cryfirock.accounts.entity;
 
 import java.math.BigDecimal;
 
-import com.cryfirock.accounts.model.AccountAssetClass;
+import com.cryfirock.accounts.model.AccountAsset;
 import com.cryfirock.accounts.model.AccountNature;
-import com.cryfirock.accounts.model.AccountOperationalPurpose;
+import com.cryfirock.accounts.model.AccountOperational;
 import com.cryfirock.accounts.model.AccountStatus;
 
 import jakarta.persistence.Column;
@@ -57,7 +57,7 @@ public class Account {
     // Refiere a la clase de activo financiero de la cuenta bancaria.
     // Ejemplo: CRYPTO
     @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
-    private AccountAssetClass assetClass;
+    private AccountAsset assetClass;
 
     // Refiere al código de denominación ISO o CRYPTO de la moneda utilizada en la cuenta bancaria.
     // Ejemplo: USD
@@ -92,7 +92,7 @@ public class Account {
     // Representa los estados del saldo de la cuenta bancaria.
     // Ejemplo: PENDING
     @Enumerated(EnumType.STRING) @Column(name = "operational_purpose", nullable = false)
-    private AccountOperationalPurpose operationalPurpose;
+    private AccountOperational operationalPurpose;
 
     // Representa el estado actual de la cuenta bancaria.
     // Ejemplo: ACTIVE

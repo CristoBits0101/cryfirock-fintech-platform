@@ -1,8 +1,8 @@
 package com.cryfirock.accounts.dto;
 
-import com.cryfirock.accounts.model.AccountAssetClass;
+import com.cryfirock.accounts.model.AccountAsset;
 import com.cryfirock.accounts.model.AccountNature;
-import com.cryfirock.accounts.model.AccountOperationalPurpose;
+import com.cryfirock.accounts.model.AccountOperational;
 import com.cryfirock.accounts.model.AccountProductType;
 
 import jakarta.validation.constraints.NotBlank;
@@ -30,11 +30,11 @@ public record AccountCreateDto(
 
         @NotBlank(message = "El código de moneda es obligatorio") @Size(min = 3, max = 3, message = "El código de moneda debe tener 3 caracteres") String currency,
 
-        @NotNull(message = "La clase de activo es obligatoria") AccountAssetClass assetClass,
+        @NotNull(message = "La clase de activo es obligatoria") AccountAsset assetClass,
 
         @NotNull(message = "La naturaleza de la cuenta es obligatoria") AccountNature nature,
 
-        @NotNull(message = "El propósito operativo es obligatorio") AccountOperationalPurpose operationalPurpose,
+        @NotNull(message = "El propósito operativo es obligatorio") AccountOperational operationalPurpose,
 
         @NotNull(message = "El tipo de producto es obligatorio") AccountProductType productType) {
 }
