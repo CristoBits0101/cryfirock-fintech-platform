@@ -58,12 +58,12 @@ public class Account {
      */
 
     // Refiere a la clase de activo financiero de la cuenta bancaria.
-    // Ejemplo: CRYPTO para criptomonedas.
+    // Ejemplo: CRYPTO
     @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
     private AccountAssetClass assetClass;
 
     // Refiere al código de denominación ISO o CRYPTO de la moneda utilizada en la cuenta bancaria.
-    // Ejemplo: "USD" para dólares estadounidenses.
+    // Ejemplo: USD
     @Column(name = "currency", nullable = false, length = 12)
     private String currency;
 
@@ -73,8 +73,8 @@ public class Account {
      * ============================================================================================
      */
 
-    // Refiere al número único asociado a la cuenta bancaria.
-    // Ejemplo: "ES7620770024003102575766" para el IBAN.
+    // Refiere al número único IBAN asociado a la cuenta bancaria.
+    // Ejemplo: ES7620770024003102575766
     @Column(name = "account_number", nullable = false, unique = true, length = 34)
     private String accountNumber;
 
@@ -90,22 +90,22 @@ public class Account {
      */
 
     // Representa la finalidad de la cuenta bancaria.
-    // Ejemplo: CUSTOMER para cuentas de clientes.
+    // Ejemplo: CUSTOMER
     @Enumerated(EnumType.STRING) @Column(name = "nature", nullable = false)
     private AccountNature nature;
 
     // Representa los estados del saldo de la cuenta bancaria.
-    // Ejemplo: PENDING para saldos pendientes.
+    // Ejemplo: PENDING
     @Enumerated(EnumType.STRING) @Column(name = "operational_purpose", nullable = false)
     private AccountOperationalPurpose operationalPurpose;
 
     // Representa los productos financieros ofrecidos por la cuenta bancaria.
-    // Ejemplo: SAVINGS para cuentas de ahorro.
+    // Ejemplo: SAVINGS
     @Enumerated(EnumType.STRING) @Column(name = "product_type", nullable = false)
     private AccountProductType productType;
 
     // Representa el estado actual de la cuenta bancaria.
-    // Ejemplo: ACTIVE para cuentas activas.
+    // Ejemplo: ACTIVE
     @Enumerated(EnumType.STRING) @Column(name = "status", nullable = false)
     private AccountStatus status;
 
@@ -121,7 +121,7 @@ public class Account {
     private Audit audit;
 
     // Metadatos para establecer valores predeterminados.
-    // Ejemplo: Si el estado es nulo se establece como ACTIVE.
+    // Ejemplo: ACTIVE
     @PrePersist
     public void prePersist() {
         if (this.status == null) this.status = AccountStatus.ACTIVE;
