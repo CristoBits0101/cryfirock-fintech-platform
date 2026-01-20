@@ -3,7 +3,7 @@ package com.cryfirock.accounts.dto;
 import com.cryfirock.accounts.model.AccountAsset;
 import com.cryfirock.accounts.model.AccountNature;
 import com.cryfirock.accounts.model.AccountOperational;
-import com.cryfirock.accounts.model.AccountProductType;
+import com.cryfirock.accounts.model.AccountProduct;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,5 +36,5 @@ public record AccountCreateDto(
 
         @NotNull(message = "El propósito operativo es obligatorio") AccountOperational operationalPurpose,
 
-        @NotNull(message = "El tipo de producto es obligatorio") AccountProductType productType) {
+        @NotNull(message = "El tipo de producto es obligatorio") AccountProduct productType) {
 }

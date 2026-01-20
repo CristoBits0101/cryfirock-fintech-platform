@@ -8,7 +8,7 @@ package com.cryfirock.accounts.model;
  * @since 2025-01-17
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-public enum AccountProductType {
+public enum AccountProduct {
     // ==========================================================
     // --- Cuentas bancarias ---
     // ==========================================================

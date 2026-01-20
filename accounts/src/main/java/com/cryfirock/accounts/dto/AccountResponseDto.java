@@ -6,7 +6,7 @@ import java.time.Instant;
 import com.cryfirock.accounts.model.AccountAsset;
 import com.cryfirock.accounts.model.AccountNature;
 import com.cryfirock.accounts.model.AccountOperational;
-import com.cryfirock.accounts.model.AccountProductType;
+import com.cryfirock.accounts.model.AccountProduct;
 import com.cryfirock.accounts.model.AccountStatus;
 
 /**
@@ -40,7 +40,7 @@ public record AccountResponseDto(
         AccountAsset assetClass,
         AccountNature nature,
         AccountOperational operationalPurpose,
-        AccountProductType productType,
+        AccountProduct productType,
         AccountStatus status,
         Instant createdAt,
         Instant updatedAt) {
