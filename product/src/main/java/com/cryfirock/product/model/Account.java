@@ -8,7 +8,7 @@ package com.cryfirock.product.model;
  * @since 2025-01-21
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-public enum BankAccount {
+public enum Account {
     CHECKING,              // Cuenta corriente.
     BASIC_PAYMENT_ACCOUNT, // Cuenta de pago básica.
     SALARY_ACCOUNT,        // Cuenta sueldo.

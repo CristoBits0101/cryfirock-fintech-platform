@@ -36,25 +36,25 @@ class UserQueryServiceImplTest {
 
         @Test @DisplayName("Debe retornar true si el email existe")
         void shouldReturnTrueWhenEmailExists() {
-            // Arrange
+            // Arrange.
             when(userRepository.existsByEmail("existe@test.com")).thenReturn(true);
 
-            // Act
+            // Act.
             boolean result = userQueryService.existsByEmail("existe@test.com");
 
-            // Assert
+            // Assert.
             assertTrue(result);
         }
 
         @Test @DisplayName("Debe retornar false si el email no existe")
         void shouldReturnFalseWhenEmailNotExists() {
-            // Arrange
+            // Arrange.
             when(userRepository.existsByEmail("noexiste@test.com")).thenReturn(false);
 
-            // Act
+            // Act.
             boolean result = userQueryService.existsByEmail("noexiste@test.com");
 
-            // Assert
+            // Assert.
             assertFalse(result);
         }
     }
@@ -64,25 +64,25 @@ class UserQueryServiceImplTest {
 
         @Test @DisplayName("Debe retornar true si el teléfono existe")
         void shouldReturnTrueWhenPhoneExists() {
-            // Arrange
+            // Arrange.
             when(userRepository.existsByPhoneNumber("123456789")).thenReturn(true);
 
-            // Act
+            // Act.
             boolean result = userQueryService.existsByPhoneNumber("123456789");
 
-            // Assert
+            // Assert.
             assertTrue(result);
         }
 
         @Test @DisplayName("Debe retornar false si el teléfono no existe")
         void shouldReturnFalseWhenPhoneNotExists() {
-            // Arrange
+            // Arrange.
             when(userRepository.existsByPhoneNumber("999999999")).thenReturn(false);
 
-            // Act
+            // Act.
             boolean result = userQueryService.existsByPhoneNumber("999999999");
 
-            // Assert
+            // Assert.
             assertFalse(result);
         }
     }
@@ -92,25 +92,25 @@ class UserQueryServiceImplTest {
 
         @Test @DisplayName("Debe retornar true si el username existe")
         void shouldReturnTrueWhenUsernameExists() {
-            // Arrange
+            // Arrange.
             when(userRepository.existsByUsername("existente")).thenReturn(true);
 
-            // Act
+            // Act.
             boolean result = userQueryService.existsByUsername("existente");
 
-            // Assert
+            // Assert.
             assertTrue(result);
         }
 
         @Test @DisplayName("Debe retornar false si el username no existe")
         void shouldReturnFalseWhenUsernameNotExists() {
-            // Arrange
+            // Arrange.
             when(userRepository.existsByUsername("noexistente")).thenReturn(false);
 
-            // Act
+            // Act.
             boolean result = userQueryService.existsByUsername("noexistente");
 
-            // Assert
+            // Assert.
             assertFalse(result);
         }
     }

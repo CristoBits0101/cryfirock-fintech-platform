@@ -26,22 +26,22 @@ class PasswordUtilTest {
 
         @Test @DisplayName("Debe retornar null si la contraseña es null")
         void shouldReturnNullWhenPasswordIsNull() {
-            // Arrange & Act
+            // Arrange & Act.
             String result = PasswordUtil.encodeIfRaw(null);
 
-            // Assert
+            // Assert.
             assertNull(result);
         }
 
         @Test @DisplayName("Debe codificar una contraseña en texto plano")
         void shouldEncodeRawPassword() {
-            // Arrange
+            // Arrange.
             String rawPassword = "miContraseña123";
 
-            // Act
+            // Act.
             String result = PasswordUtil.encodeIfRaw(rawPassword);
 
-            // Assert
+            // Assert.
             assertNotNull(result);
             assertNotEquals(rawPassword, result);
             assertTrue(result.startsWith("$2a$") || result.startsWith("$2b$")
@@ -50,49 +50,49 @@ class PasswordUtilTest {
 
         @Test @DisplayName("Debe retornar el mismo hash si ya está codificado con $2a$")
         void shouldReturnSameHashWhen2aPrefix() {
-            // Arrange
+            // Arrange.
             String bcryptHash = "$2a$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
 
-            // Act
+            // Act.
             String result = PasswordUtil.encodeIfRaw(bcryptHash);
 
-            // Assert
+            // Assert.
             assertEquals(bcryptHash, result);
         }
 
         @Test @DisplayName("Debe retornar el mismo hash si ya está codificado con $2b$")
         void shouldReturnSameHashWhen2bPrefix() {
-            // Arrange
+            // Arrange.
             String bcryptHash = "$2b$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
 
-            // Act
+            // Act.
             String result = PasswordUtil.encodeIfRaw(bcryptHash);
 
-            // Assert
+            // Assert.
             assertEquals(bcryptHash, result);
         }
 
         @Test @DisplayName("Debe retornar el mismo hash si ya está codificado con $2y$")
         void shouldReturnSameHashWhen2yPrefix() {
-            // Arrange
+            // Arrange.
             String bcryptHash = "$2y$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
 
-            // Act
+            // Act.
             String result = PasswordUtil.encodeIfRaw(bcryptHash);
 
-            // Assert
+            // Assert.
             assertEquals(bcryptHash, result);
         }
 
         @Test @DisplayName("Debe codificar una cadena vacía")
         void shouldEncodeEmptyString() {
-            // Arrange
+            // Arrange.
             String emptyPassword = "";
 
-            // Act
+            // Act.
             String result = PasswordUtil.encodeIfRaw(emptyPassword);
 
-            // Assert
+            // Assert.
             assertNotNull(result);
             assertTrue(result.startsWith("$2a$") || result.startsWith("$2b$")
                     || result.startsWith("$2y$"));
@@ -100,15 +100,14 @@ class PasswordUtilTest {
 
         @Test @DisplayName("Debe generar hashes diferentes para la misma contraseña")
         void shouldGenerateDifferentHashesForSamePassword() {
-            // Arrange
+            // Arrange.
             String rawPassword = "testPassword123";
 
-            // Act
+            // Act.
             String hash1 = PasswordUtil.encodeIfRaw(rawPassword);
             String hash2 = PasswordUtil.encodeIfRaw(rawPassword);
 
-            // Assert - BCrypt genera salt aleatorio, por lo que los hashes deben ser
-            // diferentes
+            // Assert - BCrypt genera salt aleatorio, por lo que los hashes deben ser diferentes.
             assertNotEquals(hash1, hash2);
         }
     }

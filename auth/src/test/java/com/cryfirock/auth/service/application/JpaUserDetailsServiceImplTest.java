@@ -65,13 +65,13 @@ class JpaUserDetailsServiceImplTest {
 
         @Test @DisplayName("Debe cargar usuario existente")
         void shouldLoadExistingUser() {
-            // Arrange
+            // Arrange.
             when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
 
-            // Act
+            // Act.
             UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
 
-            // Assert
+            // Assert.
             assertNotNull(userDetails);
             assertEquals("juanperez", userDetails.getUsername());
             assertTrue(userDetails.isEnabled());
@@ -80,10 +80,10 @@ class JpaUserDetailsServiceImplTest {
 
         @Test @DisplayName("Debe lanzar excepción si el usuario no existe")
         void shouldThrowExceptionWhenUserNotFound() {
-            // Arrange
+            // Arrange.
             when(userRepository.findByUsername("noexiste")).thenReturn(Optional.empty());
 
-            // Act & Assert
+            // Act & Assert.
             UsernameNotFoundException exception = assertThrows(
                     UsernameNotFoundException.class,
                     () -> userDetailsService.loadUserByUsername("noexiste"));
@@ -92,14 +92,14 @@ class JpaUserDetailsServiceImplTest {
 
         @Test @DisplayName("Debe cargar las autoridades correctamente")
         void shouldLoadAuthoritiesCorrectly() {
-            // Arrange
+            // Arrange.
             testUser.setRoles(List.of(roleUser, roleAdmin));
             when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
 
-            // Act
+            // Act.
             UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
 
-            // Assert
+            // Assert.
             assertEquals(2, userDetails.getAuthorities().size());
             assertTrue(userDetails.getAuthorities().stream()
                     .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
@@ -109,53 +109,53 @@ class JpaUserDetailsServiceImplTest {
 
         @Test @DisplayName("Debe marcar como deshabilitado si la cuenta está suspendida")
         void shouldBeDisabledWhenAccountSuspended() {
-            // Arrange
+            // Arrange.
             testUser.setEnabled(AccountStatus.SUSPENDED);
             when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
 
-            // Act
+            // Act.
             UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
 
-            // Assert
+            // Assert.
             assertFalse(userDetails.isEnabled());
         }
 
         @Test @DisplayName("Debe marcar como deshabilitado si la cuenta está baneada")
         void shouldBeDisabledWhenAccountBanned() {
-            // Arrange
+            // Arrange.
             testUser.setEnabled(AccountStatus.BANNED);
             when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
 
-            // Act
+            // Act.
             UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
 
-            // Assert
+            // Assert.
             assertFalse(userDetails.isEnabled());
         }
 
         @Test @DisplayName("Debe marcar como deshabilitado si la cuenta está pendiente")
         void shouldBeDisabledWhenAccountPending() {
-            // Arrange
+            // Arrange.
             testUser.setEnabled(AccountStatus.PENDING);
             when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
 
-            // Act
+            // Act.
             UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
 
-            // Assert
+            // Assert.
             assertFalse(userDetails.isEnabled());
         }
 
         @Test @DisplayName("Debe estar habilitado si la cuenta está activa")
         void shouldBeEnabledWhenAccountActive() {
-            // Arrange
+            // Arrange.
             testUser.setEnabled(AccountStatus.ACTIVE);
             when(userRepository.findByUsername("juanperez")).thenReturn(Optional.of(testUser));
 
-            // Act
+            // Act.
             UserDetails userDetails = userDetailsService.loadUserByUsername("juanperez");
 
-            // Assert
+            // Assert.
             assertTrue(userDetails.isEnabled());
         }
     }

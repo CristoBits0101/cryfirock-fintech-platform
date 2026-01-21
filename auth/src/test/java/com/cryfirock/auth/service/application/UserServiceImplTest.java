@@ -84,14 +84,14 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe guardar un usuario correctamente")
         void shouldSaveUserSuccessfully() {
-            // Arrange
+            // Arrange.
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
             when(userRepository.save(any(User.class))).thenReturn(testUser);
 
-            // Act
+            // Act.
             User result = userService.save(testUser);
 
-            // Assert
+            // Assert.
             assertNotNull(result);
             assertEquals("Juan", result.getGivenName());
             verify(rolesHelper).assignRoles(testUser);
@@ -100,33 +100,33 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe codificar la contraseña al guardar")
         void shouldEncodePasswordWhenSaving() {
-            // Arrange
+            // Arrange.
             testUser.setPasswordHash("plainPassword");
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
             when(userRepository.save(any(User.class)))
                     .thenAnswer(invocation -> invocation.getArgument(0));
 
-            // Act
+            // Act.
             User result = userService.save(testUser);
 
-            // Assert
+            // Assert.
             assertNotNull(result.getPasswordHash());
             assertTrue(result.getPasswordHash().startsWith("$2"));
         }
 
         @Test @DisplayName("No debe re-codificar una contraseña ya codificada")
         void shouldNotReEncodeAlreadyEncodedPassword() {
-            // Arrange
+            // Arrange.
             String bcryptHash = "$2a$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
             testUser.setPasswordHash(bcryptHash);
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
             when(userRepository.save(any(User.class)))
                     .thenAnswer(invocation -> invocation.getArgument(0));
 
-            // Act
+            // Act.
             User result = userService.save(testUser);
 
-            // Assert
+            // Assert.
             assertEquals(bcryptHash, result.getPasswordHash());
         }
     }
@@ -136,26 +136,26 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe encontrar usuario por ID")
         void shouldFindUserById() {
-            // Arrange
+            // Arrange.
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
-            // Act
+            // Act.
             Optional<User> result = userService.findById(1L);
 
-            // Assert
+            // Assert.
             assertTrue(result.isPresent());
             assertEquals("Juan", result.get().getGivenName());
         }
 
         @Test @DisplayName("Debe retornar vacío si el usuario no existe")
         void shouldReturnEmptyWhenUserNotFound() {
-            // Arrange
+            // Arrange.
             when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
-            // Act
+            // Act.
             Optional<User> result = userService.findById(999L);
 
-            // Assert
+            // Assert.
             assertTrue(result.isEmpty());
         }
     }
@@ -165,27 +165,27 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe retornar todos los usuarios con puerto")
         void shouldReturnAllUsersWithPort() {
-            // Arrange
+            // Arrange.
             when(userRepository.findAll()).thenReturn(List.of(testUser));
             when(environment.getProperty("local.server.port")).thenReturn("8080");
 
-            // Act
+            // Act.
             List<User> result = userService.findAll();
 
-            // Assert
+            // Assert.
             assertEquals(1, result.size());
             assertEquals(8080, result.get(0).getPort());
         }
 
         @Test @DisplayName("Debe retornar lista vacía si no hay usuarios")
         void shouldReturnEmptyListWhenNoUsers() {
-            // Arrange
+            // Arrange.
             when(userRepository.findAll()).thenReturn(List.of());
 
-            // Act
+            // Act.
             List<User> result = userService.findAll();
 
-            // Assert
+            // Assert.
             assertTrue(result.isEmpty());
         }
     }
@@ -195,7 +195,7 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe actualizar un usuario existente")
         void shouldUpdateExistingUser() {
-            // Arrange
+            // Arrange.
             User updatedUser = new User();
             updatedUser.setGivenName("Carlos");
             updatedUser.setFamilyName("García");
@@ -211,10 +211,10 @@ class UserServiceImplTest {
             when(userRepository.save(any(User.class)))
                     .thenAnswer(invocation -> invocation.getArgument(0));
 
-            // Act
+            // Act.
             Optional<User> result = userService.update(1L, updatedUser);
 
-            // Assert
+            // Assert.
             assertTrue(result.isPresent());
             assertEquals("Carlos", result.get().getGivenName());
             assertEquals("García", result.get().getFamilyName());
@@ -222,20 +222,20 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe retornar vacío si el usuario no existe")
         void shouldReturnEmptyWhenUserNotExistsForUpdate() {
-            // Arrange
+            // Arrange.
             when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
-            // Act
+            // Act.
             Optional<User> result = userService.update(999L, testUser);
 
-            // Assert
+            // Assert.
             assertTrue(result.isEmpty());
             verify(userRepository, never()).save(any());
         }
 
         @Test @DisplayName("Debe actualizar contraseña si se proporciona")
         void shouldUpdatePasswordWhenProvided() {
-            // Arrange
+            // Arrange.
             User updatedUser = new User();
             updatedUser.setGivenName("Juan");
             updatedUser.setFamilyName("Pérez");
@@ -252,10 +252,10 @@ class UserServiceImplTest {
             when(userRepository.save(any(User.class)))
                     .thenAnswer(invocation -> invocation.getArgument(0));
 
-            // Act
+            // Act.
             Optional<User> result = userService.update(1L, updatedUser);
 
-            // Assert
+            // Assert.
             assertTrue(result.isPresent());
             assertTrue(result.get().getPasswordHash().startsWith("$2"));
         }
@@ -266,7 +266,7 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe actualizar usuario con DTO")
         void shouldUpdateUserWithDto() {
-            // Arrange
+            // Arrange.
             UserUpdateDto dto = new UserUpdateDto(
                     "Carlos", "García", LocalDate.of(1985, 5, 15),
                     "carlos@test.com", "987654321", "Avenida Nueva 456",
@@ -278,17 +278,17 @@ class UserServiceImplTest {
                     .thenAnswer(invocation -> invocation.getArgument(0));
             doNothing().when(userMapper).update(any(User.class), any(UserUpdateDto.class));
 
-            // Act
+            // Act.
             Optional<User> result = userService.update(1L, dto);
 
-            // Assert
+            // Assert.
             assertTrue(result.isPresent());
             verify(userMapper).update(any(User.class), eq(dto));
         }
 
         @Test @DisplayName("Debe actualizar contraseña con DTO si se proporciona")
         void shouldUpdatePasswordWithDtoWhenProvided() {
-            // Arrange
+            // Arrange.
             UserUpdateDto dto = new UserUpdateDto(
                     "Carlos", "García", LocalDate.of(1985, 5, 15),
                     "carlos@test.com", "987654321", "Avenida Nueva 456",
@@ -300,10 +300,10 @@ class UserServiceImplTest {
                     .thenAnswer(invocation -> invocation.getArgument(0));
             doNothing().when(userMapper).update(any(User.class), any(UserUpdateDto.class));
 
-            // Act
+            // Act.
             Optional<User> result = userService.update(1L, dto);
 
-            // Assert
+            // Assert.
             assertTrue(result.isPresent());
             assertTrue(result.get().getPasswordHash().startsWith("$2"));
         }
@@ -314,14 +314,14 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe eliminar usuario existente")
         void shouldDeleteExistingUser() {
-            // Arrange
+            // Arrange.
             when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
             doNothing().when(userRepository).delete(testUser);
 
-            // Act
+            // Act.
             Optional<User> result = userService.deleteById(1L);
 
-            // Assert
+            // Assert.
             assertTrue(result.isPresent());
             assertEquals("Juan", result.get().getGivenName());
             verify(userRepository).delete(testUser);
@@ -329,13 +329,13 @@ class UserServiceImplTest {
 
         @Test @DisplayName("Debe retornar vacío si el usuario no existe")
         void shouldReturnEmptyWhenUserNotExistsForDelete() {
-            // Arrange
+            // Arrange.
             when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
-            // Act
+            // Act.
             Optional<User> result = userService.deleteById(999L);
 
-            // Assert
+            // Assert.
             assertTrue(result.isEmpty());
             verify(userRepository, never()).delete(any());
         }

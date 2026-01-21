@@ -54,7 +54,7 @@ class ValidationUtilTest {
 
         @Test @DisplayName("Debe trimear el valor antes de verificar existencia")
         void shouldTrimValueBeforeCheckingExistence() {
-            // El predicado verifica si recibe "trimmed"
+            // El predicado verifica si recibe "trimmed".
             assertTrue(ValidationUtil.isValidString("  trimmed  ", s -> s.equals("noexiste")));
         }
     }
@@ -64,15 +64,15 @@ class ValidationUtilTest {
 
         @SuppressWarnings("null") @Test @DisplayName("Debe retornar BAD_REQUEST con errores de validación")
         void shouldReturnBadRequestWithValidationErrors() {
-            // Arrange
+            // Arrange.
             BindingResult bindingResult = mock(BindingResult.class);
             FieldError fieldError = new FieldError("user", "email", "Email inválido");
             when(bindingResult.getFieldErrors()).thenReturn(List.of(fieldError));
 
-            // Act
+            // Act.
             ResponseEntity<?> response = ValidationUtil.reportIncorrectFields(bindingResult);
 
-            // Assert
+            // Assert.
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
             assertNotNull(response.getBody());
             @SuppressWarnings("unchecked")
@@ -82,16 +82,16 @@ class ValidationUtilTest {
 
         @SuppressWarnings("null") @Test @DisplayName("Debe manejar múltiples errores en el mismo campo")
         void shouldHandleMultipleErrorsOnSameField() {
-            // Arrange
+            // Arrange.
             BindingResult bindingResult = mock(BindingResult.class);
             FieldError error1 = new FieldError("user", "password", "Muy corta");
             FieldError error2 = new FieldError("user", "password", "Sin mayúsculas");
             when(bindingResult.getFieldErrors()).thenReturn(List.of(error1, error2));
 
-            // Act
+            // Act.
             ResponseEntity<?> response = ValidationUtil.reportIncorrectFields(bindingResult);
 
-            // Assert
+            // Assert.
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
             @SuppressWarnings("unchecked")
             Map<String, String> errors = (Map<String, String>) response.getBody();
@@ -102,14 +102,14 @@ class ValidationUtilTest {
 
         @SuppressWarnings("null") @Test @DisplayName("Debe retornar mapa vacío si no hay errores")
         void shouldReturnEmptyMapWhenNoErrors() {
-            // Arrange
+            // Arrange.
             BindingResult bindingResult = mock(BindingResult.class);
             when(bindingResult.getFieldErrors()).thenReturn(List.of());
 
-            // Act
+            // Act.
             ResponseEntity<?> response = ValidationUtil.reportIncorrectFields(bindingResult);
 
-            // Assert
+            // Assert.
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
             @SuppressWarnings("unchecked")
             Map<String, String> errors = (Map<String, String>) response.getBody();
@@ -118,16 +118,16 @@ class ValidationUtilTest {
 
         @SuppressWarnings("null") @Test @DisplayName("Debe manejar múltiples campos con errores")
         void shouldHandleMultipleFieldsWithErrors() {
-            // Arrange
+            // Arrange.
             BindingResult bindingResult = mock(BindingResult.class);
             FieldError emailError = new FieldError("user", "email", "Email inválido");
             FieldError usernameError = new FieldError("user", "username", "Username requerido");
             when(bindingResult.getFieldErrors()).thenReturn(List.of(emailError, usernameError));
 
-            // Act
+            // Act.
             ResponseEntity<?> response = ValidationUtil.reportIncorrectFields(bindingResult);
 
-            // Assert
+            // Assert.
             @SuppressWarnings("unchecked")
             Map<String, String> errors = (Map<String, String>) response.getBody();
             assertEquals(2, errors.size());

@@ -56,15 +56,15 @@ class RolesHelperTest {
 
         @Test @DisplayName("Debe asignar solo ROLE_USER a un usuario no administrador")
         void shouldAssignOnlyUserRoleToNonAdmin() {
-            // Arrange
+            // Arrange.
             User user = new User();
             user.setAdmin(false);
             when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
 
-            // Act
+            // Act.
             List<Role> roles = rolesHelper.assignRoles(user);
 
-            // Assert
+            // Assert.
             assertEquals(1, roles.size());
             assertEquals("ROLE_USER", roles.get(0).getName());
             verify(roleRepository, times(1)).findByName("ROLE_USER");
@@ -73,16 +73,16 @@ class RolesHelperTest {
 
         @Test @DisplayName("Debe asignar ROLE_USER y ROLE_ADMIN a un usuario administrador")
         void shouldAssignUserAndAdminRolesToAdmin() {
-            // Arrange
+            // Arrange.
             User user = new User();
             user.setAdmin(true);
             when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
             when(roleRepository.findByName("ROLE_ADMIN")).thenReturn(Optional.of(roleAdmin));
 
-            // Act
+            // Act.
             List<Role> roles = rolesHelper.assignRoles(user);
 
-            // Assert
+            // Assert.
             assertEquals(2, roles.size());
             assertTrue(roles.stream().anyMatch(r -> r.getName().equals("ROLE_USER")));
             assertTrue(roles.stream().anyMatch(r -> r.getName().equals("ROLE_ADMIN")));
@@ -90,12 +90,12 @@ class RolesHelperTest {
 
         @Test @DisplayName("Debe lanzar excepción si ROLE_USER no existe")
         void shouldThrowExceptionWhenRoleUserNotFound() {
-            // Arrange
+            // Arrange.
             User user = new User();
             user.setAdmin(false);
             when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.empty());
 
-            // Act & Assert
+            // Act & Assert.
             IllegalStateException exception = assertThrows(
                     IllegalStateException.class,
                     () -> rolesHelper.assignRoles(user));
@@ -104,13 +104,13 @@ class RolesHelperTest {
 
         @Test @DisplayName("Debe lanzar excepción si ROLE_ADMIN no existe para usuario admin")
         void shouldThrowExceptionWhenRoleAdminNotFoundForAdmin() {
-            // Arrange
+            // Arrange.
             User user = new User();
             user.setAdmin(true);
             when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
             when(roleRepository.findByName("ROLE_ADMIN")).thenReturn(Optional.empty());
 
-            // Act & Assert
+            // Act & Assert.
             IllegalStateException exception = assertThrows(
                     IllegalStateException.class,
                     () -> rolesHelper.assignRoles(user));
@@ -119,15 +119,15 @@ class RolesHelperTest {
 
         @Test @DisplayName("Debe retornar una lista modificable")
         void shouldReturnModifiableList() {
-            // Arrange
+            // Arrange.
             User user = new User();
             user.setAdmin(false);
             when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(roleUser));
 
-            // Act
+            // Act.
             List<Role> roles = rolesHelper.assignRoles(user);
 
-            // Assert - verificar que la lista es modificable
+            // Assert - Verificar que la lista es modificable.
             assertDoesNotThrow(() -> roles.add(roleAdmin));
             assertEquals(2, roles.size());
         }

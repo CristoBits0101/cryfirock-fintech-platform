@@ -18,6 +18,7 @@
 - [Módulo Auth](#-módulo-auth) ⭍
 - [Módulo Accounts](#-módulo-accounts) ⭍
 - [Módulo OAuth2](#-módulo-oauth2) ⭍
+- [Módulo Product](#-módulo-product) ⭍
 - [Ejecución de Módulos](#-ejecución-de-módulos) ⭍
 - [API Endpoints](#-api-endpoints) ⭍
 
@@ -329,6 +330,38 @@
 
 ---
 
+### 📦 MÓDULO PRODUCT
+
+> ⚠️ *En Desarrollo* - Microservicio de Catálogo de Productos Financieros
+
+### ⚙️ Configuración Principal
+
+| # | # | Descripción | Archivo |
+|:-:|:-:|:------------|---------|
+| 47 | 🚀 | • Punto de entrada Spring Boot<br>• Módulo reactivo con WebFlux | `ProductApplication.java` |
+| 48 | 📝 | • Propiedades de aplicación<br>• Config servidor | `application.properties` |
+
+##
+
+### 📦 Paquete > `Model`
+
+> Enums de Tipos de Productos Financieros
+
+| # | # | Descripción | Archivo |
+|:-:|:-:|:------------|---------|
+| 49 | 🏦 | • Tipos de cuentas bancarias<br>• 11 variantes:<br>&nbsp;&nbsp;◦ Corriente<br>&nbsp;&nbsp;◦ Ahorro<br>&nbsp;&nbsp;◦ Plazo fijo<br>&nbsp;&nbsp;◦ Etc. | `Account.java` |
+| 50 | 💳 | • Tipos de tarjetas<br>• Variantes:<br>&nbsp;&nbsp;◦ Débito<br>&nbsp;&nbsp;◦ Crédito | `Card.java` |
+| 51 | 💰 | • Tipos de préstamos<br>• 7 variantes:<br>&nbsp;&nbsp;◦ Personal<br>&nbsp;&nbsp;◦ Hipoteca<br>&nbsp;&nbsp;◦ Auto<br>&nbsp;&nbsp;◦ Etc. | `Credit.java` |
+| 52 | 🪙 | • Productos de criptomonedas<br>• 8 variantes:<br>&nbsp;&nbsp;◦ Spot<br>&nbsp;&nbsp;◦ Staking<br>&nbsp;&nbsp;◦ Lending<br>&nbsp;&nbsp;◦ Etc. | `CryptoProduct.java` |
+| 53 | 📈 | • Trading de derivados<br>• 4 variantes:<br>&nbsp;&nbsp;◦ Margen<br>&nbsp;&nbsp;◦ Futuros<br>&nbsp;&nbsp;◦ Perpetuos<br>&nbsp;&nbsp;◦ Opciones | `Derivatives.java` |
+| 54 | 🏠 | • Productos de financiación<br>• 5 variantes:<br>&nbsp;&nbsp;◦ Personal<br>&nbsp;&nbsp;◦ Hipoteca<br>&nbsp;&nbsp;◦ Auto<br>&nbsp;&nbsp;◦ BNPL | `Financing.java` |
+| 55 | 📊 | • Trading e inversión<br>• 4 variantes:<br>&nbsp;&nbsp;◦ Bróker<br>&nbsp;&nbsp;◦ Custodia<br>&nbsp;&nbsp;◦ Fondos<br>&nbsp;&nbsp;◦ Pensión | `Investment.java` |
+| 56 | 🎁 | • Programas de fidelización<br>• Recompensas | `Loyalty.java` |
+
+💡 **Product:** Microservicio dedicado al catálogo de productos financieros disponibles en la plataforma.
+
+---
+
 ### 🚀 EJECUCIÓN DE MÓDULOS
 
 ```bash
@@ -342,6 +375,10 @@
 
 # 📦 Módulo OAuth2:
 ⌨️ cd oauth2
+⌨️ ./mvnw spring-boot:run
+
+# 📦 Módulo Product:
+⌨️ cd product
 ⌨️ ./mvnw spring-boot:run
 ```
 
@@ -455,6 +492,18 @@
 | <sub>**lombok**</sub> | <sub>-</sub> | <sub>optional</sub> | <sub>Generación de código (getters, setters, builders)</sub> |
 | <sub>**spring-boot-starter-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing con JUnit, Mockito, AssertJ</sub> |
 | <sub>**spring-security-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de seguridad</sub> |
+
+##
+
+### 📦 Módulo Product (`product/pom.xml`):
+
+| <sub>Dependencia</sub> | <sub>Versión</sub> | <sub>Scope</sub> | <sub>Descripción</sub> |
+|:------------|:-------:|:-----:|:------------|
+| <sub>**spring-boot-starter-parent**</sub> | <sub>`3.5.9`</sub> | <sub>parent</sub> | <sub>BOM padre de Spring Boot con gestión de versiones</sub> |
+| <sub>**spring-boot-starter-webflux**</sub> | <sub>-</sub> | <sub>compile</sub> | <sub>Programación reactiva con WebFlux y Project Reactor</sub> |
+| <sub>**spring-boot-devtools**</sub> | <sub>-</sub> | <sub>runtime</sub> | <sub>Herramientas de desarrollo (hot reload)</sub> |
+| <sub>**spring-boot-starter-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing con JUnit, Mockito, AssertJ</sub> |
+| <sub>**reactor-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de flujos reactivos</sub> |
 
 💡 Las versiones marcadas con `-` son gestionadas automáticamente por `spring-boot-starter-parent`.
 

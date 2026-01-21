@@ -350,7 +350,6 @@ public class NuevoController {
     }
 
     /**
-    /**
      * 1. Obtiene todos los recursos.
      * 2. Mapea las solicitudes GET a la raíz.
      *
