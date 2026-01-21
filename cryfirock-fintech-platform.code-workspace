@@ -1,9 +1,13 @@
 {
     // Carpetas del espacio de trabajo.
     "folders": [
+        // Autenticación y autorización.
         { "path": "auth" },
+        // Implementación de OAuth2.
         { "path": "oauth2" },
+        // Gestión de cuentas de usuario.
         { "path": "account" },
+        // Productos y servicios financieros.
         { "path": "product"}
     ],
 
