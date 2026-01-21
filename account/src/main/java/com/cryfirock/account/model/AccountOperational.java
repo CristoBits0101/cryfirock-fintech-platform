@@ -1,4 +1,4 @@
-package com.cryfirock.accounts.model;
+package com.cryfirock.account.model;
 
 /**
  * Enum que representa el estado de un saldo o movimiento dentro del sistema.

@@ -2,7 +2,9 @@
     // Carpetas del espacio de trabajo.
     "folders": [
         { "path": "auth" },
-        { "path": "oauth2" }
+        { "path": "oauth2" },
+        { "path": "account" },
+        { "path": "product"}
     ],
 
     // Opciones específicas del espacio de trabajo.

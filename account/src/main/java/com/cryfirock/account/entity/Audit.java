@@ -1,4 +1,4 @@
-package com.cryfirock.accounts.entity;
+package com.cryfirock.account.entity;
 
 import java.time.Instant;
 

@@ -16,11 +16,11 @@
 
     <groupId>com.cryfirock</groupId>
 
-    <artifactId>accounts</artifactId>
+    <artifactId>account</artifactId>
 
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>accounts</name>
+    <name>account</name>
 
     <description>Demo project for Spring Boot</description>
 
@@ -121,5 +121,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

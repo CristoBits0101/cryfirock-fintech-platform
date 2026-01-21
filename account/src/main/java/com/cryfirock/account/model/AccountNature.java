@@ -1,4 +1,4 @@
-package com.cryfirock.accounts.model;
+package com.cryfirock.account.model;
 
 /**
  * 1. Enum que representa la naturaleza o finalidad de una cuenta.
@@ -6,7 +6,7 @@ package com.cryfirock.accounts.model;
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2025-01-13
+ * @since 2025-01-17
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public enum AccountNature {

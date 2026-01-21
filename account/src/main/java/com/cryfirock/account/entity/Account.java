@@ -1,11 +1,11 @@
-package com.cryfirock.accounts.entity;
+package com.cryfirock.account.entity;
 
 import java.math.BigDecimal;
 
-import com.cryfirock.accounts.model.AccountAssets;
-import com.cryfirock.accounts.model.AccountNature;
-import com.cryfirock.accounts.model.AccountOperational;
-import com.cryfirock.accounts.model.AccountStatus;
+import com.cryfirock.account.model.AccountAssets;
+import com.cryfirock.account.model.AccountNature;
+import com.cryfirock.account.model.AccountOperational;
+import com.cryfirock.account.model.AccountStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
