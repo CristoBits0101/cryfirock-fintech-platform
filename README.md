@@ -193,10 +193,17 @@
 
 > Servicios de Lógica de Negocio
 
+#### 📂 Subpaquete `service/api` - Interfaces
+
 | # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
 | 23 | 📋 | • Interfaz CRUD usuarios | `IUserService.java` |
 | 24 | 📋 | • Interfaz consultas existencia<br>• Por:<br>&nbsp;&nbsp;◦ Email<br>&nbsp;&nbsp;◦ Teléfono<br>&nbsp;&nbsp;◦ Username | `IUserQueryService.java` |
+
+#### 📂 Subpaquete `service/impl` - Implementaciones
+
+| # | # | Descripción | Archivo |
+|:-:|:-:|:------------|---------|
 | 25 | ⚡ | • Impl `IUserService`<br>• Incluye:<br>&nbsp;&nbsp;◦ Transacciones<br>&nbsp;&nbsp;◦ Roles<br>&nbsp;&nbsp;◦ BCrypt | `UserServiceImpl.java` |
 | 26 | ⚡ | • Impl `IUserQueryService`<br>• Delega al repositorio | `UserQueryServiceImpl.java` |
 | 27 | 🔐 | • Impl `UserDetailsService`<br>• Funciones:<br>&nbsp;&nbsp;◦ Carga usuarios<br>&nbsp;&nbsp;◦ Convierte roles | `JpaUserDetailsServiceImpl.java` |
@@ -358,6 +365,16 @@
 | 55 | 📊 | • Trading e inversión<br>• 4 variantes:<br>&nbsp;&nbsp;◦ Bróker<br>&nbsp;&nbsp;◦ Custodia<br>&nbsp;&nbsp;◦ Fondos<br>&nbsp;&nbsp;◦ Pensión | `Investment.java` |
 | 56 | 🎁 | • Programas de fidelización<br>• Recompensas | `Loyalty.java` |
 
+##
+
+### 📦 Paquete > `Repository`
+
+> Repositorios de Acceso a Datos
+
+| # | # | Descripción | Archivo |
+|:-:|:-:|:------------|---------|
+| 57 | 🗃️ | • Repositorio JPA productos<br>• Extiende JpaRepository | `JpaProductRepository.java` |
+
 💡 **Product:** Microservicio dedicado al catálogo de productos financieros disponibles en la plataforma.
 
 ---
@@ -501,6 +518,7 @@
 |:------------|:-------:|:-----:|:------------|
 | <sub>**spring-boot-starter-parent**</sub> | <sub>`3.5.9`</sub> | <sub>parent</sub> | <sub>BOM padre de Spring Boot con gestión de versiones</sub> |
 | <sub>**spring-boot-starter-webflux**</sub> | <sub>-</sub> | <sub>compile</sub> | <sub>Programación reactiva con WebFlux y Project Reactor</sub> |
+| <sub>**spring-boot-starter-data-jpa**</sub> | <sub>-</sub> | <sub>compile</sub> | <sub>Persistencia JPA con Hibernate y Spring Data</sub> |
 | <sub>**spring-boot-devtools**</sub> | <sub>-</sub> | <sub>runtime</sub> | <sub>Herramientas de desarrollo (hot reload)</sub> |
 | <sub>**spring-boot-starter-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing con JUnit, Mockito, AssertJ</sub> |
 | <sub>**reactor-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de flujos reactivos</sub> |

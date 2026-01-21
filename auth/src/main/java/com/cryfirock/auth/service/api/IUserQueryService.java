@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.contract;
+package com.cryfirock.auth.service.api;
 
 /**
  * 1. Interfaz para el servicio de consulta de usuarios.

@@ -237,12 +237,12 @@ com.cryfirock.auth/
 │   ├── handler/         # Manejadores de errores 401/403
 │   └── jackson/         # Configuración serialización
 ├── service/
-│   ├── application/     # Implementaciones de servicios
-│   └── contract/        # Interfaces de servicios
+│   ├── api/             # Interfaces de servicios
+│   └── impl/            # Implementaciones de servicios
 ├── util/                # Utilidades estáticas
 └── validation/
-    ├── application/     # Implementaciones de validadores
-    └── contract/        # Anotaciones de validación
+    ├── api/             # Anotaciones de validación
+    └── impl/            # Implementaciones de validadores
 ```
 
 ### Convenciones de Nombrado

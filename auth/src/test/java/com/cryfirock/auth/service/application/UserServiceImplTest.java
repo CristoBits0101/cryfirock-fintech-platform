@@ -30,6 +30,7 @@ import com.cryfirock.auth.helper.RolesHelper;
 import com.cryfirock.auth.mapper.UserMapper;
 import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
+import com.cryfirock.auth.service.impl.UserServiceImpl;
 
 /**
  * 1. Pruebas unitarias para UserServiceImpl.

@@ -1,9 +1,9 @@
-package com.cryfirock.auth.service.application;
+package com.cryfirock.auth.service.impl;
 
 import org.springframework.stereotype.Service;
 
 import com.cryfirock.auth.repository.JpaUserRepository;
-import com.cryfirock.auth.service.contract.IUserQueryService;
+import com.cryfirock.auth.service.api.IUserQueryService;
 
 /**
  * 1. Se ocupa de las consultas relacionadas con los usuarios.

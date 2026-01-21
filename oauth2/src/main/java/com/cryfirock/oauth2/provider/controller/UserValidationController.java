@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cryfirock.oauth2.provider.service.contract.IUserValidationService;
+import com.cryfirock.oauth2.provider.service.impl.IUserValidationService;
 
 /**
  * 1. Controlador REST para validaciones de usuarios en OAuth2.

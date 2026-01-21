@@ -24,6 +24,7 @@ import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
+import com.cryfirock.auth.service.impl.JpaUserDetailsServiceImpl;
 
 /**
  * 1. Pruebas unitarias para JpaUserDetailsServiceImpl.

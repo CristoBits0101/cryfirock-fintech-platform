@@ -2,7 +2,7 @@ package com.cryfirock.auth.validation.application;
 
 import org.springframework.stereotype.Component;
 
-import com.cryfirock.auth.service.contract.IUserQueryService;
+import com.cryfirock.auth.service.api.IUserQueryService;
 import com.cryfirock.auth.util.ValidationUtil;
 import com.cryfirock.auth.validation.contract.IExistsByEmail;
 

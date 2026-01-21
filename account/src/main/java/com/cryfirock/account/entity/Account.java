@@ -34,11 +34,9 @@ import lombok.Setter;
  */
 @Entity @Table(name = "account") @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class Account {
-    /**
-     * ============================================================================================
-     * --- Registros asociados a la cuenta bancaria ---
-     * ============================================================================================
-     */
+    // ============================================================================================
+    // --- Registros asociados a la cuenta bancaria ---
+    // ============================================================================================
     // Refiere al número identificador único de la cuenta en la base de datos.
     // Ejemplo: 1001
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,11 +47,9 @@ public class Account {
     @Column(name = "owner_id", nullable = false)
     private Long ownerId;
 
-    /**
-     * ============================================================================================
-     * --- Denominaciones asociadas a la cuenta bancaria ---
-     * ============================================================================================
-     */
+    // ============================================================================================
+    // --- Denominaciones asociadas a la cuenta bancaria ---
+    // ============================================================================================
     // Refiere a la clase de activo financiero de la cuenta bancaria.
     // Ejemplo: CRYPTO
     @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
@@ -64,11 +60,9 @@ public class Account {
     @Column(name = "currency", nullable = false, length = 12)
     private String currency;
 
-    /**
-     * ============================================================================================
-     * --- Valores asociados a la cuenta bancaria ---
-     * ============================================================================================
-     */
+    // ============================================================================================
+    // --- Valores asociados a la cuenta bancaria ---
+    // ============================================================================================
     // Refiere al número único IBAN asociado a la cuenta bancaria.
     // Ejemplo: ES7620770024003102575766
     @Column(name = "account_number", nullable = false, unique = true, length = 34)
@@ -79,11 +73,9 @@ public class Account {
     @Column(name = "balance", nullable = false, precision = 19, scale = 4)
     private BigDecimal balance;
 
-    /**
-     * ============================================================================================
-     * --- Representaciones asociadas a la cuenta bancaria ---
-     * ============================================================================================
-     */
+    // ============================================================================================
+    // --- Representaciones asociadas a la cuenta bancaria ---
+    // ============================================================================================
     // Representa la finalidad de la cuenta bancaria.
     // Ejemplo: CUSTOMER
     @Enumerated(EnumType.STRING) @Column(name = "nature", nullable = false)
@@ -99,11 +91,9 @@ public class Account {
     @Enumerated(EnumType.STRING) @Column(name = "status", nullable = false)
     private AccountStatus status;
 
-    /**
-     * ============================================================================================
-     * --- Metadatos asociados a la cuenta bancaria ---
-     * ============================================================================================
-     */
+    // ============================================================================================
+    // --- Metadatos asociados a la cuenta bancaria ---
+    // ============================================================================================
     // Metadatos de manipulación de la cuenta bancarias.
     // Ejemplo: 07/01/2025 10:15:30
     @Embedded
