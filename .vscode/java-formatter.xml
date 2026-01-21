@@ -43,5 +43,29 @@
         <setting
             id="org.eclipse.jdt.core.formatter.keep_then_statement_on_same_line"
             value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_class_declaration_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_interface_declaration_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_enum_declaration_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_annotation_declaration_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_anonymous_type_declaration_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_method_body_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_block_on_one_line"
+            value="true" />
+        <setting
+            id="org.eclipse.jdt.core.formatter.keep_empty_loop_body_on_one_line"
+            value="true" />
     </profile>
 </profiles>
