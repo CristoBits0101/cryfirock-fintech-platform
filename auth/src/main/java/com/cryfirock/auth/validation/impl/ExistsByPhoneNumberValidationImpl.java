@@ -19,7 +19,8 @@ import jakarta.validation.ConstraintValidatorContext;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Component
-public class ExistsByPhoneNumberValidationImpl implements ConstraintValidator<IExistsByPhoneNumber, String> {
+public class ExistsByPhoneNumberValidationImpl
+        implements ConstraintValidator<IExistsByPhoneNumber, String> {
     // 1. Servicio para consultar usuarios.
     // 2. Inyectado vía constructor.
     private final IUserQueryService userQueryService;
