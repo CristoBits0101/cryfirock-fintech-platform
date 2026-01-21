@@ -1,11 +1,11 @@
-package com.cryfirock.auth.validation.contract;
+package com.cryfirock.auth.validation.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.cryfirock.auth.validation.application.ExistsByUsernameValidationImpl;
+import com.cryfirock.auth.validation.impl.ExistsByUsernameValidationImpl;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -23,11 +23,9 @@ import jakarta.validation.Payload;
  */
 @Constraint(validatedBy = ExistsByUsernameValidationImpl.class) @Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME)
 public @interface IExistsByUsername {
-    /**
-     * 1. Define mensajes del mensaje de error.
-     * 2. Grupos de validación es cuando se aplica la anotación (CRUD).
-     * 3. Payload son metadatos de la anotación.
-     */
+    // 1. Define mensajes del mensaje de error.
+    // 2. Grupos de validación es cuando se aplica la anotación (CRUD).
+    // 3. Payload son metadatos de la anotación.
     String message() default "Username already exists.";
 
     Class<?>[] groups() default {};

@@ -26,12 +26,10 @@ public class UserQueryServiceImpl implements IUserQueryService {
         this.userRepository = userRepository;
     }
 
-    /**
-     * 1. Verifica si un correo electrónico ya está registrado.
-     * 2. Verifica si un número de teléfono ya está registrado.
-     * 3. Verifica si un nombre de usuario ya está registrado.
-     * 4. Utiliza métodos del repositorio para realizar las verificaciones.
-     */
+    // 1. Verifica si un correo electrónico ya está registrado.
+    // 2. Verifica si un número de teléfono ya está registrado.
+    // 3. Verifica si un nombre de usuario ya está registrado.
+    // 4. Utiliza métodos del repositorio para realizar las verificaciones.
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);

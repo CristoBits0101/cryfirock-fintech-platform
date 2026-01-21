@@ -33,10 +33,8 @@ import com.cryfirock.auth.model.ErrorResponse;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    /**
-     * 1. Fuente de mensajes para la internacionalización.
-     * 2. Mapper para convertir excepciones en respuestas de error.
-     */
+    // 1. Fuente de mensajes para la internacionalización.
+    // 2. Mapper para convertir excepciones en respuestas de error.
     private final MessageSource messageSource;
     private final ErrorMapper errorMapper;
 

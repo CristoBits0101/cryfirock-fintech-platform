@@ -15,12 +15,10 @@ import lombok.Data;
  */
 @Data
 public class ErrorResponse {
-    /**
-     * 1. Mensaje descriptivo del error.
-     * 2. Error específico ocurrido.
-     * 3. Código de estado HTTP asociado al error.
-     * 4. Fecha y hora en que ocurrió el error.
-     */
+    // 1. Mensaje descriptivo del error.
+    // 2. Error específico ocurrido.
+    // 3. Código de estado HTTP asociado al error.
+    // 4. Fecha y hora en que ocurrió el error.
     private String message;
     private String error;
     private int status;

@@ -43,10 +43,8 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public class JwtValidationFilter extends BasicAuthenticationFilter {
-    /**
-     * 1. ObjectMapper configurado para deserializar SimpleGrantedAuthority.
-     * 2. Utiliza un mixin para la creación de autoridades desde JSON.
-     */
+    // 1. ObjectMapper configurado para deserializar SimpleGrantedAuthority.
+    // 2. Utiliza un mixin para la creación de autoridades desde JSON.
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
             .addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthorityJsonCreator.class);
 

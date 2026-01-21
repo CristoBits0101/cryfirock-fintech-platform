@@ -44,9 +44,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    /**
-     * 1. Gestor de autenticación de Spring Security.
-     */
+    // 1. Gestor de autenticación de Spring Security.
     private final AuthenticationManager authenticationManager;
 
     /**

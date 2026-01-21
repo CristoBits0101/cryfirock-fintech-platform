@@ -23,10 +23,8 @@ import com.cryfirock.auth.util.ValidationUtil;
  */
 @RestController @CrossOrigin @RequestMapping("/api/validations")
 public class UserValidationController {
-    /**
-     * 1. Inyección automática del servicio.
-     * 2. Servicio para consultas relacionadas con usuarios.
-     */
+    // 1. Inyección automática del servicio.
+    // 2. Servicio para consultas relacionadas con usuarios.
     @Autowired
     private IUserQueryService userQueryService;
 

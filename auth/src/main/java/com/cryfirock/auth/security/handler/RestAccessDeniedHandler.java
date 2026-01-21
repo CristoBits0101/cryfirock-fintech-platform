@@ -26,9 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
-    /**
-     * 1. ObjectMapper para serializar la respuesta de error a JSON.
-     */
+    // 1. ObjectMapper para serializar la respuesta de error a JSON.
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**

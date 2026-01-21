@@ -30,10 +30,8 @@ import com.cryfirock.auth.repository.JpaUserRepository;
  */
 @Service
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
-    /**
-     * 1. Repositorio JPA para usuarios.
-     * 2. Inyectado automáticamente por Spring.
-     */
+    // 1. Repositorio JPA para usuarios.
+    // 2. Inyectado automáticamente por Spring.
     @Autowired
     private JpaUserRepository userRepository;
 

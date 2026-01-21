@@ -18,10 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public final class PasswordUtil {
-    /**
-     * 1. Codificador de contraseñas utilizando BCrypt.
-     * 2. Predicado para verificar si una cadena es un hash BCrypt.
-     */
+    // 1. Codificador de contraseñas utilizando BCrypt.
+    // 2. Predicado para verificar si una cadena es un hash BCrypt.
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     private static final Predicate<String> IS_BCRYPT = startsWithAny("$2a$", "$2b$", "$2y$");
 

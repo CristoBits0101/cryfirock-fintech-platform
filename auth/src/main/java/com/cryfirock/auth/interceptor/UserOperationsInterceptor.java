@@ -28,9 +28,7 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 @Component("userOperationsInterceptor")
 public class UserOperationsInterceptor implements HandlerInterceptor {
-    /**
-     * 1. Logger para registrar mensajes de log.
-     */
+    // 1. Logger para registrar mensajes de log.
     private static final Logger logger = LoggerFactory.getLogger(UserOperationsInterceptor.class);
 
     /**

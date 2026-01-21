@@ -1,11 +1,11 @@
-package com.cryfirock.auth.validation.contract;
+package com.cryfirock.auth.validation.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.cryfirock.auth.validation.application.ExistsByPhoneNumberValidationImpl;
+import com.cryfirock.auth.validation.impl.ExistsByPhoneNumberValidationImpl;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -23,11 +23,9 @@ import jakarta.validation.Payload;
  */
 @Constraint(validatedBy = ExistsByPhoneNumberValidationImpl.class) @Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME)
 public @interface IExistsByPhoneNumber {
-    /**
-     * 1. Define mensajes del mensaje de error.
-     * 2. Grupos de validación es cuando se aplica la anotación (CRUD).
-     * 3. Payload son metadatos de la anotación.
-     */
+    // 1. Define mensajes del mensaje de error.
+    // 2. Grupos de validación es cuando se aplica la anotación (CRUD).
+    // 3. Payload son metadatos de la anotación.
     String message() default "Phone number already exists.";
 
     Class<?>[] groups() default {};

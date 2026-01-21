@@ -38,10 +38,8 @@ import jakarta.validation.Valid;
  */
 @RestController @CrossOrigin @RequestMapping("/api/users")
 public class UserController {
-    /**
-     * 1. Inyección automática del servicio.
-     * 2. Servicio para operaciones relacionadas con usuarios.
-     */
+    // 1. Inyección automática del servicio.
+    // 2. Servicio para operaciones relacionadas con usuarios.
     @Autowired
     private IUserService userService;
 
@@ -62,11 +60,9 @@ public class UserController {
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         user.setAdmin(false);
         return (result.hasErrors())
-                /**
-                 * 1. Verifica si hay errores de validación.
-                 * 2. Si hay errores reporta los campos incorrectos.
-                 * 3. Si no hay errores guarda el usuario y retorna un estado CREATED.
-                 */
+                // 1. Verifica si hay errores de validación.
+                // 2. Si hay errores reporta los campos incorrectos.
+                // 3. Si no hay errores guarda el usuario y retorna un estado CREATED.
                 ? ValidationUtil.reportIncorrectFields(result)
                 : ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
     }
@@ -87,12 +83,10 @@ public class UserController {
      */
     @PreAuthorize("hasRole('ADMIN')") @PostMapping("/superuser")
     public ResponseEntity<?> createAdmin(@Valid @RequestBody User user, BindingResult result) {
-        /**
-         * 1. Establece el rol de administrador en true.
-         * 2. Verifica si hay errores de validación.
-         * 3. Si hay errores reporta los campos incorrectos.
-         * 4. Si no hay errores guarda el usuario y retorna un estado CREATED.
-         */
+        // 1. Establece el rol de administrador en true.
+        // 2. Verifica si hay errores de validación.
+        // 3. Si hay errores reporta los campos incorrectos.
+        // 4. Si no hay errores guarda el usuario y retorna un estado CREATED.
         user.setAdmin(true);
         return (result.hasErrors())
                 ? ValidationUtil.reportIncorrectFields(result)
@@ -124,11 +118,9 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')") @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        /**
-         * 1. Busca el usuario por ID.
-         * 2. Si existe devuelve un ResponseEntity con el usuario y estado 200 OK.
-         * 3. Si no existe devuelve un ResponseEntity con estado 404 Not Found.
-         */
+        // 1. Busca el usuario por ID.
+        // 2. Si existe devuelve un ResponseEntity con el usuario y estado 200 OK.
+        // 3. Si no existe devuelve un ResponseEntity con estado 404 Not Found.
         Optional<User> userOptional = userService.findById(id);
         return (userOptional.isPresent())
                 ? ResponseEntity.ok(userOptional.orElseThrow())
@@ -153,13 +145,11 @@ public class UserController {
             @PathVariable Long id,
             @Valid @RequestBody UserUpdateDto userDto,
             BindingResult result) {
-        /**
-         * 1. Verifica si hay errores de validación.
-         * 2. Si hay errores reporta los campos incorrectos.
-         * 3. Si no hay errores intenta actualizar el usuario.
-         * 4. Si existe devuelve un ResponseEntity con el usuario actualizado.
-         * 5. Si el usuario no existe lanza una excepción UserNotFoundException.
-         */
+        // 1. Verifica si hay errores de validación.
+        // 2. Si hay errores reporta los campos incorrectos.
+        // 3. Si no hay errores intenta actualizar el usuario.
+        // 4. Si existe devuelve un ResponseEntity con el usuario actualizado.
+        // 5. Si el usuario no existe lanza una excepción UserNotFoundException.
         return (result.hasErrors())
                 ? ValidationUtil.reportIncorrectFields(result)
                 : userService
@@ -181,11 +171,9 @@ public class UserController {
      */
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')") @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        /**
-         * 1. Intenta eliminar el usuario por ID.
-         * 2. Si se elimina devuelve un ResponseEntity con estado 204 No Content.
-         * 3. Si no existe devuelve un ResponseEntity con estado 404 Not Found.
-         */
+        // 1. Intenta eliminar el usuario por ID.
+        // 2. Si se elimina devuelve un ResponseEntity con estado 204 No Content.
+        // 3. Si no existe devuelve un ResponseEntity con estado 404 Not Found.
         return userService
                 .deleteById(id)
                 .map(user -> ResponseEntity.noContent().build())

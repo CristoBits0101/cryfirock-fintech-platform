@@ -41,10 +41,8 @@ import com.cryfirock.auth.security.handler.RestAuthenticationEntryPoint;
  */
 @Configuration @EnableMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig {
-    /**
-     * 1. Configuración de autenticación de Spring Security.
-     * 2. Inyectado automáticamente por Spring.
-     */
+    // 1. Configuración de autenticación de Spring Security.
+    // 2. Inyectado automáticamente por Spring.
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
 

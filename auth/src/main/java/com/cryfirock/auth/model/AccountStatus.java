@@ -10,13 +10,11 @@ package com.cryfirock.auth.model;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public enum AccountStatus {
-    /**
-     * 1. La cuenta está pendiente de activación.
-     * 2. La cuenta está activa y en buen estado.
-     * 3. La cuenta está suspendida temporalmente.
-     * 4. La cuenta está baneada permanentemente.
-     * 5. La cuenta está cerrada por el usuario.
-     */
+    // 1. La cuenta está pendiente de activación.
+    // 2. La cuenta está activa y en buen estado.
+    // 3. La cuenta está suspendida temporalmente.
+    // 4. La cuenta está baneada permanentemente.
+    // 5. La cuenta está cerrada por el usuario.
     PENDING,
     ACTIVE,
     SUSPENDED,
