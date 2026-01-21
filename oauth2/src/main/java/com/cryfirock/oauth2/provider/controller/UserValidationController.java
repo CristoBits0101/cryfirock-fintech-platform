@@ -18,7 +18,7 @@ import com.cryfirock.oauth2.provider.service.contract.IUserValidationService;
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2025-01-13
+ * @since 2025-01-15
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @RestController @CrossOrigin @RequestMapping("/api/oauth2/validate")

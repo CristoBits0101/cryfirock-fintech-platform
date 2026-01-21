@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2025-01-14
+ * @since 2025-01-15
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Configuration @EnableWebSecurity
