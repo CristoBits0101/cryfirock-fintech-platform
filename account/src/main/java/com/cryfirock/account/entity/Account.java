@@ -24,7 +24,7 @@ import lombok.Setter;
 
 /**
  * 1. Clase que representa una cuenta en el sistema.
- * 2. Mapea la entidad de cuenta a la tabla accounts en la base de datos.
+ * 2. Mapea la entidad de cuenta a la tabla account en la base de datos.
  * 3. Usa Lombok para generar los métodos de acceso y constructores.
  *
  * @author Cristo Suárez
@@ -32,7 +32,7 @@ import lombok.Setter;
  * @since 2025-01-17
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-@Entity @Table(name = "accounts") @Setter @Getter @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "account") @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class Account {
     /**
      * ============================================================================================
