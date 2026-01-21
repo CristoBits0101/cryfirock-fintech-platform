@@ -25,14 +25,12 @@ import lombok.Setter;
  */
 @Component @Setter @Getter
 public class RolesHelper {
-    /**
-     * 1. Roles predefinidos en el sistema.
-     * 2. ROLE_USER: Rol básico para todos los usuarios.
-     * 3. ROLE_ADMIN: Rol con privilegios administrativos.
-     * 4. Se utilizan para controlar el acceso y las funcionalidades.
-     * 5. Static para compartir atributos entre instancias.
-     * 6. Final para evitar modificaciones en tiempo de ejecución.
-     */
+    // 1. Roles predefinidos en el sistema.
+    // 2. ROLE_USER: Rol básico para todos los usuarios.
+    // 3. ROLE_ADMIN: Rol con privilegios administrativos.
+    // 4. Se utilizan para controlar el acceso y las funcionalidades.
+    // 5. Static para compartir atributos entre instancias.
+    // 6. Final para evitar modificaciones en tiempo de ejecución.
     private static final String ROLE_USER = "ROLE_USER";
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private final JpaRoleRepository roleRepository;
@@ -53,15 +51,13 @@ public class RolesHelper {
      * @return Lista de roles asignados al usuario.
      */
     public List<Role> assignRoles(User user) {
-        /**
-         * 1. Verifica si el usuario es administrador.
-         * 2. Si es administrador se asigna ROLE_USER y ROLE_ADMIN.
-         * 3. Si no es administrador se asigna solo ROLE_USER.
-         * 4. Utiliza Streams para mapear los nombres de roles a objetos Role.
-         * 5. Lanza una excepción si un rol no se encuentra en el repositorio.
-         * 6. Devuelve una lista de roles asignados al usuario.
-         * 7. Convierte el Stream resultante en una ArrayList.
-         */
+        // 1. Verifica si el usuario es administrador.
+        // 2. Si es administrador se asigna ROLE_USER y ROLE_ADMIN.
+        // 3. Si no es administrador se asigna solo ROLE_USER.
+        // 4. Utiliza Streams para mapear los nombres de roles a objetos Role.
+        // 5. Lanza una excepción si un rol no se encuentra en el repositorio.
+        // 6. Devuelve una lista de roles asignados al usuario.
+        // 7. Convierte el Stream resultante en una ArrayList.
         return (user.isAdmin()
                 ? Stream.of(ROLE_USER, ROLE_ADMIN)
                 : Stream.of(ROLE_USER))
