@@ -83,7 +83,7 @@ class UserServiceImplTest {
     @Nested @DisplayName("Tests para save")
     class SaveTests {
 
-        @Test @DisplayName("Debe guardar un usuario correctamente")
+        @SuppressWarnings("null") @Test @DisplayName("Debe guardar un usuario correctamente")
         void shouldSaveUserSuccessfully() {
             // Arrange.
             when(rolesHelper.assignRoles(any(User.class))).thenReturn(List.of(roleUser));
@@ -99,7 +99,7 @@ class UserServiceImplTest {
             verify(userRepository).save(testUser);
         }
 
-        @Test @DisplayName("Debe codificar la contraseña al guardar")
+        @SuppressWarnings("null") @Test @DisplayName("Debe codificar la contraseña al guardar")
         void shouldEncodePasswordWhenSaving() {
             // Arrange.
             testUser.setPasswordHash("plainPassword");
@@ -115,7 +115,7 @@ class UserServiceImplTest {
             assertTrue(result.getPasswordHash().startsWith("$2"));
         }
 
-        @Test @DisplayName("No debe re-codificar una contraseña ya codificada")
+        @SuppressWarnings("null") @Test @DisplayName("No debe re-codificar una contraseña ya codificada")
         void shouldNotReEncodeAlreadyEncodedPassword() {
             // Arrange.
             String bcryptHash = "$2a$10$N9qo8uLOickgx2ZMRZoMy.Q3LjNBhGGkCcBv3Wv/NQVXUjKKJfWAW";
@@ -191,7 +191,7 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested @DisplayName("Tests para update con User")
+    @SuppressWarnings("null") @Nested @DisplayName("Tests para update con User")
     class UpdateWithUserTests {
 
         @Test @DisplayName("Debe actualizar un usuario existente")
@@ -262,7 +262,7 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested @DisplayName("Tests para update con DTO")
+    @SuppressWarnings("null") @Nested @DisplayName("Tests para update con DTO")
     class UpdateWithDtoTests {
 
         @Test @DisplayName("Debe actualizar usuario con DTO")
@@ -310,7 +310,7 @@ class UserServiceImplTest {
         }
     }
 
-    @Nested @DisplayName("Tests para deleteById")
+    @SuppressWarnings("null") @Nested @DisplayName("Tests para deleteById")
     class DeleteByIdTests {
 
         @Test @DisplayName("Debe eliminar usuario existente")
