@@ -17,7 +17,7 @@ public interface IProductService {
      *
      * @param product Producto a crear.
      */
-    Product createProduct(@NotNull Product product);
+    Product save(@NotNull Product product);
 
     // ============================================================================================
     // Métodos de lectura
@@ -49,7 +49,7 @@ public interface IProductService {
      * @param product Producto a actualizar.
      * @return Optional<Product> Producto actualizado.
      */
-    Optional<Product> updateProduct(@NotNull Long id, @NotNull Product product);
+    Optional<Product> update(@NotNull Long id, @NotNull Product product);
 
     // ============================================================================================
     // Métodos de eliminación
@@ -61,5 +61,5 @@ public interface IProductService {
      * @param id ID del producto a eliminar.
      * @return Optional<Product> Producto eliminado.
      */
-    Optional<Product> deleteProductById(@NotNull Long id);
+    Optional<Product> deleteById(@NotNull Long id);
 }
