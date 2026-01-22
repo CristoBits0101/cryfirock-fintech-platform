@@ -19,6 +19,9 @@ import jakarta.validation.constraints.NotNull;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public interface IUserService {
+    //============================================================================================
+    // Métodos de creación
+    //============================================================================================
     /**
      * 1. Guarda un usuario en el sistema.
      *
@@ -27,6 +30,9 @@ public interface IUserService {
      */
     User save(@NotNull User user);
 
+    //============================================================================================
+    // Métodos de lectura
+    //============================================================================================
     /**
      * 1. Obtiene todos los usuarios del sistema.
      *
@@ -42,6 +48,9 @@ public interface IUserService {
      */
     Optional<User> findById(@NotNull Long id);
 
+    //============================================================================================
+    // Métodos de actualización
+    //============================================================================================
     /**
      * 1. Actualiza un usuario existente por su ID.
      *
@@ -60,6 +69,9 @@ public interface IUserService {
      */
     Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto dto);
 
+    //============================================================================================
+    // Métodos de eliminación
+    //============================================================================================
     /**
      * 1. Elimina un usuario por su ID.
      *

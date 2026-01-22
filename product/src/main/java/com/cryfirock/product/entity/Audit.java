@@ -28,14 +28,17 @@ import lombok.NoArgsConstructor;
 public class Audit {
     // 1. Sirve para marcar la fecha de creación del registro.
     // 2. Instant es una clase que representa fecha y hora en UTC.
+    // 3. Ejemplo: 2025-01-22 16:59:35
     private Instant createdAt;
 
     // 1. Sirve para marcar la fecha de la última actualización del registro.
     // 2. Instant es una clase que representa fecha y hora en UTC.
+    // 3. Ejemplo: 2025-01-22 16:59:35
     private Instant updatedAt;
 
     // 1. Método que se ejecuta antes de persistir la entidad.
     // 2. Asigna la fecha y hora actual a createdAt y updatedAt.
+    // 3. Ejemplo: 2025-01-22 16:59:35
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();
@@ -44,6 +47,7 @@ public class Audit {
 
     // 1. Método que se ejecuta antes de actualizar la entidad.
     // 2. Asigna la fecha y hora actual a updatedAt.
+    // 3. Ejemplo: 2025-01-22 16:59:35
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = Instant.now();
