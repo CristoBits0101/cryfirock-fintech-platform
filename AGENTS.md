@@ -187,7 +187,7 @@ public String miMetodo(String parametro) {
 
 ### Regla de Fecha para @since
 
-- El valor de `@since` debe usar la fecha del día actual al crear o modificar la clase.
+- El valor de `@since` debe usar la fecha del día actual (YYYY-MM-DD) al crear o modificar la clase. **IMPORTANTE:** No copiar la fecha de los ejemplos; generar siempre la fecha del día.
 
 ### JavaDoc para Atributos
 
