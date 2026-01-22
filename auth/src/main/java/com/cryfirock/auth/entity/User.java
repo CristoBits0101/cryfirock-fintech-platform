@@ -118,35 +118,67 @@ public class User {
     @Column(name = "account_status", nullable = false) @Enumerated(EnumType.STRING)
     private AccountStatus enabled = AccountStatus.ACTIVE;
 
-    // 1. Evita referencias circulares al serializar a JSON.
-    // 2. Lista de roles asociados a este usuario.
-    // 3. Relación muchos a muchos con la entidad Role.
-    @JsonIgnoreProperties({ "users", "handler",
-            "hibernateLazyInitializer" }) @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
-                    "user_id", "role_id" })) @ManyToMany
+    /**
+     * 1. Evita referencias circulares al serializar a JSON.
+     * 2. Lista de roles asociados a este usuario.
+     * 3. Relación muchos a muchos con la entidad Role.
+     * 4. Relación bidireccional para poder desde Users obtener los Roles que tiene un usuario.
+     * 5. Dueña de la relación muchos a muchos porque es la que define la tabla de unión.
+     * 6. @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" }): Evita referencias circulares al serializar a JSON.
+     * 7. @JoinTable: Define la tabla de unión para la relación muchos a muchos.
+     * 8. @JoinColumn: Define la columna de la tabla de unión para la relación muchos a muchos.
+     * 9. @UniqueConstraint: Evita que se repitan asociaciones entre User y Role.
+     * 10. Desde User puedes acceder a sus roles con user.getRoles().
+     * {@code
+     *      User u = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not exists!"));
+     *      Consultar a la base de datos:
+     *      List<Role> roles = u.getRoles().size();
+     *      Consultar a la memoria:
+     *      List<Role> roles = u.getRoles();
+     * }
+     */
+    @JsonIgnoreProperties({
+            "users",
+            "handler",
+            "hibernateLazyInitializer" }) @JoinTable(
+                    // Nombre de la tabla de unión intermedia entre User y Role.
+                    name = "users_roles",
+                    // Clave primaria de la tabla de unión intermedia.
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    // Clave primaria de la tabla de unión intermedia.
+                    inverseJoinColumns = @JoinColumn(name = "role_id"),
+                    // Restringir registros duplicados en la tabla de unión intermedia.
+                    uniqueConstraints = @UniqueConstraint(columnNames = { "user_id",
+                            "role_id" })) @ManyToMany
     private List<Role> roles;
 
     // 1. Atributos de auditoría para la entidad User.
     // 2. Mapeado atributos a columnas de la tabla con otro nombre.
     // 3. Algunos de estos atributos no se pueden actualizar o no pueden ser nulos.
+    // 4. @Embedded: Clase embebible que contiene atributos de auditoría para entidades JPA.
     @Embedded
     private Audit audit;
 
-    // 1. No se mapea a ninguna columna de la tabla.
-    // 2. Solo se puede escribir y no se lee desde JSON.
+    // 1. @Transient: No se mapea a ninguna columna de la tabla.
+    // 2. @JsonProperty(access = JsonProperty.Access.WRITE_ONLY):
+    // - Solo se puede deserializar y no se serializar en el JSON.
+    // - Solo se puede escribir y no se puede leer/devolver desde JSON.
     // 3. Indica si el usuario tiene rol de administrador.
     @Transient @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
-    // 1. Método que se ejecuta antes de persistir la entidad.
+    // 1. @Transient: No se mapea a ninguna columna de la tabla.
+    // 2. @JsonProperty(access = JsonProperty.Access.WRITE_ONLY):
+    // - Solo se puede deserializar y no se serializar en el JSON.
+    // - Solo se puede escribir y no se puede leer/devolver desde JSON.
+    // 3. Puerto del servicio de autenticación.
+    @Transient @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private int port;
+
+    // 1. @PrePersist: Método que se ejecuta antes de persistir la entidad.
     // 2. Asigna el estado ACTIVE al campo enabled por defecto.
     @PrePersist
     public void prePersist() {
         enabled = AccountStatus.ACTIVE;
     }
-
-    // 1. No se mapea a ninguna columna de la tabla.
-    // 2. Puerto del servicio de autenticación.
-    @Transient
-    private int port;
 }

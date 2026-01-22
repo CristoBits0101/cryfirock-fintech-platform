@@ -24,22 +24,32 @@ import jakarta.validation.constraints.Size;
  */
 @Entity @Table(name = "roles")
 public class Role {
-    // 1. Clave primaria de la entidad.
-    // 2. Generación automática del valor de la clave primaria.
-    // 3. Columna de la tabla que almacena el ID del rol.
+    // 1. @Id: Clave primaria de la entidad.
+    // 2. @GeneratedValue(strategy = GenerationType.IDENTITY): Generación automática de clave primaria.
+    // 3. @Column(name = "id"): Columna de la tabla que almacena el ID del rol.
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 1. Nombre del rol.
-    // 2. Columna de la tabla que almacena el nombre del rol.
-    // 3. El nombre no puede ser nulo y debe ser único.
-    // 4. Tamaño máximo del nombre es de 50 caracteres.
+    // 1. @Column(name = "role"): Columna de la tabla que almacena el nombre del rol.
+    // 2. @Column(nullable = false): No se puede dejar en blanco el nombre del rol.
+    // 3. @Column(unique = true): No se puede repetir el nombre del rol.
+    // 4. @Size(max = 50): Tamaño máximo del nombre es de 50 caracteres.
     @Column(name = "role", nullable = false, unique = true) @Size(max = 50)
     private String name;
 
-    // 1. Lista de usuarios asociados a este rol.
-    // 2. Evita referencias circulares al serializar a JSON.
-    // 3. Relación muchos a muchos con la entidad User.
+    /**
+     * 1. @JsonIgnoreProperties({ "roles" }): Evita referencias circulares al serializar a JSON.
+     * 2. @ManyToMany(mappedBy = "roles"): Relación muchos a muchos con la entidad User.
+     * 3. Relación bidireccional para poder desde Roles obtener los Users que tienen un rol.
+     * 4. Desde Role puedes acceder a sus users con role.getUsers().
+     * {@code
+     *      User u = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not exists!"));
+     *      Consultar a la base de datos:
+     *      List<Role> roles = u.getRoles().size();
+     *      Consultar a la memoria:
+     *      List<Role> roles = u.getRoles();
+     * }
+     */
     @JsonIgnoreProperties({ "roles" }) @ManyToMany(mappedBy = "roles")
     private List<User> users;
 

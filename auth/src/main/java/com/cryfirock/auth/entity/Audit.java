@@ -13,12 +13,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 1. Genera un constructor con todos los argumentos.
- * 2. Genera un constructor sin argumentos.
- * 3. Genera getters, setters, toString, hashCode y equals.
- * 4. Clase embebible que contiene atributos de auditoría para entidades JPA.
- * 5. Mapea estos atributos a columnas con otro nombre en la tabla.
- * 6. Algunos de estos atributos no se pueden actualizar o no pueden ser nulos.
+ * 1. @AllArgsConstructor: Genera un constructor con todos los argumentos.
+ * 2. @NoArgsConstructor: Genera un constructor sin argumentos.
+ * 3. @Data: Genera getters, setters, toString, hashCode y equals.
+ * 4. @Embeddable: Clase embebible que contiene atributos de auditoría para entidades JPA.
+ * 5. @AttributeOverrides: Mapea estos atributos a columnas con otro nombre en la tabla.
+ * 6. @AttributeOverride: Algunos de estos atributos no se pueden actualizar o no pueden ser nulos.
  *
  * @author Cristo Suárez
  * @version 1.0
@@ -39,16 +39,16 @@ public class Audit {
     private Instant updatedAt;
     private Instant lastLoginAt;
 
-    // 1. Método que se ejecuta antes de persistir la entidad.
-    // 2. Asigna la fecha y hora actual a createdAt y updatedAt.
+    // 1. @PrePersist: Método que se ejecuta automáticamente antes de persistir la entidad.
+    // 2. Instant.now(): Asigna la fecha y hora actual a createdAt y updatedAt.
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();
         this.updatedAt = this.createdAt;
     }
 
-    // 1. Método que se ejecuta antes de actualizar la entidad.
-    // 2. Asigna la fecha y hora actual a updatedAt.
+    // 1. @PreUpdate: Método que se ejecuta automáticamente antes de actualizar la entidad.
+    // 2. Instant.now(): Asigna la fecha y hora actual a updatedAt.
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = Instant.now();
