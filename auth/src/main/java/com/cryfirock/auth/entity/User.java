@@ -3,7 +3,7 @@ package com.cryfirock.auth.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.cryfirock.auth.model.AccountStatus;
+import com.cryfirock.auth.type.AccountStatus;
 import com.cryfirock.auth.validation.api.IExistsByEmail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

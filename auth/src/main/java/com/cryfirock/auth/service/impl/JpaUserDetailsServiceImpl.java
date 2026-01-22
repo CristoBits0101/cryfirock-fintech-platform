@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cryfirock.auth.entity.User;
-import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
+import com.cryfirock.auth.type.AccountStatus;
 
 /**
  * 1. Implementación del servicio de detalles de usuario para Spring Security.

@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.application;
+package com.cryfirock.auth.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,9 +28,8 @@ import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
 import com.cryfirock.auth.helper.RolesHelper;
 import com.cryfirock.auth.mapper.UserMapper;
-import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
-import com.cryfirock.auth.service.impl.UserServiceImpl;
+import com.cryfirock.auth.type.AccountStatus;
 
 /**
  * 1. Pruebas unitarias para UserServiceImpl.

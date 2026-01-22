@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.application;
+package com.cryfirock.auth.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cryfirock.auth.repository.JpaUserRepository;
-import com.cryfirock.auth.service.impl.UserQueryServiceImpl;
 
 /**
  * 1. Pruebas unitarias para UserQueryServiceImpl.

@@ -1,4 +1,4 @@
-package com.cryfirock.auth.service.application;
+package com.cryfirock.auth.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +22,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
-import com.cryfirock.auth.model.AccountStatus;
 import com.cryfirock.auth.repository.JpaUserRepository;
-import com.cryfirock.auth.service.impl.JpaUserDetailsServiceImpl;
+import com.cryfirock.auth.type.AccountStatus;
 
 /**
  * 1. Pruebas unitarias para JpaUserDetailsServiceImpl.

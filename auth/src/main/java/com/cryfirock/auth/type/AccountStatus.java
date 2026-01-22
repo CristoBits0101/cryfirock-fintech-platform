@@ -1,4 +1,4 @@
-package com.cryfirock.auth.model;
+package com.cryfirock.auth.type;
 
 /**
  * 1. Enumera los posibles estados de una cuenta de usuario.
