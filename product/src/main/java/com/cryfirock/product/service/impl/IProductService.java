@@ -1,4 +1,7 @@
 package com.cryfirock.product.service.impl;
 
-public class IProductService {
+import com.cryfirock.product.entity.Product;
+
+public interface IProductService {
+    void createProduct(Product product);
 }
