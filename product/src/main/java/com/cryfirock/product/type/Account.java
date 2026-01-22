@@ -1,4 +1,4 @@
-package com.cryfirock.product.model;
+package com.cryfirock.product.type;
 
 /**
  * Enum que representa los diferentes tipos de cuentas bancarias que un producto puede ofrecer.
