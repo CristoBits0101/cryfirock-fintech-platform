@@ -140,16 +140,17 @@ public class User {
     @JsonIgnoreProperties({
             "users",
             "handler",
-            "hibernateLazyInitializer" }) @JoinTable(
-                    // Nombre de la tabla de unión intermedia entre User y Role.
-                    name = "users_roles",
-                    // Clave primaria de la tabla de unión intermedia.
-                    joinColumns = @JoinColumn(name = "user_id"),
-                    // Clave primaria de la tabla de unión intermedia.
-                    inverseJoinColumns = @JoinColumn(name = "role_id"),
-                    // Restringir registros duplicados en la tabla de unión intermedia.
-                    uniqueConstraints = @UniqueConstraint(columnNames = { "user_id",
-                            "role_id" })) @ManyToMany
+            "hibernateLazyInitializer" }) 
+    @JoinTable(
+            // Nombre de la tabla de unión intermedia entre User y Role.
+            name = "users_roles",
+            // Clave primaria de la tabla de unión intermedia.
+            joinColumns = @JoinColumn(name = "user_id"),
+            // Clave primaria de la tabla de unión intermedia.
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            // Restringir registros duplicados en la tabla de unión intermedia.
+            uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" })) 
+    @ManyToMany
     private List<Role> roles;
 
     // 1. Atributos de auditoría para la entidad User.
