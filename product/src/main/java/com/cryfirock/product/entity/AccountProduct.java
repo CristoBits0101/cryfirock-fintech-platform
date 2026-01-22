@@ -2,7 +2,7 @@ package com.cryfirock.product.entity;
 
 import java.time.LocalDateTime;
 
-import com.cryfirock.product.type.AccountProductStatus;
+import com.cryfirock.product.type.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,7 +56,7 @@ public class AccountProduct {
     // Ejemplo: ACTIVE.
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private AccountProductStatus status;
+    private Status status;
 
     // Fecha y hora de activación del producto en la cuenta.
     // Ejemplo: 2025-01-21T10:15:30.

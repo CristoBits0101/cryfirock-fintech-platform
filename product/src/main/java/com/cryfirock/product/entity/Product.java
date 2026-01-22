@@ -1,6 +1,6 @@
 package com.cryfirock.product.entity;
 
-import com.cryfirock.product.type.ProductCategory;
+import com.cryfirock.product.type.Category;
 import com.cryfirock.product.type.ProductStatus;
 
 import jakarta.persistence.Column;
@@ -58,7 +58,7 @@ public class Product {
     // Ejemplo: ACCOUNT.
     @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false, length = 40)
-    private ProductCategory category;
+    private Category category;
 
     // Subtipo específico dentro de la familia del producto.
     // Ejemplo: CHECKING.

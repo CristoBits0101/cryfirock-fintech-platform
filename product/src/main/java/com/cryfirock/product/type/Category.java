@@ -8,7 +8,7 @@ package com.cryfirock.product.type;
  * @since 2025-01-21
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
-public enum ProductCategory {
+public enum Category {
     ACCOUNT,     // Productos de cuenta bancaria.
     CARD,        // Productos de tarjetas.
     CREDIT,      // Productos de crédito.
