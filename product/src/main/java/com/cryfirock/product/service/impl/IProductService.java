@@ -1,5 +1,6 @@
 package com.cryfirock.product.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.cryfirock.product.entity.Product;
@@ -7,20 +8,28 @@ import com.cryfirock.product.entity.Product;
 import jakarta.validation.constraints.NotNull;
 
 public interface IProductService {
-    //============================================================================================
+    // ============================================================================================
     // Métodos de creación
-    //============================================================================================
+    // ============================================================================================
     /**
      * 1. Crea un producto.
      * 2. Guarda el producto en la base de datos.
      *
      * @param product Producto a crear.
      */
-    void createProduct(@NotNull Product product);
+    Product createProduct(@NotNull Product product);
 
-    //============================================================================================
+    // ============================================================================================
     // Métodos de lectura
-    //============================================================================================
+    // ============================================================================================
+    /**
+     * 1. Obtiene todos los productos.
+     * 2. Retorna una lista de productos.
+     *
+     * @return List<Product> Lista de productos.
+     */
+    List<Product> findAll();
+
     /**
      * 1. Busca un producto por su ID.
      * 2. Retorna el producto si se encuentra, o Optional vacío si no.
@@ -30,9 +39,9 @@ public interface IProductService {
      */
     Optional<Product> findById(@NotNull Long id);
 
-    //============================================================================================
+    // ============================================================================================
     // Métodos de actualización
-    //============================================================================================
+    // ============================================================================================
     /**
      * 1. Actualiza un producto.
      * 2. Guarda el producto en la base de datos.
@@ -42,9 +51,9 @@ public interface IProductService {
      */
     Optional<Product> updateProduct(@NotNull Long id, @NotNull Product product);
 
-    //============================================================================================
+    // ============================================================================================
     // Métodos de eliminación
-    //============================================================================================
+    // ============================================================================================
     /**
      * 1. Elimina un producto por su ID.
      * 2. Elimina el producto de la base de datos.
