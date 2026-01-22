@@ -48,6 +48,14 @@ public interface IUserService {
      */
     Optional<User> findById(@NotNull Long id);
 
+    /**
+     * 1. Busca un usuario por su ID con roles cargados.
+     *
+     * @param id el ID del usuario a buscar.
+     * @return un Optional con el usuario si se encuentra, o vacío si no.
+     */
+    Optional<User> findByIdWithRoles(@NotNull Long id);
+
     // ============================================================================================
     // Métodos de actualización
     // ============================================================================================

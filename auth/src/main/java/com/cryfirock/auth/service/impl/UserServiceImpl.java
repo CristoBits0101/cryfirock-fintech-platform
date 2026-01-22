@@ -123,6 +123,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     /**
+     * 1. Busca un usuario por su ID con roles cargados.
+     * 2. Marca la transacción como de solo lectura.
+     * 3. Suprime las advertencias de nulidad.
+     * 4. Devuelve un Optional que puede contener el usuario encontrado.
+     *
+     * @param id ID del usuario a buscar.
+     * @return Optional con el usuario si se encuentra, o vacío si no.
+     */
+    @Override @Transactional(readOnly = true) @SuppressWarnings("null")
+    public Optional<User> findByIdWithRoles(@NotNull Long id) {
+        return userRepository.findByIdWithRoles(id);
+    }
+
+    /**
      * 1. Actualiza un usuario existente por su ID.
      * 2. Marca la transacción como de escritura.
      * 3. Suprime las advertencias de nulidad.

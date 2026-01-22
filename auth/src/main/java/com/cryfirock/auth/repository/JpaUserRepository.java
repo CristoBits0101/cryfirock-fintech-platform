@@ -65,6 +65,16 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     Optional<User> buscarPorEmail(@Param("email") String email);
 
     /**
+     * Busca un usuario por su ID con roles cargados.
+     * Query personalizada usando JPQL.
+     *
+     * @param id ID del usuario a buscar.
+     * @return Un Optional que contiene el usuario si se encuentra, o vacío si no.
+     */
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id = :id")
+    Optional<User> findByIdWithRoles(@Param("id") Long id);
+
+    /**
      * Encuentra todos los usuarios activos.
      * Query personalizada usando JPQL.
      *
