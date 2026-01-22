@@ -2,10 +2,10 @@ package com.cryfirock.account.entity;
 
 import java.math.BigDecimal;
 
-import com.cryfirock.account.model.AccountAssets;
-import com.cryfirock.account.model.AccountNature;
-import com.cryfirock.account.model.AccountOperational;
-import com.cryfirock.account.model.AccountStatus;
+import com.cryfirock.account.type.AccountAssets;
+import com.cryfirock.account.type.AccountNature;
+import com.cryfirock.account.type.AccountOperational;
+import com.cryfirock.account.type.AccountStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

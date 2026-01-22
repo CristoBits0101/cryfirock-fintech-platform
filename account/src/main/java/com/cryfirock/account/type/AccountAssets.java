@@ -1,4 +1,4 @@
-package com.cryfirock.account.model;
+package com.cryfirock.account.type;
 
 /**
  * Enum que representa las diferentes clases de activos que una cuenta puede manejar.

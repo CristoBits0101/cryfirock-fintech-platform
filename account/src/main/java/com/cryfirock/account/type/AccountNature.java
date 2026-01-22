@@ -1,4 +1,4 @@
-package com.cryfirock.account.model;
+package com.cryfirock.account.type;
 
 /**
  * 1. Enum que representa la naturaleza o finalidad de una cuenta.
