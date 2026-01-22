@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.cryfirock.product.entity.Product;
 import com.cryfirock.product.service.impl.IProductService;
-import com.cryfirock.product.type.Category;
+import com.cryfirock.product.type.ProductCategory;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -15,6 +15,6 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public void createProduct(Product product, Category category) {
+    public void createProduct(Product product, ProductCategory category) {
     }
 }
