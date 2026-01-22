@@ -8,13 +8,5 @@ import com.cryfirock.product.type.ProductCategory;
 
 @Service
 public class ProductServiceImpl implements IProductService {
-    private final IProductService productService;
 
-    public ProductServiceImpl(IProductService service) {
-        productService = service;
-    }
-
-    @Override
-    public void createProduct(Product product, ProductCategory category) {
-    }
 }
