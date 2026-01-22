@@ -91,7 +91,13 @@ public class UserServiceImpl implements IUserService {
     public List<User> findAll() {
         return userRepository
                 .findAll()
+                // Convierte el List<User> en un Stream<User>
                 .stream()
+                // 1. Mira cada usuario del stream.
+                // 2. Realiza una acción por cada usuario.
+                // 3. No transforma el Stream:
+                //  - No se modifica el tipo de los elementos a retornar.
+                //  - No se modifica la referencia de los elementos a retornar.
                 .peek(user -> user
                         .setPort(Integer
                                 .parseInt(environment
