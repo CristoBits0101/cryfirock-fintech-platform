@@ -98,10 +98,13 @@ public class UserServiceImpl implements IUserService {
                 // 3. No transforma el Stream:
                 //  - No se modifica el tipo de los elementos a retornar.
                 //  - No se modifica la referencia de los elementos a retornar.
-                .peek(user -> user
-                        .setPort(Integer
-                                .parseInt(environment
-                                        .getProperty("local.server.port"))))
+                .peek(user -> 
+                    // 1. Obtiene el puerto del servidor.
+                    // 2. Convierte el puerto a entero.
+                    // 3. Establece el puerto en el usuario.
+                    user.setPort(
+                        Integer.parseInt(
+                            environment.getProperty("local.server.port"))))
                 .toList();
     }
 
