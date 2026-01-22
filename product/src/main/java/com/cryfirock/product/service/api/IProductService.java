@@ -1,4 +1,4 @@
-package com.cryfirock.product.service.impl;
+package com.cryfirock.product.service.api;
 
 import java.util.List;
 import java.util.Optional;

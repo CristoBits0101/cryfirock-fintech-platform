@@ -1,4 +1,4 @@
-package com.cryfirock.product.service.api;
+package com.cryfirock.product.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cryfirock.product.entity.Product;
 import com.cryfirock.product.repository.JpaProductRepository;
-import com.cryfirock.product.service.impl.IProductService;
+import com.cryfirock.product.service.api.IProductService;
 
 import jakarta.validation.constraints.NotNull;
 
