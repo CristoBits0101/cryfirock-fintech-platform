@@ -46,10 +46,10 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
             AccessDeniedException accessDeniedException) throws IOException {
         ErrorResponse error = new ErrorResponse();
 
-        error.setDate(new Date());
-        error.setError("Forbidden");
-        error.setMessage(accessDeniedException.getMessage());
-        error.setStatus(HttpStatus.FORBIDDEN.value());
+        error.setErrorDate(new Date());
+        error.setErrorMessage("Forbidden");
+        error.setCustomMessage(accessDeniedException.getMessage());
+        error.setStatusCode(HttpStatus.FORBIDDEN.value());
 
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(CONTENT_TYPE);

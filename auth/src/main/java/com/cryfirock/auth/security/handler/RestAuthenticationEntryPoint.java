@@ -46,10 +46,10 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException) throws IOException {
         ErrorResponse error = new ErrorResponse();
 
-        error.setDate(new Date());
-        error.setError("Unauthorized");
-        error.setMessage(authException.getMessage());
-        error.setStatus(HttpStatus.UNAUTHORIZED.value());
+        error.setErrorDate(new Date());
+        error.setErrorMessage("Unauthorized");
+        error.setCustomMessage(authException.getMessage());
+        error.setStatusCode(HttpStatus.UNAUTHORIZED.value());
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(CONTENT_TYPE);
