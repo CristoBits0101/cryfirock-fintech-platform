@@ -32,6 +32,6 @@ public interface ErrorMapper {
      * @param detail Detalles adicionales del error.
      * @return Objeto Error con la información mapeada.
      */
-    @Mapping(target = "error", source = "errorMessage") @Mapping(target = "message", source = "detail") @Mapping(target = "status", source = "status") @Mapping(target = "date", expression = "java(new java.util.Date())")
+    @Mapping(target = "errorMessage", source = "errorMessage") @Mapping(target = "customMessage", source = "detail") @Mapping(target = "statusCode", source = "status") @Mapping(target = "errorDate", expression = "java(new java.util.Date())")
     ErrorResponse toError(int status, String errorMessage, String detail);
 }
