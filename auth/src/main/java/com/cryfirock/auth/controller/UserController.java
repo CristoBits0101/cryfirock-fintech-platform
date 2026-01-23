@@ -104,7 +104,13 @@ public class UserController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')") @GetMapping
     public ResponseEntity<List<User>> getUsers() {
         // Obtiene todos los usuarios del servicio.
-        return ResponseEntity.ok(userService.findAll());
+        List<User> users = userService.findAll();
+        // Verifica si la lista está vacía.
+        return users.isEmpty()
+                // Si la lista está vacía retorna un estado NO_CONTENT (204).
+                ? ResponseEntity.noContent().build()
+                // Si la lista no está vacía retorna la lista de usuarios (200).
+                : ResponseEntity.ok(users);
     }
 
     /**
