@@ -110,7 +110,7 @@ public class UserController {
                 // Si la lista está vacía retorna un estado NO_CONTENT (204).
                 ? ResponseEntity.noContent().build()
                 // Si la lista no está vacía retorna la lista de usuarios (200).
-                : ResponseEntity.ok(users);
+                : ResponseEntity.ok(users); 
     }
 
     /**
@@ -181,8 +181,11 @@ public class UserController {
         // 2. Si se elimina devuelve un ResponseEntity con estado 204 No Content.
         // 3. Si no existe devuelve un ResponseEntity con estado 404 Not Found.
         return userService
+                // Intenta eliminar el usuario por ID.
                 .deleteById(id)
+                // Si se elimina devuelve un ResponseEntity con estado 204 No Content en JSON.
                 .map(user -> ResponseEntity.noContent().build())
+                // Si no existe devuelve un ResponseEntity con estado 404 Not Found en JSON.
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
