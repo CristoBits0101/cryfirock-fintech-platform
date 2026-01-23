@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
-import com.cryfirock.auth.repository.JpaRoleRepository;
+import com.cryfirock.auth.repository.CrudRoleRepository;
 
 /**
  * 1. Pruebas unitarias para la clase RolesHelper.
@@ -37,7 +37,7 @@ import com.cryfirock.auth.repository.JpaRoleRepository;
 @ExtendWith(MockitoExtension.class) @SuppressWarnings("unused")
 class RolesHelperTest {
     @Mock
-    private JpaRoleRepository roleRepository;
+    private CrudRoleRepository roleRepository;
 
     @InjectMocks
     private RolesHelper rolesHelper;

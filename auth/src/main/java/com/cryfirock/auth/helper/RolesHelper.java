@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.cryfirock.auth.entity.Role;
 import com.cryfirock.auth.entity.User;
-import com.cryfirock.auth.repository.JpaRoleRepository;
+import com.cryfirock.auth.repository.CrudRoleRepository;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,14 +33,14 @@ public class RolesHelper {
     // 6. Final para evitar modificaciones en tiempo de ejecución.
     private static final String ROLE_USER = "ROLE_USER";
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
-    private final JpaRoleRepository roleRepository;
+    private final CrudRoleRepository roleRepository;
 
     /**
      * Constructor de la clase RolesHelper.
      *
      * @param roleRepository Repositorio de roles para acceder a los datos de roles.
      */
-    public RolesHelper(JpaRoleRepository roleRepository) {
+    public RolesHelper(CrudRoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 

@@ -14,7 +14,16 @@ import com.cryfirock.auth.entity.User;
  * 1. Repositorio JPA para entidades User.
  * 2. Anotado con @Repository para la detección automática por Spring.
  * 3. Proporciona métodos para operaciones CRUD y consultas personalizadas.
- *
+ * 4. JpaRepository incluye métodos de PagingAndSortingRepository y CrudRepository.
+ * 5. Ademas incluye Batch & helpers típicos de JPA:
+ *  - saveAndFlush(): Guarda una entidad User y hace flush.
+ *  - saveAllAndFlush(): Guarda una lista de entidades User y hace flush.
+ *  - deleteAllInBatch(): Elimina todas las entidades User en batch.
+ *  - deleteInBatch(): Elimina una entidad User en batch.
+ *  - deleteAllByIdInBatch(): Elimina todas las entidades User por su ID en batch.
+ *  - flush(): Hace flush de todas las entidades User.
+ *  - getReferenceById(): Obtiene una referencia a la entidad User por su ID.
+ * 
  * @author Cristo Suárez
  * @version 1.0
  * @since 2025-01-13
@@ -22,6 +31,9 @@ import com.cryfirock.auth.entity.User;
  */
 @Repository
 public interface JpaUserRepository extends JpaRepository<User, Long> {
+    // ============================================================================================
+    // Métodos de Spring Data JPA
+    // ============================================================================================
     /**
      * Verifica si un usuario existe por su correo electrónico.
      *
@@ -54,6 +66,9 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
      */
     Optional<User> findByUsername(String username);
 
+    // ============================================================================================
+    // Métodos de JPQL
+    // ============================================================================================
     /**
      * Busca un usuario por su correo electrónico.
      * Query personalizada usando JPQL.
@@ -74,9 +89,12 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id = :id")
     Optional<User> findByIdWithRoles(@Param("id") Long id);
 
+    // ============================================================================================
+    // Métodos de SQL Nativo
+    // ============================================================================================
     /**
      * Encuentra todos los usuarios activos.
-     * Query personalizada usando JPQL.
+     * Query personalizada usando SQL Nativo.
      *
      * @return Una lista de usuarios activos.
      */
