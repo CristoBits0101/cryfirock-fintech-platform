@@ -70,9 +70,14 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     // Métodos de JPQL
     // ============================================================================================
     /**
-     * Busca un usuario por su correo electrónico.
-     * Query personalizada usando JPQL.
-     *
+     * 1. Busca un usuario por su correo electrónico.
+     * 2. Query personalizada usando JPQL.
+     * 3. SELECT u: Lo que devuelve la query.
+     * 4. FROM User u: Alias para ejecutar una consulta sobre la tabla User.
+     * 5. WHERE u.email: 
+     *  - u(alias).email(campo): Donde el correo electrónico sea igual al parámetro email.
+     *  - email(parámetro): Parámetro que se pasa a la query.
+     * 
      * @param email El correo electrónico a buscar.
      * @return Un Optional que contiene el usuario si se encuentra, o vacío si no.
      */
@@ -80,8 +85,13 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     Optional<User> buscarPorEmail(@Param("email") String email);
 
     /**
-     * Busca un usuario por su ID con roles cargados.
-     * Query personalizada usando JPQL.
+     * 1. Busca un usuario por su ID con roles cargados.
+     * 2. Query personalizada usando JPQL.
+     * 3. SELECT u: Lo que devuelve la query.
+     * 4. FROM User u: Alias para ejecutar una consulta sobre la tabla User.
+     * 5. WHERE u.id: 
+     *  - u(alias).id(campo): Donde el ID sea igual al parámetro id.
+     *  - id(parámetro): Parámetro que se pasa a la query.
      *
      * @param id ID del usuario a buscar.
      * @return Un Optional que contiene el usuario si se encuentra, o vacío si no.
@@ -93,8 +103,12 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     // Métodos de SQL Nativo
     // ============================================================================================
     /**
-     * Encuentra todos los usuarios activos.
-     * Query personalizada usando SQL Nativo.
+     *  1. Encuentra todos los usuarios activos.
+     * 2. Query personalizada usando SQL Nativo.
+     * 3. SELECT *: Lo que devuelve la query.
+     * 4. FROM users: Tabla de la base de datos.
+     * 5. WHERE active = true: Donde el campo active sea igual a true.
+     * 6. nativeQuery = true: Indica que la query es SQL Nativo.
      *
      * @return Una lista de usuarios activos.
      */
