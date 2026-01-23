@@ -134,7 +134,9 @@ public class UserOperationsInterceptor implements HandlerInterceptor {
      * @return true si es operación de escritura.
      */
     private boolean isWriteOperation(String method) {
-        return "POST".equals(method) || "PUT".equals(method)
-                || "PATCH".equals(method) || "DELETE".equals(method);
+        return "POST".equals(method)
+                || "PUT".equals(method)
+                || "PATCH".equals(method)
+                || "DELETE".equals(method);
     }
 }
