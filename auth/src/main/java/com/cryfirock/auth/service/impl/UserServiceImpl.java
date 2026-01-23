@@ -71,9 +71,11 @@ public class UserServiceImpl implements IUserService {
      */
     @Override @Transactional
     public User save(@NotNull User user) {
+        // Asignar rol al usuario recibido.
         user.setRoles(rolesHelper.assignRoles(user));
+        // Codificar contraseña del usuario recibido.
         user.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
-
+        // Guardar el usuario en la base de datos.
         return Optional.ofNullable(user)
                 .map(userRepository::save)
                 .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
@@ -89,7 +91,9 @@ public class UserServiceImpl implements IUserService {
      */
     @Override @Transactional(readOnly = true)
     public List<User> findAll() {
+        // Retornar todos los usuarios de la base de datos.
         return userRepository
+                // Recuperar todos los usuarios de la base de datos.
                 .findAll()
                 // Convierte el List<User> en un Stream<User>
                 .stream()
@@ -99,12 +103,13 @@ public class UserServiceImpl implements IUserService {
                 //  - No se modifica el tipo de los elementos a retornar.
                 //  - No se modifica la referencia de los elementos a retornar.
                 .peek(user -> 
-                    // 1. Obtiene el puerto del servidor.
-                    // 2. Convierte el puerto a entero.
-                    // 3. Establece el puerto en el usuario.
+                    // Establece el puerto del servidor en el usuario.
                     user.setPort(
+                        // Convierte el puerto a entero.
                         Integer.parseInt(
+                            // Obtiene el puerto del archivo de configuración.
                             environment.getProperty("local.server.port"))))
+                // Convierte el Stream<User> en un List<User>
                 .toList();
     }
 
@@ -119,6 +124,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override @Transactional(readOnly = true) @SuppressWarnings("null")
     public Optional<User> findById(@NotNull Long id) {
+        // Busca un usuario por su ID y lo retorna.
         return userRepository.findById(id);
     }
 
@@ -133,6 +139,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override @Transactional(readOnly = true) @SuppressWarnings("null")
     public Optional<User> findByIdWithRoles(@NotNull Long id) {
+        // Busca un usuario por su ID con roles cargados y lo retorna.
         return userRepository.findByIdWithRoles(id);
     }
 
@@ -148,25 +155,42 @@ public class UserServiceImpl implements IUserService {
      */
     @Override @Transactional @SuppressWarnings("null")
     public Optional<User> update(@NotNull Long id, @NotNull User user) {
+        // Retorna un Optional con el usuario actualizado si se encuentra o vacío si no.
         return userRepository
+                // Busca un usuario por su ID.
                 .findById(id)
+                // Realiza una operación sobre el Optional devuelto.
                 .map(
                         u -> {
+                            // Actualiza el nombre del usuario.
                             u.setGivenName(user.getGivenName());
+                            // Actualiza el apellido del usuario.
                             u.setFamilyName(user.getFamilyName());
+                            // Actualiza la fecha de nacimiento del usuario.
                             u.setDob(user.getDob());
+                            // Actualiza el correo electrónico del usuario.
                             u.setEmail(user.getEmail());
+                            // Actualiza el número de teléfono del usuario.
                             u.setPhoneNumber(user.getPhoneNumber());
+                            // Actualiza la dirección del usuario.
                             u.setAddress(user.getAddress());
+                            // Actualiza el nombre de usuario del usuario.
                             u.setUsername(user.getUsername());
 
+                            // Actualiza la contraseña del usuario si se proporciona.
                             if (StringUtils.hasText(user.getPasswordHash()))
+                                // Establece la contraseña del usuario.
                                 u.setPasswordHash(
-                                        PasswordUtil.encodeIfRaw(
-                                                user.getPasswordHash()));
+                                    // Codifica la contraseña si es raw.
+                                    PasswordUtil.encodeIfRaw(
+                                        // Obtiene la contraseña del usuario enviado.
+                                        user.getPasswordHash()));
 
+                            // Asigna los roles al usuario.
                             u.setRoles(rolesHelper.assignRoles(user));
+                            // Establece el estado del usuario.
                             u.setEnabled(user.getEnabled());
+                            // Guarda el usuario en la base de datos.
                             return userRepository.save(u);
                         });
     }
@@ -183,18 +207,29 @@ public class UserServiceImpl implements IUserService {
      */
     @Override @Transactional @SuppressWarnings("null")
     public Optional<User> update(@NotNull Long id, @NotNull UserUpdateDto userDto) {
+        // Retorna un Optional con el usuario actualizado si se encuentra o vacío si no.
         return userRepository
+                // Busca un usuario por su ID.
                 .findById(id)
+                // Realiza una operación sobre el Optional devuelto.
                 .map(
+                        // Por cada usuario encontrado realiza las siguientes operaciones:
                         u -> {
+                            // Actualiza el usuario con los datos del DTO.
                             userMapper.update(u, userDto);
 
+                            // Si el DTO contiene una contraseña la codifica y la establece en el usuario.
                             if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank())
+                                // Establece la contraseña del usuario.
                                 u.setPasswordHash(
-                                        PasswordUtil.encodeIfRaw(
-                                                userDto.passwordHash()));
+                                    // Codifica la contraseña si es raw.
+                                    PasswordUtil.encodeIfRaw(
+                                        // Obtiene la contraseña del usuario enviado.
+                                        userDto.passwordHash()));
 
+                            // Asigna los roles al usuario.
                             u.setRoles(rolesHelper.assignRoles(u));
+                            // Guarda el usuario en la base de datos.
                             return userRepository.save(u);
                         });
     }
@@ -210,11 +245,17 @@ public class UserServiceImpl implements IUserService {
      */
     @Override @Transactional @SuppressWarnings("null")
     public Optional<User> deleteById(@NotNull Long id) {
+        // Retorna un Optional con el usuario eliminado si se encuentra o vacío si no.
         return userRepository
+                // Busca un usuario por su ID.
                 .findById(id)
+                // Realiza una operación sobre el Optional devuelto.
                 .map(
+                        // Por cada usuario encontrado realiza las siguientes operaciones:
                         user -> {
+                            // Elimina el usuario de la base de datos.
                             userRepository.delete(user);
+                            // Retorna el usuario eliminado.
                             return user;
                         });
     }
