@@ -7,7 +7,7 @@ import org.mapstruct.ReportingPolicy;
 import com.cryfirock.auth.model.ErrorResponse;
 
 /**
- * 1. Mapper para convertir detalles de error en un objeto Error.
+ * 1. Mapper para convertir datos de error en un objeto Error.
  * 2. Genera la implementación del mapper como un bean de Spring (@Component).
  * 3. Cuando el source tiene un campo null MapStruct no lo copia al target.
  * 4. Si el target tiene campos sin mapear MapStruct da warning y error.
