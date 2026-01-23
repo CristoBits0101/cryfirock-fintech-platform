@@ -42,5 +42,6 @@ public interface UserMapper {
             @Mapping(target = "passwordHash", ignore = true),
             @Mapping(target = "id", ignore = true)
     })
+    // Actualiza la entidad target con los valores del DTO.
     void update(@MappingTarget User target, UserUpdateDto dto);
 }
