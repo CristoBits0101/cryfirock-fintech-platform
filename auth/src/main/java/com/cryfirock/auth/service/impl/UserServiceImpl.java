@@ -75,9 +75,12 @@ public class UserServiceImpl implements IUserService {
         user.setRoles(rolesHelper.assignRoles(user));
         // Codificar contraseña del usuario recibido.
         user.setPasswordHash(PasswordUtil.encodeIfRaw(user.getPasswordHash()));
-        // Guardar el usuario en la base de datos.
+        // Envolvemos el parámetro en Optional para validar nulos sin if explícitos.
+        // En findById esta implícito devuelve Optional.of(entidad) si existe.
         return Optional.ofNullable(user)
+                // Guardar el usuario en la base de datos.
                 .map(userRepository::save)
+                // Lanza excepción si el usuario es nulo.
                 .orElseThrow(() -> new IllegalArgumentException("User must not be null"));
     }
 
@@ -100,15 +103,15 @@ public class UserServiceImpl implements IUserService {
                 // 1. Mira cada usuario del stream.
                 // 2. Realiza una acción por cada usuario.
                 // 3. No transforma el Stream:
-                //  - No se modifica el tipo de los elementos a retornar.
-                //  - No se modifica la referencia de los elementos a retornar.
-                .peek(user -> 
-                    // Establece el puerto del servidor en el usuario.
-                    user.setPort(
+                // - No se modifica el tipo de los elementos a retornar.
+                // - No se modifica la referencia de los elementos a retornar.
+                .peek(user ->
+                // Establece el puerto del servidor en el usuario.
+                user.setPort(
                         // Convierte el puerto a entero.
                         Integer.parseInt(
-                            // Obtiene el puerto del archivo de configuración.
-                            environment.getProperty("local.server.port"))))
+                                // Obtiene el puerto del archivo de configuración.
+                                environment.getProperty("local.server.port"))))
                 // Convierte el Stream<User> en un List<User>
                 .toList();
     }
@@ -181,10 +184,10 @@ public class UserServiceImpl implements IUserService {
                             if (StringUtils.hasText(user.getPasswordHash()))
                                 // Establece la contraseña del usuario.
                                 u.setPasswordHash(
-                                    // Codifica la contraseña si es raw.
-                                    PasswordUtil.encodeIfRaw(
-                                        // Obtiene la contraseña del usuario enviado.
-                                        user.getPasswordHash()));
+                                        // Codifica la contraseña si es raw.
+                                        PasswordUtil.encodeIfRaw(
+                                                // Obtiene la contraseña del usuario enviado.
+                                                user.getPasswordHash()));
 
                             // Asigna los roles al usuario.
                             u.setRoles(rolesHelper.assignRoles(user));
@@ -218,14 +221,15 @@ public class UserServiceImpl implements IUserService {
                             // Actualiza el usuario con los datos del DTO.
                             userMapper.update(u, userDto);
 
-                            // Si el DTO contiene una contraseña la codifica y la establece en el usuario.
+                            // Si el DTO contiene una contraseña la codifica y la establece en el
+                            // usuario.
                             if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank())
                                 // Establece la contraseña del usuario.
                                 u.setPasswordHash(
-                                    // Codifica la contraseña si es raw.
-                                    PasswordUtil.encodeIfRaw(
-                                        // Obtiene la contraseña del usuario enviado.
-                                        userDto.passwordHash()));
+                                        // Codifica la contraseña si es raw.
+                                        PasswordUtil.encodeIfRaw(
+                                                // Obtiene la contraseña del usuario enviado.
+                                                userDto.passwordHash()));
 
                             // Asigna los roles al usuario.
                             u.setRoles(rolesHelper.assignRoles(u));
