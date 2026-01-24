@@ -265,6 +265,20 @@ com.cryfirock.auth/
 
 ---
 
+## 🛡️ MANEJO DE ERRORES
+
+Los errores deben ser capturados y transformados en respuestas HTTP adecuadas utilizando `@RestControllerAdvice`.
+
+### Flujo de Captura de Errores
+
+| Escenario | Causa | Flujo de Excepción | Respuesta HTTP |
+|-----------|-------|--------------------|:--------------:|
+| **Tipo de dato incorrecto en URL**<br>Ej: `GET /users/abc` (id espera Long) | El cliente envía un tipo de dato que no coincide con el parámetro del controlador. | `Controller` → Spring lanza `TypeMismatchException` → `Advice` captura | **400 Bad Request** |
+| **Recurso no encontrado**<br>Ej: `GET /users/10` (id no existe) | El recurso solicitado no existe en la base de datos. | `Service` lanza `NotFoundException` → `Advice` captura | **404 Not Found** |
+| **Validación de DTO fallida**<br>Ej: `POST /users` (campos inválidos) | Los datos del cuerpo de la solicitud no cumplen con las anotaciones `@Valid` / `@NotNull`. | Spring (`@Valid`) detecta error → Lanza `MethodArgumentNotValidException` → `Advice` captura | **400 Bad Request** |
+
+---
+
 ## 📝 PATRONES DE CREACIÓN DE ARCHIVOS
 
 ### 1. Crear un Nuevo Servicio
