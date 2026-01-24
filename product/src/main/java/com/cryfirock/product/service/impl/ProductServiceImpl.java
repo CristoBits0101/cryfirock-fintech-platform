@@ -60,13 +60,29 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.findById(id);
     }
 
-    @Override
+    @Override @Transactional
     public Optional<Product> update(@NotNull Long id, @NotNull Product product) {
-        return null;
+        return productRepository
+                .findById(id)
+                .map(
+                        existingProduct -> {
+                            existingProduct.setName(product.getName());
+                            existingProduct.setDescription(product.getDescription());
+                            existingProduct.setCode(product.getCode());
+                            existingProduct.setCategory(product.getCategory());
+                            existingProduct.setStatus(product.getStatus());
+                            return productRepository.save(existingProduct);
+                        });
     }
 
-    @Override
+    @Override @Transactional
     public Optional<Product> deleteById(@NotNull Long id) {
-        return null;
+        return productRepository
+                .findById(id)
+                .map(
+                        existingProduct -> {
+                            productRepository.delete(existingProduct);
+                            return existingProduct;
+                        });
     }
 }
