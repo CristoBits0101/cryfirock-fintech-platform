@@ -1,5 +1,6 @@
 package com.cryfirock.auth.controller;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ import jakarta.persistence.EntityManager;
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2025-01-13
+ * @since 2026-01-25
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @SpringBootTest @AutoConfigureMockMvc @ActiveProfiles("test") @Transactional @SuppressWarnings("unused")
@@ -138,10 +139,11 @@ class UserValidationControllerIntegrationTest {
      * entidad.
      */
     private void createTestUserNative(String email, String phoneNumber, String username) {
+        Instant now = Instant.now();
         entityManager.createNativeQuery(
-                "INSERT INTO users (given_name, family_name, email, phone_number, username, password_hash, address, dob, account_status) "
+                "INSERT INTO users (given_name, family_name, email, phone_number, username, password_hash, address, dob, account_status, created_at, updated_at) "
                         +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
                 .setParameter(1, "Test")
                 .setParameter(2, "User")
                 .setParameter(3, email)
@@ -151,6 +153,8 @@ class UserValidationControllerIntegrationTest {
                 .setParameter(7, "Dirección Test 123")
                 .setParameter(8, LocalDate.of(1990, 1, 1))
                 .setParameter(9, "ACTIVE")
+                .setParameter(10, now)
+                .setParameter(11, now)
                 .executeUpdate();
         entityManager.flush();
     }
