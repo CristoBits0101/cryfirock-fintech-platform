@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +15,14 @@ import com.cryfirock.account.dto.AccountResponseDto;
 import com.cryfirock.account.entity.Account;
 import com.cryfirock.account.entity.AccountProduct;
 import com.cryfirock.account.entity.AccountUser;
+import com.cryfirock.account.helper.SaveRelationsHelper;
 import com.cryfirock.account.repository.JpaAccountProductRepository;
 import com.cryfirock.account.repository.JpaAccountRepository;
 import com.cryfirock.account.repository.JpaAccountUserRepository;
 import com.cryfirock.account.service.api.IAccountService;
 
 /**
- * 1. Implementación del servicio para gestionar cuentas y relaciones.
+ * 1. Implementación del servicio para gestionar cuentas y sus relaciones.
  * 2. Orquesta la persistencia de cuentas con usuarios y productos asociados.
  *
  * @author Cristo Suárez
@@ -29,21 +31,18 @@ import com.cryfirock.account.service.api.IAccountService;
  */
 @Service
 public class AccountServiceImpl implements IAccountService {
-    // Repositorio de cuentas.
+    // Repositorio de acceso a los datos de las cuentas bancarias.
     private final JpaAccountRepository accountRepository;
-
-    // Repositorio de relaciones cuenta usuario.
+    // Repositorio de acceso a los datos de las relaciones con los usuarios.
     private final JpaAccountUserRepository accountUserRepository;
-
-    // Repositorio de relaciones cuenta producto.
+    // Repositorio de acceso a los datos de las relaciones con los productos.
     private final JpaAccountProductRepository accountProductRepository;
 
     /**
-     * Constructor que inyecta dependencias del servicio.
+     * 1. Constructor que inyecta las dependencias del servicio.
+     * 2. Los atributos no requieren ser inyectados con @Autowired.
      *
      * @param accountRepository Repositorio de cuentas.
-     * @param accountUserRepository Repositorio de relaciones cuenta usuario.
-     * @param accountProductRepository Repositorio de relaciones cuenta producto.
      */
     public AccountServiceImpl(
             JpaAccountRepository accountRepository,
@@ -55,18 +54,35 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
+     * Método de creación de una cuenta.
+     * 
      * {@inheritDoc}
      */
     @Override @Transactional
     public AccountResponseDto create(AccountRequestDto request) {
+        // Se una nueva instancia de la cuenta.
         Account account = new Account();
+
+        // Pasa los datos del request a la cuenta.
         applyRequest(account, request);
+
+        // Almacena la cuenta en la base de datos y retorna la cuenta con el id.
         Account savedAccount = accountRepository.save(account);
-        saveRelations(savedAccount.getId(), request.userIds(), request.productIds());
+
+        // Guarda las relaciones de la cuenta con los usuarios y productos.
+        SaveRelationsHelper saveRelationsHelper = new SaveRelationsHelper();
+        saveRelationsHelper.saveRelations(
+                savedAccount.getId(),
+                request.userIds(),
+                request.productIds());
+
+        // Retorna la cuenta con las relaciones.
         return buildResponse(savedAccount);
     }
 
     /**
+     * Método de actualización de una cuenta.
+     * 
      * {@inheritDoc}
      */
     @Override @Transactional
@@ -75,9 +91,9 @@ public class AccountServiceImpl implements IAccountService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         applyRequest(account, request);
         Account savedAccount = accountRepository.save(account);
-        accountUserRepository.deleteAllByAccountId(savedAccount.getId());
-        accountProductRepository.deleteAllByAccountId(savedAccount.getId());
-        saveRelations(savedAccount.getId(), request.userIds(), request.productIds());
+        SaveRelationsHelper saveRelationsHelper = new SaveRelationsHelper();
+        saveRelationsHelper.saveRelations(savedAccount.getId(), request.userIds(),
+                request.productIds());
         return buildResponse(savedAccount);
     }
 
@@ -115,6 +131,12 @@ public class AccountServiceImpl implements IAccountService {
         accountRepository.deleteById(id);
     }
 
+    /**
+     * Aplica los datos del request a la cuenta.
+     * 
+     * @param account
+     * @param request
+     */
     private void applyRequest(Account account, AccountRequestDto request) {
         account.setMainOwnerId(request.mainOwnerId());
         account.setFinancialAssetClass(request.financialAssetClass());
@@ -124,27 +146,6 @@ public class AccountServiceImpl implements IAccountService {
         account.setBankAccountPurpose(request.bankAccountPurpose());
         account.setBankAccountOperational(request.bankAccountOperational());
         account.setBankAccountStatus(request.bankAccountStatus());
-    }
-
-    private void saveRelations(Long accountId, List<Long> userIds, List<Long> productIds) {
-        List<AccountUser> accountUsers = safeList(userIds).stream()
-                .filter(Objects::nonNull)
-                .map(userId -> new AccountUser(null, accountId, userId, null))
-                .toList();
-        List<AccountProduct> accountProducts = safeList(productIds).stream()
-                .filter(Objects::nonNull)
-                .map(productId -> new AccountProduct(null, accountId, productId, com.cryfirock.account.type.AccountProductStatus.ACTIVE, null))
-                .toList();
-        if (!accountUsers.isEmpty()) {
-            accountUserRepository.saveAll(accountUsers);
-        }
-        if (!accountProducts.isEmpty()) {
-            accountProductRepository.saveAll(accountProducts);
-        }
-    }
-
-    private List<Long> safeList(List<Long> values) {
-        return values == null ? List.of() : values;
     }
 
     private AccountResponseDto buildResponse(Account account) {
