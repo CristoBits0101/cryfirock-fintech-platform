@@ -25,8 +25,7 @@ import lombok.Setter;
 @Entity @Table(
         // Tabla que relaciona cuentas bancarias con usuarios.
         name = "account_user",
-        // 1. Restricción única que asegura que una cuenta bancaria solo pueda tener un
-        // usuario.
+        // 1. Restricción única para evitar duplicados de cuenta y usuario.
         // 2. Ejemplo: Una cuenta bancaria no puede tener dos usuarios.
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = { "account_id", "user_id" })

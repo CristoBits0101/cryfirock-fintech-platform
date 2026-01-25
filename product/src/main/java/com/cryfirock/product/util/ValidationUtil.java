@@ -1,5 +1,6 @@
 package com.cryfirock.product.util;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -78,7 +79,9 @@ public class ValidationUtil {
                         .stream()
                         .collect(Collectors.toMap(
                                 FieldError::getField,
-                                FieldError::getDefaultMessage,
+                                fieldError -> Objects.requireNonNullElse(
+                                        fieldError.getDefaultMessage(),
+                                        "Mensaje de validación no disponible."),
                                 (msg1, msg2) -> msg1 + "; " + msg2)));
     }
 }

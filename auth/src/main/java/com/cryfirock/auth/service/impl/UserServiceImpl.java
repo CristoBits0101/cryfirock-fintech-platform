@@ -102,9 +102,8 @@ public class UserServiceImpl implements IUserService {
                 .stream()
                 // 1. Mira cada usuario del stream.
                 // 2. Realiza una acción por cada usuario.
-                // 3. No transforma el Stream:
-                // - No se modifica el tipo de los elementos a retornar.
-                // - No se modifica la referencia de los elementos a retornar.
+                // 3. No transforma el Stream; no se modifica el tipo de los elementos a retornar.
+                // 4. No se modifica la referencia de los elementos a retornar.
                 .peek(user ->
                 // Establece el puerto del servidor en el usuario.
                 user.setPort(
@@ -221,8 +220,7 @@ public class UserServiceImpl implements IUserService {
                             // Actualiza el usuario con los datos del DTO.
                             userMapper.update(u, userDto);
 
-                            // Si el DTO contiene una contraseña la codifica y la establece en el
-                            // usuario.
+                            // Si el DTO trae contraseña, la codifica y la asigna al usuario.
                             if (userDto.passwordHash() != null && !userDto.passwordHash().isBlank())
                                 // Establece la contraseña del usuario.
                                 u.setPasswordHash(
