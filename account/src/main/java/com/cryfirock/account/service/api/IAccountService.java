@@ -14,16 +14,24 @@ import com.cryfirock.account.dto.AccountResponseDto;
  * @since 2026-01-24
  */
 public interface IAccountService {
+    // ==========================================================================
+    // Métodos de creación
+    // ==========================================================================
     /**
-     * 1. Crea una cuenta junto con sus relaciones de usuarios y productos.
+     * 1. Crea una cuenta junto con sus relaciones.
+     * 2. Incluye usuarios y productos asociados.
      *
      * @param request Datos de la cuenta y relaciones.
      * @return Cuenta creada con relaciones.
      */
     AccountResponseDto create(AccountRequestDto request);
 
+    // ==========================================================================
+    // Métodos de actualización
+    // ==========================================================================
     /**
      * 1. Actualiza una cuenta y reemplaza sus relaciones.
+     * 2. Incluye usuarios y productos asociados.
      *
      * @param id Identificador de la cuenta.
      * @param request Datos actualizados de la cuenta y relaciones.
@@ -31,8 +39,11 @@ public interface IAccountService {
      */
     AccountResponseDto update(Long id, AccountRequestDto request);
 
+    // ==========================================================================
+    // Métodos de búsqueda
+    // ==========================================================================
     /**
-     * 1. Obtiene una cuenta por identificador.
+     * 1. Obtiene una cuenta de banco por su identificador.
      * 2. Incluye usuarios y productos asociados.
      *
      * @param id Identificador de la cuenta.
@@ -41,7 +52,7 @@ public interface IAccountService {
     AccountResponseDto findById(Long id);
 
     /**
-     * 1. Obtiene las cuentas asociadas a un usuario.
+     * 1. Obtiene las cuentas de banco mediante el identificador del usuario.
      * 2. Incluye los productos asociados a cada cuenta.
      *
      * @param userId Identificador del usuario.
@@ -49,6 +60,9 @@ public interface IAccountService {
      */
     List<AccountResponseDto> findByUserId(Long userId);
 
+    // ==========================================================================
+    // Métodos de eliminación
+    // ==========================================================================
     /**
      * 1. Elimina una cuenta y sus relaciones.
      *
