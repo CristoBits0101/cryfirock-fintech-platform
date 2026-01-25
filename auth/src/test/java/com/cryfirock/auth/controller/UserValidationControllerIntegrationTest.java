@@ -139,9 +139,8 @@ class UserValidationControllerIntegrationTest {
      */
     private void createTestUserNative(String email, String phoneNumber, String username) {
         entityManager.createNativeQuery(
-                "INSERT INTO users (given_name, family_name, email, phone_number, username, password_hash, address, dob, account_status) "
-                        +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                "INSERT INTO users (given_name, family_name, email, phone_number, username, password_hash, address, dob, account_status, created_at) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
                 .setParameter(1, "Test")
                 .setParameter(2, "User")
                 .setParameter(3, email)
@@ -151,6 +150,7 @@ class UserValidationControllerIntegrationTest {
                 .setParameter(7, "Dirección Test 123")
                 .setParameter(8, LocalDate.of(1990, 1, 1))
                 .setParameter(9, "ACTIVE")
+                .setParameter(10, java.time.OffsetDateTime.now())
                 .executeUpdate();
         entityManager.flush();
     }
