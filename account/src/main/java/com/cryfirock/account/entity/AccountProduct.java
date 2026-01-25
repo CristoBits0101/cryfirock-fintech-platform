@@ -36,16 +36,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountProduct {
-    // Identificador único del registro de relación.
+    // 1. En la base de datos no existe un id autogenerado.
+    // 2. Todas las entidades deben tener un id autogenerado.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Identificador de la cuenta asociada.
+    // 1. Identificador de la cuenta asociada.
+    // 2. Ejemplo: 1001
     @Column(name = "account_id", nullable = false)
     private Long accountId;
 
-    // Identificador del producto asociado.
+    // 1. Identificador del producto asociado.
+    // 2. Ejemplo: 523
     @Column(name = "product_id", nullable = false)
     private Long productId;
 }
