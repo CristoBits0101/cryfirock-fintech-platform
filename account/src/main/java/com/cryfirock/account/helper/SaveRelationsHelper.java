@@ -10,6 +10,7 @@ import com.cryfirock.account.entity.AccountProduct;
 import com.cryfirock.account.entity.AccountUser;
 import com.cryfirock.account.repository.JpaAccountProductRepository;
 import com.cryfirock.account.repository.JpaAccountUserRepository;
+import com.cryfirock.account.type.AccountProductStatus;
 import com.cryfirock.account.util.ValidationUtil;
 
 /**
@@ -68,11 +69,11 @@ public class SaveRelationsHelper {
                                 .filter(Objects::nonNull)
                                 // Por cada producto se crea una relacion de cuenta con producto.
                                 .map(productId -> new AccountProduct(
-                                                null,
-                                                accountId,
-                                                productId,
-                                                com.cryfirock.account.type.AccountProductStatus.ACTIVE,
-                                                null))
+                                        null,                        // Id de la relacion (autogenerado).
+                                        accountId,                   // Id de la cuenta obtenido al crear la cuenta.
+                                        productId,                   // Id del producto obtenido del JSON de la petición.
+                                        AccountProductStatus.ACTIVE, // Estado de la relacion.
+                                        null))                       // Audit (autogenerado).
                                 // Obtiene la lista de productos.
                                 .toList();
 
