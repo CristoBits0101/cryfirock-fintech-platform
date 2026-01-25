@@ -115,9 +115,7 @@ public class ProductController {
             BindingResult result) {
         Objects.requireNonNull(id, "ID must not be null");
         Objects.requireNonNull(product, "Product must not be null");
-        if (result.hasErrors()) {
-            return ValidationUtil.reportIncorrectFields(result);
-        }
+        if (result.hasErrors()) return ValidationUtil.reportIncorrectFields(result);
         return productService.update(id, product)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

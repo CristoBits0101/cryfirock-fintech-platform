@@ -141,9 +141,7 @@ public class AccountServiceImpl implements IAccountService {
                 .distinct()
                 .toList();
         // Si la lista está vacía, retorna una lista vacía.
-        if (accountIds.isEmpty()) {
-            return List.of();
-        }
+        if (accountIds.isEmpty()) return List.of();
         // Retorna la lista de cuentas bancarias encontradas por el id de la relación.
         return accountRepository
                 .findAllById(Objects.requireNonNull(accountIds))

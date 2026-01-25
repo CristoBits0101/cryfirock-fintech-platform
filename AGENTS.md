@@ -26,6 +26,147 @@
 | Líneas en blanco entre métodos | **1 línea** |
 | Espacio después de cierre de clase | **1 línea en blanco** |
 
+### Sentencias `if`, `else if`, `else` con una sola instrucción
+
+Cuando un bloque `if`, `else if` o `else` tiene **una sola instrucción**, se escribe en la **misma línea** sin llaves:
+
+```java
+// ✅ CORRECTO - Una sola instrucción en la misma línea.
+if (condition) return value;
+if (condition) throw new Exception("Error");
+if (isValid) doSomething();
+else doOtherThing();
+
+// ✅ CORRECTO - if-else con una instrucción cada uno.
+if (isWriteOperation(method)) logger.warn(message);
+else logger.info(message);
+
+// ❌ INCORRECTO - No usar llaves ni salto de línea para una sola instrucción.
+if (condition) {
+    return value;
+}
+
+// ❌ INCORRECTO - No poner la instrucción en línea separada.
+if (condition)
+    return value;
+```
+
+### Múltiples Parámetros en Métodos
+
+Cuando un método tiene **múltiples parámetros**, cada uno va en su **propia línea** con indentación:
+
+```java
+// ✅ CORRECTO - Cada parámetro en su propia línea.
+public boolean preHandle(
+        @NonNull HttpServletRequest request,
+        @NonNull HttpServletResponse response,
+        @NonNull Object handler) {
+    // implementación.
+}
+
+// ✅ CORRECTO - Constructor con múltiples parámetros.
+public AccountServiceImpl(
+        JpaAccountRepository accountRepository,
+        JpaAccountUserRepository accountUserRepository,
+        JpaAccountProductRepository accountProductRepository,
+        SaveRelationsHelper saveRelationsHelper) {
+    this.accountRepository = accountRepository;
+}
+
+// ❌ INCORRECTO - Todos los parámetros en una sola línea.
+public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull Object handler) {
+```
+
+### Múltiples Argumentos en Llamadas a Métodos
+
+Cuando una llamada a método tiene **múltiples argumentos**, cada uno va en su **propia línea**:
+
+```java
+// ✅ CORRECTO - Cada argumento en su propia línea.
+logger.info(
+        "Starting operation {} on {} - Controller: {} - User: {}",
+        method,
+        endpoint,
+        handlerMethod.getMethod().getName(),
+        username);
+
+// ✅ CORRECTO - Llamada a constructor con múltiples argumentos.
+return new AccountResponseDto(
+        account.getId(),
+        account.getMainOwnerId(),
+        account.getFinancialAssetClass(),
+        account.getCurrencyCode());
+
+// ❌ INCORRECTO - Todos los argumentos en una sola línea.
+logger.info("Starting operation {} on {} - Controller: {} - User: {}", method, endpoint, handlerMethod.getMethod().getName(), username);
+```
+
+### Encadenamiento de Métodos (Method Chaining)
+
+Cuando se encadenan **múltiples métodos**, cada uno va en su **propia línea** con indentación:
+
+```java
+// ✅ CORRECTO - Cada método en su propia línea.
+return accountRepository
+        .findAllById(Objects.requireNonNull(accountIds))
+        .stream()
+        .map(this::buildResponse)
+        .collect(Collectors.toList());
+
+// ✅ CORRECTO - Stream con múltiples operaciones.
+List<Long> accountIds = accountUserRepository
+        .findAllByUserId(userId)
+        .stream()
+        .map(AccountUser::getAccountId)
+        .filter(Objects::nonNull)
+        .distinct()
+        .toList();
+
+// ❌ INCORRECTO - Todo en una sola línea.
+return accountRepository.findAllById(ids).stream().map(this::buildResponse).collect(Collectors.toList());
+```
+
+### Concatenación de Condiciones con `||` o `&&`
+
+Cuando hay **múltiples condiciones**, cada una va en su **propia línea** con el operador al inicio:
+
+```java
+// ✅ CORRECTO - Cada condición en su propia línea.
+private boolean isWriteOperation(String method) {
+    return "POST".equals(method)
+            || "PUT".equals(method)
+            || "PATCH".equals(method)
+            || "DELETE".equals(method);
+}
+
+// ✅ CORRECTO - Condiciones con &&.
+if (header != null
+        && header.startsWith(PREFIX_TOKEN)
+        && isValidToken(header)) {
+    // implementación.
+}
+
+// ❌ INCORRECTO - Todas las condiciones en una sola línea.
+return "POST".equals(method) || "PUT".equals(method) || "PATCH".equals(method) || "DELETE".equals(method);
+```
+
+### Operador Ternario Multilínea
+
+Cuando el operador ternario es largo, se divide en **múltiples líneas**:
+
+```java
+// ✅ CORRECTO - Operador ternario en múltiples líneas.
+String displayName = username != null
+        ? username
+        : "anonymous";
+
+// ✅ CORRECTO - Ternario simple en una línea (si cabe en 100 caracteres).
+String name = user != null ? user.getName() : "Guest";
+
+// ❌ INCORRECTO - Ternario largo en una sola línea.
+String displayName = username != null ? username : "anonymous";
+```
+
 ### Estructura de Clases
 
 ```java

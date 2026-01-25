@@ -9,6 +9,14 @@ trim_trailing_whitespace = true
 [*.java]
 indent_style = space
 indent_size = 4
+max_line_length = 100
+
+# Reglas de formato Java (CryfiRock Style)
+# - Múltiples parámetros/argumentos: cada uno en su propia línea
+# - Encadenamiento de métodos: cada método en su propia línea
+# - Condiciones || y &&: cada condición en su propia línea
+# - Operador ternario largo: multilínea
+# - if/else con una instrucción: misma línea sin llaves
 
 [*.xml]
 indent_style = space
