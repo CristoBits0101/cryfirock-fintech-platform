@@ -15,4 +15,3 @@ import com.cryfirock.account.entity.Account;
  */
 public interface JpaAccountRepository extends JpaRepository<Account, Long> {
 }
-

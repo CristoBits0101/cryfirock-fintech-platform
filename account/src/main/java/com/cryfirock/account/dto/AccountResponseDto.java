@@ -29,7 +29,5 @@ public record AccountResponseDto(
         AccountStatus status,
         Audit audit,
         List<Long> userIds,
-        List<Long> productIds
-) {
+        List<Long> productIds) {
 }
-

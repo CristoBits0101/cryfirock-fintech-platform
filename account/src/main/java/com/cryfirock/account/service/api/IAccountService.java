@@ -69,7 +69,7 @@ public interface IAccountService {
      * 2. Se envia el identificador de la cuenta a eliminar.
      * 3. Se elimina la cuenta y sus relaciones con usuarios y productos.
      * 4. Se confirma la eliminación de la cuenta en el JSON de respuesta.
-     * 
+     *
      * @param id Identificador de la cuenta.
      */
     void delete(Long id);

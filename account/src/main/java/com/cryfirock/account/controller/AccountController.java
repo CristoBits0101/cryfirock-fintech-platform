@@ -24,8 +24,7 @@ import com.cryfirock.account.service.api.IAccountService;
  * @version 1.0
  * @since 2026-01-24
  */
-@RestController
-@RequestMapping("/api/accounts")
+@RestController @RequestMapping("/api/accounts")
 public class AccountController {
     // Servicio para operaciones de cuentas.
     private final IAccountService accountService;
@@ -60,8 +59,7 @@ public class AccountController {
     @PutMapping("/{id}")
     public ResponseEntity<AccountResponseDto> update(
             @PathVariable Long id,
-            @RequestBody AccountRequestDto request
-    ) {
+            @RequestBody AccountRequestDto request) {
         return ResponseEntity.ok(accountService.update(id, request));
     }
 
@@ -100,4 +98,3 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 }
-

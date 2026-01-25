@@ -26,7 +26,5 @@ public record AccountRequestDto(
         AccountOperational bankAccountOperational,
         AccountStatus bankAccountStatus,
         List<Long> userIds,
-        List<Long> productIds
-) {
+        List<Long> productIds) {
 }
-
