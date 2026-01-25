@@ -49,25 +49,31 @@ public class SaveRelationsHelper {
                                 .stream()
                                 // Filtra la lista de usuarios para eliminar los nulos del stream.
                                 .filter(Objects::nonNull)
-                                // Por cada usuario crea una relacion de cuenta con usuario.
+                                // Por cada usuario se crea una relacion de cuenta con usuario.
                                 .map(userId -> new AccountUser(
                                                 null,      // Id de la relacion (autogenerado).
                                                 accountId, // Id de la cuenta obtenido al crear la cuenta.
                                                 userId,    // Id de los usuario obtenido del JSON de la petición.
                                                 null))     // Audit (autogenerado).
+                                // Obtiene la lista de usuarios.
                                 .toList();
 
                 // Obtiene la lista de productos.
                 List<AccountProduct> accountProducts = ValidationUtil
+                                // Obtiene la lista de productos.
                                 .safeMutableList(productIds)
+                                // Convierte la lista de productos en una lista de stream.
                                 .stream()
+                                // Filtra la lista de productos para eliminar los nulos del stream.
                                 .filter(Objects::nonNull)
+                                // Por cada producto se crea una relacion de cuenta con producto.
                                 .map(productId -> new AccountProduct(
                                                 null,
                                                 accountId,
                                                 productId,
                                                 com.cryfirock.account.type.AccountProductStatus.ACTIVE,
                                                 null))
+                                // Obtiene la lista de productos.
                                 .toList();
 
                 // Si las entidades de relaciones no están vacías se persiste.
