@@ -61,7 +61,9 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override @Transactional
-    public Optional<Product> update(@NotNull Long id, @NotNull Product product) {
+    public Optional<Product> update(
+            @NotNull Long id,
+            @NotNull Product product) {
         return productRepository
                 .findById(id)
                 .map(
