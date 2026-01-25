@@ -269,6 +269,10 @@ com.cryfirock.auth/
 
 Los errores deben ser capturados y transformados en respuestas HTTP adecuadas utilizando `@RestControllerAdvice`.
 
+### Validaciones y mensajes nulos
+
+- Cuando uses `FieldError#getDefaultMessage`, define un fallback no nulo para el mensaje.
+
 ### Flujo de Captura de Errores
 
 | Escenario | Causa | Flujo de Excepción | Respuesta HTTP |

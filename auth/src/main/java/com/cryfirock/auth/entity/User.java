@@ -161,17 +161,13 @@ public class User {
     private Audit audit;
 
     // 1. @Transient: No se mapea a ninguna columna de la tabla.
-    // 2. @JsonProperty(access = JsonProperty.Access.WRITE_ONLY):
-    // - Solo se puede deserializar y no se serializar en el JSON.
-    // - Solo se puede escribir y no se puede leer/devolver desde JSON.
+    // 2. @JsonProperty(WRITE_ONLY): Solo permite escritura vía JSON.
     // 3. Indica si el usuario tiene rol de administrador.
     @Transient @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
     // 1. @Transient: No se mapea a ninguna columna de la tabla.
-    // 2. @JsonProperty(access = JsonProperty.Access.WRITE_ONLY):
-    // - Solo se puede deserializar y no se serializar en el JSON.
-    // - Solo se puede escribir y no se puede leer/devolver desde JSON.
+    // 2. @JsonProperty(WRITE_ONLY): Solo permite escritura vía JSON.
     // 3. Puerto del servicio de autenticación.
     @Transient @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int port;

@@ -62,8 +62,7 @@ public class UserController {
         return (result.hasErrors())
                 // 1. Verifica si hay errores de validación.
                 // 2. Si hay errores reporta los campos incorrectos.
-                // 3. Si no hay errores guarda el usuario y retorna un estado
-                // CREATED.
+                // 3. Si no hay errores guarda el usuario y retorna un estado CREATED.
                 ? ValidationUtil.reportIncorrectFields(result)
                 : ResponseEntity.status(HttpStatus.CREATED)
                         .body(userService.save(user));
@@ -183,11 +182,9 @@ public class UserController {
         return userService
                 // Intenta eliminar el usuario por ID.
                 .deleteById(id)
-                // Si se elimina devuelve un ResponseEntity con estado 204 No
-                // Content en JSON.
+                // Si se elimina devuelve un ResponseEntity con estado 204 No Content en JSON.
                 .map(user -> ResponseEntity.noContent().build())
-                // Si no existe devuelve un ResponseEntity con estado 404 Not Found
-                // en JSON.
+                // Si no existe devuelve un ResponseEntity con estado 404 Not Found en JSON.
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

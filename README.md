@@ -19,6 +19,7 @@
 - [Módulo Accounts](#-módulo-accounts) ⭍
 - [Módulo OAuth2](#-módulo-oauth2) ⭍
 - [Módulo Product](#-módulo-product) ⭍
+- [Validaciones y mensajes](#-validaciones-y-mensajes) ⭍
 - [Ejecución de Módulos](#-ejecución-de-módulos) ⭍
 - [API Endpoints](#-api-endpoints) ⭍
 
@@ -27,6 +28,10 @@
 ### 🔐 MÓDULO AUTH
 
 > Microservicio de Autenticación y Gestión de Usuarios
+
+### ✅ VALIDACIONES Y MENSAJES
+
+> Las utilidades de validación devuelven mensajes no nulos en respuestas de error.
 
 ### ⚙️ Configuración Principal
 

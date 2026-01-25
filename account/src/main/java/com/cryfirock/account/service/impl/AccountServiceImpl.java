@@ -94,8 +94,7 @@ public class AccountServiceImpl implements IAccountService {
                 .findById(id)
                 // Si no se encuentra la cuenta lanza una excepción.
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        // Aplica los datos del request a la cuenta (solo los datos que se van a
-        // actualizar).
+        // Aplica a la cuenta solo los datos del request que se van a actualizar.
         applyRequest(account, request);
 
         // Almacena la cuenta en la base de datos y retorna la cuenta con el id.

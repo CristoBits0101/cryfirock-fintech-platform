@@ -25,8 +25,7 @@ import jakarta.validation.constraints.Size;
 @Entity @Table(name = "roles")
 public class Role {
     // 1. @Id: Clave primaria de la entidad.
-    // 2. @GeneratedValue(strategy = GenerationType.IDENTITY): Generación automática de clave
-    // primaria.
+    // 2. @GeneratedValue(strategy = GenerationType.IDENTITY): Genera la clave primaria.
     // 3. @Column(name = "id"): Columna de la tabla que almacena el ID del rol.
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +43,7 @@ public class Role {
      * 3. Relación bidireccional para poder desde Roles obtener los Users que tienen un rol.
      * 4. Desde Role puedes acceder a sus users con role.getUsers().
      * {@code
-     *      User u = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not exists!"));
+     *      User u = userRepository.findById(id).orElseThrow(RuntimeException::new);
      *      Consultar a la base de datos:
      *      List<Role> roles = u.getRoles().size();
      *      Consultar a la memoria:
