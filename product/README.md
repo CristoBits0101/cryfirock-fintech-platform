@@ -61,3 +61,13 @@ Los subtipos se gestionan como registros del catálogo y se asocian a la categor
 
 ### LOYALTY
 - REWARDS
+
+## Estado del módulo
+
+Este módulo mantiene el catálogo de productos como enums y aún no expone endpoints públicos.
+
+## Verificación rápida
+
+```bash
+./mvnw test
+```

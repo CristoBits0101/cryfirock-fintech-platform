@@ -16,6 +16,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,7 @@ import lombok.Setter;
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2025-01-17
+ * @since 2026-01-25
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Entity @Table(name = "account") @Setter @Getter @NoArgsConstructor @AllArgsConstructor
@@ -103,7 +104,15 @@ public class Account {
     // 2. Ejemplo: ACTIVE
     @PrePersist
     public void prePersist() {
+        if (this.audit == null) this.audit = new Audit();
+        this.audit.prePersist();
         if (this.bankAccountStatus == null) this.bankAccountStatus = AccountStatus.ACTIVE;
         if (this.currentBalance == null) this.currentBalance = BigDecimal.ZERO;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        if (this.audit == null) this.audit = new Audit();
+        this.audit.preUpdate();
     }
 }

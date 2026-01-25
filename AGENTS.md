@@ -518,6 +518,16 @@ class NuevoServiceImplTest {
 
 ---
 
+## ✅ LISTA EXTRA DE REVISIÓN (OBLIGATORIA)
+
+- [ ] Confirmar cumplimiento de reglas del AGENTS.md en archivos tocados.
+- [ ] Verificar ortografía y semántica en README y documentación.
+- [ ] Revisar dependencias sin uso o faltantes con `mvn dependency:analyze`.
+- [ ] Validar configuración de perfiles H2 para pruebas locales y automatizadas.
+- [ ] Probar endpoints CRUD con H2 y documentar el flujo en README.
+
+---
+
 <p align="center">
   Documentación para agentes de IA - <strong>CryfiRock Fintech Platform</strong>
 </p>

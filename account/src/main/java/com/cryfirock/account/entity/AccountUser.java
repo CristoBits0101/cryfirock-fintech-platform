@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -20,7 +22,7 @@ import lombok.Setter;
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2026-01-24
+ * @since 2026-01-25
  */
 @Entity @Table(
         // Tabla que relaciona cuentas bancarias con usuarios.
@@ -63,4 +65,16 @@ public class AccountUser {
     // 3. Ejemplo: 07/01/2025 10:15:30
     @Embedded
     private Audit audit;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.audit == null) this.audit = new Audit();
+        this.audit.prePersist();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        if (this.audit == null) this.audit = new Audit();
+        this.audit.preUpdate();
+    }
 }

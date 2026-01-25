@@ -20,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
@@ -43,7 +44,7 @@ import lombok.Setter;
  *
  * @author Cristo Suárez
  * @version 1.0
- * @since 2025-01-13
+ * @since 2026-01-25
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 @Entity @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username")) @NoArgsConstructor @AllArgsConstructor @Getter @Setter
@@ -180,6 +181,14 @@ public class User {
     // 2. Asigna el estado ACTIVE al campo enabled por defecto.
     @PrePersist
     public void prePersist() {
-        enabled = AccountStatus.ACTIVE;
+        if (this.audit == null) this.audit = new Audit();
+        this.audit.prePersist();
+        if (enabled == null) enabled = AccountStatus.ACTIVE;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        if (this.audit == null) this.audit = new Audit();
+        this.audit.preUpdate();
     }
 }

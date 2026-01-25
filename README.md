@@ -16,10 +16,11 @@
 ### 📋 TABLA DE CONTENIDOS
 
 - [Módulo Auth](#-módulo-auth) ⭍
-- [Módulo Accounts](#-módulo-accounts) ⭍
+- [Módulo Account](#-módulo-account) ⭍
 - [Módulo OAuth2](#-módulo-oauth2) ⭍
 - [Módulo Product](#-módulo-product) ⭍
 - [Ejecución de Módulos](#-ejecución-de-módulos) ⭍
+- [Pruebas CRUD con H2](#-pruebas-crud-con-h2) ⭍
 - [API Endpoints](#-api-endpoints) ⭍
 
 ---
@@ -35,6 +36,8 @@
 | 1 | 🚀 | • Punto de entrada Spring Boot<br>• Habilita AspectJ (AOP) | `AuthApplication.java` |
 | 2 | 📝 | • Propiedades de aplicación<br>• Config BD y servidor | `application.properties` |
 | 3 | 🌐 | • Mensajes i18n<br>• Validaciones y errores | `messages.properties` |
+
+💡 Para pruebas locales con H2 usa el perfil `h2` y el archivo `application-h2.properties`.
 
 ##
 
@@ -293,7 +296,7 @@
 
 ---
 
-### 💰 MÓDULO ACCOUNTS
+### 💰 MÓDULO ACCOUNT
 
 > ⚠️ *En Desarrollo* - Microservicio de Gestión de Cuentas Bancarias
 
@@ -301,10 +304,11 @@
 
 | # | # | Descripción | Archivo |
 |:-:|:-:|:------------|---------|
-| 43 | 🚀 | • Punto de entrada Spring Boot<br>• Módulo reactivo con WebFlux | `AccountsApplication.java` |
-| 44 | 📝 | • Propiedades de aplicación<br>• Config BD PostgreSQL | `application.properties` |
+| 43 | 🚀 | • Punto de entrada Spring Boot<br>• API REST MVC | `AccountApplication.java` |
+| 44 | 📝 | • Propiedades base<br>• Nombre del servicio | `application.properties` |
+| 45 | 🧪 | • Perfil H2 para pruebas locales<br>• Consola H2 habilitada | `application-h2.properties` |
 
-💡 **Accounts:** Microservicio dedicado a la gestión de cuentas bancarias y transacciones financieras.
+💡 **Account:** Microservicio dedicado a la gestión de cuentas bancarias y transacciones financieras.
 
 ---
 
@@ -386,8 +390,8 @@
 ⌨️ cd auth
 ⌨️ ./mvnw spring-boot:run
 
-# 📦 Módulo Accounts:
-⌨️ cd accounts
+# 📦 Módulo Account:
+⌨️ cd account
 ⌨️ ./mvnw spring-boot:run
 
 # 📦 Módulo OAuth2:
@@ -398,6 +402,26 @@
 ⌨️ cd product
 ⌨️ ./mvnw spring-boot:run
 ```
+
+### 🧪 PRUEBAS CRUD CON H2
+
+> Ejecuta los microservicios con el perfil `h2` para validar los endpoints sin depender de MySQL/PostgreSQL.
+
+```bash
+# 🔐 Auth con H2:
+⌨️ cd auth
+⌨️ ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
+
+# 💰 Account con H2:
+⌨️ cd account
+⌨️ ./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
+```
+
+**Flujo CRUD sugerido (Account):**
+1. Crear cuenta con usuarios y productos asociados.
+2. Consultar por ID y por usuario.
+3. Actualizar datos y relaciones.
+4. Eliminar la cuenta y validar 404 en consulta posterior.
 
 ---
 
@@ -447,6 +471,16 @@
 | `GET`</sub> | `/api/validations/exists?username={username}`</sub> | Verificar si username existe</sub> | 👤 USER/ADMIN</sub> |
 | `GET`</sub> | `/api/validations/exists?phoneNumber={phoneNumber}`</sub> | Verificar si teléfono existe</sub> | 👤 USER/ADMIN</sub> |
 
+### 💰 Módulo Account (`account/controller/AccountController.java`):
+
+| Método</sub> | Endpoint</sub> | Descripción</sub> | 🔐 Auth</sub> |
+|:------:|----------|-------------|:-------:|
+| `POST`</sub> | `/api/accounts`</sub> | Crear cuenta con relaciones</sub> | 🌍 Público</sub> |
+| `PUT`</sub> | `/api/accounts/{id}`</sub> | Actualizar cuenta y relaciones</sub> | 🌍 Público</sub> |
+| `GET`</sub> | `/api/accounts/{id}`</sub> | Obtener cuenta por ID</sub> | 🌍 Público</sub> |
+| `GET`</sub> | `/api/accounts/users/{userId}`</sub> | Obtener cuentas por usuario</sub> | 🌍 Público</sub> |
+| `DELETE`</sub> | `/api/accounts/{id}`</sub> | Eliminar cuenta</sub> | 🌍 Público</sub> |
+
 ---
 
 ### 📚 DEPENDENCIAS DE PROYECTOS
@@ -478,18 +512,19 @@
 
 ##
 
-### 💰 Módulo Accounts (`accounts/pom.xml`):
+### 💰 Módulo Account (`account/pom.xml`):
 
 | <sub>Dependencia</sub> | <sub>Versión</sub> | <sub>Scope</sub> | <sub>Descripción</sub> |
 |:------------|:-------:|:-----:|:------------|
 | <sub>**spring-boot-starter-parent**</sub> | <sub>`3.5.9`</sub> | <sub>parent</sub> | <sub>BOM padre de Spring Boot con gestión de versiones</sub> |
 | <sub>**spring-boot-starter-data-jpa**</sub> | <sub>-</sub> | <sub>compile</sub> | <sub>Persistencia JPA con Hibernate y Spring Data</sub> |
 | <sub>**spring-boot-starter-validation**</sub> | <sub>-</sub> | <sub>compile</sub> | <sub>Validación de beans con Jakarta Bean Validation</sub> |
-| <sub>**spring-boot-starter-webflux**</sub> | <sub>-</sub> | <sub>compile</sub> | <sub>Programación reactiva con WebFlux y Project Reactor</sub> |
+| <sub>**spring-boot-starter-web**</sub> | <sub>-</sub> | <sub>compile</sub> | <sub>API REST MVC con Tomcat embebido</sub> |
+| <sub>**mapstruct**</sub> | <sub>`1.5.5.Final`</sub> | <sub>compile</sub> | <sub>Mapeo de DTOs y entidades</sub> |
 | <sub>**postgresql**</sub> | <sub>-</sub> | <sub>runtime</sub> | <sub>Driver JDBC para PostgreSQL</sub> |
+| <sub>**h2**</sub> | <sub>-</sub> | <sub>runtime</sub> | <sub>Base de datos H2 en memoria para pruebas</sub> |
 | <sub>**lombok**</sub> | <sub>-</sub> | <sub>optional</sub> | <sub>Generación de código (getters, setters, builders)</sub> |
 | <sub>**spring-boot-starter-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing con JUnit, Mockito, AssertJ</sub> |
-| <sub>**reactor-test**</sub> | <sub>-</sub> | <sub>test</sub> | <sub>Testing de flujos reactivos</sub> |
 
 ##
 
