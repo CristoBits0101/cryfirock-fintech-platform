@@ -1,6 +1,7 @@
 package com.cryfirock.account.controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +47,7 @@ public class AccountController {
      */
     @PostMapping
     public ResponseEntity<AccountResponseDto> create(@RequestBody AccountRequestDto request) {
+        Objects.requireNonNull(request, "Request must not be null");
         return ResponseEntity.ok(accountService.create(request));
     }
 
@@ -60,6 +62,8 @@ public class AccountController {
     public ResponseEntity<AccountResponseDto> update(
             @PathVariable Long id,
             @RequestBody AccountRequestDto request) {
+        Objects.requireNonNull(id, "ID must not be null");
+        Objects.requireNonNull(request, "Request must not be null");
         return ResponseEntity.ok(accountService.update(id, request));
     }
 
@@ -71,6 +75,7 @@ public class AccountController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponseDto> findById(@PathVariable Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
         return ResponseEntity.ok(accountService.findById(id));
     }
 
@@ -83,6 +88,7 @@ public class AccountController {
      */
     @GetMapping("/users/{userId}")
     public ResponseEntity<List<AccountResponseDto>> findByUserId(@PathVariable Long userId) {
+        Objects.requireNonNull(userId, "User ID must not be null");
         return ResponseEntity.ok(accountService.findByUserId(userId));
     }
 
@@ -94,6 +100,7 @@ public class AccountController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
         accountService.delete(id);
         return ResponseEntity.noContent().build();
     }
