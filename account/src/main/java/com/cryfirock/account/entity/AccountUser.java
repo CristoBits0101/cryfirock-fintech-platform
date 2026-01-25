@@ -23,7 +23,10 @@ import lombok.Setter;
  */
 @Entity
 @Table(
+        // Tabla que relaciona cuentas bancarias con usuarios.
         name = "account_user",
+        // 1. Restricción única que asegura que una cuenta bancaria solo pueda tener un usuario.
+        // 2. Ejemplo: Una cuenta bancaria no puede tener dos usuarios.
         uniqueConstraints = {
             @UniqueConstraint(columnNames = { "account_id", "user_id" })
         }
@@ -33,16 +36,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountUser {
-    // Identificador único del registro de relación.
+    // 1. En la base de datos no existe un id autogenerado.
+    // 2. Todas las entidades deben tener un id autogenerado.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Identificador de la cuenta asociada.
+    // 1. Identificador de la cuenta asociada.
+    // 2. Ejemplo: 1001
     @Column(name = "account_id", nullable = false)
     private Long accountId;
 
-    // Identificador del usuario asociado.
+    // 1. Identificador del usuario asociado.
+    // 2. Ejemplo: 523
     @Column(name = "user_id", nullable = false)
     private Long userId;
 }
