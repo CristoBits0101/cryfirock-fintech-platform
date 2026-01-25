@@ -17,10 +17,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidationUtil {
     /**
-     * Retorna una lista segura de valores.
+     * Retorna una lista vacía si la lista de valores es null.
      *
      * @param values Lista de valores.
-     * @return Lista segura de valores.
+     * @return Lista vacía si la lista de valores es null.
      */
     public static List<Long> safeMutableList(List<Long> values) {
         // Si values es null se retorna una lista vacía.
