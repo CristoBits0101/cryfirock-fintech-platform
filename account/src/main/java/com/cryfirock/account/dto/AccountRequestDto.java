@@ -17,14 +17,14 @@ import com.cryfirock.account.type.AccountStatus;
  * @since 2026-01-24
  */
 public record AccountRequestDto(
-        Long ownerId,
-        AccountAssets asset,
-        String currency,
-        String number,
-        BigDecimal balance,
-        AccountNature nature,
-        AccountOperational operational,
-        AccountStatus status,
+        Long mainOwnerId,
+        AccountAssets financialAssetClass,
+        String currencyCode,
+        String ibanNumber,
+        BigDecimal currentBalance,
+        AccountNature bankAccountPurpose,
+        AccountOperational bankAccountOperational,
+        AccountStatus bankAccountStatus,
         List<Long> userIds,
         List<Long> productIds
 ) {

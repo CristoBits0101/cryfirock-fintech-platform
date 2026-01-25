@@ -122,14 +122,14 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     private void applyRequest(Account account, AccountRequestDto request) {
-        account.setOwnerId(request.ownerId());
-        account.setAsset(request.asset());
-        account.setCurrency(request.currency());
-        account.setNumber(request.number());
-        account.setBalance(request.balance());
-        account.setNature(request.nature());
-        account.setOperational(request.operational());
-        account.setStatus(request.status());
+        account.setMainOwnerId(request.mainOwnerId());
+        account.setFinancialAssetClass(request.financialAssetClass());
+        account.setCurrencyCode(request.currencyCode());
+        account.setIbanNumber(request.ibanNumber());
+        account.setCurrentBalance(request.currentBalance());
+        account.setBankAccountPurpose(request.bankAccountPurpose());
+        account.setBankAccountOperational(request.bankAccountOperational());
+        account.setBankAccountStatus(request.bankAccountStatus());
     }
 
     private void saveRelations(Long accountId, List<Long> userIds, List<Long> productIds) {
@@ -166,14 +166,14 @@ public class AccountServiceImpl implements IAccountService {
                 .toList();
         return new AccountResponseDto(
                 account.getId(),
-                account.getOwnerId(),
-                account.getAsset(),
-                account.getCurrency(),
-                account.getNumber(),
-                account.getBalance(),
-                account.getNature(),
-                account.getOperational(),
-                account.getStatus(),
+                account.getMainOwnerId(),
+                account.getFinancialAssetClass(),
+                account.getCurrencyCode(),
+                account.getIbanNumber(),
+                account.getCurrentBalance(),
+                account.getBankAccountPurpose(),
+                account.getBankAccountOperational(),
+                account.getBankAccountStatus(),
                 account.getAudit(),
                 userIds,
                 productIds

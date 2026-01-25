@@ -42,10 +42,10 @@ public class Account {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 1. Refiere al número identificador del propietario de la cuenta en la base de datos.
+    // 1. Refiere al número identificador único del usuario principal de la cuenta.
     // 2. Ejemplo: 523
-    @Column(name = "owner_id", nullable = false)
-    private Long ownerId;
+    @Column(name = "main_owner_id", nullable = false)
+    private Long mainOwnerId;
 
     // ============================================================================================
     // --- Denominaciones asociadas a la cuenta bancaria ---
@@ -53,43 +53,43 @@ public class Account {
     // 1. Refiere a la clase de activo financiero de la cuenta bancaria.
     // 2. Ejemplo: CRYPTO
     @Enumerated(EnumType.STRING) @Column(name = "asset_class", nullable = false)
-    private AccountAssets asset;
+    private AccountAssets financialAssetClass;
 
-    // 1. Refiere al código de denominación ISO o CRYPTO de la moneda utilizada en la cuenta bancaria.
+    // 1. Refiere al código de denominación ISO o CRYPTO de la moneda utilizada en la cuenta.
     // 2. Ejemplo: USD
-    @Column(name = "currency", nullable = false, length = 12)
-    private String currency;
+    @Column(name = "currency_code", nullable = false, length = 12)
+    private String currencyCode;
 
     // ============================================================================================
     // --- Valores asociados a la cuenta bancaria ---
     // ============================================================================================
     // 1. Refiere al número único IBAN asociado a la cuenta bancaria.
     // 2. Ejemplo: ES7620770024003102575766
-    @Column(name = "account_number", nullable = false, unique = true, length = 34)
-    private String number;
+    @Column(name = "iban_number", nullable = false, unique = true, length = 34)
+    private String ibanNumber;
 
     // 1. Refiere al saldo actual de la cuenta bancaria.
     // 2. Ejemplo: 1500.75
-    @Column(name = "balance", nullable = false, precision = 19, scale = 4)
-    private BigDecimal balance;
+    @Column(name = "current_balance", nullable = false, precision = 19, scale = 4)
+    private BigDecimal currentBalance;
 
     // ============================================================================================
     // --- Representaciones asociadas a la cuenta bancaria ---
     // ============================================================================================
     // 1. Representa la finalidad de la cuenta bancaria.
     // 2. Ejemplo: CUSTOMER
-    @Enumerated(EnumType.STRING) @Column(name = "nature", nullable = false)
-    private AccountNature nature;
+    @Enumerated(EnumType.STRING) @Column(name = "bank_account_purpose", nullable = false)
+    private AccountNature bankAccountPurpose;
 
     // 1. Representa los estados del saldo de la cuenta bancaria.
     // 2. Ejemplo: PENDING
-    @Enumerated(EnumType.STRING) @Column(name = "operational", nullable = false)
-    private AccountOperational operational;
+    @Enumerated(EnumType.STRING) @Column(name = "bank_account_operational", nullable = false)
+    private AccountOperational bankAccountOperational;
 
     // 1. Representa el estado actual de la cuenta bancaria.
     // 2. Ejemplo: ACTIVE
-    @Enumerated(EnumType.STRING) @Column(name = "status", nullable = false)
-    private AccountStatus status;
+    @Enumerated(EnumType.STRING) @Column(name = "bank_account_status", nullable = false)
+    private AccountStatus bankAccountStatus;
 
     // ============================================================================================
     // --- Metadatos asociados a la cuenta bancaria ---
@@ -103,7 +103,7 @@ public class Account {
     // 2. Ejemplo: ACTIVE
     @PrePersist
     public void prePersist() {
-        if (this.status == null) this.status = AccountStatus.ACTIVE;
-        if (this.balance == null) this.balance = BigDecimal.ZERO;
+        if (this.bankAccountStatus == null) this.bankAccountStatus = AccountStatus.ACTIVE;
+        if (this.currentBalance == null) this.currentBalance = BigDecimal.ZERO;
     }
 }
