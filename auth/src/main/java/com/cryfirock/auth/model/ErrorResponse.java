@@ -7,11 +7,11 @@ import lombok.Data;
 /**
  * 1. Clase que representa un error en la aplicación.
  * 2. @Data:
- *  - Genera Getters
- *  - Genera Setters
- *  - Genera toString
- *  - Genera hashCode
- *  - Genera equals
+ * - Genera Getters
+ * - Genera Setters
+ * - Genera toString
+ * - Genera hashCode
+ * - Genera equals
  *
  * @author Cristo Suárez
  * @version 1.0

@@ -90,13 +90,16 @@ public class SpringSecurityConfig {
                 authz -> authz
                         .requestMatchers(HttpMethod.POST, "/api/users")
                         .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/{id}")
+                        .requestMatchers(HttpMethod.GET, "/api/users",
+                                "/api/users/{id}")
                         .hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.POST, "/api/users/superuser")
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/users/superuser")
                         .hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/users/{id}")
                         .hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/users/{id}")
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/api/users/{id}")
                         .hasAnyRole("ADMIN", "USER")
                         .anyRequest()
                         .authenticated())
@@ -104,15 +107,18 @@ public class SpringSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .exceptionHandling(
                         exception -> exception
-                                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                                .accessDeniedHandler(new RestAccessDeniedHandler()))
+                                .authenticationEntryPoint(
+                                        new RestAuthenticationEntryPoint())
+                                .accessDeniedHandler(
+                                        new RestAccessDeniedHandler()))
                 .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(
                         new JwtValidationFilter(authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(
                         session -> session
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .sessionCreationPolicy(
+                                        SessionCreationPolicy.STATELESS))
                 .build();
     }
 
@@ -127,7 +133,8 @@ public class SpringSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"));
+        config.setAllowedMethods(
+                Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
 

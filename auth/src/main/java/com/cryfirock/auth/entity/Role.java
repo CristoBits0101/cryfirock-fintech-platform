@@ -25,7 +25,8 @@ import jakarta.validation.constraints.Size;
 @Entity @Table(name = "roles")
 public class Role {
     // 1. @Id: Clave primaria de la entidad.
-    // 2. @GeneratedValue(strategy = GenerationType.IDENTITY): Generación automática de clave primaria.
+    // 2. @GeneratedValue(strategy = GenerationType.IDENTITY): Generación automática de clave
+    // primaria.
     // 3. @Column(name = "id"): Columna de la tabla que almacena el ID del rol.
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

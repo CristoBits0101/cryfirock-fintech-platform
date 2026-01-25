@@ -9,13 +9,12 @@ package com.cryfirock.product.type;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public enum ProductCategory {
-    ACCOUNT,     // Productos de cuenta bancaria.
-    CARD,        // Productos de tarjetas.
-    CREDIT,      // Productos de crédito.
-    CRYPTO,      // Productos de criptomonedas.
+    ACCOUNT, // Productos de cuenta bancaria.
+    CARD, // Productos de tarjetas.
+    CREDIT, // Productos de crédito.
+    CRYPTO, // Productos de criptomonedas.
     DERIVATIVES, // Productos de trading con derivados.
-    FINANCING,   // Productos de financiación.
-    INVESTMENT,  // Productos de inversión tradicional.
-    LOYALTY      // Productos de fidelización.
+    FINANCING, // Productos de financiación.
+    INVESTMENT, // Productos de inversión tradicional.
+    LOYALTY // Productos de fidelización.
 }
-

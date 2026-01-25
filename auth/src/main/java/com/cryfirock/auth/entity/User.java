@@ -124,7 +124,8 @@ public class User {
      * 3. Relación muchos a muchos con la entidad Role.
      * 4. Relación bidireccional para poder desde Users obtener los Roles que tiene un usuario.
      * 5. Dueña de la relación muchos a muchos porque es la que define la tabla de unión.
-     * 6. @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" }): Evita referencias circulares al serializar a JSON.
+     * 6. @JsonIgnoreProperties({ "users", "handler", "hibernateLazyInitializer" }): Evita
+     * referencias circulares al serializar a JSON.
      * 7. @JoinTable: Define la tabla de unión para la relación muchos a muchos.
      * 8. @JoinColumn: Define la columna de la tabla de unión para la relación muchos a muchos.
      * 9. @UniqueConstraint: Evita que se repitan asociaciones entre User y Role.
@@ -140,17 +141,16 @@ public class User {
     @JsonIgnoreProperties({
             "users",
             "handler",
-            "hibernateLazyInitializer" }) 
-    @JoinTable(
-            // Nombre de la tabla de unión intermedia entre User y Role.
-            name = "users_roles",
-            // Clave primaria de la tabla de unión intermedia.
-            joinColumns = @JoinColumn(name = "user_id"),
-            // Clave primaria de la tabla de unión intermedia.
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            // Restringir registros duplicados en la tabla de unión intermedia.
-            uniqueConstraints = @UniqueConstraint(columnNames = { "user_id", "role_id" })) 
-    @ManyToMany
+            "hibernateLazyInitializer" }) @JoinTable(
+                    // Nombre de la tabla de unión intermedia entre User y Role.
+                    name = "users_roles",
+                    // Clave primaria de la tabla de unión intermedia.
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    // Clave primaria de la tabla de unión intermedia.
+                    inverseJoinColumns = @JoinColumn(name = "role_id"),
+                    // Restringir registros duplicados en la tabla de unión intermedia.
+                    uniqueConstraints = @UniqueConstraint(columnNames = { "user_id",
+                            "role_id" })) @ManyToMany
     private List<Role> roles;
 
     // 1. Atributos de auditoría para la entidad User.

@@ -11,16 +11,16 @@ import com.cryfirock.auth.entity.Role;
  * 1. Repositorio JPA para entidades Role.
  * 2. Anotado con @Repository para la detección automática por Spring.
  * 3. Proporciona métodos para operaciones CRUD y consultas personalizadas:
- *  - save(): Guarda una entidad Role.
- *  - saveAll(): Guarda una lista de entidades Role.
- *  - findById(): Busca una entidad Role por su ID.
- *  - findAll(): Busca todas las entidades Role.
- *  - delete(): Elimina una entidad Role.
- *  - deleteById(): Elimina una entidad Role por su ID.
- *  - deleteAll(): Elimina todas las entidades Role.
- *  - count(): Cuenta el número de entidades Role.
- *  - existsById(): Verifica si una entidad Role existe por su ID.
- *  - findByName(): Busca una entidad por su nombre.
+ * - save(): Guarda una entidad Role.
+ * - saveAll(): Guarda una lista de entidades Role.
+ * - findById(): Busca una entidad Role por su ID.
+ * - findAll(): Busca todas las entidades Role.
+ * - delete(): Elimina una entidad Role.
+ * - deleteById(): Elimina una entidad Role por su ID.
+ * - deleteAll(): Elimina todas las entidades Role.
+ * - count(): Cuenta el número de entidades Role.
+ * - existsById(): Verifica si una entidad Role existe por su ID.
+ * - findByName(): Busca una entidad por su nombre.
  *
  * @author Cristo Suárez
  * @version 1.0

@@ -6,16 +6,16 @@ import jakarta.validation.constraints.Size;
 /**
  * 1. DTO con menos campos para login de usuario.
  * 2. Record:
- *  - Es inmutable.
- *  - Genera getters.
- *  - Genera toString.
- *  - Genera hashCode.
- *  - Genera equals.
- *  - No requiere constructor ni setters.
+ * - Es inmutable.
+ * - Genera getters.
+ * - Genera toString.
+ * - Genera hashCode.
+ * - Genera equals.
+ * - No requiere constructor ni setters.
  * 3. Validación más directa:
- *  - @NotBlank: No puede ser nulo ni vacío.
- *  - @Size: Define el rango de caracteres.
- *  - Thread-safe no cambia y no te preocupa concurrencia ni estados raros.
+ * - @NotBlank: No puede ser nulo ni vacío.
+ * - @Size: Define el rango de caracteres.
+ * - Thread-safe no cambia y no te preocupa concurrencia ni estados raros.
  * 4. username: No puede ser nulo y debe tener entre 1 y 50 caracteres.
  * 5. password: No puede ser nulo y debe tener entre 6 y 128 caracteres.
  *

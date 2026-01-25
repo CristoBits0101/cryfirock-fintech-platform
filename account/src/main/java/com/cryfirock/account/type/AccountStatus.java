@@ -9,7 +9,7 @@ package com.cryfirock.account.type;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public enum AccountStatus {
-    ACTIVE,     // Cuenta activa y operativa.
-    SUSPENDED,  // Cuenta suspendida temporalmente por seguridad y cumplimiento o incidencias.
-    CLOSED      // Cuenta cerrada y no operativa.
+    ACTIVE, // Cuenta activa y operativa.
+    SUSPENDED, // Cuenta suspendida temporalmente por seguridad y cumplimiento o incidencias.
+    CLOSED // Cuenta cerrada y no operativa.
 }

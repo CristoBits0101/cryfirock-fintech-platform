@@ -9,9 +9,9 @@ package com.cryfirock.account.type;
  * @since 2026-01-25
  */
 public enum AccountProductStatus {
-    ACTIVE,    // Activo
-    INACTIVE,  // Inactivo
+    ACTIVE, // Activo
+    INACTIVE, // Inactivo
     CANCELLED, // Cancelado
     SUSPENDED, // Suspuesto
-    BLOCKED    // Bloqueado
+    BLOCKED // Bloqueado
 }

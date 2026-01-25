@@ -13,21 +13,21 @@ public enum AccountNature {
     // ============================================================================
     // --- Finalidad según cliente ---
     // ============================================================================
-    CUSTOMER,        // Cuenta perteneciente a una persona física o individuo.
-    BUSINESS,        // Cuenta perteneciente a una persona jurídica u organización.
-    MERCHANT,        // Cuenta perteneciente a un comerciante o vendedor.
-    PARTNER,         // Cuenta perteneciente a un socio o colaborador.
-    INSTITUTIONAL,   // Cuenta perteneciente a una institución financiera.
+    CUSTOMER, // Cuenta perteneciente a una persona física o individuo.
+    BUSINESS, // Cuenta perteneciente a una persona jurídica u organización.
+    MERCHANT, // Cuenta perteneciente a un comerciante o vendedor.
+    PARTNER, // Cuenta perteneciente a un socio o colaborador.
+    INSTITUTIONAL, // Cuenta perteneciente a una institución financiera.
 
     // ============================================================================
     // --- Finalidad según institución ---
     // ============================================================================
-    SYSTEM,          // Cuenta perteneciente al sistema o plataforma.
-    TREASURY,        // Cuenta perteneciente a la tesorería o gestión de fondos.
+    SYSTEM, // Cuenta perteneciente al sistema o plataforma.
+    TREASURY, // Cuenta perteneciente a la tesorería o gestión de fondos.
 
     // ============================================================================
     // --- Finalidad según custodia ---
     // ============================================================================
-    OMNIBUS,         // Cuenta ómnibus que agrupa fondos de múltiples clientes.
-    ESCROW           // Cuenta en custodia o depósito en garantía.
+    OMNIBUS, // Cuenta ómnibus que agrupa fondos de múltiples clientes.
+    ESCROW // Cuenta en custodia o depósito en garantía.
 }

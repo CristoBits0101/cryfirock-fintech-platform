@@ -9,8 +9,7 @@ package com.cryfirock.product.type;
  * @see <a href="https://cristo.vercel.app">cristo.vercel.app</a>
  */
 public enum ProductStatus {
-    ACTIVE,    // Producto activo en la cuenta.
+    ACTIVE, // Producto activo en la cuenta.
     SUSPENDED, // Producto suspendido temporalmente.
-    CLOSED     // Producto cerrado o inactivo definitivamente.
+    CLOSED // Producto cerrado o inactivo definitivamente.
 }
-

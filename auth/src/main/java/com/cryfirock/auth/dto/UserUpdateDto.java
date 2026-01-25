@@ -10,13 +10,13 @@ import jakarta.validation.constraints.Size;
 /**
  * 1. DTO con menos campos para actualizar un usuario.
  * 2. Record:
- *  - Es inmutable.
- *  - Genera getters, toString, hashCode y equals.
- *  - No requiere constructor ni setters.
- *  - Validación más directa:
- *  - @Size: Define el rango de caracteres.
- *  - @Email: Define el formato de correo electrónico.
- *  - Thread-safe no cambia y no te preocupa concurrencia ni estados raros.
+ * - Es inmutable.
+ * - Genera getters, toString, hashCode y equals.
+ * - No requiere constructor ni setters.
+ * - Validación más directa:
+ * - @Size: Define el rango de caracteres.
+ * - @Email: Define el formato de correo electrónico.
+ * - Thread-safe no cambia y no te preocupa concurrencia ni estados raros.
  * 3. givenName: Nombre dado.
  * 4. familyName: Apellido familiar.
  * 5. dob: Fecha de nacimiento.
