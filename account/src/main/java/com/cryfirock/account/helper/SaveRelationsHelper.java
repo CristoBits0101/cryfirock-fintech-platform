@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.cryfirock.account.entity.Account;
 import com.cryfirock.account.entity.AccountProduct;
 import com.cryfirock.account.entity.AccountUser;
 import com.cryfirock.account.repository.JpaAccountProductRepository;
@@ -25,11 +26,11 @@ import com.cryfirock.account.util.ValidationUtil;
 public class SaveRelationsHelper {
         // Repositorio de acceso a los datos de las relaciones con los usuarios.
         @Autowired
-        private JpaAccountUserRepository accountUserRepository;
+        private static JpaAccountUserRepository accountUserRepository;
 
         // Repositorio de acceso a los datos de las relaciones con los productos.
         @Autowired
-        private JpaAccountProductRepository accountProductRepository;
+        private static JpaAccountProductRepository accountProductRepository;
 
         /**
          * Guarda las relaciones de la cuenta con los usuarios y productos.
@@ -43,13 +44,10 @@ public class SaveRelationsHelper {
                         Long accountId,
                         List<Long> userIds,
                         List<Long> productIds) {
-                // ============================================================================================
-                // --- Sincronización de Usuarios ---
-                // ============================================================================================
-                // 1.1. Si la lista de usuarios es null no se modifican las relaciones.
+                // Si la lista de usuarios es null no se modifican las relaciones.
                 if (userIds != null) {
-                        // 1.2. Lista de usuarios proveniente de la petición.
-                        // 1.3. Limpiar la lista de valores nulos y duplicados.
+                        // 1.Lista de usuarios proveniente de la petición.
+                        // 2.Limpiar la lista de valores nulos y duplicados.
                         List<Long> requestUserIds = userIds
                                         // Convierte la lista de usuarios en una lista de stream.
                                         .stream()
@@ -60,41 +58,19 @@ public class SaveRelationsHelper {
                                         // Convierte la lista de stream en una lista.
                                         .toList();
 
-                        // 1.4. Obtener las relaciones existentes en la base de datos.
+                        // Obtener las relaciones existentes en la base de datos.
                         List<AccountUser> existingAccountUsersRelationshipsDatabase = accountUserRepository.findAllByAccountId(accountId);
 
-                        // 1.5. Identifica relaciones a eliminar (existen en BD pero no en la petición).
-                        List<AccountUser> usersToDeleteDatabase = existingAccountUsersRelationshipsDatabase
-                                        // Convierte la lista de relaciones en una lista de stream.
-                                        .stream()
-                                        // Filtra las relaciones que no están en la petición.
-                                        .filter(existingRelationship -> !requestUserIds.contains(existingRelationship.getUserId()))
-                                        // Convierte la lista de stream en una lista.
-                                        .toList();
+                        // Desvincula los usuarios que ya no están.
+                        unlinkOldAccountUser(
+                                        requestUserIds,
+                                        existingAccountUsersRelationshipsDatabase);
 
-                        // 1.6. Identifica los IDs que ya existen para no duplicarlos.
-                        List<Long> existingRelationshipsUserIds = existingAccountUsersRelationshipsDatabase
-                                        // Convierte la lista de relaciones en una lista de stream.
-                                        .stream()
-                                        // Obtiener IDs de usuarios de las relaciones existentes.
-                                        .map(AccountUser::getUserId)
-                                        // Convierte la lista de stream en una lista.
-                                        .toList();
-
-                        // 1.7. Identifica las que están en la nueva lista pero no en BD.
-                        List<AccountUser> usersToAdd = requestUserIds
-                                        .stream()
-                                        .filter(id -> !existingRelationshipsUserIds.contains(id))
-                                        .map(userId -> new AccountUser(accountId, userId))
-                                        .toList();
-
-                        // ============================================================================================
-                        // --- Ejecución de Cambios ---
-                        // ============================================================================================
-                        // 1.8. Si hay relaciones a eliminar las elimina.
-                        if (!usersToDeleteDatabase.isEmpty()) accountUserRepository.deleteAll(usersToDeleteDatabase);
-                        // 1.9. Si hay relaciones nuevas las guarda.
-                        if (!usersToAdd.isEmpty()) accountUserRepository.saveAll(usersToAdd);
+                        // Vincula los usuarios que no están.
+                        linkNewAccountUser(
+                                        accountId,
+                                        requestUserIds,
+                                        existingAccountUsersRelationshipsDatabase);
                 }
 
                 // Obtiene la lista de productos.
@@ -134,4 +110,60 @@ public class SaveRelationsHelper {
                         accountProductRepository.saveAll(productsToAdd);
                 }
         }
+
+        /**
+         * Identifica las relaciones a eliminar.
+         * 
+         * @param requestUserIds Lista de IDs de usuarios proveniente de la petición.
+         * @param existingAccountUsersRelationshipsDatabase Lista de relaciones existentes en la
+         * base de datos.
+         */
+        public static void unlinkOldAccountUser(List<Long> requestUserIds,
+                        List<AccountUser> existingAccountUsersRelationshipsDatabase) {
+                // Identifica relaciones a eliminar (existen en BD pero no en la petición).
+                List<AccountUser> usersToDeleteDatabase = existingAccountUsersRelationshipsDatabase
+                                // Convierte la lista de relaciones en una lista de stream.
+                                .stream()
+                                // Filtra las relaciones que no están en la petición.
+                                .filter(existingRelationship -> !requestUserIds
+                                                .contains(existingRelationship.getUserId()))
+                                // Convierte la lista de stream en una lista.
+                                .toList();
+
+                // Si hay relaciones a eliminar las elimina.
+                if (!usersToDeleteDatabase.isEmpty())
+                        accountUserRepository.deleteAll(usersToDeleteDatabase);
+        }
+
+        /**
+         * Identifica las relaciones a añadir.
+         * 
+         * @param requestUserIds Lista de IDs de usuarios proveniente de la petición.
+         * @param existingAccountUsersRelationshipsDatabase Lista de relaciones existentes en la
+         * base de datos.
+         */
+        public static void linkNewAccountUser(
+                        Long accountId,
+                        List<Long> requestUserIds,
+                        List<AccountUser> existingAccountUsersRelationshipsDatabase) {
+                // Identifica los IDs que ya existen para no duplicarlos.
+                List<Long> existingRelationshipsUserIds = existingAccountUsersRelationshipsDatabase
+                                // Convierte la lista de relaciones en una lista de stream.
+                                .stream()
+                                // Obtiener IDs de usuarios de las relaciones existentes.
+                                .map(AccountUser::getUserId)
+                                // Convierte la lista de stream en una lista.
+                                .toList();
+
+                // Identifica las que están en la nueva lista pero no en BD.
+                List<AccountUser> usersToAdd = requestUserIds
+                                .stream()
+                                .filter(id -> !existingRelationshipsUserIds.contains(id))
+                                .map(userId -> new AccountUser(accountId, userId))
+                                .toList();
+
+                // Si hay relaciones nuevas las guarda.
+                if (!usersToAdd.isEmpty()) accountUserRepository.saveAll(usersToAdd);
+        }
+
 }
