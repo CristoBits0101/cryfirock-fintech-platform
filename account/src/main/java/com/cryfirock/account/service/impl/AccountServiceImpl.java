@@ -124,7 +124,8 @@ public class AccountServiceImpl implements IAccountService {
                                 // Obtiene la cuenta por su id.
                                 .findById(id)
                                 // Si no se encuentra la cuenta lanza una excepción.
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                                .orElseThrow(() -> new ResponseStatusException(
+                                                HttpStatus.NOT_FOUND));
                 // Retorna la cuenta con las relaciones.
                 return buildResponse(account);
         }
@@ -136,12 +137,27 @@ public class AccountServiceImpl implements IAccountService {
          */
         @Override @Transactional(readOnly = true)
         public List<AccountResponseDto> findByUserId(Long userId) {
-                List<Long> accountIds = accountUserRepository.findAllByUserId(userId).stream()
+                // Obtiene una lista de cuentas bancarias.
+                List<Long> accountIds = accountUserRepository
+                                // Obtiene una lista de cuentas bancarias por el id de un usuario.
+                                .findAllByUserId(userId)
+                                // Convierte la lista de cuentas bancarias en una lista de stream.
+                                .stream()
+                                // Obtiene el id de la cuenta.
                                 .map(AccountUser::getAccountId)
+                                // Filtra los duplicados de asociaciones de cuentas bancarias.
                                 .distinct()
+                                // Convierte la lista de stream en una lista.
                                 .toList();
-                return accountRepository.findAllById(accountIds).stream()
+                // Retorna la lista de cuentas bancarias encontradas por el id de la relación.
+                return accountRepository
+                                // Obtiene una lista de cuentas bancarias por el id de un usuario.
+                                .findAllById(accountIds)
+                                // Convierte la lista de cuentas bancarias en una lista de stream.
+                                .stream()
+                                // Mapea la lista de cuentas bancarias a una lista de cuentas bancarias con las relaciones.
                                 .map(this::buildResponse)
+                                // Convierte la lista de stream en una lista.
                                 .collect(Collectors.toList());
         }
 
@@ -152,8 +168,11 @@ public class AccountServiceImpl implements IAccountService {
          */
         @Override @Transactional
         public void delete(Long id) {
+                // Elimina todas las asociaciones de cuentas bancarias con usuarios.
                 accountUserRepository.deleteAllByAccountId(id);
+                // Elimina todas las asociaciones de cuentas bancarias con productos.
                 accountProductRepository.deleteAllByAccountId(id);
+                // Elimina la cuenta bancaria.
                 accountRepository.deleteById(id);
         }
 
