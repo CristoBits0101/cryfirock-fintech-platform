@@ -1,5 +1,7 @@
 package com.cryfirock.account.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.cryfirock.account.entity.AccountUser;
@@ -15,28 +17,36 @@ import com.cryfirock.account.entity.AccountUser;
  */
 public interface JpaAccountUserRepository extends JpaRepository<AccountUser, Long> {
     /**
-     * 1. Obtiene las relaciones de cuenta por identificador de usuario.
-     * 2. Permite recuperar cuentas asociadas a un usuario específico.
+     * Encuentra las cuentas asociadas a un usuario.
      *
      * @param userId Identificador del usuario en auth.
      * @return Lista de relaciones cuenta usuario.
      */
-    java.util.List<AccountUser> findAllByUserId(Long userId);
+    List<AccountUser> findAllByUserId(Long userId);
 
     /**
-     * 1. Obtiene las relaciones de usuario por identificador de cuenta.
-     * 2. Permite recuperar usuarios asociados a una cuenta.
+     * Encuentra los usuarios asociados a una cuenta.
      *
      * @param accountId Identificador de la cuenta.
      * @return Lista de relaciones cuenta usuario.
      */
-    java.util.List<AccountUser> findAllByAccountId(Long accountId);
+    List<AccountUser> findAllByAccountId(Long accountId);
 
     /**
-     * 1. Elimina las relaciones de usuario asociadas a una cuenta.
-     * 2. Se usa para reemplazar relaciones en actualizaciones.
+     * 1. Elimina las relaciones de cuenta usuario asociadas y cuenta de banco.
+     * 2. Se usa el id de la cuenta para eliminar las relaciones.
+     * 3. Utilizando la eliminación en cascada.
      *
      * @param accountId Identificador de la cuenta.
      */
     void deleteAllByAccountId(Long accountId);
+
+    /**
+     * 1. Elimina las relaciones de cuenta usuario asociadas y cuenta de banco.
+     * 2. Se usa el id del usuario para eliminar las relaciones.
+     * 3. Utilizando la eliminación en cascada.
+     *
+     * @param userId Identificador del usuario en auth.
+     */
+    void deleteAllByUserId(Long userId);
 }
