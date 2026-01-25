@@ -32,7 +32,7 @@ import com.cryfirock.auth.entity.User;
 @Repository
 public interface JpaUserRepository extends JpaRepository<User, Long> {
     // ============================================================================================
-    // Métodos de Spring Data JPA
+    // --- Métodos de Spring Data JPA ---
     // ============================================================================================
     /**
      * Verifica si un usuario existe por su correo electrónico.
@@ -67,7 +67,7 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     // ============================================================================================
-    // Métodos de JPQL
+    // --- Métodos de JPQL ---
     // ============================================================================================
     /**
      * 1. Busca un usuario por su correo electrónico.
@@ -100,7 +100,7 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     Optional<User> findByIdWithRoles(@Param("id") Long id);
 
     // ============================================================================================
-    // Métodos de SQL Nativo
+    // --- Métodos de SQL Nativo ---
     // ============================================================================================
     /**
      * 1. Encuentra todos los usuarios activos.

@@ -1,8 +1,10 @@
 package com.cryfirock.product.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,10 +12,10 @@ import com.cryfirock.product.entity.Product;
 import com.cryfirock.product.repository.JpaProductRepository;
 import com.cryfirock.product.service.api.IProductService;
 
-import jakarta.validation.constraints.NotNull;
-
 /**
- * Implementación de la interfaz IProductService.
+ * 1. Implementación de la interfaz IProductService.
+ * 2. Maneja operaciones CRUD para productos.
+ * 3. Gestiona transacciones de lectura y escritura.
  *
  * @author Cristo Suárez
  * @version 1.0
@@ -35,56 +37,57 @@ public class ProductServiceImpl implements IProductService {
     }
 
     /**
-     * 1. Guarda un producto en la base de datos.
-     * 2. Marca la transacción como de escritura.
-     * 3. Suprime las advertencias de nulidad.
-     * 4. Devuelve un Optional que puede contener el producto guardado.
-     *
-     * @param product Producto a guardar.
-     * @return Optional con el producto guardado si se encuentra o vacío si no.
+     * {@inheritDoc}
      */
     @Override @Transactional
-    public Product save(@NotNull Product product) {
-        return Optional.ofNullable(product)
-                .map(productRepository::save)
-                .orElseThrow(() -> new IllegalArgumentException("Product must not be null"));
+    public Product save(@NonNull Product product) {
+        Objects.requireNonNull(product, "Product must not be null");
+        return productRepository.save(product);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override @Transactional(readOnly = true)
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override @Transactional(readOnly = true)
-    public Optional<Product> findById(@NotNull Long id) {
+    public Optional<Product> findById(@NonNull Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
         return productRepository.findById(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override @Transactional
-    public Optional<Product> update(
-            @NotNull Long id,
-            @NotNull Product product) {
-        return productRepository
-                .findById(id)
-                .map(
-                        existingProduct -> {
-                            existingProduct.setName(product.getName());
-                            existingProduct.setDescription(product.getDescription());
-                            existingProduct.setCode(product.getCode());
-                            existingProduct.setCategory(product.getCategory());
-                            existingProduct.setStatus(product.getStatus());
-                            return productRepository.save(existingProduct);
-                        });
+    public Optional<Product> update(@NonNull Long id, @NonNull Product product) {
+        Objects.requireNonNull(id, "ID must not be null");
+        Objects.requireNonNull(product, "Product must not be null");
+        return productRepository.findById(id).map(existingProduct -> {
+            existingProduct.setName(product.getName());
+            existingProduct.setDescription(product.getDescription());
+            existingProduct.setCode(product.getCode());
+            existingProduct.setCategory(product.getCategory());
+            existingProduct.setStatus(product.getStatus());
+            return productRepository.save(existingProduct);
+        });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override @Transactional
-    public Optional<Product> deleteById(@NotNull Long id) {
-        return productRepository
-                .findById(id)
-                .map(
-                        existingProduct -> {
-                            productRepository.delete(existingProduct);
-                            return existingProduct;
-                        });
+    public Optional<Product> deleteById(@NonNull Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
+        return productRepository.findById(id).map(existingProduct -> {
+            productRepository.deleteById(id);
+            return existingProduct;
+        });
     }
 }

@@ -1,9 +1,11 @@
 package com.cryfirock.account.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -56,12 +58,11 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
-     * Método de creación de una cuenta bancaria.
-     *
      * {@inheritDoc}
      */
     @Override @Transactional
-    public AccountResponseDto create(AccountRequestDto request) {
+    public AccountResponseDto create(@NonNull AccountRequestDto request) {
+        Objects.requireNonNull(request, "Request must not be null");
         // Se una nueva instancia de la cuenta.
         Account account = new Account();
 
@@ -82,18 +83,16 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
-     * Método de actualización de una cuenta bancaria.
-     *
      * {@inheritDoc}
      */
     @Override @Transactional
-    public AccountResponseDto update(@lombok.NonNull Long id, AccountRequestDto request) {
+    public AccountResponseDto update(@NonNull Long id, @NonNull AccountRequestDto request) {
+        Objects.requireNonNull(id, "ID must not be null");
+        Objects.requireNonNull(request, "Request must not be null");
         // Obtiene la cuenta que se va a actualizar.
-        Account account = accountRepository
-                // Obtiene la cuenta por su id.
-                .findById(id)
-                // Si no se encuentra la cuenta lanza una excepción.
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Account account = Objects.requireNonNull(
+                accountRepository.findById(id)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
         // Aplica a la cuenta solo los datos del request que se van a actualizar.
         applyRequest(account, request);
 
@@ -111,12 +110,11 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
-     * Método de búsqueda de una cuenta bancaria por su id.
-     *
      * {@inheritDoc}
      */
     @Override @Transactional(readOnly = true)
-    public AccountResponseDto findById(@lombok.NonNull Long id) {
+    public AccountResponseDto findById(@NonNull Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
         // Obtiene una cuenta bancaria.
         Account account = accountRepository
                 // Obtiene la cuenta por su id.
@@ -129,43 +127,37 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
-     * Método de búsqueda de cuentas bancarias por el id de un usuario.
-     *
      * {@inheritDoc}
      */
     @Override @Transactional(readOnly = true)
-    public List<AccountResponseDto> findByUserId(Long userId) {
-        // Obtiene una lista de cuentas bancarias.
+    public List<AccountResponseDto> findByUserId(@NonNull Long userId) {
+        Objects.requireNonNull(userId, "User ID must not be null");
+        // Obtiene una lista de IDs de cuentas bancarias.
         List<Long> accountIds = accountUserRepository
-                // Obtiene una lista de cuentas bancarias por el id de un usuario.
                 .findAllByUserId(userId)
-                // Convierte la lista de cuentas bancarias en una lista de stream.
                 .stream()
-                // Obtiene el id de la cuenta.
                 .map(AccountUser::getAccountId)
-                // Filtra los duplicados de asociaciones de cuentas bancarias.
+                .filter(Objects::nonNull)
                 .distinct()
-                // Convierte la lista de stream en una lista.
                 .toList();
+        // Si la lista está vacía, retorna una lista vacía.
+        if (accountIds.isEmpty()) {
+            return List.of();
+        }
         // Retorna la lista de cuentas bancarias encontradas por el id de la relación.
         return accountRepository
-                // Obtiene una lista de cuentas bancarias por el id de un usuario.
-                .findAllById(accountIds)
-                // Convierte la lista de cuentas bancarias en una lista de stream.
+                .findAllById(Objects.requireNonNull(accountIds))
                 .stream()
-                // Mapea la lista de cuentas bancarias a una lista de cuentas bancarias con las relaciones.
                 .map(this::buildResponse)
-                // Convierte la lista de stream en una lista.
                 .collect(Collectors.toList());
     }
 
     /**
-     * Método de eliminación de una cuenta bancaria por su id.
-     *
      * {@inheritDoc}
      */
     @Override @Transactional
-    public void delete(Long id) {
+    public void delete(@NonNull Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
         // Elimina todas las asociaciones de cuentas bancarias con usuarios.
         accountUserRepository.deleteAllByAccountId(id);
         // Elimina todas las asociaciones de cuentas bancarias con productos.

@@ -30,7 +30,7 @@ import com.cryfirock.auth.entity.Role;
 @Repository
 public interface CrudRoleRepository extends CrudRepository<Role, Long> {
     // ============================================================================================
-    // Métodos de Spring Data JPA
+    // --- Métodos de Spring Data JPA ---
     // ============================================================================================
     /**
      * Busca un rol por su nombre.

@@ -2,6 +2,8 @@ package com.cryfirock.account.service.api;
 
 import java.util.List;
 
+import org.springframework.lang.NonNull;
+
 import com.cryfirock.account.dto.AccountRequestDto;
 import com.cryfirock.account.dto.AccountResponseDto;
 
@@ -15,8 +17,9 @@ import com.cryfirock.account.dto.AccountResponseDto;
  */
 public interface IAccountService {
     // ==========================================================================
-    // Métodos de creación
+    // -- Métodos de creación ---
     // ==========================================================================
+
     /**
      * 1. Crea una cuenta junto con sus relaciones.
      * 2. Incluye usuarios y productos asociados.
@@ -24,11 +27,12 @@ public interface IAccountService {
      * @param request Datos de la cuenta y relaciones.
      * @return Cuenta creada con relaciones.
      */
-    AccountResponseDto create(AccountRequestDto request);
+    AccountResponseDto create(@NonNull AccountRequestDto request);
 
     // ==========================================================================
-    // Métodos de actualización
+    // --- Métodos de actualización ---
     // ==========================================================================
+
     /**
      * 1. Actualiza una cuenta y reemplaza sus relaciones.
      * 2. Incluye usuarios y productos asociados.
@@ -37,11 +41,12 @@ public interface IAccountService {
      * @param request Datos actualizados de la cuenta y relaciones.
      * @return Cuenta actualizada con relaciones.
      */
-    AccountResponseDto update(Long id, AccountRequestDto request);
+    AccountResponseDto update(@NonNull Long id, @NonNull AccountRequestDto request);
 
     // ==========================================================================
-    // Métodos de búsqueda
+    // --- Métodos de búsqueda ---
     // ==========================================================================
+
     /**
      * 1. Obtiene una cuenta de banco por su identificador.
      * 2. Incluye usuarios y productos asociados.
@@ -49,7 +54,7 @@ public interface IAccountService {
      * @param id Identificador de la cuenta.
      * @return Cuenta con relaciones.
      */
-    AccountResponseDto findById(Long id);
+    AccountResponseDto findById(@NonNull Long id);
 
     /**
      * 1. Obtiene las cuentas de banco mediante el identificador del usuario.
@@ -58,11 +63,12 @@ public interface IAccountService {
      * @param userId Identificador del usuario.
      * @return Lista de cuentas con relaciones.
      */
-    List<AccountResponseDto> findByUserId(Long userId);
+    List<AccountResponseDto> findByUserId(@NonNull Long userId);
 
     // ==========================================================================
-    // Métodos de eliminación
+    // --- Métodos de eliminación ---
     // ==========================================================================
+
     /**
      * Elimina una cuenta y sus relaciones:
      * 1. El usuario selecciona en la aplicación la cuenta que desea eliminar.
@@ -72,5 +78,5 @@ public interface IAccountService {
      *
      * @param id Identificador de la cuenta.
      */
-    void delete(Long id);
+    void delete(@NonNull Long id);
 }
