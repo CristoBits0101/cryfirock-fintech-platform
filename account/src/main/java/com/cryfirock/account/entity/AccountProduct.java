@@ -23,7 +23,10 @@ import lombok.Setter;
  */
 @Entity
 @Table(
+        // Tabla que relaciona cuentas bancarias con productos financieros.
         name = "account_product",
+        // 1. Restricción única que asegura que una cuenta bancaria solo pueda tener un producto financiero.
+        // 2. Ejemplo: Una cuenta bancaria no puede tener dos productos de tipo "Cuenta de Ahorros".
         uniqueConstraints = {
             @UniqueConstraint(columnNames = { "account_id", "product_id" })
         }
