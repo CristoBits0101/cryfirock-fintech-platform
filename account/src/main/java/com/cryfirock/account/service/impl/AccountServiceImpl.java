@@ -48,8 +48,7 @@ public class AccountServiceImpl implements IAccountService {
     public AccountServiceImpl(
             JpaAccountRepository accountRepository,
             JpaAccountUserRepository accountUserRepository,
-            JpaAccountProductRepository accountProductRepository
-    ) {
+            JpaAccountProductRepository accountProductRepository) {
         this.accountRepository = accountRepository;
         this.accountUserRepository = accountUserRepository;
         this.accountProductRepository = accountProductRepository;
@@ -58,8 +57,7 @@ public class AccountServiceImpl implements IAccountService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @Transactional
+    @Override @Transactional
     public AccountResponseDto create(AccountRequestDto request) {
         Account account = new Account();
         applyRequest(account, request);
@@ -71,8 +69,7 @@ public class AccountServiceImpl implements IAccountService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @Transactional
+    @Override @Transactional
     public AccountResponseDto update(Long id, AccountRequestDto request) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -87,8 +84,7 @@ public class AccountServiceImpl implements IAccountService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @Transactional(readOnly = true)
+    @Override @Transactional(readOnly = true)
     public AccountResponseDto findById(Long id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -98,8 +94,7 @@ public class AccountServiceImpl implements IAccountService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @Transactional(readOnly = true)
+    @Override @Transactional(readOnly = true)
     public List<AccountResponseDto> findByUserId(Long userId) {
         List<Long> accountIds = accountUserRepository.findAllByUserId(userId).stream()
                 .map(AccountUser::getAccountId)
@@ -113,8 +108,7 @@ public class AccountServiceImpl implements IAccountService {
     /**
      * {@inheritDoc}
      */
-    @Override
-    @Transactional
+    @Override @Transactional
     public void delete(Long id) {
         accountUserRepository.deleteAllByAccountId(id);
         accountProductRepository.deleteAllByAccountId(id);
@@ -135,11 +129,11 @@ public class AccountServiceImpl implements IAccountService {
     private void saveRelations(Long accountId, List<Long> userIds, List<Long> productIds) {
         List<AccountUser> accountUsers = safeList(userIds).stream()
                 .filter(Objects::nonNull)
-                .map(userId -> new AccountUser(null, accountId, userId))
+                .map(userId -> new AccountUser(null, accountId, userId, null))
                 .toList();
         List<AccountProduct> accountProducts = safeList(productIds).stream()
                 .filter(Objects::nonNull)
-                .map(productId -> new AccountProduct(null, accountId, productId))
+                .map(productId -> new AccountProduct(null, accountId, productId, null))
                 .toList();
         if (!accountUsers.isEmpty()) {
             accountUserRepository.saveAll(accountUsers);
@@ -176,7 +170,6 @@ public class AccountServiceImpl implements IAccountService {
                 account.getBankAccountStatus(),
                 account.getAudit(),
                 userIds,
-                productIds
-        );
+                productIds);
     }
 }

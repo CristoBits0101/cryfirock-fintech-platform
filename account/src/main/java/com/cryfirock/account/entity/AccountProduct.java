@@ -1,6 +1,7 @@
 package com.cryfirock.account.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,5 +52,10 @@ public class AccountProduct {
     // 2. Ejemplo: 523
     @Column(name = "product_id", nullable = false)
     private Long productId;
+
+    // 1. Metadatos de manipulación de la cuenta bancaria.
+    // 2. Ejemplo: 07/01/2025 10:15:30
+    @Embedded
+    private Audit audit;
 }
 
