@@ -87,14 +87,13 @@ public class AccountServiceImpl implements IAccountService {
      * {@inheritDoc}
      */
     @Override @Transactional
-    public AccountResponseDto update(Long id, AccountRequestDto request) {
+    public AccountResponseDto update(@lombok.NonNull Long id, AccountRequestDto request) {
         // Obtiene la cuenta que se va a actualizar.
         Account account = accountRepository
                 // Obtiene la cuenta por su id.
                 .findById(id)
                 // Si no se encuentra la cuenta lanza una excepción.
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         // Aplica los datos del request a la cuenta (solo los datos que se van a
         // actualizar).
         applyRequest(account, request);
@@ -118,7 +117,7 @@ public class AccountServiceImpl implements IAccountService {
      * {@inheritDoc}
      */
     @Override @Transactional(readOnly = true)
-    public AccountResponseDto findById(Long id) {
+    public AccountResponseDto findById(@lombok.NonNull Long id) {
         // Obtiene una cuenta bancaria.
         Account account = accountRepository
                 // Obtiene la cuenta por su id.
@@ -155,8 +154,7 @@ public class AccountServiceImpl implements IAccountService {
                 .findAllById(accountIds)
                 // Convierte la lista de cuentas bancarias en una lista de stream.
                 .stream()
-                // Mapea la lista de cuentas bancarias a una lista de cuentas bancarias con las
-                // relaciones.
+                // Mapea la lista de cuentas bancarias a una lista de cuentas bancarias con las relaciones.
                 .map(this::buildResponse)
                 // Convierte la lista de stream en una lista.
                 .collect(Collectors.toList());
