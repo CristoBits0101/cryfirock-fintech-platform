@@ -1,6 +1,7 @@
 package com.cryfirock.product.controller;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +60,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<?> createProduct(@Valid @RequestBody Product product,
             BindingResult result) {
+        Objects.requireNonNull(product, "Product must not be null");
         return (result.hasErrors())
                 ? ValidationUtil.reportIncorrectFields(result)
                 : ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
@@ -89,6 +91,7 @@ public class ProductController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable @Positive Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
         return productService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -110,6 +113,8 @@ public class ProductController {
             @PathVariable Long id,
             @Valid @RequestBody Product product,
             BindingResult result) {
+        Objects.requireNonNull(id, "ID must not be null");
+        Objects.requireNonNull(product, "Product must not be null");
         if (result.hasErrors()) {
             return ValidationUtil.reportIncorrectFields(result);
         }
@@ -129,6 +134,7 @@ public class ProductController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        Objects.requireNonNull(id, "ID must not be null");
         return productService.deleteById(id)
                 .map(p -> ResponseEntity.noContent().build())
                 .orElseGet(() -> ResponseEntity.notFound().build());
