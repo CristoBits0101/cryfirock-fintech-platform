@@ -6,13 +6,11 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.cryfirock.account.entity.Account;
 import com.cryfirock.account.entity.AccountProduct;
 import com.cryfirock.account.entity.AccountUser;
 import com.cryfirock.account.repository.JpaAccountProductRepository;
 import com.cryfirock.account.repository.JpaAccountUserRepository;
 import com.cryfirock.account.type.AccountProductStatus;
-import com.cryfirock.account.util.ValidationUtil;
 
 /**
  * 1. Helper que gestiona la persistencia de las relaciones de una cuenta con usuarios y productos.
@@ -26,11 +24,10 @@ import com.cryfirock.account.util.ValidationUtil;
 public class SaveRelationsHelper {
         // Repositorio de acceso a los datos de las relaciones con los usuarios.
         @Autowired
-        private static JpaAccountUserRepository accountUserRepository;
-
+        private JpaAccountUserRepository accountUserRepository;
         // Repositorio de acceso a los datos de las relaciones con los productos.
         @Autowired
-        private static JpaAccountProductRepository accountProductRepository;
+        private JpaAccountProductRepository accountProductRepository;
 
         /**
          * Guarda las relaciones de la cuenta con los usuarios y productos.
@@ -59,7 +56,8 @@ public class SaveRelationsHelper {
                                         .toList();
 
                         // Obtener las relaciones existentes en la base de datos.
-                        List<AccountUser> existingAccountUsersRelationshipsDatabase = accountUserRepository.findAllByAccountId(accountId);
+                        List<AccountUser> existingAccountUsersRelationshipsDatabase = accountUserRepository
+                                        .findAllByAccountId(accountId);
 
                         // Desvincula los usuarios que ya no están.
                         unlinkOldAccountUser(
@@ -73,42 +71,29 @@ public class SaveRelationsHelper {
                                         existingAccountUsersRelationshipsDatabase);
                 }
 
-                // Obtiene la lista de productos.
-                List<Long> incomingProductIds = ValidationUtil.safeMutableList(productIds).stream()
-                                .filter(Objects::nonNull)
-                                .distinct()
-                                .toList();
+                if (productIds != null) {
+                        // Obtiene la lista de productos.
+                        List<Long> requestProductIds = productIds
+                                        .stream()
+                                        .filter(Objects::nonNull)
+                                        .distinct()
+                                        .toList();
 
-                // Obtiene las relaciones existentes en base de datos.
-                List<AccountProduct> existingAccountProducts = accountProductRepository
-                                .findAllByAccountId(accountId);
+                        // Obtiene las relaciones existentes en base de datos.
+                        List<AccountProduct> existingAccountProducts = accountProductRepository.findAllByAccountId(accountId);
 
-                // Identifica las relaciones a eliminar.
-                List<AccountProduct> productsToDelete = existingAccountProducts.stream()
-                                .filter(ap -> !incomingProductIds.contains(ap.getProductId()))
-                                .toList();
+                        // Desvincula los productos que ya no están.
+                        unlinkOldAccountProduct(
+                                        requestProductIds,
+                                        existingAccountProducts);
 
-                // Identifica los IDs que ya existen.
-                List<Long> existingProductIds = existingAccountProducts.stream()
-                                .map(AccountProduct::getProductId)
-                                .toList();
-
-                // Identifica las relaciones a añadir.
-                List<AccountProduct> productsToAdd = incomingProductIds.stream()
-                                .filter(id -> !existingProductIds.contains(id))
-                                .map(productId -> new AccountProduct(
-                                                accountId,
-                                                productId,
-                                                AccountProductStatus.ACTIVE))
-                                .toList();
-
-                // Ejecuta los cambios.
-                if (!productsToDelete.isEmpty()) {
-                        accountProductRepository.deleteAll(productsToDelete);
+                        // Vincula los productos que no están.
+                        linkNewAccountProduct(
+                                        accountId,
+                                        requestProductIds,
+                                        existingAccountProducts);
                 }
-                if (!productsToAdd.isEmpty()) {
-                        accountProductRepository.saveAll(productsToAdd);
-                }
+
         }
 
         /**
@@ -118,21 +103,20 @@ public class SaveRelationsHelper {
          * @param existingAccountUsersRelationshipsDatabase Lista de relaciones existentes en la
          * base de datos.
          */
-        public static void unlinkOldAccountUser(List<Long> requestUserIds,
+        public void unlinkOldAccountUser(
+                        List<Long> requestUserIds,
                         List<AccountUser> existingAccountUsersRelationshipsDatabase) {
                 // Identifica relaciones a eliminar (existen en BD pero no en la petición).
                 List<AccountUser> usersToDeleteDatabase = existingAccountUsersRelationshipsDatabase
                                 // Convierte la lista de relaciones en una lista de stream.
                                 .stream()
                                 // Filtra las relaciones que no están en la petición.
-                                .filter(existingRelationship -> !requestUserIds
-                                                .contains(existingRelationship.getUserId()))
+                                .filter(existingRelationship -> !requestUserIds.contains(existingRelationship.getUserId()))
                                 // Convierte la lista de stream en una lista.
                                 .toList();
 
                 // Si hay relaciones a eliminar las elimina.
-                if (!usersToDeleteDatabase.isEmpty())
-                        accountUserRepository.deleteAll(usersToDeleteDatabase);
+                if (!usersToDeleteDatabase.isEmpty()) accountUserRepository.deleteAll(usersToDeleteDatabase);
         }
 
         /**
@@ -142,7 +126,7 @@ public class SaveRelationsHelper {
          * @param existingAccountUsersRelationshipsDatabase Lista de relaciones existentes en la
          * base de datos.
          */
-        public static void linkNewAccountUser(
+        public void linkNewAccountUser(
                         Long accountId,
                         List<Long> requestUserIds,
                         List<AccountUser> existingAccountUsersRelationshipsDatabase) {
@@ -166,4 +150,61 @@ public class SaveRelationsHelper {
                 if (!usersToAdd.isEmpty()) accountUserRepository.saveAll(usersToAdd);
         }
 
+        /**
+         * Identifica las relaciones de productos a eliminar.
+         * 
+         * @param requestProductIds Lista de IDs de productos proveniente de la petición.
+         * @param existingAccountProductsRelationshipsDatabase Lista de relaciones existentes en la
+         * base de datos.
+         */
+        public void unlinkOldAccountProduct(
+                        List<Long> requestProductIds,
+                        List<AccountProduct> existingAccountProductsRelationshipsDatabase) {
+                // Identifica relaciones a eliminar (existen en BD pero no en la petición).
+                List<AccountProduct> productsToDeleteDatabase = existingAccountProductsRelationshipsDatabase
+                                // Convierte la lista de relaciones en una lista de stream.
+                                .stream()
+                                // Filtra las relaciones que no están en la petición.
+                                .filter(existingRelationship -> !requestProductIds.contains(existingRelationship.getProductId()))
+                                // Convierte la lista de stream en una lista.
+                                .toList();
+
+                // Si hay relaciones a eliminar las elimina.
+                if (!productsToDeleteDatabase.isEmpty()) accountProductRepository.deleteAll(productsToDeleteDatabase);
+        }
+
+        /**
+         * Identifica las relaciones de productos a añadir.
+         * 
+         * @param accountId Identificador de la cuenta.
+         * @param requestProductIds Lista de IDs de productos proveniente de la petición.
+         * @param existingAccountProductsRelationshipsDatabase Lista de relaciones existentes en la
+         * base de datos.
+         */
+        public void linkNewAccountProduct(
+                        Long accountId,
+                        List<Long> requestProductIds,
+                        List<AccountProduct> existingAccountProductsRelationshipsDatabase) {
+                // Identifica los IDs que ya existen para no duplicarlos.
+                List<Long> existingRelationshipsProductIds = existingAccountProductsRelationshipsDatabase
+                                // Convierte la lista de relaciones en una lista de stream.
+                                .stream()
+                                // Obtiener IDs de productos de las relaciones existentes.
+                                .map(AccountProduct::getProductId)
+                                // Convierte la lista de stream en una lista.
+                                .toList();
+
+                // Identifica las que están en la nueva lista pero no en BD.
+                List<AccountProduct> productsToAdd = requestProductIds
+                                .stream()
+                                .filter(id -> !existingRelationshipsProductIds.contains(id))
+                                .map(productId -> new AccountProduct(
+                                                accountId,
+                                                productId,
+                                                AccountProductStatus.ACTIVE))
+                                .toList();
+
+                // Si hay relaciones nuevas las guarda.
+                if (!productsToAdd.isEmpty()) accountProductRepository.saveAll(productsToAdd);
+        }
 }
