@@ -1,8 +1,12 @@
 package com.cryfirock.account.entity;
 
+import com.cryfirock.account.type.AccountProductStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,25 +26,19 @@ import lombok.Setter;
  * @version 1.0
  * @since 2026-01-24
  */
-@Entity
-@Table(
+@Entity @Table(
         // Tabla que relaciona cuentas bancarias con productos financieros.
         name = "account_product",
-        // 1. Restricción única que asegura que una cuenta bancaria solo pueda tener un producto financiero.
+        // 1. Restricción única que asegura que una cuenta bancaria solo pueda tener un producto
+        // financiero.
         // 2. Ejemplo: Una cuenta bancaria no puede tener dos productos de tipo "Cuenta de Ahorros".
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = { "account_id", "product_id" })
-        }
-)
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+                @UniqueConstraint(columnNames = { "account_id", "product_id" })
+        }) @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class AccountProduct {
     // 1. En la base de datos no existe un id autogenerado.
     // 2. Todas las entidades deben tener un id autogenerado.
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 1. Identificador de la cuenta asociada.
@@ -53,9 +51,14 @@ public class AccountProduct {
     @Column(name = "product_id", nullable = false)
     private Long productId;
 
+    // 1. Estado de la vigencia del producto en la cuenta.
+    // 2. Ejemplo: "ACTIVE"
+    @Enumerated(EnumType.STRING) @Column(name = "product_status", nullable = false)
+    private AccountProductStatus productStatus;
+
     // 1. Metadatos de manipulación de la cuenta bancaria.
-    // 2. Ejemplo: 07/01/2025 10:15:30
+    // 2. Fecha en la que el producto se relaciona con la cuenta.
+    // 3. Ejemplo: 07/01/2025 10:15:30
     @Embedded
     private Audit audit;
 }
-

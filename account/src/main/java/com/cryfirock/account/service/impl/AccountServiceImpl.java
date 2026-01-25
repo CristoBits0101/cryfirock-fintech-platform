@@ -133,7 +133,7 @@ public class AccountServiceImpl implements IAccountService {
                 .toList();
         List<AccountProduct> accountProducts = safeList(productIds).stream()
                 .filter(Objects::nonNull)
-                .map(productId -> new AccountProduct(null, accountId, productId, null))
+                .map(productId -> new AccountProduct(null, accountId, productId, com.cryfirock.account.type.AccountProductStatus.ACTIVE, null))
                 .toList();
         if (!accountUsers.isEmpty()) {
             accountUserRepository.saveAll(accountUsers);
