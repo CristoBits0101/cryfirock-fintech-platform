@@ -52,7 +52,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
-     * Método de creación de una cuenta.
+     * Método de creación de una cuenta bancaria.
      * 
      * {@inheritDoc}
      */
@@ -79,7 +79,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
-     * Método de actualización de una cuenta.
+     * Método de actualización de una cuenta bancaria.
      * 
      * {@inheritDoc}
      */
@@ -96,6 +96,8 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
+     * Método de búsqueda de una cuenta bancaria por su id.
+     * 
      * {@inheritDoc}
      */
     @Override @Transactional(readOnly = true)
@@ -106,6 +108,8 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
+     * Método de búsqueda de cuentas bancarias por el id de un usuario.
+     * 
      * {@inheritDoc}
      */
     @Override @Transactional(readOnly = true)
@@ -120,6 +124,8 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     /**
+     * Método de eliminación de una cuenta bancaria por su id.
+     * 
      * {@inheritDoc}
      */
     @Override @Transactional
